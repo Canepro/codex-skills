@@ -2,36 +2,143 @@
 
 Portable Codex skill pack for this workspace owner.
 
-## Source of truth
+## What this repo is
 
-- Canonical repo: `~/src/codex-skills`
+This repo is the source of truth for your reusable Codex skills.
+
+- Canonical working repo: `~/src/codex-skills`
 - Backup mirror: `/mnt/d/repos/codex-skills`
+- GitHub remote: `Canepro/codex-skills`
 
 Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 
-## Layout
+## Repo layout
 
-- `skills/`: skill folders synced into `~/.codex/skills`
-- `scripts/install.sh`: sync this repo into the local Codex skills directory
-- `scripts/bootstrap.sh`: clone or pull the GitHub repo, then install the skills
-- `scripts/backup-to-drive.sh`: mirror the canonical repo into `/mnt/d/repos/codex-skills`
+- `skills/`: skill folders that get synced into `~/.codex/skills`
+- `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
+- `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
+- `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
 
-## One-command refresh on a machine that already has the repo
+## Daily use
+
+If this machine already has the repo, this is the main command to remember:
 
 ```bash
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-## One-command setup on a new machine
+What it does:
+- pulls the latest `main`
+- installs the skills into `~/.codex/skills`
 
-Prereq: `gh auth login`
+After running it, restart Codex if you want the updated skills picked up immediately.
+
+## First-time setup on a new machine
+
+Prerequisite:
 
 ```bash
-bash -lc 'mkdir -p ~/src && if [ -d ~/src/codex-skills/.git ]; then git -C ~/src/codex-skills pull --ff-only; else gh repo clone Canepro/codex-skills ~/src/codex-skills; fi && bash ~/src/codex-skills/scripts/install.sh'
+gh auth login
 ```
 
-## Refresh the backup mirror
+Then run:
+
+```bash
+gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh
+```
+
+That gives you the repo locally and installs the skills in one go.
+
+## Install without pulling
+
+If you are already inside the repo and only want to reinstall the current local version of the skills:
+
+```bash
+bash scripts/install.sh
+```
+
+## Backup refresh
+
+To refresh the D drive backup mirror from the canonical repo:
+
+```bash
+bash ~/src/codex-skills/scripts/backup-to-drive.sh
+```
+
+## Update workflow
+
+When you change skills in the canonical repo, the normal flow is:
+
+```bash
+cd ~/src/codex-skills
+bash scripts/install.sh
+bash scripts/backup-to-drive.sh
+git status
+```
+
+Then commit and push when ready.
+
+## Add a new skill
+
+1. Create a new folder under `skills/`.
+2. Add a `SKILL.md` file with YAML frontmatter and clear trigger text.
+3. Optionally add:
+   - `agents/openai.yaml` for UI metadata
+   - `references/` for material the agent may read on demand
+   - `scripts/` for helper scripts
+   - `assets/` for icons, templates, or other output files
+4. Install locally:
+
+```bash
+bash scripts/install.sh
+```
+
+5. Restart Codex and try the skill.
+6. Refresh the backup mirror:
 
 ```bash
 bash scripts/backup-to-drive.sh
 ```
+
+7. Commit and push.
+
+## Minimal skill template
+
+```md
+---
+name: my-skill
+description: Clear description of when to use this skill and what it helps with.
+---
+
+# My Skill
+
+Short, direct instructions for how the skill should work.
+```
+
+## Optional `agents/openai.yaml`
+
+Use this when you want better UI labels and a default prompt.
+
+Example:
+
+```yaml
+interface:
+  display_name: "My Skill"
+  short_description: "Short UI description here"
+  default_prompt: "Use $my-skill to help with ..."
+```
+
+## Good habits
+
+- Keep `SKILL.md` concise and specific.
+- Put detailed material in `references/` instead of bloating `SKILL.md`.
+- Keep scripts deterministic when a task is repetitive or fragile.
+- Edit only in `~/src/codex-skills`, not in the D drive mirror.
+- Treat `scripts/bootstrap.sh` as the normal refresh command.
+
+## Quick memory version
+
+- Existing machine: `bash ~/src/codex-skills/scripts/bootstrap.sh`
+- New machine: `gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh`
+- Backup mirror: `bash ~/src/codex-skills/scripts/backup-to-drive.sh`
+- After skill changes: run install, then restart Codex
