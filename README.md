@@ -13,17 +13,22 @@ Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 
 - `skills/`: skill folders synced into `~/.codex/skills`
 - `scripts/install.sh`: sync this repo into the local Codex skills directory
+- `scripts/bootstrap.sh`: clone or pull the GitHub repo, then install the skills
 - `scripts/backup-to-drive.sh`: mirror the canonical repo into `/mnt/d/repos/codex-skills`
 
-## Install on a machine
+## One-command refresh on a machine that already has the repo
 
 ```bash
-bash scripts/install.sh
+bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-This syncs the repo's `skills/` directory into `${CODEX_HOME:-$HOME/.codex}/skills`.
+## One-command setup on a new machine
 
-After installing, restart Codex.
+Prereq: `gh auth login`
+
+```bash
+bash -lc 'mkdir -p ~/src && if [ -d ~/src/codex-skills/.git ]; then git -C ~/src/codex-skills pull --ff-only; else gh repo clone Canepro/codex-skills ~/src/codex-skills; fi && bash ~/src/codex-skills/scripts/install.sh'
+```
 
 ## Refresh the backup mirror
 
