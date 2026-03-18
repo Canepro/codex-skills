@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup Pre-Commit"
+  short_description: "Add Husky and pre-commit checks"
+  default_prompt: "Use $setup-pre-commit to add Husky, lint-staged, and sensible pre-commit checks to this repo."

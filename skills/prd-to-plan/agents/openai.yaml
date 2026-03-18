@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRD to Plan"
+  short_description: "Turn a PRD into an implementation plan"
+  default_prompt: "Use $prd-to-plan to turn this PRD into a phased implementation plan in ./plans/."

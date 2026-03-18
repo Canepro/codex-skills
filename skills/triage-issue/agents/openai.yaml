@@ -1,0 +1,4 @@
+interface:
+  display_name: "Triage Issue"
+  short_description: "Diagnose bugs and draft fix plans"
+  default_prompt: "Use $triage-issue to diagnose this bug, identify the likely root cause, and draft a fix plan."

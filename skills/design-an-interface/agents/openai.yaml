@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design an Interface"
+  short_description: "Compare interface options before coding"
+  default_prompt: "Use $design-an-interface to compare three API shapes for a module before implementing it."

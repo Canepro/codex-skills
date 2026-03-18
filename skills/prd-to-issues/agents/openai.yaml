@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRD to Issues"
+  short_description: "Break a PRD into shippable issues"
+  default_prompt: "Use $prd-to-issues to break this PRD into small, independently shippable issues."

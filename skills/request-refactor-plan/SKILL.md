@@ -1,0 +1,79 @@
+---
+name: request-refactor-plan
+description: Create a detailed refactor plan with tiny, safe steps based on codebase exploration and user goals. Use when user wants to plan a refactor, create a refactoring RFC, or break a risky change into incremental commits.
+metadata:
+  short-description: Plan an incremental refactor
+---
+
+# Request Refactor Plan
+
+Build a refactor plan that is technically credible, incrementally shippable, and explicit about what stays out of scope.
+
+## Workflow
+
+### 1. Understand the problem
+
+Get a detailed description of:
+- the current pain
+- why a refactor is needed now
+- any proposed solutions or constraints
+
+If the problem statement is weak, challenge it early.
+
+### 2. Verify in the codebase
+
+Inspect the relevant modules and tests to confirm:
+- the problem is real
+- where the coupling or complexity lives
+- what current behavior must be preserved
+
+### 3. Explore alternatives
+
+Before committing to a refactor, consider whether:
+- a small bug fix would solve it
+- an interface adjustment would be enough
+- the proposed refactor is larger than the actual problem
+
+### 4. Define the plan boundary
+
+Write down:
+- what will change
+- what will not change
+- what risks must be managed
+- what tests or verification will prove safety
+
+### 5. Break it into tiny steps
+
+Produce a plan of small, reviewable steps. Each step should leave the codebase in a working state.
+
+Prefer:
+- preparatory renames or moves
+- interface shims
+- additive transitions before deletions
+- test additions near behavior boundaries
+
+### 6. Produce the deliverable
+
+Default to a Markdown plan or issue draft with sections like:
+- problem statement
+- solution direction
+- incremental steps
+- decision record
+- testing decisions
+- out of scope
+
+Do not over-index on exact file paths unless the user explicitly wants implementation-level instructions.
+
+### 7. GitHub is optional
+
+Do not create a GitHub issue automatically.
+
+If the user explicitly asks for one:
+- draft the body first
+- then use `gh` only after confirming auth
+
+## Guidance
+
+- A refactor plan should reduce risk, not just describe the destination.
+- If test coverage is weak, say so and make verification part of the plan.
+- If the safest answer is "do less," say that clearly.
