@@ -49,6 +49,10 @@ Separate:
 - active rule evaluation in Prometheus
 - stale visualization in Grafana
 
+Bundled helpers:
+- `scripts/alert_summary.py` for active alerts from Prometheus or Alertmanager
+- `scripts/prom_target_failures.py` for current scrape failures with `lastError`
+
 ### 3. Check scrape health
 
 When `up == 0`, inspect:
@@ -97,4 +101,25 @@ After the change:
 ## References
 
 - Read `references/triage-patterns.md` for common scrape and rule failure patterns.
+
+## Scripts
+
+### `scripts/alert_summary.py`
+
+Summarizes active alerts from Prometheus or Alertmanager.
+
+Usage:
+```bash
+python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/alert_summary.py" --prometheus-url http://127.0.0.1:9090
+python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/alert_summary.py" --alertmanager-url http://127.0.0.1:9093
+```
+
+### `scripts/prom_target_failures.py`
+
+Lists non-healthy Prometheus targets with cluster, job, scrape URL, and `lastError`.
+
+Usage:
+```bash
+python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/prom_target_failures.py" --prometheus-url http://127.0.0.1:9090
+```
 

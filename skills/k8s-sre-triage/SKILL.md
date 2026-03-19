@@ -50,6 +50,10 @@ Then narrow to the affected namespace and owner resource:
 - `kubectl logs <pod> -n <ns> --all-containers`
 - `kubectl logs <pod> -n <ns> --all-containers --previous` when restarts are involved
 
+Bundled helpers:
+- `scripts/k8s_snapshot.sh` for a fast cluster-wide baseline snapshot
+- `scripts/pod_triage.sh <namespace> <pod>` for pod-specific evidence
+
 ### 3. Classify the failure
 
 Put the problem into one primary bucket before changing anything:
@@ -100,3 +104,31 @@ Report:
 
 - Read `references/failure-modes.md` when narrowing a Kubernetes runtime issue.
 
+## Scripts
+
+### `scripts/k8s_snapshot.sh`
+
+Collects a deterministic snapshot of:
+- current context
+- nodes
+- pods
+- recent events
+- services, ingress, PVCs, jobs, and cronjobs
+
+Usage:
+```bash
+bash "$CODEX_HOME/skills/k8s-sre-triage/scripts/k8s_snapshot.sh"
+```
+
+### `scripts/pod_triage.sh`
+
+Collects pod-specific evidence:
+- owner references
+- `describe`
+- current logs
+- previous logs
+
+Usage:
+```bash
+bash "$CODEX_HOME/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
+```

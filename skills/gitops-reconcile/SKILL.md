@@ -51,6 +51,9 @@ Look for:
 - dependency/order issue
 - missing CRD/operator/namespace
 
+Bundled helper:
+- `scripts/argocd_health.sh` for a compact Argo CD app status snapshot when `argocd` CLI is available
+
 ### 3. Identify the real blocker
 
 Find the narrowest blocking resource or dependency. Common patterns:
@@ -100,4 +103,19 @@ Report:
 ## References
 
 - Read `references/reconcile-patterns.md` when narrowing a GitOps sync failure.
+
+## Scripts
+
+### `scripts/argocd_health.sh`
+
+Collects a compact Argo CD view:
+- app list
+- sync and health status
+- optional `argocd app get <app>` details
+
+Usage:
+```bash
+bash "$CODEX_HOME/skills/gitops-reconcile/scripts/argocd_health.sh"
+bash "$CODEX_HOME/skills/gitops-reconcile/scripts/argocd_health.sh" <app-name>
+```
 
