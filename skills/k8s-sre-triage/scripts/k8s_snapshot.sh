@@ -19,7 +19,7 @@ kubectl get pods -A -o wide
 echo
 
 echo "== recent-events =="
-kubectl get events -A --sort-by=.lastTimestamp | tail -n 200
+kubectl get events -A --sort-by=.metadata.creationTimestamp | tail -n 200
 echo
 
 echo "== services =="
@@ -40,4 +40,3 @@ echo
 
 echo "== cronjobs =="
 kubectl get cronjobs -A || true
-

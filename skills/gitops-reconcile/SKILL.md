@@ -115,7 +115,6 @@ Collects a compact Argo CD view:
 
 Usage:
 ```bash
-bash "$CODEX_HOME/skills/gitops-reconcile/scripts/argocd_health.sh"
-bash "$CODEX_HOME/skills/gitops-reconcile/scripts/argocd_health.sh" <app-name>
+bash "${CODEX_HOME:-$HOME/.codex}/skills/gitops-reconcile/scripts/argocd_health.sh"
+bash "${CODEX_HOME:-$HOME/.codex}/skills/gitops-reconcile/scripts/argocd_health.sh" <app-name>
 ```
-

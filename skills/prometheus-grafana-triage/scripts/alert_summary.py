@@ -3,12 +3,26 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+import urllib.error
 import urllib.request
+
+DEFAULT_TIMEOUT_SECONDS = 10
 
 
 def fetch_json(url: str):
-    with urllib.request.urlopen(url) as response:
-        return json.load(response)
+    try:
+        with urllib.request.urlopen(url, timeout=DEFAULT_TIMEOUT_SECONDS) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as exc:
+        print(f"failed to query {url}: HTTP {exc.code}", file=sys.stderr)
+        raise SystemExit(1) from exc
+    except urllib.error.URLError as exc:
+        print(f"failed to query {url}: {exc.reason}", file=sys.stderr)
+        raise SystemExit(1) from exc
+    except json.JSONDecodeError as exc:
+        print(f"failed to parse JSON from {url}: {exc}", file=sys.stderr)
+        raise SystemExit(1) from exc
 
 
 def from_prometheus(base_url: str) -> int:
@@ -69,4 +83,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

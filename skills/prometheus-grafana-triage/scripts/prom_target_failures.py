@@ -3,7 +3,26 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+import urllib.error
 import urllib.request
+
+DEFAULT_TIMEOUT_SECONDS = 10
+
+
+def fetch_json(url: str) -> dict:
+    try:
+        with urllib.request.urlopen(url, timeout=DEFAULT_TIMEOUT_SECONDS) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as exc:
+        print(f"failed to query {url}: HTTP {exc.code}", file=sys.stderr)
+        raise SystemExit(1) from exc
+    except urllib.error.URLError as exc:
+        print(f"failed to query {url}: {exc.reason}", file=sys.stderr)
+        raise SystemExit(1) from exc
+    except json.JSONDecodeError as exc:
+        print(f"failed to parse JSON from {url}: {exc}", file=sys.stderr)
+        raise SystemExit(1) from exc
 
 
 def main() -> int:
@@ -16,8 +35,7 @@ def main() -> int:
     args = parser.parse_args()
 
     url = args.prometheus_url.rstrip("/") + "/api/v1/targets?state=any"
-    with urllib.request.urlopen(url) as response:
-        data = json.load(response)
+    data = fetch_json(url)
 
     for target in data["data"]["activeTargets"]:
         if target.get("health") == "up":
@@ -44,4 +62,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

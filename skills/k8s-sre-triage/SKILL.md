@@ -42,7 +42,7 @@ Start with:
 - `kubectl config current-context`
 - `kubectl get nodes`
 - `kubectl get pods -A`
-- `kubectl get events -A --sort-by=.lastTimestamp`
+- `kubectl get events -A --sort-by=.metadata.creationTimestamp`
 
 Then narrow to the affected namespace and owner resource:
 - `kubectl get deploy,statefulset,daemonset,job,cronjob -n <ns>`
@@ -117,7 +117,7 @@ Collects a deterministic snapshot of:
 
 Usage:
 ```bash
-bash "$CODEX_HOME/skills/k8s-sre-triage/scripts/k8s_snapshot.sh"
+bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/k8s_snapshot.sh"
 ```
 
 ### `scripts/pod_triage.sh`
@@ -130,5 +130,5 @@ Collects pod-specific evidence:
 
 Usage:
 ```bash
-bash "$CODEX_HOME/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
+bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
 ```

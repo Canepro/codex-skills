@@ -110,8 +110,8 @@ Summarizes active alerts from Prometheus or Alertmanager.
 
 Usage:
 ```bash
-python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/alert_summary.py" --prometheus-url http://127.0.0.1:9090
-python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/alert_summary.py" --alertmanager-url http://127.0.0.1:9093
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/prometheus-grafana-triage/scripts/alert_summary.py" --prometheus-url http://127.0.0.1:9090
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/prometheus-grafana-triage/scripts/alert_summary.py" --alertmanager-url http://127.0.0.1:9093
 ```
 
 ### `scripts/prom_target_failures.py`
@@ -120,6 +120,5 @@ Lists non-healthy Prometheus targets with cluster, job, scrape URL, and `lastErr
 
 Usage:
 ```bash
-python3 "$CODEX_HOME/skills/prometheus-grafana-triage/scripts/prom_target_failures.py" --prometheus-url http://127.0.0.1:9090
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/prometheus-grafana-triage/scripts/prom_target_failures.py" --prometheus-url http://127.0.0.1:9090
 ```
-
