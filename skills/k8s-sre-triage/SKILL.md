@@ -34,6 +34,8 @@ Capture:
 - user-visible impact
 - whether the workload is GitOps-managed
 
+If the incident came from an alert or dashboard, identify the owning cluster before gathering pod evidence. Do not assume the current kube context is the one that produced the alert.
+
 If the report is vague, ask one short clarifying question, then start gathering evidence.
 
 ### 2. Gather baseline state
@@ -99,6 +101,7 @@ Report:
 - Prefer a single evidence-backed diagnosis over several weak guesses.
 - If you cannot prove root cause yet, say what is still unknown and what evidence would resolve it.
 - Do not assume provider-specific behavior; verify it.
+- When checking previous logs for a restart, verify the pod namespace first. A correct command in the wrong namespace is still bad evidence.
 
 ## References
 

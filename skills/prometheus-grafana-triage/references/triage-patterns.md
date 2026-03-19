@@ -53,10 +53,21 @@ Bad pattern:
 kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1
 ```
 
-Better when you mean recent events:
+Better when you mean recent restart events caused by OOM:
 ```promql
-changes(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[15m]) > 0
+increase(kube_pod_container_status_restarts_total[15m]) > 0
+and on (namespace, pod, container, cluster)
+kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1
 ```
+
+Investigation order for OOM alerts:
+- verify the active alert on the Prometheus or Alertmanager instance that owns it
+- verify the pod or container state in Kubernetes: `restartCount`, `lastState.reason`, `exitCode`
+- pull previous logs from the correct namespace if the container restarted
+- use memory metrics as supporting evidence only
+- conclude separately:
+  - was there a real OOM event?
+  - is the alert still correctly firing now?
 
 ## Hub and spoke reminder
 
@@ -64,5 +75,4 @@ In a multi-cluster design:
 - the central Prometheus may show the alert
 - the spoke Prometheus agent may have the authoritative `lastError`
 
-Query the right layer before concluding the target is healthy or broken.
-
+Query the right layer before concluding the target is healthy or broken. Start by identifying which cluster and which monitoring system actually owns the alert.

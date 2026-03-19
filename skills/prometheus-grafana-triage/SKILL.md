@@ -28,10 +28,16 @@ Treat alerting problems as one of three classes: a real platform issue, a broken
 ### 1. Check the live monitoring stack
 
 Verify:
+- which cluster actually owns the alert evaluation or scrape path
 - Grafana health
 - Prometheus health
 - Alertmanager health
 - whether you are querying the hub or the spoke agent
+
+Before switching contexts or querying random clusters, identify the source of truth:
+- the cluster label on the alert or target
+- the Prometheus or Alertmanager instance that is currently evaluating the rule
+- whether the data comes from a hub-and-spoke flow or a local Prometheus
 
 Do not assume the dashboard reflects the current truth until Prometheus and its scrape path are confirmed healthy.
 
@@ -48,6 +54,12 @@ Separate:
 - active alert in Alertmanager
 - active rule evaluation in Prometheus
 - stale visualization in Grafana
+
+For container restart or `OOMKilled` alerts, verify the runtime event separately from the alert freshness:
+- current pod `restartCount`
+- `lastState.reason`
+- `lastState.terminated.exitCode`
+- previous container logs when available
 
 Bundled helpers:
 - `scripts/alert_summary.py` for active alerts from Prometheus or Alertmanager
@@ -76,6 +88,8 @@ Look for common rule problems:
 
 Prefer a corrected query over ad hoc silencing when the rule itself is wrong.
 
+For OOM alerts, avoid treating a sticky `last_terminated_reason` gauge as proof that the problem is still active. A real OOM event can coexist with a stale firing alert.
+
 ### 5. Decide the fix path
 
 Pick one:
@@ -97,6 +111,8 @@ After the change:
 - Query the system that actually scrapes the target. In a hub-and-spoke design, the spoke agent often holds the real `lastError`.
 - Do not trust one layer alone. Compare cluster reality, Prometheus target health, and alert logic.
 - If the rule source lives in a different repo than the workload, say so clearly and patch the right repo.
+- `container_memory_working_set_bytes` is supporting evidence, not definitive proof of an exact cgroup kill threshold or kill timestamp. Use it to support an OOM diagnosis, not to overstate one.
+- When the evidence proves a real event but not the precise trigger, say so. Distinguish “real incident” from “fully explained incident.”
 
 ## References
 
