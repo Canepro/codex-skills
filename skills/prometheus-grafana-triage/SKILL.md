@@ -1,0 +1,100 @@
+---
+name: prometheus-grafana-triage
+description: Use when the user asks to investigate Grafana alerts, Prometheus scrape failures, Alertmanager noise, stale firing rules, bad PromQL, or observability health; verify the live alert state first, separate rule bugs from target failures, and recommend or implement the correct fix path.
+metadata:
+  short-description: Triage alerts, scrape failures, and observability noise
+---
+
+# Prometheus Grafana Triage
+
+Treat alerting problems as one of three classes: a real platform issue, a broken scrape, or a bad rule. Verify which one it is before touching manifests.
+
+## Use when
+
+- Grafana alerts are firing and the user wants to know why
+- Prometheus scrape targets are down
+- Alertmanager is noisy or seems stale
+- Grafana dashboards disagree with current cluster state
+- the user suspects a rule bug or stale metric logic
+
+## Do not use when
+
+- The primary problem is a generic Kubernetes runtime incident with no monitoring angle. Use `k8s-sre-triage`.
+- The primary problem is a failing CI job or deployment pipeline. Use `ci-pipeline-triage`.
+- The request is for dashboard design or long-term metrics architecture rather than incident triage.
+
+## Workflow
+
+### 1. Check the live monitoring stack
+
+Verify:
+- Grafana health
+- Prometheus health
+- Alertmanager health
+- whether you are querying the hub or the spoke agent
+
+Do not assume the dashboard reflects the current truth until Prometheus and its scrape path are confirmed healthy.
+
+### 2. Inspect active alerts
+
+Capture:
+- alert name
+- state: pending vs firing
+- cluster label
+- severity
+- summary and description
+
+Separate:
+- active alert in Alertmanager
+- active rule evaluation in Prometheus
+- stale visualization in Grafana
+
+### 3. Check scrape health
+
+When `up == 0`, inspect:
+- target instance
+- job name
+- scrape URL
+- `lastError`
+
+Confirm the endpoint directly where possible:
+- wrong path often returns `404`
+- wrong port or bind address often returns `connection refused`
+- missing auth returns `401` or `403`
+
+### 4. Check the rule logic
+
+Look for common rule problems:
+- using `count(metric)` when the correct intent is `sum(metric == 1)`
+- alerting on sticky gauges like `last_terminated_reason == 1`
+- thresholds that count metric series rather than objects
+- rules evaluated against the wrong cluster label
+
+Prefer a corrected query over ad hoc silencing when the rule itself is wrong.
+
+### 5. Decide the fix path
+
+Pick one:
+- runtime issue: hand off to `k8s-sre-triage`
+- scrape config issue: fix service, ServiceMonitor, scrape config, port, or path
+- rule issue: fix the PromQL and docs
+- temporary operational noise: add or update a silence only if the rule is otherwise correct
+
+### 6. Verify
+
+After the change:
+- target health becomes `up`
+- corrected query returns the expected count
+- firing or pending state clears as expected
+- no important alert coverage was removed accidentally
+
+## Guidance
+
+- Query the system that actually scrapes the target. In a hub-and-spoke design, the spoke agent often holds the real `lastError`.
+- Do not trust one layer alone. Compare cluster reality, Prometheus target health, and alert logic.
+- If the rule source lives in a different repo than the workload, say so clearly and patch the right repo.
+
+## References
+
+- Read `references/triage-patterns.md` for common scrape and rule failure patterns.
+
