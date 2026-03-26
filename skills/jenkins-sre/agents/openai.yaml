@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jenkins SRE"
+  short_description: "Diagnose Jenkins runtime failures"
+  default_prompt: "Use $jenkins-sre to diagnose this Jenkins controller or agent problem and separate runtime issues from pipeline code failures."

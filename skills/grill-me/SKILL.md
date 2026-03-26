@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Stress-test a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me".
+description: Stress-test a plan, design, or technical decision until weak assumptions are exposed and resolved. Use when the user wants to be grilled, pressure-test a proposal, walk the decision tree, or get a senior-engineer challenge on architecture or execution choices.
 ---
 
 # Grill Me

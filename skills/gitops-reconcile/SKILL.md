@@ -1,6 +1,6 @@
 ---
 name: gitops-reconcile
-description: Use when the user asks to investigate or fix Argo CD, Flux, or GitOps convergence problems such as OutOfSync apps, unhealthy resources, blocked syncs, stale revisions, missing CRDs, namespace ordering, or desired-vs-live drift; inspect desired state first, identify the specific blocker, and restore convergence safely.
+description: Investigate and restore GitOps convergence for Argo CD or Flux. Use when apps are `OutOfSync`, `Missing`, `Progressing`, or `Degraded`, merged changes do not land, revisions are stale, syncs are blocked by CRDs or ordering, or desired state differs from live state; inspect desired state first and fix the actual blocker.
 metadata:
   short-description: Diagnose and restore GitOps convergence
 ---

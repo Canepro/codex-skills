@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observability Architecture"
+  short_description: "Design observability architecture"
+  default_prompt: "Use $observability-architecture to design the right metrics, logs, traces, alerts, and ownership model for this system."

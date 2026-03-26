@@ -1,6 +1,6 @@
 ---
 name: k8s-sre-triage
-description: Use when the user asks to investigate or fix Kubernetes, container, rollout, ingress, storage, node, namespace, or GitOps-managed runtime issues; gather evidence first, classify the failure mode, prefer GitOps-safe remediation, and verify recovery before closing.
+description: Investigate Kubernetes and container runtime incidents with evidence-first triage. Use when pods are crashing or pending, rollouts are stuck, ingress or DNS routing is broken, storage or nodes are failing, or a GitOps-managed workload is unhealthy after deploy; prefer GitOps-safe remediation and verify recovery.
 metadata:
   short-description: Triage Kubernetes and runtime incidents safely
 ---

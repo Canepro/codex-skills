@@ -1,6 +1,6 @@
 ---
 name: prd-to-plan
-description: Turn a PRD into a multi-phase implementation plan using tracer-bullet vertical slices, saved as a local Markdown file in ./plans/. Use when user wants to break down a PRD, create an implementation plan, plan phases from a PRD, or mentions "tracer bullets".
+description: Turn a PRD into a phased implementation plan with tracer-bullet vertical slices saved to `./plans/`. Use when the user wants a build plan, phased delivery approach, architecture-aware sequence, or mentions tracer bullets, implementation phases, or plan-from-PRD.
 ---
 
 # PRD to Plan

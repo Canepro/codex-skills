@@ -1,6 +1,6 @@
 ---
 name: "gh-fix-ci"
-description: "Use when a user asks to debug or fix failing GitHub PR checks that run in GitHub Actions; use `gh` to inspect checks and logs, summarize failure context, draft a fix plan, and implement only after explicit approval. Treat external providers (for example Buildkite) as out of scope and report only the details URL."
+description: "Inspect and debug failing GitHub PR checks that run in GitHub Actions using `gh`. Use when a pull request has red or stuck Actions checks, workflow logs need summarizing, or the user wants a fix plan for GitHub-hosted CI; treat external providers such as Buildkite as out of scope and report only the details URL."
 ---
 
 

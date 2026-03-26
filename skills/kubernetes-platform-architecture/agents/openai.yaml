@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kubernetes Platform Architecture"
+  short_description: "Design Kubernetes platform architecture"
+  default_prompt: "Use $kubernetes-platform-architecture to design the right cluster, tenancy, and GitOps operating model for this platform."

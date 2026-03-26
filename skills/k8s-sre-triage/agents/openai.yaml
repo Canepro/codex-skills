@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kubernetes SRE Triage"
+  short_description: "Triage Kubernetes runtime incidents"
+  default_prompt: "Use $k8s-sre-triage to classify this Kubernetes incident, gather evidence, and choose the safest fix path."

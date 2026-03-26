@@ -1,6 +1,6 @@
 ---
 name: request-refactor-plan
-description: Create a detailed refactor plan with tiny, safe steps based on codebase exploration and user goals. Use when user wants to plan a refactor, create a refactoring RFC, or break a risky change into incremental commits.
+description: Create a detailed, low-risk refactor plan with tiny, safe steps based on codebase exploration and the user's goals. Use when planning a risky refactor, drafting a refactoring RFC, sequencing an incremental rewrite, or breaking a large cleanup into shippable commits.
 metadata:
   short-description: Plan an incremental refactor
 ---

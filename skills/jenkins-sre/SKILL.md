@@ -1,6 +1,6 @@
 ---
 name: jenkins-sre
-description: Use when the user asks to investigate or fix Jenkins controller, agent, credential, queue, executor, or WebSocket/inbound-agent issues; verify the exact controller and node state, distinguish Jenkins runtime problems from pipeline code failures, and prefer durable config fixes over one-off restarts.
+description: Investigate Jenkins controller and agent runtime problems such as offline nodes, queue or executor issues, credential failures, WebSocket or inbound-agent errors, and controller health problems. Use when Jenkins itself looks unhealthy or misconfigured; distinguish runtime problems from pipeline code failures and prefer durable fixes.
 metadata:
   short-description: Diagnose Jenkins controller and agent runtime issues
 ---
@@ -97,4 +97,3 @@ Report:
 ## References
 
 - Read `references/runtime-patterns.md` when narrowing a Jenkins operational issue.
-

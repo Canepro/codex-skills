@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System Maintenance"
+  short_description: "Maintain design systems and components"
+  default_prompt: "Use $design-system-maintenance to clean up this design system and make the shared component APIs more coherent."

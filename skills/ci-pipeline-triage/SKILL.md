@@ -1,6 +1,6 @@
 ---
 name: ci-pipeline-triage
-description: Use when the user asks to investigate or fix failing CI/CD jobs, Jenkins builds, PR checks, Terraform validation runs, deployment pipelines, or stale pipeline diagnoses; identify the exact failing run and commit, extract the real failing line, and fix the problem in the correct layer.
+description: Investigate and fix failing CI/CD pipelines, Jenkins jobs, PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeline diagnoses. Use when builds are red, checks are stuck, deploy stages fail, or the reported root cause looks wrong; identify the exact failing run, stage, and command before fixing the right layer.
 metadata:
   short-description: Triage CI, Jenkins, and deployment pipeline failures
 ---
@@ -102,4 +102,3 @@ Summarize:
 ## References
 
 - Read `references/failure-categories.md` when the failing layer is still unclear.
-

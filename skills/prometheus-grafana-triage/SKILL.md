@@ -1,6 +1,6 @@
 ---
 name: prometheus-grafana-triage
-description: Use when the user asks to investigate Grafana alerts, Prometheus scrape failures, Alertmanager noise, stale firing rules, bad PromQL, or observability health; verify the live alert state first, separate rule bugs from target failures, and recommend or implement the correct fix path.
+description: Investigate Prometheus, Grafana, and Alertmanager incidents by separating real platform problems from scrape failures and bad rules. Use when alerts fire unexpectedly, targets are down, dashboards look stale, Alertmanager is noisy, or PromQL or rule logic may be wrong.
 metadata:
   short-description: Triage alerts, scrape failures, and observability noise
 ---

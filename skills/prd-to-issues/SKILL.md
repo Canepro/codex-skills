@@ -1,6 +1,6 @@
 ---
 name: prd-to-issues
-description: Break a PRD into independently shippable implementation issues using vertical slices. Use when user wants a backlog, issue breakdown, delivery phases, or actionable tickets from a PRD.
+description: Break a PRD into small, independently shippable implementation issues using vertical slices. Use when the user wants a backlog, milestone breakdown, delivery phases, issue drafts, or actionable tickets from a product spec.
 metadata:
   short-description: Convert a PRD into shippable issues
 ---

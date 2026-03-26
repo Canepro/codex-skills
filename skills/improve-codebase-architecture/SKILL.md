@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Explore a codebase for architectural improvement opportunities, especially places where shallow modules or tight coupling make the system harder to change and test. Use when user wants refactoring ideas, architectural review, or recommendations for making a codebase more maintainable and AI-navigable.
+description: Explore a codebase for architectural refactors that deepen modules and reduce coupling. Use when the user wants refactoring ideas, architecture review, maintainability improvements, clearer boundaries, or a codebase that is easier for humans and agents to navigate.
 metadata:
   short-description: Find and frame architectural improvement opportunities
 ---

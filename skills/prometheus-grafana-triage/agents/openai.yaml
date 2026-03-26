@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prometheus Grafana Triage"
+  short_description: "Investigate alerts and scrape failures"
+  default_prompt: "Use $prometheus-grafana-triage to determine whether this alert is a real platform issue, a scrape failure, or a bad rule."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitOps Reconcile"
+  short_description: "Restore Argo CD or Flux convergence"
+  default_prompt: "Use $gitops-reconcile to find what is blocking GitOps convergence and restore the desired revision safely."

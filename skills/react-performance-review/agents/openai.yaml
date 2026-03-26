@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Performance Review"
+  short_description: "Audit React rendering and bundles"
+  default_prompt: "Use $react-performance-review to find the highest-payoff fixes for this slow React UI."

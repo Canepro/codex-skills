@@ -1,6 +1,6 @@
 ---
 name: design-an-interface
-description: Generate multiple radically different interface designs for a module and compare their trade-offs. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+description: Generate multiple substantially different API or module interface designs and compare their trade-offs. Use when designing a new interface, reshaping a module boundary, evaluating public API options, or when the user says "design it twice".
 ---
 
 # Design an Interface

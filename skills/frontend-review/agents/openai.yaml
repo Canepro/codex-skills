@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Review"
+  short_description: "Audit frontend UX and implementation"
+  default_prompt: "Use $frontend-review to review this screen or PR and give me the highest-value frontend findings first."

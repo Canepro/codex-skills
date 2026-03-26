@@ -1,6 +1,6 @@
 ---
 name: triage-issue
-description: Investigate a bug or regression, identify the likely root cause, and produce a durable fix plan or issue draft. Use when user reports a bug, asks to triage a problem, or wants diagnosis before implementation.
+description: Investigate a bug or regression, identify the likely root cause, and produce a durable fix plan or issue-quality diagnosis. Use when behavior is broken, a regression needs reproducing, the root cause is unclear, or the user wants diagnosis before implementation.
 metadata:
   short-description: Diagnose a bug and produce a fix plan
 ---

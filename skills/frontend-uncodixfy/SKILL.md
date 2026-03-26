@@ -1,6 +1,6 @@
 ---
 name: frontend-uncodixfy
-description: Use for frontend UI/UX work when you want a professional, human-designed result that avoids generic AI dashboard patterns, dead space, pill overload, decorative hero blocks, and other low-signal visual filler.
+description: Redesign or polish frontend UI so it feels intentional, human-designed, and less templated. Use for dashboard cleanup, landing-page polish, layout refinement, design critique, or when the user wants a UI that avoids generic AI-dashboard patterns, dead space, pill overload, or other low-signal filler.
 metadata:
   short-description: Frontend anti-slop UI guidance
 ---

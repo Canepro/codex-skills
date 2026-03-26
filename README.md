@@ -18,6 +18,28 @@ Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
 - `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
+- `evals/`: prompt matrices for checking trigger quality and overlap
+
+## Skill map
+
+Current pack by category:
+
+- Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
+- Frontend review and delivery: `frontend-review`, `frontend-uncodixfy`, `responsive-design`, `webapp-testing`, `react-performance-review`, `design-system-maintenance`, `playwright`
+- CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
+- Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
+- Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
+- Documents and testing workflow: `doc`, `tdd`, `triage-issue`
+- Delivery and handoff: `codex-closeout`
+
+Useful adjacency rules:
+
+- `frontend-review` diagnoses; `frontend-uncodixfy` redesigns.
+- `responsive-design` fixes layout adaptation; `webapp-testing` verifies user flows.
+- `playwright` drives the browser; `webapp-testing` decides what evidence to collect.
+- `k8s-sre-triage` handles live incidents; `kubernetes-platform-architecture` handles platform design.
+- `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
+- `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
 
 ## Daily use
 
@@ -135,6 +157,19 @@ interface:
 - Keep scripts deterministic when a task is repetitive or fragile.
 - Edit only in `~/src/codex-skills`, not in the D drive mirror.
 - Treat `scripts/bootstrap.sh` as the normal refresh command.
+- Test trigger quality after adding or splitting adjacent skills.
+
+## Trigger evaluation
+
+Use `evals/trigger-matrix.md` when the taxonomy changes.
+
+Recommended loop:
+
+1. Install the current repo with `bash scripts/install.sh`.
+2. Restart Codex.
+3. Start a fresh prompt with one matrix example at a time.
+4. Confirm the intended skill triggers and nearby skills do not.
+5. Tighten frontmatter or `Do not use when` sections where the routing is weak.
 
 ## Quick memory version
 

@@ -1,6 +1,6 @@
 ---
 name: write-a-prd
-description: Turn a rough feature idea into a concise product requirements document through targeted questioning, codebase exploration, and scope tightening. Use when user wants to write a PRD, sharpen a feature proposal, or turn an idea into an implementation-ready spec.
+description: Turn a rough feature idea into a concise, implementation-ready product requirements document through targeted questioning, codebase exploration, and scope tightening. Use when the user wants to write a PRD, sharpen a proposal, define success criteria, or turn an idea into a spec.
 metadata:
   short-description: Write a practical PRD
 ---

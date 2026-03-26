@@ -1,6 +1,6 @@
 ---
 name: "sentry"
-description: "Use when the user asks to inspect Sentry issues or events, summarize recent production errors, or pull basic Sentry health data via the Sentry API; perform read-only queries with the bundled script and require `SENTRY_AUTH_TOKEN`."
+description: "Inspect Sentry issues, recent events, and basic project health through the Sentry API with read-only queries. Use when the user wants recent production errors summarized, issue or event details inspected, or environment-scoped error trends reviewed; requires `SENTRY_AUTH_TOKEN`."
 ---
 
 
