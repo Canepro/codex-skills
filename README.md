@@ -14,7 +14,7 @@ Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 
 ## Repo layout
 
-- `skills/`: skill folders that get synced into `~/.codex/skills`
+- `skills/`: skill folders that get synced into the local Codex skill directories
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
 - `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
@@ -31,6 +31,7 @@ Current pack by category:
 - Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
 - Documents and testing workflow: `doc`, `tdd`, `triage-issue`
 - Delivery and handoff: `codex-closeout`
+- Support and operations: `l2-l3-support-platform`
 
 Useful adjacency rules:
 
@@ -40,6 +41,7 @@ Useful adjacency rules:
 - `k8s-sre-triage` handles live incidents; `kubernetes-platform-architecture` handles platform design.
 - `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
 - `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
+- `l2-l3-support-platform` handles Microsoft 365, Entra, and Rocket.Chat support investigation, supported-guidance checks, and customer-ready case communication.
 
 ## Daily use
 
@@ -51,7 +53,8 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 
 What it does:
 - pulls the latest `main`
-- installs the skills into `~/.codex/skills`
+- installs repo-managed skills into `~/.codex/skills` and `~/.agents/skills`
+- preserves non-repo content such as preinstalled/system skill entries
 
 After running it, restart Codex if you want the updated skills picked up immediately.
 
@@ -158,6 +161,7 @@ interface:
 - Edit only in `~/src/codex-skills`, not in the D drive mirror.
 - Treat `scripts/bootstrap.sh` as the normal refresh command.
 - Test trigger quality after adding or splitting adjacent skills.
+- The installer only manages skills that exist in this repo. It does not delete unrelated skill folders outside its manifest.
 
 ## Trigger evaluation
 
