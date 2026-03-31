@@ -17,6 +17,7 @@ Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 - `skills/`: skill folders that get synced into the local Codex skill directories
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
+- `scripts/check-drift.sh`: compares repo skills, managed manifests, and installed skill directories
 - `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
 - `evals/`: prompt matrices for checking trigger quality and overlap
 
@@ -82,6 +83,16 @@ If you are already inside the repo and only want to reinstall the current local 
 bash scripts/install.sh
 ```
 
+## Verify drift
+
+To check whether the repo, the managed manifests, and the installed skill directories still agree:
+
+```bash
+bash ~/src/codex-skills/scripts/check-drift.sh
+```
+
+The script reports repo-managed drift as an error and lists preserved external entries separately so you can tell the difference between expected extras and actual mismatch.
+
 ## Backup refresh
 
 To refresh the D drive backup mirror from the canonical repo:
@@ -97,6 +108,7 @@ When you change skills in the canonical repo, the normal flow is:
 ```bash
 cd ~/src/codex-skills
 bash scripts/install.sh
+bash scripts/check-drift.sh
 bash scripts/backup-to-drive.sh
 git status
 ```
@@ -160,6 +172,7 @@ interface:
 - Keep scripts deterministic when a task is repetitive or fragile.
 - Edit only in `~/src/codex-skills`, not in the D drive mirror.
 - Treat `scripts/bootstrap.sh` as the normal refresh command.
+- Use `scripts/check-drift.sh` after installs or remote updates when you want a quick consistency check.
 - Test trigger quality after adding or splitting adjacent skills.
 - The installer only manages skills that exist in this repo. It does not delete unrelated skill folders outside its manifest.
 
@@ -178,6 +191,7 @@ Recommended loop:
 ## Quick memory version
 
 - Existing machine: `bash ~/src/codex-skills/scripts/bootstrap.sh`
+- Verify state: `bash ~/src/codex-skills/scripts/check-drift.sh`
 - New machine: `gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh`
 - Backup mirror: `bash ~/src/codex-skills/scripts/backup-to-drive.sh`
 - After skill changes: run install, then restart Codex
