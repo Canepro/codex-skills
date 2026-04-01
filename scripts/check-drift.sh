@@ -6,7 +6,7 @@ SRC_DIR="$REPO_DIR/skills"
 DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
 MANIFEST_NAME=".codex-skills-managed"
-
+SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
 HAS_ISSUES=0
 
 make_tmp() {
@@ -20,7 +20,7 @@ list_repo_skills() {
 list_installed_skills() {
   local dest_dir="$1"
 
-  if [ ! -d "$dest_dir" ]; then
+  if [[ ! -d "$dest_dir" ]]; then
     return 0
   fi
 
@@ -30,7 +30,7 @@ list_installed_skills() {
 list_manifest_skills() {
   local manifest_path="$1"
 
-  if [ ! -f "$manifest_path" ]; then
+  if [[ ! -f "$manifest_path" ]]; then
     return 0
   fi
 
@@ -41,7 +41,7 @@ skill_has_content_drift() {
   local skill_name="$1"
   local dest_dir="$2"
 
-  if [ ! -d "$dest_dir/$skill_name" ]; then
+  if [[ ! -d "$dest_dir/$skill_name" ]]; then
     return 1
   fi
 
@@ -62,7 +62,7 @@ print_list() {
   local label="$1"
   local file="$2"
 
-  if [ -s "$file" ]; then
+  if [[ -s "$file" ]]; then
     printf '  %s\n' "$label"
     sed 's/^/    - /' "$file"
   fi
@@ -96,13 +96,13 @@ check_destination() {
   printf '\n[%s]\n' "$name"
   printf '  path: %s\n' "$dest_dir"
 
-  if [ ! -d "$dest_dir" ]; then
+  if [[ ! -d "$dest_dir" ]]; then
     printf '  status: missing destination directory\n'
     HAS_ISSUES=1
     return 0
   fi
 
-  if [ ! -f "$manifest_path" ]; then
+  if [[ ! -f "$manifest_path" ]]; then
     printf '  status: missing manifest %s\n' "$manifest_path"
     HAS_ISSUES=1
     return 0
@@ -115,25 +115,86 @@ check_destination() {
   comm -13 "$repo_skills_file" "$installed_skills_file" > "$external_skills"
 
   while IFS= read -r skill_name; do
-    [ -n "$skill_name" ] || continue
+    [[ -n "$skill_name" ]] || continue
     if skill_has_content_drift "$skill_name" "$dest_dir"; then
       printf '%s\n' "$skill_name" >> "$content_drift"
     fi
   done < "$repo_skills_file"
 
-  if [ -s "$repo_missing_from_manifest" ] || [ -s "$manifest_missing_from_repo" ] || [ -s "$repo_missing_from_install" ] || [ -s "$manifest_missing_from_install" ] || [ -s "$content_drift" ]; then
+  if [[ -s "$repo_missing_from_manifest" || -s "$manifest_missing_from_repo" || -s "$repo_missing_from_install" || -s "$manifest_missing_from_install" || -s "$content_drift" ]]; then
     printf '  status: drift detected\n'
     HAS_ISSUES=1
   else
     printf '  status: repo-managed skills aligned\n'
   fi
 
-  print_list "repo skills missing from manifest:" "$repo_missing_from_manifest"
-  print_list "manifest entries missing from repo:" "$manifest_missing_from_repo"
-  print_list "repo skills missing from install:" "$repo_missing_from_install"
-  print_list "manifest entries missing from install:" "$manifest_missing_from_install"
-  print_list "installed skills with content drift:" "$content_drift"
-  print_list "external or preserved installed skills:" "$external_skills"
+  print_list 'repo skills missing from manifest:' "$repo_missing_from_manifest"
+  print_list 'manifest entries missing from repo:' "$manifest_missing_from_repo"
+  print_list 'repo skills missing from install:' "$repo_missing_from_install"
+  print_list 'manifest entries missing from install:' "$manifest_missing_from_install"
+  print_list 'installed skills with content drift:' "$content_drift"
+  print_list 'external or preserved installed skills:' "$external_skills"
+}
+
+check_system_skills() {
+  local name="$1"
+  local system_dir="$2"
+  local expected_full expected_names current_full current_names missing unexpected hash_drift shared_names
+
+  expected_full="$(make_tmp)"
+  expected_names="$(make_tmp)"
+  current_full="$(make_tmp)"
+  current_names="$(make_tmp)"
+  missing="$(make_tmp)"
+  unexpected="$(make_tmp)"
+  hash_drift="$(make_tmp)"
+  shared_names="$(make_tmp)"
+
+  trap 'rm -f "$expected_full" "$expected_names" "$current_full" "$current_names" "$missing" "$unexpected" "$hash_drift" "$shared_names"' RETURN
+
+  printf '\n[%s-system]\n' "$name"
+  printf '  path: %s\n' "$system_dir"
+
+  if [[ ! -f "$SYSTEM_LOCK_FILE" ]]; then
+    printf '  status: missing system skill lock %s\n' "$SYSTEM_LOCK_FILE"
+    HAS_ISSUES=1
+    return 0
+  fi
+
+  if [[ ! -d "$system_dir" ]]; then
+    printf '  status: missing system skill directory\n'
+    HAS_ISSUES=1
+    return 0
+  fi
+
+  grep -vE '^[[:space:]]*(#|$)' "$SYSTEM_LOCK_FILE" | sort > "$expected_full"
+  awk '{print $1}' "$expected_full" > "$expected_names"
+  bash "$REPO_DIR/scripts/system-skill-lock.sh" --print --dir "$system_dir" | sort > "$current_full"
+  awk '{print $1}' "$current_full" > "$current_names"
+
+  comm -23 "$expected_names" "$current_names" > "$missing"
+  comm -13 "$expected_names" "$current_names" > "$unexpected"
+  comm -12 "$expected_names" "$current_names" > "$shared_names"
+
+  while IFS= read -r skill_name; do
+    [[ -n "$skill_name" ]] || continue
+    expected_hash="$(awk -v name="$skill_name" '$1 == name { print $2 }' "$expected_full")"
+    current_hash="$(awk -v name="$skill_name" '$1 == name { print $2 }' "$current_full")"
+    if [[ "$expected_hash" != "$current_hash" ]]; then
+      printf '%s expected=%s current=%s\n' "$skill_name" "$expected_hash" "$current_hash" >> "$hash_drift"
+    fi
+  done < "$shared_names"
+
+  if [[ -s "$missing" || -s "$unexpected" || -s "$hash_drift" ]]; then
+    printf '  status: drift detected\n'
+    HAS_ISSUES=1
+  else
+    printf '  status: pinned system skills aligned\n'
+  fi
+
+  print_list 'locked system skills missing from install:' "$missing"
+  print_list 'unexpected installed system skills:' "$unexpected"
+  print_list 'system skills with hash drift:' "$hash_drift"
 }
 
 check_installed_tree_alignment() {
@@ -154,26 +215,28 @@ check_installed_tree_alignment() {
 
   printf '\n[installed-tree-alignment]\n'
 
-  if [ -s "$codex_only" ] || [ -s "$agents_only" ]; then
+  if [[ -s "$codex_only" || -s "$agents_only" ]]; then
     printf '  status: drift detected between installed skill trees\n'
     HAS_ISSUES=1
   else
     printf '  status: installed skill trees aligned\n'
   fi
 
-  print_list "installed only in codex:" "$codex_only"
-  print_list "installed only in agents:" "$agents_only"
+  print_list 'installed only in codex:' "$codex_only"
+  print_list 'installed only in agents:' "$agents_only"
 }
 
 printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
 
-check_destination "codex" "$DEFAULT_CODEX_DIR"
-check_destination "agents" "$DEFAULT_AGENTS_DIR"
+check_destination 'codex' "$DEFAULT_CODEX_DIR"
+check_destination 'agents' "$DEFAULT_AGENTS_DIR"
+check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system"
+check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system"
 check_installed_tree_alignment
 
-if [ "$HAS_ISSUES" -eq 0 ]; then
+if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'
 else
   printf '\nResult: DRIFT DETECTED\n'

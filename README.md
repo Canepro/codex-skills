@@ -4,7 +4,7 @@ Portable Codex skill pack for this workspace owner.
 
 ## What this repo is
 
-This repo is the source of truth for your reusable Codex skills.
+This repo is the source of truth for the exact owner-managed Codex skill environment on this machine.
 
 - Canonical working repo: `~/src/codex-skills`
 - Backup mirror: `/mnt/d/repos/codex-skills`
@@ -12,15 +12,26 @@ This repo is the source of truth for your reusable Codex skills.
 
 Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 
+The repo manages two layers:
+
+- repo-managed skills under `skills/`
+- a pinned `system-skills.lock` contract for the Codex-provided `.system` skill tree
+
+That means a fresh machine can rebuild the owner-managed skills exactly, then verify that the platform-provided system skills match the pinned contract before the environment is considered aligned.
+
 ## Repo layout
 
 - `skills/`: skill folders that get synced into the local Codex skill directories
+- `system-skills.lock`: pinned hashes for the expected Codex `.system` skill tree
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
-- `scripts/check-drift.sh`: compares repo skills, managed manifests, and installed skill directories
+- `scripts/check-drift.sh`: compares repo skills, managed manifests, installed skill directories, and pinned system skills
+- `scripts/system-skill-lock.sh`: prints or refreshes the pinned system-skill lock
+- `scripts/list-skills.sh`: prints the current repo-managed and pinned system skill set
 - `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
-- `scripts/sync-installed-extras.sh`: syncs preserved non-repo skill directories between `~/.codex/skills` and `~/.agents/skills`
+- `scripts/sync-installed-extras.sh`: syncs non-repo installed skill directories between `~/.codex/skills` and `~/.agents/skills`
 - `evals/`: prompt matrices for checking trigger quality and overlap
+- `docs/how-to-manage-skills.md`: maintenance guide for future changes and machine rebuilds
 
 ## Skill map
 
@@ -35,12 +46,15 @@ Current pack by category:
 - Delivery and handoff: `codex-closeout`
 - Support and operations: `l2-l3-support-platform`
 - Naming and terminology: `naming-quality`
+- Skill discovery and browser work: `find-skills`, `dev-browser`
 
 Useful adjacency rules:
 
 - `frontend-review` diagnoses; `frontend-uncodixfy` redesigns.
 - `responsive-design` fixes layout adaptation; `webapp-testing` verifies user flows.
 - `playwright` drives the browser; `webapp-testing` decides what evidence to collect.
+- `dev-browser` is for persistent browser-session automation; `playwright` is for terminal browser control and scripted flows.
+- `find-skills` checks the current catalog first, then expands into the wider ecosystem only when needed.
 - `k8s-sre-triage` handles live incidents; `kubernetes-platform-architecture` handles platform design.
 - `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
 - `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
@@ -57,9 +71,8 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 What it does:
 - pulls the latest `main`
 - installs repo-managed skills into `~/.codex/skills` and `~/.agents/skills`
-- syncs preserved local extras between the two installed skill trees
-- runs the repo drift check
-- preserves non-repo content such as preinstalled/system skill entries
+- syncs non-repo installed entries between the two skill trees, with `~/.codex/skills` as the source of truth for shared external entries such as `.system`
+- verifies repo-managed drift and the pinned system-skill contract
 
 After running it, restart Codex if you want the updated skills picked up immediately.
 
@@ -77,7 +90,15 @@ Then run:
 gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-That gives you the repo locally and installs the skills in one go.
+That gives you the repo locally, installs the repo-managed skills, syncs the non-repo entries, and verifies the pinned system skill contract.
+
+If the system-skill check fails on a new machine after an intentional Codex upgrade, refresh the lock deliberately and commit it:
+
+```bash
+cd ~/src/codex-skills
+bash scripts/system-skill-lock.sh --write
+bash scripts/check-drift.sh
+```
 
 ## Install without pulling
 
@@ -89,18 +110,28 @@ bash scripts/install.sh
 
 ## Verify drift
 
-To check whether the repo, the managed manifests, and the installed skill directories still agree:
+To check whether the repo, the managed manifests, the installed skill directories, and the pinned system-skill contract still agree:
 
 ```bash
 bash ~/src/codex-skills/scripts/check-drift.sh
 ```
 
-The script reports repo-managed drift as an error, flags installed-tree mismatches directly, and lists preserved external entries separately so you can tell the difference between expected extras and actual mismatch.
-
-To sync preserved non-repo extras between `~/.codex/skills` and `~/.agents/skills`:
+To sync non-repo installed entries between `~/.codex/skills` and `~/.agents/skills`:
 
 ```bash
 bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
+```
+
+To print the current Codex system-skill hashes without updating the lock:
+
+```bash
+bash ~/src/codex-skills/scripts/system-skill-lock.sh --print
+```
+
+To print the current repo-managed skills and pinned system skills directly from the repo:
+
+```bash
+bash ~/src/codex-skills/scripts/list-skills.sh
 ```
 
 ## Backup refresh
@@ -184,9 +215,10 @@ interface:
 - Edit only in `~/src/codex-skills`, not in the D drive mirror.
 - Treat `scripts/bootstrap.sh` as the normal refresh command.
 - Use `scripts/check-drift.sh` after installs or remote updates when you want a quick consistency check.
+- Refresh `system-skills.lock` only after an intentional Codex upgrade that changes the `.system` contract you want to pin.
 - Test trigger quality after adding or splitting adjacent skills.
 - The installer only manages skills that exist in this repo. It does not delete unrelated skill folders outside its manifest.
-- Use `scripts/sync-installed-extras.sh` when preserved extras need to stay aligned between the two installed skill trees.
+- Use `scripts/sync-installed-extras.sh` when non-repo entries need to stay aligned between the two installed skill trees.
 
 ## Trigger evaluation
 
@@ -204,7 +236,8 @@ Recommended loop:
 
 - Existing machine: `bash ~/src/codex-skills/scripts/bootstrap.sh`
 - Verify state: `bash ~/src/codex-skills/scripts/check-drift.sh`
-- Sync preserved extras: `bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync`
+- Sync non-repo entries: `bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync`
+- Print system-skill hashes: `bash ~/src/codex-skills/scripts/system-skill-lock.sh --print`
 - New machine: `gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh`
 - Backup mirror: `bash ~/src/codex-skills/scripts/backup-to-drive.sh`
 - After skill changes: run install, then restart Codex

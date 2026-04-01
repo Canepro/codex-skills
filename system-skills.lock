@@ -1,0 +1,7 @@
+# Pinned Codex system skill contract for this environment.
+# Refresh intentionally with: bash scripts/system-skill-lock.sh --write
+imagegen aef03657e5ba93a7c936b79801c79f769605a1ed0fc033f5cf89a76d2411ab7f
+openai-docs 881232a0f716b8437464fc39d13dec9986c0eeba57be2bdf06831092ee9a8eda
+plugin-creator ea09e8099bce9166abf85abe0e54df0b2dee3ad61b022700efac73a02119bbe4
+skill-creator 473b9dd5ff3df1d352b499d83e00864290bd2874ac3f9243e33f09ab7e9e835c
+skill-installer c468f50ebcefb4d8480d0538aa3092f158adbc403fc4361a573dfbed0ec6fa14

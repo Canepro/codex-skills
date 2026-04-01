@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SRC_DIR="$REPO_DIR/skills"
 DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
 MODE="${1:---check}"
@@ -11,13 +13,14 @@ Usage:
   bash scripts/sync-installed-extras.sh --check
   bash scripts/sync-installed-extras.sh --sync
 
-Compares installed skill directories between:
+Compares non-repo skill directories between:
   ~/.codex/skills
   ~/.agents/skills
 
-This script is for preserved or externally installed skills that are not managed
-by this repo's `.codex-skills-managed` manifest. It copies only missing skill
-directories and does not edit the managed manifest.
+This script is for installed entries that are not managed by this repo's skills/
+directory. Shared entries with content drift are synced from ~/.codex/skills into
+~/.agents/skills, because Codex's local install is the authoritative source for
+platform-provided system skills.
 USAGE
 }
 
@@ -34,23 +37,58 @@ fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-codex_list="$tmpdir/codex.txt"
-agents_list="$tmpdir/agents.txt"
+repo_list="$tmpdir/repo.txt"
+codex_all="$tmpdir/codex-all.txt"
+agents_all="$tmpdir/agents-all.txt"
+codex_external="$tmpdir/codex-external.txt"
+agents_external="$tmpdir/agents-external.txt"
 codex_only="$tmpdir/codex-only.txt"
 agents_only="$tmpdir/agents-only.txt"
+shared_external="$tmpdir/shared-external.txt"
+shared_drift="$tmpdir/shared-drift.txt"
 
-find "$DEFAULT_CODEX_DIR" -type f -name SKILL.md \
-  | sed "s#^$DEFAULT_CODEX_DIR/##" \
-  | sed 's#/SKILL\.md$##' \
-  | sort > "$codex_list"
+find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$repo_list"
+find "$DEFAULT_CODEX_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$codex_all"
+find "$DEFAULT_AGENTS_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$agents_all"
 
-find "$DEFAULT_AGENTS_DIR" -type f -name SKILL.md \
-  | sed "s#^$DEFAULT_AGENTS_DIR/##" \
-  | sed 's#/SKILL\.md$##' \
-  | sort > "$agents_list"
+comm -13 "$repo_list" "$codex_all" > "$codex_external"
+comm -13 "$repo_list" "$agents_all" > "$agents_external"
+comm -23 "$codex_external" "$agents_external" > "$codex_only"
+comm -13 "$codex_external" "$agents_external" > "$agents_only"
+comm -12 "$codex_external" "$agents_external" > "$shared_external"
 
-comm -23 "$codex_list" "$agents_list" > "$codex_only"
-comm -13 "$codex_list" "$agents_list" > "$agents_only"
+dir_has_drift() {
+  local src_dir="$1"
+  local dest_dir="$2"
+
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -ain --delete "$src_dir/" "$dest_dir/" | grep -q .
+    return
+  fi
+
+  ! diff -qr "$src_dir" "$dest_dir" >/dev/null 2>&1
+}
+
+sync_dir() {
+  local src_dir="$1"
+  local dest_dir="$2"
+
+  mkdir -p "$dest_dir"
+
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --delete "$src_dir/" "$dest_dir/"
+  else
+    rm -rf "$dest_dir"
+    cp -a "$src_dir" "$dest_dir"
+  fi
+}
+
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  if dir_has_drift "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_AGENTS_DIR/$skill_dir"; then
+    printf '%s\n' "$skill_dir" >> "$shared_drift"
+  fi
+done < "$shared_external"
 
 print_list() {
   local title="$1"
@@ -64,22 +102,12 @@ print_list() {
   fi
 }
 
-copy_missing() {
-  local src_root="$1"
-  local dest_root="$2"
-  local file="$3"
+print_list "External only in $DEFAULT_CODEX_DIR:" "$codex_only"
+print_list "External only in $DEFAULT_AGENTS_DIR:" "$agents_only"
+print_list "Shared external entries with content drift:" "$shared_drift"
 
-  while IFS= read -r skill_dir; do
-    [[ -z "$skill_dir" ]] && continue
-    cp -a "$src_root/$skill_dir" "$dest_root/"
-  done < "$file"
-}
-
-print_list "Present only in $DEFAULT_CODEX_DIR:" "$codex_only"
-print_list "Present only in $DEFAULT_AGENTS_DIR:" "$agents_only"
-
-if [[ ! -s "$codex_only" && ! -s "$agents_only" ]]; then
-  echo "Installed skill trees are in sync."
+if [[ ! -s "$codex_only" && ! -s "$agents_only" && ! -s "$shared_drift" ]]; then
+  echo "External installed skill directories are in sync."
   exit 0
 fi
 
@@ -87,7 +115,19 @@ if [[ "$MODE" == "--check" ]]; then
   exit 1
 fi
 
-copy_missing "$DEFAULT_CODEX_DIR" "$DEFAULT_AGENTS_DIR" "$codex_only"
-copy_missing "$DEFAULT_AGENTS_DIR" "$DEFAULT_CODEX_DIR" "$agents_only"
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  sync_dir "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_AGENTS_DIR/$skill_dir"
+done < "$codex_only"
 
-echo "Copied missing installed skill directories both ways."
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  sync_dir "$DEFAULT_AGENTS_DIR/$skill_dir" "$DEFAULT_CODEX_DIR/$skill_dir"
+done < "$agents_only"
+
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  sync_dir "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_AGENTS_DIR/$skill_dir"
+done < "$shared_drift"
+
+echo "Synced external installed skill directories."
