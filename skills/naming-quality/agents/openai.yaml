@@ -1,0 +1,4 @@
+interface:
+  display_name: "Naming Quality"
+  short_description: "Choose clearer, more durable names"
+  default_prompt: "Use $naming-quality to review or improve these names so they stay clear across code, docs, and product surfaces."

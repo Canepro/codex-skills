@@ -136,12 +136,42 @@ check_destination() {
   print_list "external or preserved installed skills:" "$external_skills"
 }
 
+check_installed_tree_alignment() {
+  local codex_skills agents_skills codex_only agents_only
+
+  codex_skills="$(make_tmp)"
+  agents_skills="$(make_tmp)"
+  codex_only="$(make_tmp)"
+  agents_only="$(make_tmp)"
+
+  trap 'rm -f "$codex_skills" "$agents_skills" "$codex_only" "$agents_only"' RETURN
+
+  list_installed_skills "$DEFAULT_CODEX_DIR" > "$codex_skills"
+  list_installed_skills "$DEFAULT_AGENTS_DIR" > "$agents_skills"
+
+  comm -23 "$codex_skills" "$agents_skills" > "$codex_only"
+  comm -13 "$codex_skills" "$agents_skills" > "$agents_only"
+
+  printf '\n[installed-tree-alignment]\n'
+
+  if [ -s "$codex_only" ] || [ -s "$agents_only" ]; then
+    printf '  status: drift detected between installed skill trees\n'
+    HAS_ISSUES=1
+  else
+    printf '  status: installed skill trees aligned\n'
+  fi
+
+  print_list "installed only in codex:" "$codex_only"
+  print_list "installed only in agents:" "$agents_only"
+}
+
 printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
 
 check_destination "codex" "$DEFAULT_CODEX_DIR"
 check_destination "agents" "$DEFAULT_AGENTS_DIR"
+check_installed_tree_alignment
 
 if [ "$HAS_ISSUES" -eq 0 ]; then
   printf '\nResult: OK\n'

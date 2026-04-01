@@ -17,5 +17,7 @@ else
 fi
 
 bash "$TARGET_DIR/scripts/install.sh"
+bash "$TARGET_DIR/scripts/sync-installed-extras.sh" --sync
+bash "$TARGET_DIR/scripts/check-drift.sh"
 
 printf 'Bootstrap complete from %s into %s\n' "$REPO_SLUG" "$TARGET_DIR"

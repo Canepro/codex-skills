@@ -19,6 +19,7 @@ Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
 - `scripts/check-drift.sh`: compares repo skills, managed manifests, and installed skill directories
 - `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
+- `scripts/sync-installed-extras.sh`: syncs preserved non-repo skill directories between `~/.codex/skills` and `~/.agents/skills`
 - `evals/`: prompt matrices for checking trigger quality and overlap
 
 ## Skill map
@@ -33,6 +34,7 @@ Current pack by category:
 - Documents and testing workflow: `doc`, `tdd`, `triage-issue`
 - Delivery and handoff: `codex-closeout`
 - Support and operations: `l2-l3-support-platform`
+- Naming and terminology: `naming-quality`
 
 Useful adjacency rules:
 
@@ -55,6 +57,8 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 What it does:
 - pulls the latest `main`
 - installs repo-managed skills into `~/.codex/skills` and `~/.agents/skills`
+- syncs preserved local extras between the two installed skill trees
+- runs the repo drift check
 - preserves non-repo content such as preinstalled/system skill entries
 
 After running it, restart Codex if you want the updated skills picked up immediately.
@@ -91,7 +95,13 @@ To check whether the repo, the managed manifests, and the installed skill direct
 bash ~/src/codex-skills/scripts/check-drift.sh
 ```
 
-The script reports repo-managed drift as an error and lists preserved external entries separately so you can tell the difference between expected extras and actual mismatch.
+The script reports repo-managed drift as an error, flags installed-tree mismatches directly, and lists preserved external entries separately so you can tell the difference between expected extras and actual mismatch.
+
+To sync preserved non-repo extras between `~/.codex/skills` and `~/.agents/skills`:
+
+```bash
+bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
+```
 
 ## Backup refresh
 
@@ -108,6 +118,7 @@ When you change skills in the canonical repo, the normal flow is:
 ```bash
 cd ~/src/codex-skills
 bash scripts/install.sh
+bash scripts/sync-installed-extras.sh --sync
 bash scripts/check-drift.sh
 bash scripts/backup-to-drive.sh
 git status
@@ -175,6 +186,7 @@ interface:
 - Use `scripts/check-drift.sh` after installs or remote updates when you want a quick consistency check.
 - Test trigger quality after adding or splitting adjacent skills.
 - The installer only manages skills that exist in this repo. It does not delete unrelated skill folders outside its manifest.
+- Use `scripts/sync-installed-extras.sh` when preserved extras need to stay aligned between the two installed skill trees.
 
 ## Trigger evaluation
 
@@ -192,6 +204,7 @@ Recommended loop:
 
 - Existing machine: `bash ~/src/codex-skills/scripts/bootstrap.sh`
 - Verify state: `bash ~/src/codex-skills/scripts/check-drift.sh`
+- Sync preserved extras: `bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync`
 - New machine: `gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh`
 - Backup mirror: `bash ~/src/codex-skills/scripts/backup-to-drive.sh`
 - After skill changes: run install, then restart Codex
