@@ -9,22 +9,46 @@ MANIFEST_NAME=".codex-skills-managed"
 SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
 HAS_ISSUES=0
 
+ensure_tmpdir() {
+  if [[ -n "${TMPDIR:-}" && -d "${TMPDIR:-}" ]]; then
+    return 0
+  fi
+
+  if [[ -n "${TMP:-}" && -d "$TMP" ]]; then
+    export TMPDIR="$TMP"
+  elif [[ -n "${TEMP:-}" && -d "$TEMP" ]]; then
+    export TMPDIR="$TEMP"
+  else
+    export TMPDIR="$REPO_DIR/.tmp"
+    mkdir -p "$TMPDIR"
+  fi
+}
+
 make_tmp() {
+  ensure_tmpdir
   mktemp
 }
 
+list_top_level_dirs() {
+  local dir="$1"
+
+  if [[ ! -d "$dir" ]]; then
+    return 0
+  fi
+
+  for path in "$dir"/*; do
+    [[ -d "$path" ]] || continue
+    basename "$path"
+  done | sort
+}
+
 list_repo_skills() {
-  find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u
+  list_top_level_dirs "$SRC_DIR"
 }
 
 list_installed_skills() {
   local dest_dir="$1"
-
-  if [[ ! -d "$dest_dir" ]]; then
-    return 0
-  fi
-
-  find "$dest_dir" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -u
+  list_top_level_dirs "$dest_dir"
 }
 
 list_manifest_skills() {
@@ -34,7 +58,7 @@ list_manifest_skills() {
     return 0
   fi
 
-  sort -u "$manifest_path"
+  sort < "$manifest_path"
 }
 
 skill_has_content_drift() {

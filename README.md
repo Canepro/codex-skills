@@ -40,11 +40,11 @@ Current pack by category:
 - Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
 - Frontend review and delivery: `frontend-review`, `frontend-uncodixfy`, `responsive-design`, `webapp-testing`, `react-performance-review`, `design-system-maintenance`, `playwright`
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
-- Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
+- Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `kubernetes-specialist`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
 - Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
 - Documents and testing workflow: `doc`, `tdd`, `triage-issue`
 - Delivery and handoff: `codex-closeout`
-- Support and operations: `l2-l3-support-platform`
+- Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`
 - Naming and terminology: `naming-quality`
 - Skill discovery and browser work: `find-skills`, `dev-browser`
 
@@ -56,9 +56,11 @@ Useful adjacency rules:
 - `dev-browser` is for persistent browser-session automation; `playwright` is for terminal browser control and scripted flows.
 - `find-skills` checks the current catalog first, then expands into the wider ecosystem only when needed.
 - `k8s-sre-triage` handles live incidents; `kubernetes-platform-architecture` handles platform design.
+- `kubernetes-specialist` is the broader Kubernetes implementation and troubleshooting specialist; use it when the work is not limited to SRE triage or platform architecture.
 - `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
 - `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
 - `l2-l3-support-platform` handles Microsoft 365, Entra, and Rocket.Chat support investigation, supported-guidance checks, and customer-ready case communication.
+- `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, and `written-communication` are reusable supporting specialists that `l2-l3-support-platform` can call when the case needs deeper product, debugging, log, or drafting help.
 
 ## Daily use
 

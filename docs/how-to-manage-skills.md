@@ -21,6 +21,7 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 
 Repo-managed skills as of this commit:
 
+- `azure-infra-engineer`
 - `ci-pipeline-triage`
 - `codex-closeout`
 - `design-an-interface`
@@ -39,7 +40,10 @@ Repo-managed skills as of this commit:
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
+- `kubernetes-specialist`
 - `l2-l3-support-platform`
+- `log-analyzer`
+- `m365-admin`
 - `naming-quality`
 - `observability-architecture`
 - `playwright`
@@ -52,10 +56,12 @@ Repo-managed skills as of this commit:
 - `sentry`
 - `setup-pre-commit`
 - `slo-sli-design`
+- `systematic-debugging`
 - `tdd`
 - `triage-issue`
 - `webapp-testing`
 - `write-a-prd`
+- `written-communication`
 
 Pinned system skills expected from Codex as of this commit:
 

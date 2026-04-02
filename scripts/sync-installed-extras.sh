@@ -7,6 +7,34 @@ DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
 MODE="${1:---check}"
 
+ensure_tmpdir() {
+  if [[ -n "${TMPDIR:-}" && -d "${TMPDIR:-}" ]]; then
+    return 0
+  fi
+
+  if [[ -n "${TMP:-}" && -d "$TMP" ]]; then
+    export TMPDIR="$TMP"
+  elif [[ -n "${TEMP:-}" && -d "$TEMP" ]]; then
+    export TMPDIR="$TEMP"
+  else
+    export TMPDIR="$REPO_DIR/.tmp"
+    mkdir -p "$TMPDIR"
+  fi
+}
+
+list_top_level_dirs() {
+  local dir="$1"
+
+  if [[ ! -d "$dir" ]]; then
+    return 0
+  fi
+
+  for path in "$dir"/*; do
+    [[ -d "$path" ]] || continue
+    basename "$path"
+  done | sort
+}
+
 usage() {
   cat <<'USAGE'
 Usage:
@@ -34,6 +62,7 @@ if [[ ! -d "$DEFAULT_CODEX_DIR" || ! -d "$DEFAULT_AGENTS_DIR" ]]; then
   exit 1
 fi
 
+ensure_tmpdir
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
@@ -47,9 +76,9 @@ agents_only="$tmpdir/agents-only.txt"
 shared_external="$tmpdir/shared-external.txt"
 shared_drift="$tmpdir/shared-drift.txt"
 
-find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$repo_list"
-find "$DEFAULT_CODEX_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$codex_all"
-find "$DEFAULT_AGENTS_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort > "$agents_all"
+list_top_level_dirs "$SRC_DIR" > "$repo_list"
+list_top_level_dirs "$DEFAULT_CODEX_DIR" > "$codex_all"
+list_top_level_dirs "$DEFAULT_AGENTS_DIR" > "$agents_all"
 
 comm -13 "$repo_list" "$codex_all" > "$codex_external"
 comm -13 "$repo_list" "$agents_all" > "$agents_external"
