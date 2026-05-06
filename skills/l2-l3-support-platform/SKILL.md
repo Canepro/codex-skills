@@ -24,14 +24,14 @@ Use this skill to work like a pragmatic senior support, platform, and troublesho
 
 If these skills are installed, call them explicitly when they materially improve the work:
 
-- [$m365-admin](C:/Users/MogahV/.agents/skills/m365-admin) for Microsoft 365 administration, licensing, mail, Teams, SharePoint, and service controls
-- [$azure-infra-engineer](C:/Users/MogahV/.agents/skills/azure-infra-engineer) for Entra, Azure-backed identity context, RBAC, app registrations, Conditional Access context, and hybrid joins
-- [$systematic-debugging](C:/Users/MogahV/.agents/skills/systematic-debugging) for structured root-cause analysis and verification discipline
-- [$kubernetes-specialist](C:/Users/MogahV/.agents/skills/kubernetes-specialist) for Rocket.Chat running on Kubernetes or container platform issues
-- [$log-analyzer](C:/Users/MogahV/.agents/skills/log-analyzer) for application logs, stack traces, auth failures, noisy incidents, and event correlation
-- [$written-communication](C:/Users/MogahV/.agents/skills/written-communication) for customer emails, escalation notes, PIR updates, and concise support summaries
+- `m365-admin` for Microsoft 365 administration, licensing, mail, Teams, SharePoint, and service controls.
+- `azure-infra-engineer` for Entra, Azure-backed identity context, RBAC, app registrations, Conditional Access context, and hybrid joins.
+- `systematic-debugging` for structured root-cause analysis and verification discipline.
+- `k8s-sre-triage` for Rocket.Chat running on Kubernetes or container platform incidents.
+- `log-analyzer` for application logs, stack traces, auth failures, noisy incidents, and event correlation.
+- `written-communication` for customer emails, escalation notes, PIR updates, and concise support summaries.
 
-Use only the skills that fit the case. Do not load everything by default.
+Use only the skills that fit the case. Do not load everything by default. If a supporting skill is unavailable, continue with this skill's built-in workflow and state the limitation only when it matters to the outcome.
 
 ## Standard workflow
 

@@ -5,6 +5,8 @@ description: "Expert Kubernetes Specialist with deep expertise in container orch
 
 # Kubernetes Specialist
 
+Use this skill for Kubernetes design, architecture, implementation, optimization, and planned changes. For live incidents, unhealthy workloads, CrashLoopBackOff, stuck rollouts, ingress failures, or customer support triage, use `k8s-sre-triage` first.
+
 ## Purpose
 
 Provides expert Kubernetes orchestration and cloud-native application expertise with deep knowledge of container orchestration, cluster management, and production-grade deployments. Specializes in Kubernetes architecture, Helm charts, operators, multi-cluster management, and GitOps workflows across EKS, AKS, GKE, and on-premises deployments.
@@ -13,7 +15,7 @@ Provides expert Kubernetes orchestration and cloud-native application expertise 
 
 - Designing Kubernetes cluster architecture for production workloads
 - Implementing Helm charts, operators, or GitOps workflows (ArgoCD, Flux)
-- Troubleshooting cluster issues (networking, storage, performance)
+- Troubleshooting design-level or planned-change cluster issues after incident triage has narrowed the fault domain
 - Planning Kubernetes upgrades or multi-cluster strategies
 - Optimizing resource utilization and cost in Kubernetes environments
 - Setting up service mesh (Istio, Linkerd) and observability
@@ -24,15 +26,16 @@ Provides expert Kubernetes orchestration and cloud-native application expertise 
 **Invoke this skill when:**
 - Designing Kubernetes cluster architecture for production workloads
 - Implementing Helm charts, operators, or GitOps workflows
-- Troubleshooting cluster issues (networking, storage, performance)
+- Troubleshooting design-level or planned-change cluster issues after `k8s-sre-triage` has narrowed the fault domain
 - Planning Kubernetes upgrades or multi-cluster strategies
 - Optimizing resource utilization and cost in Kubernetes environments
 
 **Do NOT invoke when:**
 - Simple Docker container needs (use docker commands directly)
-- Cloud infrastructure provisioning (use cloud-architect instead)
-- Application code debugging (use backend-developer/frontend-developer)
-- Database-specific issues (use database-administrator instead)
+- Live Kubernetes incidents or customer support triage (use `k8s-sre-triage` first)
+- Cloud infrastructure provisioning (use an installed cloud or infrastructure skill when available)
+- Application code debugging (use an installed debugging or application skill when available)
+- Database-specific issues (use a database-focused workflow or specialist when available)
 
 ## Decision Framework
 
