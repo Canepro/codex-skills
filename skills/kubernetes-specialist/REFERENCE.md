@@ -268,7 +268,7 @@ type: Opaque
 stringData:
   type: git
   url: https://github.com/myorg/k8s-manifests
-  password: ghp_xxxxxxxxxxxxx
+  password: ${GITHUB_TOKEN}
   username: git
 ```
 

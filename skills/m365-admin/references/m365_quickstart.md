@@ -80,7 +80,7 @@ const userResult = await userManager.createUser({
   displayName: 'John Doe',
   mailNickname: 'jdoe',
   userPrincipalName: 'jdoe@yourdomain.com',
-  password: 'SecurePassword123!',
+  password: process.env.M365_TEMP_PASSWORD!,
   accountEnabled: true,
   usageLocation: 'US',
   licenses: ['LICENSE-ID-HERE']
@@ -98,7 +98,7 @@ console.log(users.map(u => u.displayName));
 await userManager.blockUser('user-id');
 
 // Reset password
-await userManager.resetPassword('user-id', 'NewPassword123!');
+await userManager.resetPassword('user-id', process.env.M365_TEMP_PASSWORD!);
 ```
 
 ### Configuring Teams
@@ -208,7 +208,7 @@ const users = [
     displayName: 'User One',
     mailNickname: 'userone',
     userPrincipalName: 'user1@domain.com',
-    password: 'Password123!',
+    password: process.env.M365_TEMP_PASSWORD!,
     accountEnabled: true,
     usageLocation: 'US'
   },
@@ -216,7 +216,7 @@ const users = [
     displayName: 'User Two',
     mailNickname: 'usertwo',
     userPrincipalName: 'user2@domain.com',
-    password: 'Password123!',
+    password: process.env.M365_TEMP_PASSWORD!,
     accountEnabled: true,
     usageLocation: 'US'
   }

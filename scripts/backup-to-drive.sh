@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BACKUP_DIR="/mnt/d/repos/codex-skills"
+BACKUP_DIR="${CODEX_SKILLS_BACKUP_DIR:-$HOME/src/codex-skills-backups/codex-skills}"
 
 mkdir -p "$BACKUP_DIR"
 rsync -a --delete "$REPO_DIR/" "$BACKUP_DIR/"

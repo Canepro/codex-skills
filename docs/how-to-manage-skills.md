@@ -1,15 +1,15 @@
 # How To Manage This Skill Repo
 
-This is the authoritative repo for the owner's repeatable Codex skill environment.
+This is the maintenance guide for the reusable Codex Skill Library.
 
 ## Current contract
 
 This repo owns two things:
 
-- every owner-managed skill under `skills/`
+- every library-managed Codex skill under `skills/`
 - the pinned `system-skills.lock` contract for Codex-provided `.system` skills
 
-If a skill matters on every machine, it belongs in this repo. Do not leave durable skills as ad hoc local extras.
+If a reusable Codex skill should survive machine rebuilds or be shared across Codex-compatible agent surfaces, it belongs in this repo. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state belong in their owning private or product repo.
 
 To print the current list directly from repo state instead of reading this doc, run:
 
@@ -19,7 +19,7 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 
 ## Current available skills
 
-Repo-managed skills as of this commit:
+Library-managed Codex skills as of this commit:
 
 - `azure-infra-engineer`
 - `ci-pipeline-triage`
@@ -82,9 +82,9 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 That will:
 
 1. pull the latest repo
-2. install repo-managed skills into `~/.codex/skills` and `~/.agents/skills`
+2. install library-managed skills into `~/.codex/skills` and `~/.agents/skills`
 3. sync non-repo installed entries between the two trees
-4. verify repo-managed drift and the pinned system-skill contract
+4. verify library-managed drift and the pinned system-skill contract
 
 ## New machine bootstrap
 
@@ -106,7 +106,7 @@ Commit the updated lock if the new system contract is the one you want to standa
 
 ## Adding a new durable skill
 
-Use this when the skill should exist on every machine.
+Use this when the skill should be available across machines or Codex-compatible agent surfaces.
 
 1. Create `skills/<skill-name>/SKILL.md`.
 2. Add `agents/openai.yaml` if the skill should have a polished UI label or default prompt.
@@ -119,10 +119,9 @@ bash scripts/install.sh
 bash scripts/check-drift.sh
 ```
 
-5. Refresh the backup mirror, then commit and push:
+5. Commit and push:
 
 ```bash
-bash scripts/backup-to-drive.sh
 git status
 git add .
 git commit -m "Add <skill-name> skill"
@@ -150,7 +149,7 @@ bash ~/src/codex-skills/scripts/check-drift.sh
 
 Interpretation:
 
-- `repo-managed skills aligned`: repo content, manifests, and installs match
+- `library-managed skills aligned`: repo content, manifests, and installs match
 - `external or preserved installed skills`: entries not managed by this repo
 - `pinned system skills aligned`: `.system` matches `system-skills.lock`
 - `installed-tree-alignment`: `~/.codex/skills` and `~/.agents/skills` expose the same top-level directories
@@ -163,8 +162,8 @@ bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 
 ## Rules to avoid drift again
 
-- Edit skills in `~/src/codex-skills`, not directly in installed trees.
-- If a skill should survive machine rebuilds, it belongs in this repo.
+- Edit skills in a real checkout of this repo, not directly in installed trees.
+- If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
 - Treat local installed trees as outputs, not the source of truth.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
-- After meaningful changes: install, check drift, refresh backup, commit, push.
+- After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

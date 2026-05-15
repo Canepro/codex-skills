@@ -1,34 +1,33 @@
 # codex-skills
 
-Portable Codex skill pack for this workspace owner.
+Codex Skill Library for reusable engineering, support, and operations workflows.
 
 ## What this repo is
 
-This repo is the source of truth for the exact owner-managed Codex skill environment on this machine.
+This repo is a public-friendly Codex skill library. It is meant to be cloned, installed, and used across machines or Codex-compatible agent surfaces without depending on one private workstation.
 
-- Canonical working repo: `~/src/codex-skills`
-- Backup mirror: `/mnt/d/repos/codex-skills`
 - GitHub remote: `Canepro/codex-skills`
+- Suggested local checkout: `~/src/codex-skills`
 
-Edit and commit only in the canonical repo. Treat the D drive copy as a backup.
+The repo intentionally contains reusable Codex extension skills. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state should stay in the product or private repo that owns them.
 
 The repo manages two layers:
 
-- repo-managed skills under `skills/`
+- library-managed skills under `skills/`
 - a pinned `system-skills.lock` contract for the Codex-provided `.system` skill tree
 
-That means a fresh machine can rebuild the owner-managed skills exactly, then verify that the platform-provided system skills match the pinned contract before the environment is considered aligned.
+That means a fresh machine can install the reusable Codex skills, then verify that the platform-provided system skills match the pinned contract before the environment is considered aligned.
 
 ## Repo layout
 
-- `skills/`: skill folders that get synced into the local Codex skill directories
+- `skills/`: Codex skill folders that get synced into the local Codex skill directories
 - `system-skills.lock`: pinned hashes for the expected Codex `.system` skill tree
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
-- `scripts/check-drift.sh`: compares repo skills, managed manifests, installed skill directories, and pinned system skills
+- `scripts/check-drift.sh`: compares library skills, managed manifests, installed skill directories, and pinned system skills
 - `scripts/system-skill-lock.sh`: prints or refreshes the pinned system-skill lock
-- `scripts/list-skills.sh`: prints the current repo-managed and pinned system skill set
-- `scripts/backup-to-drive.sh`: mirrors the canonical repo into `/mnt/d/repos/codex-skills`
+- `scripts/list-skills.sh`: prints the current library-managed and pinned system skill set
+- `scripts/backup-to-drive.sh`: optional local backup helper; set `CODEX_SKILLS_BACKUP_DIR` to choose the destination
 - `scripts/sync-installed-extras.sh`: syncs non-repo installed skill directories between `~/.codex/skills` and `~/.agents/skills`
 - `evals/`: prompt matrices for checking trigger quality and overlap
 - `docs/how-to-manage-skills.md`: maintenance guide for future changes and machine rebuilds
@@ -60,11 +59,11 @@ Useful adjacency rules:
 - `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
 - `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
 - `l2-l3-support-platform` handles Microsoft 365, Entra, and Rocket.Chat support investigation, supported-guidance checks, and customer-ready case communication.
-- `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, and `written-communication` are reusable supporting specialists that `l2-l3-support-platform` can call when the case needs deeper product, debugging, log, or drafting help.
+- `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, and `written-communication` are reusable Codex specialists that `l2-l3-support-platform` can call when the case needs deeper product, debugging, log, or drafting help.
 
 ## Daily use
 
-If this machine already has the repo, this is the main command to remember:
+If a machine already has the repo, this is the main command to remember:
 
 ```bash
 bash ~/src/codex-skills/scripts/bootstrap.sh
@@ -72,9 +71,9 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 
 What it does:
 - pulls the latest `main`
-- installs repo-managed skills into `~/.codex/skills` and `~/.agents/skills`
+- installs library-managed skills into `~/.codex/skills` and `~/.agents/skills`
 - syncs non-repo installed entries between the two skill trees, with `~/.codex/skills` as the source of truth for shared external entries such as `.system`
-- verifies repo-managed drift and the pinned system-skill contract
+- verifies library-managed drift and the pinned system-skill contract
 
 After running it, restart Codex if you want the updated skills picked up immediately.
 
@@ -92,7 +91,7 @@ Then run:
 gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-That gives you the repo locally, installs the repo-managed skills, syncs the non-repo entries, and verifies the pinned system skill contract.
+That gives you the repo locally, installs the library-managed Codex skills, syncs the non-repo entries, and verifies the pinned system skill contract.
 
 If the system-skill check fails on a new machine after an intentional Codex upgrade, refresh the lock deliberately and commit it:
 
@@ -130,30 +129,30 @@ To print the current Codex system-skill hashes without updating the lock:
 bash ~/src/codex-skills/scripts/system-skill-lock.sh --print
 ```
 
-To print the current repo-managed skills and pinned system skills directly from the repo:
+To print the current library-managed skills and pinned system skills directly from the repo:
 
 ```bash
 bash ~/src/codex-skills/scripts/list-skills.sh
 ```
 
-## Backup refresh
+## Optional local backup
 
-To refresh the D drive backup mirror from the canonical repo:
+To refresh a local backup mirror, set a destination and run the backup helper:
 
 ```bash
+export CODEX_SKILLS_BACKUP_DIR="$HOME/src/codex-skills-backups/codex-skills"
 bash ~/src/codex-skills/scripts/backup-to-drive.sh
 ```
 
 ## Update workflow
 
-When you change skills in the canonical repo, the normal flow is:
+When you change skills in a repo checkout, the normal flow is:
 
 ```bash
 cd ~/src/codex-skills
 bash scripts/install.sh
 bash scripts/sync-installed-extras.sh --sync
 bash scripts/check-drift.sh
-bash scripts/backup-to-drive.sh
 git status
 ```
 
@@ -175,13 +174,7 @@ bash scripts/install.sh
 ```
 
 5. Restart Codex and try the skill.
-6. Refresh the backup mirror:
-
-```bash
-bash scripts/backup-to-drive.sh
-```
-
-7. Commit and push.
+6. Commit and push.
 
 ## Minimal skill template
 
@@ -214,7 +207,7 @@ interface:
 - Keep `SKILL.md` concise and specific.
 - Put detailed material in `references/` instead of bloating `SKILL.md`.
 - Keep scripts deterministic when a task is repetitive or fragile.
-- Edit only in `~/src/codex-skills`, not in the D drive mirror.
+- Edit skills in a real checkout of this repo, not directly in installed skill trees.
 - Treat `scripts/bootstrap.sh` as the normal refresh command.
 - Use `scripts/check-drift.sh` after installs or remote updates when you want a quick consistency check.
 - Refresh `system-skills.lock` only after an intentional Codex upgrade that changes the `.system` contract you want to pin.
@@ -241,5 +234,4 @@ Recommended loop:
 - Sync non-repo entries: `bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync`
 - Print system-skill hashes: `bash ~/src/codex-skills/scripts/system-skill-lock.sh --print`
 - New machine: `gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh`
-- Backup mirror: `bash ~/src/codex-skills/scripts/backup-to-drive.sh`
 - After skill changes: run install, then restart Codex
