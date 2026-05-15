@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>codex-skills Public Readiness Report</title>
-  <style>
+  <style type="text/css">
     :root {
       color-scheme: light;
       --ink: #17181c;
@@ -247,7 +247,7 @@
         <h1>codex-skills public readiness and naming cleanup</h1>
         <p class="lede">A compact proof report for the scrub that prepares <code>Canepro/codex-skills</code> to function as a public Codex Skill Library while keeping Rocket.Chat ticket orchestration in <code>support-ai</code>.</p>
       </div>
-      <div class="status-grid" aria-label="status summary">
+      <div class="status-grid">
         <div class="status">
           <b>Repo framing</b>
           <span>Codex Skill Library</span>
@@ -258,16 +258,16 @@
         </div>
         <div class="status">
           <b>Scans</b>
-          <span>Targeted secret and private-path scans clean</span>
+          <span>Full-history gitleaks scan clean</span>
         </div>
         <div class="status">
           <b>Drift</b>
-          <span>Local installed skills need refresh</span>
+          <span>Library skills installed locally</span>
         </div>
       </div>
     </div>
     <div class="wrap">
-      <div class="report-nav" aria-label="report sections">
+      <div class="report-nav">
         <a href="#summary">Summary</a>
         <a href="#changes">Changes</a>
         <a href="#verification">Verification</a>
@@ -280,12 +280,12 @@
   <div class="wrap report-main">
     <div class="report-section" id="summary">
       <h2>Summary</h2>
-      <p>The public-facing language now presents <code>codex-skills</code> as a reusable Codex Skill Library, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional Codex extension library and keeps Rocket.Chat ticket orchestration in the support repo.</p>
+      <p>The public-facing language now presents <code>codex-skills</code> as a reusable Codex Skill Library, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional Codex extension library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks.</p>
     </div>
 
     <div class="report-section" id="changes">
       <h2>Changes</h2>
-      <table>
+      <table summary="Public readiness changes by area">
         <thead>
           <tr>
             <th>Area</th>
@@ -314,6 +314,11 @@
             <td><code>m365_quickstart.md</code>, <code>kubernetes-specialist/REFERENCE.md</code></td>
             <td>Replaced sample passwords and token-shaped placeholders with environment-variable placeholders.</td>
           </tr>
+          <tr>
+            <td><span class="pill accent">License</span></td>
+            <td><code>LICENSE</code>, <code>README.md</code></td>
+            <td>Added a root Apache-2.0 license and documented that nested skill license and notice files should stay with their skills.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -326,7 +331,9 @@
           <ul>
             <li><code>git diff --check</code> passed in <code>/Users/canepro/src/codex-skills</code>.</li>
             <li><code>git diff --check</code> passed in <code>/Users/canepro/src/support-ai</code> with an existing unrelated CRLF warning.</li>
+            <li><code>gitleaks detect --source . --log-opts="--all" --redact --no-banner --exit-code 2</code> scanned 19 commits and found no leaks.</li>
             <li>Targeted scans for token patterns, sample password strings, private paths, and stale naming terms returned clean results after the final pass.</li>
+            <li><code>bash scripts/install.sh</code> installed library-managed skills into <code>~/.codex/skills</code> and <code>~/.agents/skills</code>.</li>
           </ul>
         </div>
         <div class="panel">
@@ -341,7 +348,7 @@
 
     <div class="report-section" id="risks">
       <h2>Residual Risks</h2>
-      <table>
+      <table summary="Residual risks and recommended handling">
         <thead>
           <tr>
             <th>Risk</th>
@@ -351,9 +358,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>Local installed skill trees are stale relative to the repo edits.</td>
-            <td><span class="pill warn">Known</span></td>
-            <td>Run <code>bash scripts/install.sh</code> when you want local Codex and agents to pick up the scrubbed skill docs.</td>
+            <td>Local installed skill trees were stale relative to the repo edits.</td>
+            <td><span class="pill ok">Resolved</span></td>
+            <td><code>bash scripts/install.sh</code> refreshed both managed install targets.</td>
           </tr>
           <tr>
             <td>System-skill lock drift exists outside this change.</td>
@@ -361,9 +368,9 @@
             <td>Review intentionally before refreshing <code>system-skills.lock</code>; do not update it casually as part of publishing.</td>
           </tr>
           <tr>
-            <td>Repository visibility has not been changed.</td>
-            <td><span class="pill ok">Safe</span></td>
-            <td>After review, change GitHub visibility separately. The scrub does not publish or push anything by itself.</td>
+            <td>Repository visibility is ready to change after the clean history scan.</td>
+            <td><span class="pill ok">Ready</span></td>
+            <td>Make <code>Canepro/codex-skills</code> public after committing and pushing this license/report update.</td>
           </tr>
         </tbody>
       </table>
@@ -371,7 +378,7 @@
 
     <div class="report-section" id="next">
       <h2>Next Move</h2>
-      <p>Review the diff, then decide whether to install the updated skills locally before changing the GitHub repository visibility. The repo changes are intentionally limited to public-readiness language, local-state hygiene, and safer examples.</p>
+      <p>Commit and push the license/report update, then change the GitHub repository visibility to public. Keep the system-skill lock drift as a separate maintenance decision.</p>
     </div>
   </div>
 </body>

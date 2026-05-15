@@ -11,6 +11,8 @@ This repo is a public-friendly Codex skill library. It is meant to be cloned, in
 
 The repo intentionally contains reusable Codex extension skills. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state should stay in the product or private repo that owns them.
 
+Unless a nested skill directory says otherwise, this repository is licensed under Apache-2.0. Some bundled skills include their own `LICENSE.txt` or `NOTICE.txt` files; keep those files with the relevant skill when copying or redistributing it.
+
 The repo manages two layers:
 
 - library-managed skills under `skills/`
