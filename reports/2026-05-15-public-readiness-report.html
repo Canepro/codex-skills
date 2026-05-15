@@ -245,7 +245,7 @@
     <div class="wrap hero">
       <div>
         <h1>codex-skills public readiness and naming cleanup</h1>
-        <p class="lede">A compact proof report for the scrub that prepares <code>Canepro/codex-skills</code> to function as a public Codex Skill Library while keeping Rocket.Chat ticket orchestration in <code>support-ai</code>.</p>
+        <p class="lede">A compact proof report for the scrub that prepares <code>Canepro/codex-skills</code> to function as a public agent skill library for Claude Cowork, Claude Code, Codex, and similar agent surfaces while keeping Rocket.Chat ticket orchestration in <code>support-ai</code>.</p>
       </div>
       <div class="status-grid">
         <div class="status">
@@ -254,7 +254,7 @@
         </div>
         <div class="status">
           <b>Boundary</b>
-          <span>Reusable skills public, ticket orchestration private</span>
+          <span>Reusable agent skills public, ticket orchestration private</span>
         </div>
         <div class="status">
           <b>Scans</b>
@@ -280,7 +280,7 @@
   <div class="wrap report-main">
     <div class="report-section" id="summary">
       <h2>Summary</h2>
-      <p>The public-facing language now presents <code>codex-skills</code> as a reusable Codex Skill Library, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional Codex extension library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks. The GitHub repository is now public at <code>https://github.com/Canepro/codex-skills</code>. The Codex system-skill lock has also been refreshed to the current local Codex baseline.</p>
+      <p>The public-facing language now presents <code>codex-skills</code> as a reusable agent skill library for Claude, Codex, and other agent users, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional agent skill library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks. The GitHub repository is now public at <code>https://github.com/Canepro/codex-skills</code>. The Codex system-skill lock has also been refreshed to the current local Codex baseline.</p>
     </div>
 
     <div class="report-section" id="changes">
@@ -297,12 +297,12 @@
           <tr>
             <td><span class="pill accent">Public naming</span></td>
             <td><code>README.md</code>, <code>docs/how-to-manage-skills.md</code></td>
-            <td>Renamed the repo concept to Codex Skill Library and replaced personal-machine wording with reusable Codex terminology.</td>
+            <td>Renamed the repo concept to a portable agent skill library and replaced personal-machine wording with reusable agent-surface terminology.</td>
           </tr>
           <tr>
             <td><span class="pill accent">Install boundary</span></td>
             <td><code>support-ai/README.md</code></td>
-            <td>Clarified that <code>Canepro/codex-skills</code> provides optional Codex extension skills, not Rocket.Chat ticket orchestration.</td>
+            <td>Clarified that <code>Canepro/codex-skills</code> provides optional agent skills, not Rocket.Chat ticket orchestration.</td>
           </tr>
           <tr>
             <td><span class="pill accent">Publish hygiene</span></td>

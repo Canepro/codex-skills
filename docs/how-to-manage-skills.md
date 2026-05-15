@@ -1,15 +1,15 @@
 # How To Manage This Skill Repo
 
-This is the maintenance guide for the reusable Codex Skill Library.
+This is the maintenance guide for the reusable agent skill library.
 
 ## Current contract
 
 This repo owns two things:
 
-- every library-managed Codex skill under `skills/`
+- every library-managed portable skill under `skills/`
 - the pinned `system-skills.lock` contract for Codex-provided `.system` skills
 
-If a reusable Codex skill should survive machine rebuilds or be shared across Codex-compatible agent surfaces, it belongs in this repo. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state belong in their owning private or product repo.
+If a reusable skill should survive machine rebuilds or be shared across agent surfaces such as Claude Cowork, Claude Code, and Codex, it belongs in this repo. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state belong in their owning private or product repo.
 
 To print the current list directly from repo state instead of reading this doc, run:
 
@@ -19,7 +19,7 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 
 ## Current available skills
 
-Library-managed Codex skills as of this commit:
+Library-managed skills as of this commit:
 
 - `azure-infra-engineer`
 - `ci-pipeline-triage`
@@ -106,7 +106,7 @@ Commit the updated lock if the new system contract is the one you want to standa
 
 ## Adding a new durable skill
 
-Use this when the skill should be available across machines or Codex-compatible agent surfaces.
+Use this when the skill should be available across machines or compatible agent surfaces.
 
 1. Create `skills/<skill-name>/SKILL.md`.
 2. Add `agents/openai.yaml` if the skill should have a polished UI label or default prompt.

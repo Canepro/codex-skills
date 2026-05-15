@@ -11,7 +11,7 @@ Use this skill when the user is really asking whether a skill already exists for
 
 - The user asks how to do something that might map to an existing skill
 - The user asks for a skill recommendation or installable capability
-- The user wants to extend Codex with a reusable workflow
+- The user wants to extend the agent with a reusable workflow
 - The user says they wish the agent had help for a specific domain
 
 ## Workflow
@@ -54,7 +54,7 @@ When you find a relevant skill, tell the user:
 - why it looks trustworthy
 - how to install it
 
-If the user wants it to become part of their durable Codex environment, add it to the configured `codex-skills` library workflow instead of stopping at a local one-off install.
+If the user wants it to become part of their durable agent environment, add it to the configured `codex-skills` library workflow instead of stopping at a local one-off install.
 
 ## When nothing relevant exists
 

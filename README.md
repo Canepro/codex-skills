@@ -1,15 +1,15 @@
 # codex-skills
 
-Codex Skill Library for reusable engineering, support, and operations workflows.
+Portable skill library for reusable engineering, support, and operations workflows.
 
 ## What this repo is
 
-This repo is a public-friendly Codex skill library. It is meant to be cloned, installed, and used across machines or Codex-compatible agent surfaces without depending on one private workstation.
+This repo is a public-friendly skill library for AI coding agents. It is meant to be cloned, installed, and used across machines and agent surfaces such as Claude Cowork, Claude Code, and Codex without depending on one private workstation.
 
 - GitHub remote: `Canepro/codex-skills`
 - Suggested local checkout: `~/src/codex-skills`
 
-The repo intentionally contains reusable Codex extension skills. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state should stay in the product or private repo that owns them.
+The repo intentionally contains reusable agent skills. Product-specific orchestration, private support workflows, customer data, ticket exports, credentials, and machine-local agent state should stay in the product or private repo that owns them.
 
 Unless a nested skill directory says otherwise, this repository is licensed under Apache-2.0. Some bundled skills include their own `LICENSE.txt` or `NOTICE.txt` files; keep those files with the relevant skill when copying or redistributing it.
 
@@ -18,11 +18,11 @@ The repo manages two layers:
 - library-managed skills under `skills/`
 - a pinned `system-skills.lock` contract for the Codex-provided `.system` skill tree
 
-That means a fresh machine can install the reusable Codex skills, then verify that the platform-provided system skills match the pinned contract before the environment is considered aligned.
+That means a fresh machine can install the reusable skills, then verify that the Codex-provided system skills match the pinned contract where Codex is part of the local toolchain.
 
 ## Repo layout
 
-- `skills/`: Codex skill folders that get synced into the local Codex skill directories
+- `skills/`: portable skill folders that can be consumed by compatible agent surfaces
 - `system-skills.lock`: pinned hashes for the expected Codex `.system` skill tree
 - `scripts/install.sh`: installs this repo's skills into the local Codex skill directory
 - `scripts/bootstrap.sh`: pulls the repo if it already exists locally, then installs the skills
@@ -61,7 +61,7 @@ Useful adjacency rules:
 - `gitops-reconcile` fixes a broken sync; `gitops-workflow` designs the GitOps operating model.
 - `prometheus-grafana-triage` handles alerting incidents; `observability-architecture` and `slo-sli-design` handle durable telemetry and reliability design.
 - `l2-l3-support-platform` handles Microsoft 365, Entra, and Rocket.Chat support investigation, supported-guidance checks, and customer-ready case communication.
-- `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, and `written-communication` are reusable Codex specialists that `l2-l3-support-platform` can call when the case needs deeper product, debugging, log, or drafting help.
+- `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, and `written-communication` are reusable specialists that `l2-l3-support-platform` can call when the case needs deeper product, debugging, log, or drafting help.
 
 ## Daily use
 
@@ -93,7 +93,7 @@ Then run:
 gh repo clone Canepro/codex-skills ~/src/codex-skills && bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-That gives you the repo locally, installs the library-managed Codex skills, syncs the non-repo entries, and verifies the pinned system skill contract.
+That gives you the repo locally, installs the library-managed skills, syncs the non-repo entries, and verifies the pinned Codex system skill contract.
 
 If the system-skill check fails on a new machine after an intentional Codex upgrade, refresh the lock deliberately and commit it:
 
