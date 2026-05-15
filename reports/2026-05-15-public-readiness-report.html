@@ -280,7 +280,7 @@
   <div class="wrap report-main">
     <div class="report-section" id="summary">
       <h2>Summary</h2>
-      <p>The public-facing language now presents <code>codex-skills</code> as a reusable agent skill library for Claude, Codex, and other agent users, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional agent skill library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks. The GitHub repository is now public at <code>https://github.com/Canepro/codex-skills</code>. The Codex system-skill lock has also been refreshed to the current local Codex baseline.</p>
+      <p>The public-facing language now presents <code>codex-skills</code> as a reusable agent skill library for Claude, Codex, and other agent users, not a personal workstation backup or Rocket.Chat-specific tool source. The root README has been shortened for public readers and now leads with the simplest setup path: ask your agent to set up the skills from the GitHub repo. The <code>support-ai</code> README points to it as an optional agent skill library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks. The GitHub repository is now public at <code>https://github.com/Canepro/codex-skills</code>. The Codex system-skill lock has also been refreshed to the current local Codex baseline.</p>
     </div>
 
     <div class="report-section" id="changes">
@@ -297,7 +297,12 @@
           <tr>
             <td><span class="pill accent">Public naming</span></td>
             <td><code>README.md</code>, <code>docs/how-to-manage-skills.md</code></td>
-            <td>Renamed the repo concept to a portable agent skill library and replaced personal-machine wording with reusable agent-surface terminology.</td>
+            <td>Renamed the repo concept to a portable agent skill library, replaced personal-machine wording with reusable agent-surface terminology, and moved maintenance detail out of the root README.</td>
+          </tr>
+          <tr>
+            <td><span class="pill accent">Install path</span></td>
+            <td><code>README.md</code></td>
+            <td>Made "ask your agent to set it up" the primary setup guidance, with manual clone/bootstrap commands as a fallback.</td>
           </tr>
           <tr>
             <td><span class="pill accent">Install boundary</span></td>
