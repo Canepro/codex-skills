@@ -249,8 +249,8 @@
       </div>
       <div class="status-grid">
         <div class="status">
-          <b>Repo framing</b>
-          <span>Codex Skill Library</span>
+          <b>Visibility</b>
+          <span>GitHub repository is public</span>
         </div>
         <div class="status">
           <b>Boundary</b>
@@ -280,7 +280,7 @@
   <div class="wrap report-main">
     <div class="report-section" id="summary">
       <h2>Summary</h2>
-      <p>The public-facing language now presents <code>codex-skills</code> as a reusable Codex Skill Library, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional Codex extension library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks.</p>
+      <p>The public-facing language now presents <code>codex-skills</code> as a reusable Codex Skill Library, not a personal workstation backup or Rocket.Chat-specific tool source. The <code>support-ai</code> README now points to it as an optional Codex extension library and keeps Rocket.Chat ticket orchestration in the support repo. Before publication, a full-history <code>gitleaks</code> scan was run across all commits and found no leaks. The GitHub repository is now public at <code>https://github.com/Canepro/codex-skills</code>.</p>
     </div>
 
     <div class="report-section" id="changes">
@@ -315,6 +315,11 @@
             <td>Replaced sample passwords and token-shaped placeholders with environment-variable placeholders.</td>
           </tr>
           <tr>
+            <td><span class="pill accent">Publication</span></td>
+            <td><code>GitHub</code></td>
+            <td>Changed <code>Canepro/codex-skills</code> visibility from private to public after the clean full-history scan and license update.</td>
+          </tr>
+          <tr>
             <td><span class="pill accent">License</span></td>
             <td><code>LICENSE</code>, <code>README.md</code></td>
             <td>Added a root Apache-2.0 license and documented that nested skill license and notice files should stay with their skills.</td>
@@ -339,8 +344,8 @@
         <div class="panel">
           <h3>Expected drift</h3>
           <ul>
-            <li><code>bash scripts/check-drift.sh</code> reports drift for installed local copies of the edited skills.</li>
-            <li>The same check also reports pre-existing system-skill and installed-tree drift unrelated to the public-readiness edits.</li>
+            <li><code>bash scripts/check-drift.sh</code> reports library-managed skills aligned after install.</li>
+            <li>The same check still reports pre-existing system-skill and installed-tree drift unrelated to the public-readiness edits.</li>
           </ul>
         </div>
       </div>
@@ -369,8 +374,8 @@
           </tr>
           <tr>
             <td>Repository visibility is ready to change after the clean history scan.</td>
-            <td><span class="pill ok">Ready</span></td>
-            <td>Make <code>Canepro/codex-skills</code> public after committing and pushing this license/report update.</td>
+            <td><span class="pill ok">Done</span></td>
+            <td><code>gh repo view Canepro/codex-skills</code> confirmed <code>visibility: PUBLIC</code> and <code>isPrivate: false</code>.</td>
           </tr>
         </tbody>
       </table>
@@ -378,7 +383,7 @@
 
     <div class="report-section" id="next">
       <h2>Next Move</h2>
-      <p>Commit and push the license/report update, then change the GitHub repository visibility to public. Keep the system-skill lock drift as a separate maintenance decision.</p>
+      <p>The public release path is complete. Keep the system-skill lock drift as a separate maintenance decision, and decide separately whether to push the local <code>support-ai</code> README commit.</p>
     </div>
   </div>
 </body>
