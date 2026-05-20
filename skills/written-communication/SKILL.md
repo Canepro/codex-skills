@@ -15,6 +15,7 @@ When the user asks for help with written communication:
 2. **Apply the pyramid principle** - Guide them to lead with the conclusion, not build up to it
 3. **Cut ruthlessly** - Help them eliminate unnecessary context and get to the point faster
 4. **Test for simplicity** - Ensure someone unfamiliar with the topic could understand the core message
+5. **Run the anti-AI pass** - Use `anti-ai-writing` as the final check for drafts that must sound direct, specific, and human
 
 ## Core Principles
 
@@ -77,6 +78,7 @@ For all 61 insights from 38 guests, see `references/guest-insights.md`
 
 ## Related Skills
 
+- anti-ai-writing
 - Stakeholder Alignment
 - Giving Presentations
 - Running Effective Meetings

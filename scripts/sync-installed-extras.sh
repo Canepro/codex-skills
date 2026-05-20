@@ -29,10 +29,7 @@ list_top_level_dirs() {
     return 0
   fi
 
-  for path in "$dir"/*; do
-    [[ -d "$path" ]] || continue
-    basename "$path"
-  done | sort
+  find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort
 }
 
 usage() {

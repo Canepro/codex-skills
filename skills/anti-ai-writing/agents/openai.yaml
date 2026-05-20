@@ -1,0 +1,7 @@
+interface:
+  display_name: "Anti-AI Writing"
+  short_description: "Tighten prose so it reads direct, specific, and human."
+  default_prompt: "Use $anti-ai-writing to revise this draft so the point comes first, filler is removed, claims stay evidence-backed, and the next action is clear."
+
+policy:
+  allow_implicit_invocation: true
