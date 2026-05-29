@@ -1,20 +1,21 @@
 ---
 name: anti-ai-writing
-description: Use when drafting, revising, or final-checking customer replies, emails, docs, reports, handoffs, comments, commit messages, or user-facing prose that should sound direct, human, specific, and useful instead of generic, padded, or machine-written.
+description: ALWAYS use as the final pass before returning user-visible prose in any agent session (Cursor, Codex, Claude). Direct, human, specific copy for docs, README, site content, commits, PRs, comments, handoffs, and chat replies.
 ---
 
 # Anti-AI Writing
 
-Use this as a finishing pass for prose. The goal is not to hide AI use. The goal is to make the writing useful faster: clear point, concrete evidence, plain language, and a real next action.
+Use this as a **mandatory finishing pass** for prose. The goal is not to hide AI use. The goal is to make the writing useful faster: clear point, concrete evidence, plain language, and a real next action.
 
 ## When To Use
 
-Use this skill when:
-- the user asks for anti-AI, less AI, human, natural, concise, less padded, or less corporate wording
-- writing support replies, handoffs, emails, status notes, report summaries, docs, comments, or commit messages
-- another writing skill produced a draft that needs tightening before the user sees it
-- the first version sounds correct but too smooth, generic, inflated, or slow
-- writing a final answer or user-visible update in a Vincent/Codex session
+**Always**, before the user sees user-visible text, including:
+- chat replies and status updates
+- README, docs, site copy, blog posts
+- commit messages, PR bodies, review comments
+- support replies, handoffs, emails
+
+Also use when the user asks for anti-AI, less AI, human, natural, concise, or less corporate wording.
 
 Do not use it to strip needed nuance, evidence, warmth, or personality. Direct is not the same as flat.
 
