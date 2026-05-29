@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adversary-Informed Defense"
+  short_description: "Use attacker-method knowledge safely for defensive security work"
+  default_prompt: "Use $adversary-informed-defense to classify this security workflow, check adoption risks, and keep offensive procedures bounded to defensive outcomes."
