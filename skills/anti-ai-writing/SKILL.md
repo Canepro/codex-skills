@@ -14,6 +14,7 @@ Use this skill when:
 - writing support replies, handoffs, emails, status notes, report summaries, docs, comments, or commit messages
 - another writing skill produced a draft that needs tightening before the user sees it
 - the first version sounds correct but too smooth, generic, inflated, or slow
+- writing a final answer or user-visible update in a Vincent/Codex session
 
 Do not use it to strip needed nuance, evidence, warmth, or personality. Direct is not the same as flat.
 
@@ -43,6 +44,7 @@ Do not use it to strip needed nuance, evidence, warmth, or personality. Direct i
 - "Just" when it minimizes the reader's work or the user's concern.
 - Closing filler such as "Let me know if you have any questions" when a more specific next step exists.
 - Pull-quote phrasing. If a sentence sounds designed to be quoted, make it more specific.
+- Em dash and en dash characters. Treat both as AI-slop smells. Use a period, comma, colon, semicolon, parentheses, or a normal hyphen in compound words and dates.
 
 ## Structure Checks
 
@@ -71,4 +73,5 @@ Before returning the prose, ask:
 - Is the next action concrete?
 - Does each claim name the actor or evidence when it matters?
 - Are any sentences announcing importance instead of proving it?
+- Are there any em dash or en dash characters? Remove them.
 - Did any local overlay add stricter preferences, such as banned punctuation, support-ticket constraints, or persona/lane wording?
