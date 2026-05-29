@@ -25,6 +25,12 @@ Check drift:
 bash ~/src/codex-skills/scripts/check-drift.sh
 ```
 
+## Mandatory pass
+
+Before shipping **any** user-visible prose, read and apply `anti-ai-writing`. No exceptions.
+
+In Cursor: keep `.cursor/rules/anti-ai-writing.mdc` (`alwaysApply: true`) in each repo, or paste `cursor-rules/USER-RULE-anti-ai.txt` into **Cursor Settings → Rules → User Rules** for all projects.
+
 ## Common routing
 
 | Task | Skill |

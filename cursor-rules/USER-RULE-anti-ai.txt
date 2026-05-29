@@ -1,0 +1,3 @@
+Before finishing any user-visible text (chat replies, README, docs, site copy, commits, PR bodies, comments), read ~/.cursor/skills/anti-ai-writing/SKILL.md and run its editing pass.
+
+Non-negotiables: point first; plain words; name the actor or evidence; no em dash or en dash; stop when the action is clear. Skip for code and configs unless they contain user-facing strings.

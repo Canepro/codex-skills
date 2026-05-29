@@ -95,4 +95,24 @@ install_to_claude() {
 
 install_to_claude "$DEFAULT_CLAUDE_DIR"
 
+install_cursor_rules() {
+  local src_dir="$REPO_DIR/cursor-rules"
+  local dest_dir="$HOME/.cursor/codex-skills-rules"
+
+  [ -d "$src_dir" ] || return 0
+
+  mkdir -p "$dest_dir"
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a "$src_dir/" "$dest_dir/"
+  else
+    cp -a "$src_dir/." "$dest_dir/"
+  fi
+
+  printf '\nCursor rules templates: %s\n' "$dest_dir"
+  printf '  Global (all projects): paste %s into Cursor Settings → Rules → User Rules\n' "$dest_dir/USER-RULE-anti-ai.txt"
+  printf '  Per project: copy %s to .cursor/rules/anti-ai-writing.mdc\n' "$dest_dir/anti-ai-writing.mdc"
+}
+
+install_cursor_rules
+
 printf 'Restart Codex, Claude Code, or Cursor to pick up skill changes.\n'
