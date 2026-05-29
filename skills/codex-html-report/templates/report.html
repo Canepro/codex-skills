@@ -1,0 +1,624 @@
+<!doctype html>
+<!-- Codex HTML Report Template v0.3.0: dark-first, gated-status, timestamped, evidence-oriented. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex Report</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --paper: #171a20;
+      --paper-2: #20242c;
+      --ink: #f3f1e8;
+      --muted: #b9b5aa;
+      --line: #343843;
+      --accent: #d1a85b;
+      --accent-2: #9aa5b1;
+      --good: #8fcf91;
+      --warn: #e2b15e;
+      --bad: #e07b73;
+      --info: #9bb5d6;
+      --shadow: 0 22px 54px rgba(0, 0, 0, 0.34);
+      --radius: 8px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #15171c 0, var(--bg) 420px);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(209, 168, 91, 0.38);
+      border-radius: 7px;
+      background: #121419;
+      color: var(--accent);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.75fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .headline {
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 28, 26, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3 { margin: 0; line-height: 1.12; letter-spacing: 0; }
+
+    h1 {
+      max-width: 920px;
+      font-size: clamp(2rem, 4vw, 4.7rem);
+      font-weight: 820;
+    }
+
+    .lede {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 12px;
+      align-content: stretch;
+    }
+
+    .meta-card, .card, .section {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .meta-card {
+      padding: 18px;
+      min-height: 96px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .value {
+      margin-top: 8px;
+      font-size: 1.15rem;
+      font-weight: 760;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+      font-weight: 780;
+      font-size: 0.86rem;
+    }
+
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .done { color: var(--good); }
+    .partial { color: var(--warn); }
+    .blocked, .risk, .gated { color: var(--bad); }
+    .info { color: var(--info); }
+    .neutral { color: var(--accent-2); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0 14px;
+      margin: 8px 0 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(21, 28, 26, 0.9);
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .section {
+      grid-column: span 12;
+      padding: 24px;
+      scroll-margin-top: 86px;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1rem; }
+
+    .section p { margin: 10px 0 0; color: var(--muted); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card { padding: 16px; }
+
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      font-size: 0.94rem;
+    }
+
+    th, td {
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--paper-2);
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .table-wrap table {
+      border: 0;
+      border-radius: 0;
+    }
+
+    code, pre {
+      font-family: var(--mono);
+      font-size: 0.9em;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #242831;
+      color: var(--ink);
+    }
+
+    code.path, code.hash {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    pre {
+      overflow: auto;
+      margin: 12px 0 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #090d0c;
+      color: #edf5ee;
+      line-height: 1.5;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .event:first-child { border-top: 0; }
+
+    .time {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.86rem;
+    }
+
+    .time time {
+      display: block;
+      color: var(--ink);
+      font-weight: 760;
+    }
+
+    .time span {
+      display: block;
+      margin-top: 3px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    details + details { margin-top: 10px; }
+
+    summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 760;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      float: right;
+      color: var(--muted);
+    }
+
+    details[open] summary::after { content: "-"; }
+
+    .details-body {
+      padding: 0 16px 16px;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 860px) {
+      .shell { width: min(100% - 24px, 1180px); padding-top: 18px; }
+      .hero, .grid, .cards { grid-template-columns: 1fr; }
+      .span-7, .span-5, .span-4, .span-6 { grid-column: span 12; }
+      .headline { padding: 24px; }
+      .section { padding: 18px; }
+      .event { grid-template-columns: 1fr; gap: 4px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      table { min-width: 680px; }
+      .table-wrap { margin-inline: -2px; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      nav { position: static; backdrop-filter: none; }
+      .headline, .meta-card, .section { box-shadow: none; }
+      details { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="mark" aria-hidden="true">C</span> Codex report</div>
+      <div>Generated <time datetime="YYYY-MM-DD">YYYY-MM-DD</time></div>
+    </header>
+
+    <section class="hero" aria-labelledby="report-title">
+      <div class="headline">
+        <h1 id="report-title">Report title goes here</h1>
+        <p class="lede">One or two sentences with the outcome, the current state, and why this report exists.</p>
+      </div>
+      <aside class="meta-grid" aria-label="Report summary">
+        <div class="meta-card">
+          <div class="label">Status</div>
+          <div class="value"><span class="status partial">Ready for review</span></div>
+        </div>
+        <div class="meta-card">
+          <div class="label">Report type</div>
+          <div class="value">Implementation closeout</div>
+        </div>
+        <div class="meta-card">
+          <div class="label">Gate</div>
+          <div class="value">No blocking risk recorded</div>
+        </div>
+        <div class="meta-card">
+          <div class="label">Next step</div>
+          <div class="value">Review proof and ship</div>
+        </div>
+      </aside>
+    </section>
+
+    <nav aria-label="Report sections">
+      <a href="#outcome">Outcome</a>
+      <a href="#next-action">Next</a>
+      <a href="#gates">Gates</a>
+      <a href="#changes">Changes</a>
+      <a href="#verification">Verification</a>
+      <a href="#risks">Risks</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+
+    <div class="grid">
+      <section class="section span-7" id="outcome">
+        <div class="section-head">
+          <div>
+            <div class="label">Outcome</div>
+            <h2>Plain-English verdict</h2>
+          </div>
+          <span class="status done">Done</span>
+        </div>
+        <p>Replace this with the concrete result. State what is now true, what was verified, and what remains open.</p>
+      </section>
+
+      <section class="section span-5" id="next-action">
+        <div class="label">Recommended next action</div>
+        <h2>Best next move</h2>
+        <p>Replace this with one clear recommendation. Keep it operational, testable, and boring enough to trust.</p>
+      </section>
+
+      <section class="section" id="gates">
+        <div class="label">Gate checklist</div>
+        <h2>What must be true before the next move</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Gate</th>
+                <th>Current state</th>
+                <th>Required proof</th>
+                <th>Stop condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Rollback</td>
+                <td><span class="status partial">Needs proof</span></td>
+                <td>Fresh backup, restore path, rollback command.</td>
+                <td>No tested way back.</td>
+              </tr>
+              <tr>
+                <td>Verification</td>
+                <td><span class="status done">Pattern ready</span></td>
+                <td>Automated checks plus one manual inspection if user-facing.</td>
+                <td>Any failed check without accepted mitigation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="changes">
+        <div class="section-head">
+          <div>
+            <div class="label">Changes</div>
+            <h2>What changed</h2>
+          </div>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <strong>Change area</strong>
+            <p>Describe the user-visible or operator-visible change.</p>
+          </article>
+          <article class="card">
+            <strong>Files</strong>
+            <p>List the important paths, not every incidental edit.</p>
+          </article>
+          <article class="card">
+            <strong>Reason</strong>
+            <p>Explain the decision or constraint that shaped the work.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section span-6" id="verification">
+        <div class="label">Verification</div>
+        <h2>Checks run</h2>
+        <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>Result</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>command here</code></td>
+              <td><span class="status done">Passed</span></td>
+              <td>Short output summary.</td>
+            </tr>
+            <tr>
+              <td>Manual review</td>
+              <td><span class="status partial">Partial</span></td>
+              <td>State any limitation honestly.</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+      <section class="section span-6" id="timeline">
+        <div class="label">Timeline</div>
+        <h2>Work sequence</h2>
+        <div class="timeline">
+          <div class="event">
+            <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 1</span></div>
+            <div><strong>Investigated.</strong><p>Evidence gathered and source of truth identified.</p></div>
+          </div>
+          <div class="event">
+            <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 2</span></div>
+            <div><strong>Changed.</strong><p>Implementation or decision made.</p></div>
+          </div>
+          <div class="event">
+            <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 3</span></div>
+            <div><strong>Verified.</strong><p>Checks completed and residual gaps recorded.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="evidence">
+        <div class="label">Evidence</div>
+        <h2>Proof rail</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Claim</th>
+                <th>Evidence</th>
+                <th>Result</th>
+                <th>Raw block</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Main claim</td>
+                <td>Command, file, log, screenshot, ticket, or source reference.</td>
+                <td><span class="status done">Verified</span></td>
+                <td>Command output</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <details open>
+          <summary>Command output</summary>
+          <div class="details-body">
+            <pre><code>Paste a short, relevant excerpt here.
+Keep raw dumps in collapsible sections.</code></pre>
+          </div>
+        </details>
+        <details>
+          <summary>Files and links</summary>
+          <div class="details-body">
+            <ul>
+              <li><code class="path">/absolute/path/to/file</code></li>
+              <li><a href="#">Source or ticket link</a></li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <section class="section" id="risks">
+        <div class="label">Risks</div>
+        <h2>Residual uncertainty</h2>
+        <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Risk</th>
+              <th>Impact</th>
+              <th>Mitigation / next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>No meaningful residual risk identified</td>
+              <td>Low</td>
+              <td>Replace this row if there is a real risk.</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      Self-contained Codex HTML report. No external assets or build step required.
+    </footer>
+  </main>
+</body>
+</html>

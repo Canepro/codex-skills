@@ -1,0 +1,8 @@
+interface:
+  display_name: "Codex HTML Report"
+  short_description: "Create polished self-contained HTML reports"
+  brand_color: "#365E58"
+  default_prompt: "Use $codex-html-report to create a self-contained proof report for this work."
+
+policy:
+  allow_implicit_invocation: true

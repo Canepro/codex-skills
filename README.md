@@ -28,12 +28,13 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 - Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
 - Frontend review and delivery: `frontend-review`, `frontend-uncodixfy`, `responsive-design`, `webapp-testing`, `react-performance-review`, `design-system-maintenance`, `playwright`
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
-- Security and adversary-informed defense: `adversary-informed-defense`
+- Security and adversary-informed defense: `adversary-informed-defense`, `security-best-practices`, `security-ownership-map`
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `kubernetes-specialist`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
 - Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
 - Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`, `anti-ai-writing`
-- Documents and testing: `doc`, `tdd`, `triage-issue`
-- Naming, discovery, and handoff: `naming-quality`, `find-skills`, `dev-browser`, `codex-closeout`
+- Documents, media, and reports: `doc`, `codex-html-report`, `pdf`, `screenshot`, `transcribe`, `hatch-pet`
+- Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `tdd`, `triage-issue`
+- Naming, discovery, and handoff: `naming-quality`, `find-skills`, `skill-library`, `dev-browser`, `codex-closeout`
 
 ## Maintainers
 

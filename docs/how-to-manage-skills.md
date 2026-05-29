@@ -25,6 +25,8 @@ Library-managed skills as of this commit:
 - `adversary-informed-defense`
 - `azure-infra-engineer`
 - `ci-pipeline-triage`
+- `cli-creator`
+- `codex-html-report`
 - `codex-closeout`
 - `design-an-interface`
 - `design-system-maintenance`
@@ -38,6 +40,7 @@ Library-managed skills as of this commit:
 - `gitops-reconcile`
 - `gitops-workflow`
 - `grill-me`
+- `hatch-pet`
 - `improve-codebase-architecture`
 - `jenkins-sre`
 - `k8s-sre-triage`
@@ -46,9 +49,11 @@ Library-managed skills as of this commit:
 - `l2-l3-support-platform`
 - `log-analyzer`
 - `m365-admin`
+- `migrate-to-codex`
 - `naming-quality`
 - `observability-architecture`
 - `playwright`
+- `pdf`
 - `prd-to-issues`
 - `prd-to-plan`
 - `prometheus-grafana-triage`
@@ -56,11 +61,16 @@ Library-managed skills as of this commit:
 - `request-refactor-plan`
 - `responsive-design`
 - `sentry`
+- `screenshot`
+- `security-best-practices`
+- `security-ownership-map`
 - `setup-pre-commit`
+- `skill-library`
 - `slo-sli-design`
 - `systematic-debugging`
 - `tdd`
 - `triage-issue`
+- `transcribe`
 - `webapp-testing`
 - `write-a-prd`
 - `written-communication`
