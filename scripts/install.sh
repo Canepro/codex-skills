@@ -5,6 +5,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_DIR="$REPO_DIR/skills"
 DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
+DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
 
 declare -a DEST_DIRS=("$DEFAULT_CODEX_DIR" "$DEFAULT_AGENTS_DIR")
 
@@ -59,4 +60,38 @@ for dest_dir in "${DEST_DIRS[@]}"; do
   install_to_dest "$dest_dir"
 done
 
-printf 'Restart Codex to pick up skill changes.\n'
+install_to_claude() {
+  local dest_dir="$1"
+  local manifest_path="$dest_dir/.codex-skills-managed"
+  local manifest_tmp
+  manifest_tmp="$(mktemp)"
+
+  mkdir -p "$dest_dir"
+
+  if [ -f "$manifest_path" ]; then
+    while IFS= read -r old_skill; do
+      [ -n "$old_skill" ] || continue
+      [ -d "$SRC_DIR/$old_skill" ] && continue
+      rm -f "$dest_dir/$old_skill.md"
+    done < "$manifest_path"
+  fi
+
+  : > "$manifest_tmp"
+
+  for skill_path in "$SRC_DIR"/*; do
+    [ -d "$skill_path" ] || continue
+    skill_name="$(basename "$skill_path")"
+    skill_file="$skill_path/SKILL.md"
+    [ -f "$skill_file" ] || continue
+
+    printf '%s\n' "$skill_name" >> "$manifest_tmp"
+    cp "$skill_file" "$dest_dir/$skill_name.md"
+  done
+
+  mv "$manifest_tmp" "$manifest_path"
+  printf 'Installed repo-managed skills into %s\n' "$dest_dir"
+}
+
+install_to_claude "$DEFAULT_CLAUDE_DIR"
+
+printf 'Restart Codex or Claude Code to pick up skill changes.\n'

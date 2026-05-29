@@ -83,7 +83,7 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 That will:
 
 1. pull the latest repo
-2. install library-managed skills into `~/.codex/skills` and `~/.agents/skills`
+2. install library-managed skills into `~/.codex/skills`, `~/.agents/skills`, and `~/.claude/skills`
 3. sync non-repo installed entries between the two trees
 4. verify library-managed drift and the pinned system-skill contract
 
@@ -165,6 +165,6 @@ bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
-- Treat local installed trees as outputs, not the source of truth.
+- Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/*.md` files are generated from each repo skill's `SKILL.md`.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

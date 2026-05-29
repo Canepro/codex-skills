@@ -30,7 +30,7 @@ Restart your agent after installing so it can pick up the skills.
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `kubernetes-specialist`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
 - Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
-- Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`
+- Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`, `anti-ai-writing`
 - Documents and testing: `doc`, `tdd`, `triage-issue`
 - Naming, discovery, and handoff: `naming-quality`, `find-skills`, `dev-browser`, `codex-closeout`
 
