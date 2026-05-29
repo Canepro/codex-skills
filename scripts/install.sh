@@ -6,8 +6,9 @@ SRC_DIR="$REPO_DIR/skills"
 DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
 DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
+DEFAULT_CURSOR_DIR="$HOME/.cursor/skills"
 
-declare -a DEST_DIRS=("$DEFAULT_CODEX_DIR" "$DEFAULT_AGENTS_DIR")
+declare -a DEST_DIRS=("$DEFAULT_CODEX_DIR" "$DEFAULT_AGENTS_DIR" "$DEFAULT_CURSOR_DIR")
 
 if [ -z "${TMPDIR:-}" ] || [ ! -d "${TMPDIR:-}" ]; then
   if [ -n "${TMP:-}" ] && [ -d "$TMP" ]; then
@@ -94,4 +95,4 @@ install_to_claude() {
 
 install_to_claude "$DEFAULT_CLAUDE_DIR"
 
-printf 'Restart Codex or Claude Code to pick up skill changes.\n'
+printf 'Restart Codex, Claude Code, or Cursor to pick up skill changes.\n'

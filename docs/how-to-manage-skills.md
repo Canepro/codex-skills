@@ -22,6 +22,7 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 Library-managed skills as of this commit:
 
 - `anti-ai-writing`
+- `adversary-informed-defense`
 - `azure-infra-engineer`
 - `ci-pipeline-triage`
 - `codex-closeout`
@@ -83,7 +84,7 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 That will:
 
 1. pull the latest repo
-2. install library-managed skills into `~/.codex/skills`, `~/.agents/skills`, and `~/.claude/skills`
+2. install library-managed skills into `~/.codex/skills`, `~/.agents/skills`, `~/.cursor/skills`, and `~/.claude/skills`
 3. sync non-repo installed entries between the two trees
 4. verify library-managed drift and the pinned system-skill contract
 

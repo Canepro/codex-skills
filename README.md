@@ -2,7 +2,7 @@
 
 Portable skills for AI coding agents.
 
-This repo contains reusable skills for engineering, support, platform operations, product planning, frontend review, debugging, and written communication. The skills are intended to work across agent surfaces such as Claude Cowork, Claude Code, and Codex.
+This repo contains reusable skills for engineering, support, platform operations, product planning, frontend review, debugging, and written communication. The skills are intended to work across agent surfaces such as Cursor, Claude Cowork, Claude Code, and Codex.
 
 Rocket.Chat-specific ticket orchestration, customer data, private workflows, credentials, and machine-local agent state do not belong here. Keep those in the private or product repo that owns them.
 
@@ -21,13 +21,14 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-Restart your agent after installing so it can pick up the skills.
+Restart your agent after installing so it can pick up the skills. Cursor reads from `~/.cursor/skills/`; Codex and Claude Code use their own install paths (see [docs/how-to-manage-skills.md](docs/how-to-manage-skills.md)).
 
 ## What Is Included
 
 - Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
 - Frontend review and delivery: `frontend-review`, `frontend-uncodixfy`, `responsive-design`, `webapp-testing`, `react-performance-review`, `design-system-maintenance`, `playwright`
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
+- Security and adversary-informed defense: `adversary-informed-defense`
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `kubernetes-specialist`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
 - Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
 - Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`, `anti-ai-writing`
