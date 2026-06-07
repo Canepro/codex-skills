@@ -7,7 +7,7 @@ metadata:
 
 # Frontend Review
 
-Use this skill for diagnosis and prioritization. It should produce evidence-backed findings and decide whether `frontend-uncodixfy`, `responsive-design`, `webapp-testing`, `react-performance-review`, or `design-system-maintenance` should take the next step.
+Use this skill for diagnosis and prioritization. It should produce evidence-backed findings and decide whether `frontend-anti-slop`, `responsive-design`, `webapp-testing`, `react-performance-review`, or `design-system-maintenance` should take the next step.
 
 Do not redesign by default. If a fix is obvious and low-risk, state it, but keep the review focused on what is wrong, why it matters, and what should happen next.
 
@@ -21,7 +21,7 @@ Use this skill when:
 - visual polish, accessibility, responsiveness, or interaction quality may be involved
 
 Do not use it as the primary skill when:
-- the user asks to redesign or polish the UI. Use `frontend-uncodixfy`, then return here for audit.
+- the user asks to redesign or polish the UI. Use `frontend-anti-slop`, then return here for audit.
 - the main request is only breakpoint repair. Use `responsive-design`.
 - the main request is end-to-end browser regression proof. Use `webapp-testing`.
 - the main request is React render, hydration, or bundle performance. Use `react-performance-review`.
@@ -29,10 +29,10 @@ Do not use it as the primary skill when:
 
 ## Paired Workflow
 
-`frontend-review` and `frontend-uncodixfy` should work together:
+`frontend-review` and `frontend-anti-slop` should work together:
 
 1. Use `frontend-review` first when the problem is unclear or the user wants findings.
-2. Use `frontend-uncodixfy` next when findings show visual slop, weak hierarchy, generic dashboard patterns, or a need for redesign.
+2. Use `frontend-anti-slop` next when findings show visual slop, weak hierarchy, generic dashboard patterns, or a need for redesign.
 3. Return to `frontend-review` after changes to confirm the original findings are resolved.
 4. Use `webapp-testing` for browser proof when flows or rendered states matter.
 
@@ -83,7 +83,7 @@ Default output:
 
 1. Findings, ordered by severity, with file or screen references when available.
 2. Evidence checked, including viewports or screenshots if used.
-3. Recommended next step: fix directly, use `frontend-uncodixfy`, use another specialist skill, or no change.
+3. Recommended next step: fix directly, use `frontend-anti-slop`, use another specialist skill, or no change.
 
 Avoid long nit lists. Prefer fewer findings that change the outcome.
 

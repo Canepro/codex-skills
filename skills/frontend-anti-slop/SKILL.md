@@ -1,15 +1,15 @@
 ---
-name: frontend-uncodixfy
+name: frontend-anti-slop
 description: Redesign or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use after frontend-review findings or when the user wants a UI anti-slop pass, dashboard cleanup, layout refinement, visual hierarchy correction, or implementation polish that avoids templated AI-generated patterns.
 metadata:
   short-description: Frontend anti-slop redesign
 ---
 
-# Frontend Uncodixfy
+# Frontend Anti-Slop
 
 Use this skill for design correction and implementation polish. It turns frontend-review findings into a better interface.
 
-Keep the skill ID for compatibility, but treat the working name as frontend anti-slop: remove generic AI UI habits, preserve useful product intent, and make the screen work better.
+Use it to remove generic AI UI habits, preserve useful product intent, and make the screen work better.
 
 ## When To Use
 
@@ -114,4 +114,4 @@ For implementation mode:
 
 ## Reference
 
-Use `references/Uncodixfy.md` as an anti-pattern catalogue and design-correction checklist.
+Use `references/anti-slop.md` as an anti-pattern catalogue and design-correction checklist.

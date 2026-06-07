@@ -19,7 +19,7 @@ Use this skill when the main problem is layout adaptation across screen sizes an
 
 ## Do not use when
 
-- the main request is a visual redesign or taste upgrade. Use `frontend-uncodixfy`.
+- the main request is a visual redesign or taste upgrade. Use `frontend-anti-slop`.
 - the main request is browser automation or regression checking. Use `webapp-testing`.
 - the page logic is broken independently of layout behavior.
 
@@ -84,5 +84,5 @@ Check both visual layout and interaction comfort.
 ## References
 
 - Read `references/patterns.md` for breakpoint strategy, container-query guidance, and common failure modes.
-- Pair with `frontend-uncodixfy` when the page also needs visual direction.
+- Pair with `frontend-anti-slop` when the page also needs visual direction.
 - Pair with `webapp-testing` when the user wants regression confidence after the layout pass.

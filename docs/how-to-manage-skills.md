@@ -34,7 +34,7 @@ Library-managed skills as of this commit:
 - `doc`
 - `find-skills`
 - `frontend-review`
-- `frontend-uncodixfy`
+- `frontend-anti-slop`
 - `gh-address-comments`
 - `gh-fix-ci`
 - `gitops-reconcile`

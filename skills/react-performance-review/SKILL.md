@@ -21,7 +21,7 @@ Use this skill for performance diagnosis and prioritization in React application
 
 - the app is not meaningfully React-based
 - the main task is generic frontend review. Use `frontend-review`.
-- the main task is visual redesign. Use `frontend-uncodixfy`.
+- the main task is visual redesign. Use `frontend-anti-slop`.
 - the main task is browser automation. Use `webapp-testing`.
 
 ## Review priorities

@@ -20,7 +20,7 @@ Use this skill when the problem is system coherence over time, not just one scre
 ## Do not use when
 
 - the request is a one-off screen review. Use `frontend-review`.
-- the request is a visual redesign of a specific page. Use `frontend-uncodixfy`.
+- the request is a visual redesign of a specific page. Use `frontend-anti-slop`.
 - the main issue is responsive behavior on one screen. Use `responsive-design`.
 
 ## Workflow

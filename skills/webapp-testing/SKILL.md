@@ -19,7 +19,7 @@ Use this skill to decide what to test, how to test it, and what evidence counts 
 ## Do not use when
 
 - the request is mainly to automate a browser without a testing plan. Use `playwright`.
-- the request is a visual redesign. Use `frontend-uncodixfy`.
+- the request is a visual redesign. Use `frontend-anti-slop`.
 - the request is only about breakpoint fixes. Use `responsive-design`.
 
 ## Core principle

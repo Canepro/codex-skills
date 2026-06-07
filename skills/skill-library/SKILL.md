@@ -36,7 +36,7 @@ In Cursor: keep `.cursor/rules/anti-ai-writing.mdc` (`alwaysApply: true`) in eac
 | Task | Skill |
 |------|-------|
 | Copy polish; remove AI tone | `anti-ai-writing` |
-| UI feels templated or generic | `frontend-uncodixfy` |
+| UI feels templated or generic | `frontend-anti-slop` |
 | Pre-ship UX audit | `frontend-review` |
 | Mobile/responsive layout | `responsive-design` |
 | Browser verification | `webapp-testing` or `playwright` |
