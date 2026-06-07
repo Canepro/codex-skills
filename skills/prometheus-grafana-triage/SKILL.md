@@ -29,6 +29,7 @@ Treat alerting problems as one of three classes: a real platform issue, a broken
 
 Verify:
 - which cluster actually owns the alert evaluation or scrape path
+- the expected state for each cluster, spoke, or optional runtime
 - Grafana health
 - Prometheus health
 - Alertmanager health
@@ -38,10 +39,37 @@ Before switching contexts or querying random clusters, identify the source of tr
 - the cluster label on the alert or target
 - the Prometheus or Alertmanager instance that is currently evaluating the rule
 - whether the data comes from a hub-and-spoke flow or a local Prometheus
+- repo docs, runbooks, maintenance schedules, or automation state that say a target is intentionally stopped, parked, retired, or on-demand
 
 Do not assume the dashboard reflects the current truth until Prometheus and its scrape path are confirmed healthy.
 
-### 2. Inspect active alerts
+### 2. Classify expected state before declaring an incident
+
+For hub-and-spoke or cost-controlled environments, classify every relevant target before interpreting missing metrics or unreachable endpoints:
+- `live`: expected to be online now
+- `parked`: intentionally shut down, scaled to zero, paused, or on-demand
+- `retired`: intentionally removed from service but still visible in old dashboards, labels, or Argo CD apps
+- `unknown intent`: no current evidence says whether the target should be online
+
+Use repo-local evidence first:
+- README and architecture docs
+- operations runbooks
+- maintenance or startup/shutdown docs
+- GitOps application descriptions
+- automation schedules
+- recent reports only as secondary context
+
+For a parked or retired target, do not report absent metrics, DNS failure, Argo CD `Unknown`, or `up == 0` as a live platform incident by itself. Report it as expected offline state, stale visibility, or an expected blind spot.
+
+Escalate an offline target only when:
+- the user asked for that target to be checked as online
+- a job, migration, maintenance window, or startup runbook expects it to be online
+- recent telemetry shows it was online and then dropped unexpectedly
+- the shutdown/startup automation itself reports failure
+
+Example: if an AKS spoke is documented as on-demand for cost control, then missing AKS samples and Argo CD `Healthy/Unknown` are expected while it is parked. The SRE finding is the OKE hub health plus the parked-spoke state, not an AKS outage.
+
+### 3. Inspect active alerts
 
 Capture:
 - alert name
@@ -65,7 +93,7 @@ Bundled helpers:
 - `scripts/alert_summary.py` for active alerts from Prometheus or Alertmanager
 - `scripts/prom_target_failures.py` for current scrape failures with `lastError`
 
-### 3. Check scrape health
+### 4. Check scrape health
 
 When `up == 0`, inspect:
 - target instance
@@ -78,7 +106,7 @@ Confirm the endpoint directly where possible:
 - wrong port or bind address often returns `connection refused`
 - missing auth returns `401` or `403`
 
-### 4. Check the rule logic
+### 5. Check the rule logic
 
 Look for common rule problems:
 - using `count(metric)` when the correct intent is `sum(metric == 1)`
@@ -90,29 +118,43 @@ Prefer a corrected query over ad hoc silencing when the rule itself is wrong.
 
 For OOM alerts, avoid treating a sticky `last_terminated_reason` gauge as proof that the problem is still active. A real OOM event can coexist with a stale firing alert.
 
-### 5. Decide the fix path
+### 6. Decide the fix path
 
 Pick one:
 - runtime issue: hand off to `k8s-sre-triage`
 - scrape config issue: fix service, ServiceMonitor, scrape config, port, or path
 - rule issue: fix the PromQL and docs
 - temporary operational noise: add or update a silence only if the rule is otherwise correct
+- expected offline state: document the parked, retired, or on-demand state and recommend checks only for the next startup or intended-online window
 
-### 6. Verify
+### 7. Verify
 
 After the change:
 - target health becomes `up`
 - corrected query returns the expected count
 - firing or pending state clears as expected
 - no important alert coverage was removed accidentally
+- expected-state classification is backed by a current repo doc, runbook, automation schedule, or explicit user instruction
 
 ## Guidance
 
 - Query the system that actually scrapes the target. In a hub-and-spoke design, the spoke agent often holds the real `lastError`.
 - Do not trust one layer alone. Compare cluster reality, Prometheus target health, and alert logic.
+- Do not collapse "unreachable" into "broken" until expected state is known. On-demand infrastructure often looks broken from dashboards while parked.
 - If the rule source lives in a different repo than the workload, say so clearly and patch the right repo.
 - `container_memory_working_set_bytes` is supporting evidence, not definitive proof of an exact cgroup kill threshold or kill timestamp. Use it to support an OOM diagnosis, not to overstate one.
 - When the evidence proves a real event but not the precise trigger, say so. Distinguish “real incident” from “fully explained incident.”
+
+## Related specialist skills
+
+Use these for deeper Grafana-specific work after the incident shape is clear:
+- `promql` for query correctness, histograms, recording rules, and slow PromQL.
+- `loki` for LogQL, parsers, log-pipeline behavior, and Loki-specific troubleshooting.
+- `alerting-irm` for Grafana alert rules, contact points, notification policies, silences, SLOs, and IRM.
+- `prometheus-cardinality-troubleshooter` for active series explosions, Prometheus OOM, slow queries, ingest limits, or DPM fires.
+- `prometheus-label-strategy` for preventing cardinality problems in instrumentation or scrape target labels.
+- `loki-label-analyzer` for Loki label strategy and slow log queries caused by bad labels.
+- `assistant-mcp` for Grafana MCP setup or agent-to-Grafana connection work.
 
 ## References
 

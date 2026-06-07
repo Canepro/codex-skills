@@ -99,6 +99,14 @@ Report:
 - Separate “repo is wrong” from “controller is stuck”.
 - Treat stale failed operations as controller state, not manifest truth.
 - If one invalid resource is cluster-specific, prefer removing or conditionally excluding it in Git instead of forcing it live.
+- If a GitOps app points at an optional, parked, or on-demand cluster, verify expected state from docs or automation before treating `Unknown` health or sync state as an incident.
+
+## Related specialist skills
+
+- Use `prometheus-grafana-triage` when Argo CD or Flux symptoms come from alerting, scrape failures, or dashboard state.
+- Use `k8s-sre-triage` when desired state has landed but the workload fails at runtime.
+- Use `alerting-irm` when GitOps manages Grafana alert rules, notification policies, contact points, or silences.
+- Use `promql` or `loki` when convergence proof depends on Grafana Metrics or Logs queries.
 
 ## References
 

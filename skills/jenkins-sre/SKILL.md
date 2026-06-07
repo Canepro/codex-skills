@@ -93,6 +93,14 @@ Report:
 - For inbound agents, the controller is the source of truth for node name and secret.
 - When the controller rejects a healthy pod, suspect node/session/secret state before suspecting Kubernetes.
 - Distinguish “job failed on agent” from “agent cannot connect”.
+- For optional or scheduled agents, verify whether the agent is expected online before reporting it as failed. Cost-controlled agents may be intentionally parked.
+
+## Related specialist skills
+
+- Use `k8s-sre-triage` when the Jenkins controller or agent runs on Kubernetes and the evidence points to pods, services, storage, or ingress.
+- Use `prometheus-grafana-triage` when Jenkins health is being inferred from Grafana, Prometheus, Loki, or alert state.
+- Use `loki` for Jenkins log queries through Loki.
+- Use `alerting-irm` when the fix is alert routing, silencing, or scheduled maintenance notification rather than Jenkins runtime repair.
 
 ## References
 

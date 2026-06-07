@@ -103,6 +103,14 @@ Report:
 - Do not assume provider-specific behavior; verify it.
 - When checking previous logs for a restart, verify the pod namespace first. A correct command in the wrong namespace is still bad evidence.
 
+## Related specialist skills
+
+- Use `prometheus-grafana-triage` when the incident starts from an alert, scrape failure, dashboard mismatch, or Prometheus/Grafana signal.
+- Use `promql` when Kubernetes health needs custom PromQL, ratios, histogram queries, or recording-rule checks.
+- Use `loki` when the next step is LogQL, log parsers, Loki pipeline behavior, or log-derived metrics.
+- Use `gitops-reconcile` when the runtime issue is caused by Argo CD or Flux convergence rather than cluster mechanics.
+- Use `observability-architecture` when the result is a monitoring design gap, not a live runtime fix.
+
 ## References
 
 - Read `references/failure-modes.md` when narrowing a Kubernetes runtime issue.

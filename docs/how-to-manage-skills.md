@@ -23,6 +23,8 @@ Library-managed skills as of this commit:
 
 - `anti-ai-writing`
 - `adversary-informed-defense`
+- `alerting-irm`
+- `assistant-mcp`
 - `azure-infra-engineer`
 - `ci-pipeline-triage`
 - `cli-creator`
@@ -48,6 +50,8 @@ Library-managed skills as of this commit:
 - `kubernetes-specialist`
 - `l2-l3-support-platform`
 - `log-analyzer`
+- `loki`
+- `loki-label-analyzer`
 - `m365-admin`
 - `migrate-to-codex`
 - `naming-quality`
@@ -56,7 +60,10 @@ Library-managed skills as of this commit:
 - `pdf`
 - `prd-to-issues`
 - `prd-to-plan`
+- `prometheus-cardinality-troubleshooter`
 - `prometheus-grafana-triage`
+- `prometheus-label-strategy`
+- `promql`
 - `react-performance-review`
 - `request-refactor-plan`
 - `responsive-design`

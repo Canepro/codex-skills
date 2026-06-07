@@ -87,6 +87,12 @@ Include:
 - Separate internal component health from user-facing service health.
 - If a metric cannot drive a decision, it is probably not an SLI.
 
+## Related specialist skills
+
+- Use `promql` to write or validate SLI queries, error ratios, latency percentiles, recording rules, and burn-rate expressions.
+- Use `alerting-irm` to turn SLOs into Grafana-managed alerts, notification policies, silences, and IRM workflows.
+- Use `observability-architecture` when the measurement source, ownership model, or retention strategy is not settled.
+
 ## References
 
 - Read `references/sli-patterns.md` for common indicator shapes and alert patterns.

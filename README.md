@@ -30,7 +30,7 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-fix-ci`, `gh-address-comments`, `setup-pre-commit`
 - Security and adversary-informed defense: `adversary-informed-defense`, `security-best-practices`, `security-ownership-map`
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `kubernetes-specialist`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
-- Observability and reliability: `prometheus-grafana-triage`, `observability-architecture`, `slo-sli-design`, `sentry`
+- Observability and reliability: `prometheus-grafana-triage`, `promql`, `loki`, `alerting-irm`, `prometheus-cardinality-troubleshooter`, `prometheus-label-strategy`, `loki-label-analyzer`, `assistant-mcp`, `observability-architecture`, `slo-sli-design`, `sentry`
 - Support and operations: `l2-l3-support-platform`, `m365-admin`, `azure-infra-engineer`, `log-analyzer`, `systematic-debugging`, `written-communication`, `anti-ai-writing`
 - Documents, media, and reports: `doc`, `codex-html-report`, `pdf`, `screenshot`, `transcribe`, `hatch-pet`
 - Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `tdd`, `triage-issue`

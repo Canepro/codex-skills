@@ -76,6 +76,15 @@ Clarify:
 - Separate mandatory baseline telemetry from optional nice-to-haves.
 - Make cost and governance visible.
 
+## Related specialist skills
+
+- Use `prometheus-label-strategy` for Prometheus label schema, histogram label discipline, and cardinality prevention.
+- Use `loki-label-analyzer` for Loki label schema, structured metadata choices, and log query performance.
+- Use `alerting-irm` for Grafana alert routing, contact points, silences, IRM, and SLO alert provisioning.
+- Use `promql` for query and recording-rule design.
+- Use `loki` for LogQL and log-pipeline details.
+- Use `assistant-mcp` when the architecture includes AI agents querying Grafana through MCP.
+
 ## References
 
 - Read `references/pillars.md` for a working design checklist.

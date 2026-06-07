@@ -50,5 +50,13 @@ In Cursor: keep `.cursor/rules/anti-ai-writing.mdc` (`alwaysApply: true`) in eac
 | Customer-safe prose | `written-communication` |
 | Kubernetes incidents | `k8s-sre-triage` |
 | GitOps sync issues | `gitops-reconcile` |
+| Prometheus/Grafana alert or scrape triage | `prometheus-grafana-triage` |
+| PromQL query writing or optimization | `promql` |
+| Loki or LogQL work | `loki` |
+| Grafana alert routing, silences, SLOs, IRM | `alerting-irm` |
+| Prometheus cardinality fire | `prometheus-cardinality-troubleshooter` |
+| Prometheus label strategy | `prometheus-label-strategy` |
+| Loki label strategy | `loki-label-analyzer` |
+| Grafana MCP setup for agents | `assistant-mcp` |
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library.
