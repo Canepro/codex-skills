@@ -1,4 +1,4 @@
 interface:
   display_name: "Frontend Review"
-  short_description: "Audit frontend UX and implementation"
-  default_prompt: "Use $frontend-review to review this screen or PR and give me the highest-value frontend findings first."
+  short_description: "Evidence-first frontend UX audit"
+  default_prompt: "Use $frontend-review to audit this screen or PR, rank the highest-impact findings, and route redesign work to $frontend-uncodixfy when needed."

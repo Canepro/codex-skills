@@ -1,106 +1,117 @@
 ---
 name: frontend-uncodixfy
-description: Redesign or polish frontend UI so it feels intentional, human-designed, and less templated. Use for dashboard cleanup, landing-page polish, layout refinement, design critique, or when the user wants a UI that avoids generic AI-dashboard patterns, dead space, pill overload, or other low-signal filler.
+description: Redesign or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use after frontend-review findings or when the user wants a UI anti-slop pass, dashboard cleanup, layout refinement, visual hierarchy correction, or implementation polish that avoids templated AI-generated patterns.
 metadata:
-  short-description: Frontend anti-slop UI guidance
+  short-description: Frontend anti-slop redesign
 ---
 
 # Frontend Uncodixfy
 
-Use this skill for frontend work where the goal is a professional, intentional UI rather than a generic AI-looking dashboard.
+Use this skill for design correction and implementation polish. It turns frontend-review findings into a better interface.
 
-This skill is based on the reference in `references/Uncodixfy.md`, but adapted into practical Codex instructions.
+Keep the skill ID for compatibility, but treat the working name as frontend anti-slop: remove generic AI UI habits, preserve useful product intent, and make the screen work better.
 
 ## When To Use
 
-Use this skill when the user asks for any of the following:
-- frontend redesign or polish
-- dashboard cleanup
-- layout refinement
-- UX coherence pass
-- landing page improvement
-- removal of awkward spacing / dead space
-- making the UI feel more professional, less templated, or less AI-generated
+Use this skill when:
+- `frontend-review` found layout, hierarchy, or visual-system problems that need design correction
+- the user asks for redesign, polish, cleanup, less templated UI, or less AI-generated UI
+- an app has dashboard filler, weak hierarchy, overdecorated cards, awkward spacing, or generic SaaS styling
+- a page needs implementation changes, not only a critique
 
-Do not use it to fight an established design system without reason. If the app already has a coherent visual language, improve that system rather than replacing it.
+Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
 
-## Core Goal
+## How It Works With Frontend Review
 
-Build interfaces that feel deliberate, functional, and human-designed.
+Default paired flow:
 
-The baseline is:
-- clear structure
-- consistent spacing
-- restrained styling
-- strong information hierarchy
-- minimal decorative copy
-- layouts that earn their space
+1. Start from `frontend-review` findings when available.
+2. Fix the highest-impact UX and layout issue first.
+3. Remove generic visual filler only when it does not carry product meaning.
+4. Verify the revised screen with the same evidence standard used by `frontend-review`.
+5. Return concise proof: what changed, what was checked, and what risk remains.
 
-## Hard Rules
+If no review exists, run a quick review pass first: task, hierarchy, layout, accessibility, performance, visual system.
 
-Avoid these unless the user explicitly asks for them:
-- oversized corner radii
-- pill-shaped controls everywhere
-- floating glass panels as the default pattern
-- hero sections inside internal product screens
-- decorative labels, eyebrow text, and faux-premium copy
-- metric-card grids as the first instinct
-- fake charts or filler widgets
-- dead space created just to look expensive
-- blue/purple SaaS-default styling without product reason
-- excessive gradients, glow, blur haze, or floating-shell effects
-- gratuitous hover transforms or flashy motion
-- inconsistent alignment logic across panels
+## Modes
+
+- `audit`: identify anti-slop problems and propose a direction without editing.
+- `redesign`: produce a concrete design direction or implementation plan.
+- `implement`: edit files and verify the rendered result when possible.
+- `verify`: inspect the result after changes and confirm whether the screen improved.
+
+Default to `implement` when the user clearly asks you to update the UI.
+
+## Core Standard
+
+Good frontend polish is not decoration. It should improve:
+
+- task completion
+- information hierarchy
+- accessibility and interaction comfort
+- responsive behavior
+- product-specific visual identity
+- maintainability inside the existing codebase
+
+## Anti-Slop Rules
+
+Challenge these patterns:
+- decorative hero blocks inside operational screens
+- metric-card grids used before the page has a task model
+- cards inside cards without a functional reason
+- fake charts, fake activity, fake insights, and placeholder widgets
+- labels that describe mood instead of product meaning
+- oversized radii, pill overload, glow, blur haze, glass panels, and gradient shells used as taste substitutes
+- one-note palettes, especially default blue-purple SaaS styling, unless the product already owns that palette
+- excess whitespace that hides weak structure
+- hover transforms and animation that do not clarify interaction
+- repeated panels with identical visual weight but different importance
+- copy that explains how polished the UI is instead of helping the user act
+
+Do not apply bans mechanically. The test is whether the choice helps the product, not whether it appears on a list.
 
 ## Preferred Patterns
 
-Use these defaults instead:
-- straightforward page headers with real hierarchy
-- normal cards and panels with restrained borders/radius
-- dense but readable layouts
-- tabs, forms, tables, and lists that prioritize function over decoration
-- stable grid systems with predictable column behavior
-- labels that describe product meaning, not mood
-- short explanatory copy only where it reduces operator confusion
-- calm color systems with clear contrast and minimal accent use
+Prefer:
+- clear page structure based on user tasks
+- restrained headers with useful actions and state
+- stable grids, tables, forms, tabs, and lists
+- cards only for repeated objects, modals, or genuinely framed tools
+- predictable spacing with an existing token scale where possible
+- accessible color contrast and non-color state indicators
+- component-level responsive behavior using intrinsic layout or container queries where they fit
+- real data, real product state, or honest empty states
+- fewer surfaces with stronger hierarchy
 
-## Layout Guidance
+## Implementation Rules
 
-When auditing a screen, check these first:
-1. Is there dead space caused by a broken grid or orphaned card?
-2. Is a card present because it is useful, or because the layout needed filler?
-3. Are sections arranged around operator tasks, or around aesthetic symmetry?
-4. Is information hierarchy obvious without decorative microcopy?
-5. Is the mobile layout still intentional, not just stacked leftovers?
+When editing code:
 
-If a page has obvious empty holes, uneven card heights, or disconnected panels, fix the layout structure before changing colors or typography.
+1. Read existing components, styles, tokens, and layout conventions.
+2. Preserve the framework and design system unless there is a clear reason not to.
+3. Fix structure before color.
+4. Use existing components before adding new primitives.
+5. Add an abstraction only when repeated layout or visual logic needs one.
+6. Keep copy short and task-specific.
+7. Define stable dimensions for fixed-format UI like boards, charts, cards, counters, and toolbars.
+8. Verify desktop and mobile. Include screenshots or browser observations when possible.
+9. Check accessibility basics after changes.
+10. If interaction feels slow or heavy, route to `react-performance-review` or `webapp-testing`.
 
-## Typography And Styling
+## Output
 
-- Keep typography controlled and readable.
-- Prefer the app's existing type system if it is coherent.
-- If you must introduce or revise typography, avoid default AI-dashboard shortcuts and keep the result restrained.
-- Use comments sparingly in code, only where the layout logic is not obvious.
+For audit or redesign mode:
+- state the main UI failure
+- state the design direction
+- list the smallest useful change set
+- name what should be verified
 
-## Implementation Standard
-
-When making frontend changes under this skill:
-1. Fix structure before polish.
-2. Prefer editing the existing system over adding one-off visual exceptions.
-3. Remove weak UI elements instead of decorating them more.
-4. Make spacing intentional and consistent.
-5. Verify desktop and mobile behavior.
-6. Update docs when the user-facing behavior or product framing changes.
-
-## Response Pattern
-
-When using this skill, evaluate and communicate frontend work in this order:
-1. layout / IA problems
-2. operator-task or UX problems
-3. visual-system inconsistencies
-4. only then color, motion, and polish
+For implementation mode:
+- summarize the changed user experience
+- name the main files changed
+- report rendered checks, viewports, and accessibility or interaction checks
+- state remaining risk only if real
 
 ## Reference
 
-The full source reference is kept in `references/Uncodixfy.md`.
-Use it as an anti-pattern catalogue, not as a rigid template.
+Use `references/Uncodixfy.md` as an anti-pattern catalogue and design-correction checklist.

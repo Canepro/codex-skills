@@ -1,42 +1,62 @@
 # Frontend Review Checklist
 
-## Task flow
+Use this as a working checklist, not a report template.
 
-- Is the primary action obvious?
-- Does the screen explain state clearly enough to act?
-- Are related controls grouped logically?
-- Does the page optimize for the operator's actual task?
+## Task Flow
 
-## Information hierarchy
+- Is the primary task clear within the first scan?
+- Is the primary action visible, specific, and placed near the relevant context?
+- Does the screen make current state, empty state, loading state, success, and failure clear?
+- Are destructive, billing, privacy, or irreversible actions clearly separated from routine actions?
+- Does the page reduce decisions, or does it create extra interpretation work?
 
-- Is the most important content visually dominant?
-- Are headings, labels, and values easy to distinguish?
-- Is secondary copy actually useful?
+## Information Hierarchy
 
-## Responsiveness
+- Does the most important content dominate for a real product reason?
+- Are headings, labels, values, and actions visually distinct?
+- Does each section add a new decision, fact, or action?
+- Can repeated cards, rows, or panels be compared without reading decorative copy?
+- Is supporting text useful, or is it explaining the UI instead of improving the UI?
 
-- Does the layout remain intentional on mobile?
-- Do tables, tabs, and filters degrade gracefully?
-- Are overflow and wrapping handled on purpose?
+## Layout And Responsiveness
 
-## Accessibility basics
+- Does the layout stay intentional at mobile, tablet, laptop, and wide desktop sizes?
+- Do key components adapt to their container, not only the viewport?
+- Are container queries, intrinsic sizing, grid, flex, min/max constraints, or stable aspect ratios a better fit than fixed breakpoints?
+- Do tables, tabs, filters, toolbars, charts, and forms handle wrapping and overflow deliberately?
+- Are touch targets comfortable and reachable on small screens?
+- Does dynamic content change layout size unexpectedly?
 
-- Clear labels for controls
-- Keyboard-reachable interactions
-- Visible focus states
-- Adequate contrast
-- No color-only state communication
+## Accessibility
 
-## Visual consistency
+- Are interactive elements keyboard reachable and focus-visible?
+- Are labels programmatic, not only visual?
+- Does text and meaningful iconography meet contrast expectations?
+- Is important state communicated with text or structure, not color alone?
+- Are target sizes and spacing suitable for pointer and touch use?
+- Are form errors specific, located near the field, and announced where the framework supports it?
+- Does authentication avoid unnecessary memory puzzles or copy/paste blocking?
 
-- Consistent spacing rhythm
-- Predictable card and panel treatment
-- Controlled typography scale
-- Accent color used intentionally, not everywhere
+## Interaction Performance
 
-## Implementation quality
+- Are clicks, typing, filters, menus, and drag actions likely to respond quickly?
+- Are expensive renders, hydration, animations, or data refetches tied to frequent interactions?
+- Would a slow interaction affect Interaction to Next Paint or perceived control?
+- Is loading feedback honest and local to the affected surface?
+- Are images, charts, and heavy widgets sized and loaded in a way that avoids layout shift?
 
-- Styles are not duplicated unnecessarily
-- Layout logic is understandable
-- Design tokens or shared utilities are used where expected
-- One-off overrides are justified
+## Visual System
+
+- Does the UI follow the existing product system before inventing a new one?
+- Are spacing, radii, borders, type scale, shadows, and color roles consistent?
+- Are accents used to clarify state or action, not to decorate every surface?
+- Are cards, panels, modals, and buttons visually distinct by function?
+- Does the palette have enough contrast and enough restraint?
+
+## Implementation Quality
+
+- Are tokens, shared components, and utilities used where expected?
+- Are one-off styles justified by product need?
+- Is CSS specificity controlled, or are overrides fighting each other?
+- Would this component survive new data lengths, translations, permissions, and empty states?
+- Is visual behavior covered by tests, stories, screenshots, or at least a clear verification path?

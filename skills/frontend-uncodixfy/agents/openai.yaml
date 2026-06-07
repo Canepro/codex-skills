@@ -1,4 +1,4 @@
 interface:
-  display_name: "Frontend Uncodixfy"
-  short_description: "Anti-slop frontend design guidance"
-  default_prompt: "Use $frontend-uncodixfy to audit this screen and redesign it to feel more intentional and less templated."
+  display_name: "Frontend Anti-Slop"
+  short_description: "Redesign generic UI into product-specific frontend"
+  default_prompt: "Use $frontend-uncodixfy to turn frontend-review findings into a cleaner, product-specific UI and verify the rendered result."
