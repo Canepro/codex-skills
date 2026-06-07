@@ -1,0 +1,387 @@
+<!doctype html>
+<!-- Smoke test of the revised frontend-anti-slop + frontend-review skills against the SkillForge Control Room dashboard. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frontend anti-slop smoke test / SkillForge dashboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0d11;
+      --bg-tint: #0f1117;
+      --surface-1: #15171f;
+      --surface-2: #1c1f29;
+      --surface-3: #242836;
+      --pre-bg: #090a0d;
+      --ink: #f4efe4;
+      --muted: #aab1be;
+      --soft: #868e9c;
+      --line: rgba(255, 255, 255, 0.085);
+      --line-2: rgba(255, 255, 255, 0.16);
+      --accent: #d6aa5c;
+      --accent-bright: #ecc379;
+      --accent-soft: rgba(214, 170, 92, 0.14);
+      --accent-line: rgba(214, 170, 92, 0.55);
+      --good: #87cc8b;
+      --warn: #e2b45e;
+      --bad: #e58b7d;
+      --info: #93b8df;
+      --neutral: #abb4c1;
+      --shadow: 0 18px 42px -26px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 44px 90px -46px rgba(0, 0, 0, 0.85);
+      --radius: 14px;
+      --radius-sm: 9px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      background:
+        radial-gradient(1100px 420px at 50% -160px, rgba(214, 170, 92, 0.10), transparent 70%),
+        linear-gradient(180deg, var(--bg-tint), var(--bg) 460px);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-bright); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .shell { width: min(1120px, 100% - 40px); margin: 0 auto; padding: 26px 0 72px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; color: var(--muted); font-size: 0.9rem; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); font-weight: 700; letter-spacing: 0.01em; }
+    .mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--accent-line); background: linear-gradient(180deg, rgba(214, 170, 92, 0.22), rgba(214, 170, 92, 0.04)); color: var(--accent-bright); font-family: var(--serif); font-weight: 700; }
+    .topbar time { color: var(--ink); font-weight: 600; }
+    .hero { position: relative; overflow: hidden; padding: 46px 46px 40px; border: 1px solid var(--line); border-radius: var(--radius); background: radial-gradient(620px 200px at 8% -30px, rgba(214, 170, 92, 0.16), transparent 72%), linear-gradient(180deg, var(--surface-2), var(--surface-1)); box-shadow: var(--shadow-lg); }
+    .hero::after { content: ""; position: absolute; left: 46px; right: 46px; bottom: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-line), transparent); }
+    .kicker { margin: 0 0 18px; display: inline-flex; align-items: center; gap: 10px; color: var(--accent); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+    .kicker::before { content: ""; width: 24px; height: 1px; background: var(--accent-line); }
+    h1, h2, h3 { margin: 0; }
+    h1 { max-width: 24ch; font-family: var(--serif); font-weight: 600; font-size: 2.05rem; line-height: 1.08; letter-spacing: -0.01em; text-wrap: balance; }
+    .lede { max-width: 66ch; margin: 18px 0 0; color: var(--muted); font-size: 1.08rem; line-height: 1.62; }
+    .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0 6px; }
+    .fact { position: relative; padding: 16px 16px 16px 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent), var(--surface-1); box-shadow: var(--shadow); }
+    .fact::before { content: ""; position: absolute; left: 0; top: 15px; bottom: 15px; width: 3px; border-radius: 0 3px 3px 0; background: var(--accent); opacity: 0.85; }
+    .fact .value { margin-top: 9px; font-size: 1.02rem; font-weight: 650; line-height: 1.3; }
+    .label, .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .label { color: var(--soft); }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); letter-spacing: 0.14em; }
+    .status { display: inline-flex; align-items: center; gap: 7px; padding: 4px 11px 4px 9px; border: 1px solid transparent; border-radius: 999px; font-weight: 650; font-size: 0.82rem; line-height: 1.4; white-space: nowrap; }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .done { color: var(--good); background: rgba(135, 204, 139, 0.12); border-color: rgba(135, 204, 139, 0.42); }
+    .partial { color: var(--warn); background: rgba(226, 180, 94, 0.13); border-color: rgba(226, 180, 94, 0.42); }
+    .blocked, .risk, .gated { color: var(--bad); background: rgba(229, 139, 125, 0.13); border-color: rgba(229, 139, 125, 0.42); }
+    .info { color: var(--info); background: rgba(147, 184, 223, 0.13); border-color: rgba(147, 184, 223, 0.42); }
+    .neutral { color: var(--neutral); background: rgba(171, 180, 193, 0.12); border-color: rgba(171, 180, 193, 0.40); }
+    nav { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0 22px; padding: 10px 0; background: rgba(11, 13, 17, 0.8); backdrop-filter: blur(10px) saturate(140%); border-bottom: 1px solid var(--line); }
+    nav a { padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-1); color: var(--muted); font-size: 0.86rem; font-weight: 600; }
+    nav a:hover, nav a:focus-visible { color: var(--ink); border-color: var(--accent-line); background: var(--surface-2); text-decoration: none; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .section { grid-column: span 12; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 140px), var(--surface-1); box-shadow: var(--shadow); scroll-margin-top: 82px; }
+    .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
+    .span-5 { grid-column: span 5; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+    .section-head .eyebrow { margin-bottom: 8px; }
+    h2 { font-family: var(--serif); font-weight: 600; font-size: 1.4rem; line-height: 1.16; letter-spacing: -0.005em; }
+    h3 { font-size: 0.96rem; font-weight: 700; }
+    .section p { margin: 0; color: var(--muted); }
+    .section p + p { margin-top: 12px; }
+    .section > p, .section .table-wrap, .section .cards, .section .timeline, .section ul, .section ol { margin-top: 16px; }
+    .section ul, .section ol { padding-left: 22px; color: var(--muted); }
+    .section li { margin: 6px 0; }
+    .section li strong { color: var(--ink); }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+    .card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; color: var(--ink); }
+    .card p { font-size: 0.95rem; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-1); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: var(--surface-2); color: var(--soft); font-size: 0.71rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+    td:first-child { color: var(--ink); font-weight: 550; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .sev { display: inline-block; padding: 2px 8px; border: 1px solid; border-radius: 5px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+    .sev-p0 { color: var(--bad); border-color: rgba(229, 139, 125, 0.42); background: rgba(229, 139, 125, 0.12); }
+    .sev-p1 { color: var(--warn); border-color: rgba(226, 180, 94, 0.42); background: rgba(226, 180, 94, 0.10); }
+    .sev-p2 { color: var(--neutral); border-color: rgba(171, 180, 193, 0.36); background: rgba(171, 180, 193, 0.08); }
+    code { font-family: var(--mono); font-size: 0.88em; padding: 2px 6px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); }
+    code.path, code.hash { overflow-wrap: anywhere; word-break: break-word; }
+    pre { margin: 0; padding: 16px; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--pre-bg); color: #e9efe9; line-height: 1.55; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03); }
+    pre code { padding: 0; border: 0; background: none; font-size: 0.86rem; color: inherit; }
+    details { margin-top: 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-1); overflow: hidden; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; list-style: none; padding: 14px 16px; font-weight: 650; color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    summary:hover { background: var(--surface-2); }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--accent); font-size: 1.15rem; font-weight: 700; line-height: 1; }
+    details[open] summary { border-bottom: 1px solid var(--line); }
+    details[open] summary::after { content: "\2212"; }
+    .details-body { padding: 14px 16px 16px; color: var(--muted); }
+    .details-body ul { margin: 0; padding-left: 18px; }
+    .details-body li { margin: 4px 0; }
+    .details-body pre { margin-top: 0; }
+    .footer { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--soft); font-size: 0.88rem; }
+    @media (max-width: 920px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 24px, 1120px); padding-top: 18px; }
+      .hero { padding: 28px 22px 26px; }
+      .hero::after { left: 22px; right: 22px; }
+      .grid, .cards, .facts { grid-template-columns: 1fr; }
+      .section { padding: 20px 18px; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 6px; }
+      table { min-width: 560px; }
+    }
+    @media (min-width: 721px) { h1 { font-size: 2.6rem; } h2 { font-size: 1.5rem; } }
+    @media (min-width: 1080px) { h1 { font-size: 2.9rem; } }
+    @media print {
+      body { background: #fff; color: #111; }
+      nav { display: none; }
+      .topbar, .hero, .fact, .section, .card, .table-wrap, table, details, summary { background: #fff !important; color: #111; box-shadow: none; border-color: #ddd; }
+      a { color: #1a4f8f; }
+      .kicker, .eyebrow { color: #8a6d2f; }
+      h1, h2, h3, .brand, .topbar time, td:first-child, summary { color: #111; }
+      .label, .lede, .section p, .details-body, .footer { color: #444; }
+      th { background: #f3f3f3 !important; color: #333; }
+      code { background: #f1f1f1; color: #111; border-color: #ddd; }
+      pre { background: #f6f6f6 !important; color: #111 !important; border-color: #ddd; }
+      .hero::after { display: none; }
+      details { break-inside: avoid; }
+      .status { border: 1px solid #999; background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="mark" aria-hidden="true">C</span> codex-skills</div>
+      <div>Generated <time datetime="2026-06-07">2026-06-07</time></div>
+    </header>
+
+    <section class="hero" aria-labelledby="report-title">
+      <p class="kicker">Skill smoke test</p>
+      <h1 id="report-title">frontend-anti-slop revisions, tested against the SkillForge Control Room dashboard</h1>
+      <p class="lede">Exercises the revised frontend-anti-slop and frontend-review skills end to end on a real, dense operational UI. The point is not to redesign SkillForge. The point is to confirm the new forcing functions (pre-design discovery, design ladder, subtraction first, P0/P1/P2 visual severity, concrete defaults, verification protocol) actually pull their weight on a real screen.</p>
+    </section>
+
+    <section class="facts" aria-label="Report summary">
+      <div class="fact">
+        <div class="label">Status</div>
+        <div class="value"><span class="status done">Rules earn their place</span></div>
+      </div>
+      <div class="fact">
+        <div class="label">Subject</div>
+        <div class="value">SkillForge dashboard <br><code class="path">private/mira-codex/dashboard/index.html</code></div>
+      </div>
+      <div class="fact">
+        <div class="label">Findings</div>
+        <div class="value">3 P0, 4 P1, 3 P2</div>
+      </div>
+      <div class="fact">
+        <div class="label">Next step</div>
+        <div class="value">Adopt skill changes, share dashboard findings with owner if redesign is in scope</div>
+      </div>
+    </section>
+
+    <nav aria-label="Report sections">
+      <a href="#outcome">Outcome</a>
+      <a href="#task">Primary task</a>
+      <a href="#discovery">Discovery</a>
+      <a href="#findings">Findings</a>
+      <a href="#subtract">Subtraction</a>
+      <a href="#defaults">Defaults audit</a>
+      <a href="#verification">Verification</a>
+      <a href="#meta">Skill assessment</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+
+    <div class="grid">
+      <section class="section span-7" id="outcome">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Outcome</span>
+            <h2>The revised skill caught real issues with structure</h2>
+          </div>
+          <span class="status done">Done</span>
+        </div>
+        <p>Running the new flow over the SkillForge dashboard surfaced concrete problems on the first pass: off-system spacing, mixed radii, glow shadows and gradient shells used as default styling, and sixteen panels competing for equal visual weight. Each finding pointed back to a specific new rule, which is the test that mattered. The skill is no longer just a critique vocabulary.</p>
+        <p>The dashboard itself is well coded and tightly written. The slop is real but not severe. That is fine for this test: the question is whether the forcing functions fire on a competent UI, not whether the UI is bad.</p>
+      </section>
+
+      <section class="section span-5" id="next-action">
+        <span class="eyebrow">Recommended next action</span>
+        <h2>Adopt the skill changes, share the dashboard findings if redesign is in scope</h2>
+        <p>The skill revisions are ready to commit. The SkillForge findings are not actionable here. Send them to the owner of <code class="path">src/skillforge</code> if a polish pass is wanted; otherwise treat them as fixtures for the skill.</p>
+      </section>
+
+      <section class="section" id="task">
+        <span class="eyebrow">Primary user task</span>
+        <h2>What the SkillForge dashboard is for</h2>
+        <p><strong>Primary task:</strong> an operator opens the page to find what needs attention now. Did the latest automation run pass. What promoted, what quarantined, what is in proposal. Are any policy or invariant gates failing. Are there dedupe findings to action.</p>
+        <p>Per the new <em>frontend-review</em> output contract, this single sentence is now the first line of every review. Every finding below is judged against it.</p>
+      </section>
+
+      <section class="section" id="discovery">
+        <span class="eyebrow">Pre-design discovery</span>
+        <h2>What the codebase already has</h2>
+        <p>The new <em>Pre-Design Discovery</em> rule requires writing these down before any edit. Doing so on this dashboard immediately surfaced two failures (spacing and radii) that the rest of the review then formalized.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Token</th><th>Observed values</th><th>Verdict</th></tr></thead>
+            <tbody>
+              <tr><td>Spacing scale</td><td>4, 6, 7, 8, 9, 10, 11, 12, 13, 16 px in active use</td><td><span class="sev sev-p1">Off-system</span></td></tr>
+              <tr><td>Radii</td><td>3, 4, 5, 6, 7, 8, 9, 10, 20, 999 px mixed across surfaces of the same role</td><td><span class="sev sev-p1">Mixed scales</span></td></tr>
+              <tr><td>Type ramp</td><td>8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 16, 17, 19, 21 px</td><td><span class="sev sev-p2">Dense but workable for ops</span></td></tr>
+              <tr><td>Color tokens</td><td><code>:root</code> defines cyan, green, amber, red, violet, panel layers (good)</td><td><span class="sev sev-p2">Clean</span></td></tr>
+              <tr><td>Primitives</td><td><code>.panel</code>, <code>.kpi</code>, <code>.dchip</code>, <code>.tag</code>, <code>.pill</code>, <code>.rank</code>, <code>.meter</code>, <code>.gate</code>, <code>.timeline</code></td><td><span class="sev sev-p2">Reusable and consistent</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="findings">
+        <span class="eyebrow">Findings</span>
+        <h2>Anti-slop pass, ordered by severity</h2>
+        <p>P0 should always be fixed. P1 should be fixed unless a written product reason overrides. P2 is judgment.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Sev</th><th>Group</th><th>Finding</th><th>Why it fires the new rule</th></tr></thead>
+            <tbody>
+              <tr><td><span class="sev sev-p0">P0</span></td><td>Visual</td><td>Glow shadows used as default brand and status decoration. The <code>.brand .mark</code> has a 22px cyan glow, the <code>.dot.live</code> pulses a 6px cyan/red halo every 2.4 seconds, and KPI cards stack two gradient layers each.</td><td>"Glassmorphism, blur haze, glow shadows used as default styling on operational screens." The OPERATIONAL state is already shown in text; the glow is decoration.</td></tr>
+              <tr><td><span class="sev sev-p0">P0</span></td><td>Visual</td><td>Backdrop-filter blur on the sticky topbar, plus a radial gradient on the page shell. Read as glassmorphism on a control surface.</td><td>Same rule. The backdrop is read-mostly. The blur does not aid scanning.</td></tr>
+              <tr><td><span class="sev sev-p0">P0</span></td><td>Structure</td><td>Sixteen top-level sections share roughly equal visual weight: run status, KPIs, leaderboard, quarantine, promotions, managed-history, invariants, audit diff, registry, dedupe, policy, unscored, benchmarks, legend (plus skip-watch and timeline embedded). The primary task drowns.</td><td>"Repeated panels with identical visual weight but different importance" was P2 in the old rule. With this many at once it crosses into P0: the structural hierarchy collapses.</td></tr>
+              <tr><td><span class="sev sev-p1">P1</span></td><td>Visual</td><td>Mixed radii across the same role. Buttons land at 6, panels at 9 to 10, pills at 20 and 999, KPI bars at 4, mini-cards at 9, search at 9, gates at 9, code rails at 5. No single scale.</td><td>"Mixed radii across surfaces of the same role." Specific and easy to fix.</td></tr>
+              <tr><td><span class="sev sev-p1">P1</span></td><td>Visual</td><td>Off-system spacing: ten distinct pixel values in active use. No clear base unit (4 and 8 are both partial roots).</td><td>"Predictable spacing on the existing token scale." The skill now forces this discovery early, before edits.</td></tr>
+              <tr><td><span class="sev sev-p1">P1</span></td><td>Visual</td><td>Cyan accent used decoratively. Brand mark glow, KPI :before bars, hover row tint, scrollbar gradient, focus ring, chart-fill gradient (cyan to green). The reader cannot tell cyan apart from "active state" or "primary action."</td><td>"Accents used to clarify state or action, not to decorate every surface." Cyan should pick one job.</td></tr>
+              <tr><td><span class="sev sev-p1">P1</span></td><td>Structure</td><td>OPERATIONAL pill appears twice in the same viewport (sidebar status card and topbar crumb). The information is duplicated.</td><td>Repetition without added meaning. Empty panels and duplicates are flagged P1.</td></tr>
+              <tr><td><span class="sev sev-p2">P2</span></td><td>Visual</td><td>Icon backgrounds on most small actions: nav items, KPI corners, panel heads, brand mark. Reads as decoration density.</td><td>"Icon backgrounds on every small action."</td></tr>
+              <tr><td><span class="sev sev-p2">P2</span></td><td>Interaction</td><td>2.4s pulse animation on the live dot. Long for a status that is already communicated as text.</td><td>"Hover transforms or animation that do not clarify interaction." Marginal because pulse is at least a glanceable signal of liveness.</td></tr>
+              <tr><td><span class="sev sev-p2">P2</span></td><td>Copy</td><td>"Control Room" appears as the dashboard's marketing-style mood label. The new copy rule flags this language, but here it functions as the product's actual brand. Judgment call: keep or replace with a function-led title.</td><td>The rule explicitly says "do not apply mechanically." Logged for the owner.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section span-6" id="subtract">
+        <span class="eyebrow">Subtraction first</span>
+        <h2>Three things to remove or merge before adding</h2>
+        <p>The new rule forces a subtraction list before any addition. On this dashboard the candidates were obvious within a minute of reading:</p>
+        <ol>
+          <li><strong>Merge "Managed score history" into the Leaderboard.</strong> It duplicates the same skills, scores, and deltas with worse density. The decision column is the only new signal and could be a Leaderboard sub-column.</li>
+          <li><strong>Move "Decision Legend" to a tooltip on first pill hover, or a help drawer.</strong> Pills repeat across the page; explaining each takes a full panel of permanent real estate.</li>
+          <li><strong>Drop "Unscored Skills" from this view.</strong> The panel is currently empty for managed skills and shows only a footnote paragraph. It belongs in a Benchmarks page, not in Control Room.</li>
+        </ol>
+      </section>
+
+      <section class="section span-6" id="defaults">
+        <span class="eyebrow">Concrete defaults audit</span>
+        <h2>Against the new starter values</h2>
+        <p>The new <em>Concrete Defaults</em> table gives reviewers something to point at. Applied here:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Default</th><th>This dashboard</th><th>Verdict</th></tr></thead>
+            <tbody>
+              <tr><td>One spacing base (4 or 8)</td><td>Ten values, no base</td><td><span class="sev sev-p1">Fail</span></td></tr>
+              <tr><td>Radius 4 to 8 for same-role surfaces</td><td>3 to 20 mixed</td><td><span class="sev sev-p1">Fail</span></td></tr>
+              <tr><td>One elevation per page, two max</td><td>Multiple inset gradients plus glow shadows</td><td><span class="sev sev-p1">Over</span></td></tr>
+              <tr><td>Motion 150 to 200ms, no layout shift</td><td>Transitions are 100 to 180ms, no layout shift</td><td><span class="sev sev-p2">Pass</span></td></tr>
+              <tr><td>One accent for primary action, no third decorative accent</td><td>Cyan and violet both decorative</td><td><span class="sev sev-p1">Fail</span></td></tr>
+              <tr><td>Real data, no fake widgets</td><td>All real</td><td><span class="sev sev-p2">Pass</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="verification">
+        <span class="eyebrow">Verification protocol</span>
+        <h2>What was checked, what was not</h2>
+        <p>The new protocol replaces "looks good on mobile" with concrete viewports, zoom levels, and content states. For this smoke test only the static source was inspected. No browser was opened.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Source read</td><td><span class="status done">Done</span></td><td>Full 648-line file read, structure and CSS audited.</td></tr>
+              <tr><td>Viewports 360, 768, 1024, 1440</td><td><span class="status partial">Not run</span></td><td>The shell has <code>min-width:1280px</code>, so the page intentionally does not target small viewports. That is a product decision worth noting in any future review.</td></tr>
+              <tr><td>Zoom 100% and 125%</td><td><span class="status partial">Not run</span></td><td>Would require launching a browser against the file.</td></tr>
+              <tr><td>Content states (long, empty, error, loading)</td><td><span class="status partial">Not run</span></td><td>Would require synthetic data injection.</td></tr>
+              <tr><td>Keyboard pass on primary action</td><td><span class="status partial">Not run</span></td><td>Filter input has visible focus styling; full tab order not walked.</td></tr>
+              <tr><td>Color and contrast</td><td><span class="status partial">Partial</span></td><td>Muted text (<code>#697a89</code>) on dark navy panels is below WCAG AA for body. Worth a real contrast pass.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="meta">
+        <span class="eyebrow">Skill assessment</span>
+        <h2>Did each new rule pull its weight</h2>
+        <div class="cards">
+          <article class="card">
+            <strong>Pulled its weight</strong>
+            <p>Pre-Design Discovery surfaced spacing and radius chaos within the first minute. Subtraction First produced three concrete cuts. P0/P1/P2 visual severity made triage trivial. Concrete Defaults gave specific numbers to point to. The new Routing block at the top stopped scope creep into copy and perf.</p>
+          </article>
+          <article class="card">
+            <strong>Did not fire this time</strong>
+            <p>Copy rules barely applied: the dashboard is already restrained, no greeting filler, no mood empty states. Done When applies only to implement mode, so it sat out. Most bad-to-good library entries target slop-heavier UIs.</p>
+          </article>
+          <article class="card">
+            <strong>Gaps spotted</strong>
+            <p>The skill flags "equal visual weight" but does not give a count rule. Sixteen panels per screen is the central problem here and there is no explicit "if more than 6 to 8 panels, demote" guidance. The icon-on-everything pattern is P2 but probably under-weighted.</p>
+          </article>
+        </div>
+        <p>Net: the revisions transform the skill from a critique list into operating instructions. Worth adopting. Two small follow-ups noted below.</p>
+        <ul>
+          <li><strong>Add a panel-count rule</strong> to <code>frontend-anti-slop/SKILL.md</code> under Structure: "If a screen has more than 6 to 8 top-level panels, identify a primary three and demote the rest." Single sentence, high leverage.</li>
+          <li><strong>Promote the icon-density rule</strong> from P2 to P1 in the Visual block. Icons on every nav row, KPI corner, panel head, and brand mark is a consistent slop tell.</li>
+        </ul>
+      </section>
+
+      <section class="section" id="evidence">
+        <span class="eyebrow">Evidence</span>
+        <h2>Proof rail</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Claim</th><th>Evidence</th><th>Result</th></tr></thead>
+            <tbody>
+              <tr><td>Glow shadow on brand and live dot</td><td><code class="path">src/skillforge/private/mira-codex/dashboard/index.html</code> lines 38, 66 to 68</td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>Backdrop-filter on sticky topbar</td><td>line 80, <code>backdrop-filter:blur(8px)</code></td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>KPI stacked gradient + accent bar</td><td>lines 100 to 105</td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>Mixed radii across same-role surfaces</td><td>border-radius values at lines 28, 38, 54, 88, 124, 137, 147, 244, 287, 326</td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>Sixteen panels visible at once</td><td>sections <code>#run</code>, <code>#overview</code>, <code>#leaderboard</code>, <code>#quarantine</code>, <code>#promotions</code>, <code>#managed-history</code>, <code>#invariants</code>, <code>#audit</code>, <code>#registry</code>, <code>#dedupe</code>, <code>#policy</code>, <code>#unscored</code>, <code>#benchmarks</code>, <code>#legend</code> plus topbar and rail</td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>OPERATIONAL pill duplicated</td><td>line 357 (rail) and line 368 (topbar)</td><td><span class="status done">Verified</span></td></tr>
+              <tr><td>Browser verification</td><td>not run</td><td><span class="status partial">Not verified</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details>
+          <summary>Skill files touched in this work</summary>
+          <div class="details-body">
+            <ul>
+              <li><code class="path">skills/frontend-anti-slop/SKILL.md</code> (rewritten)</li>
+              <li><code class="path">skills/frontend-anti-slop/references/anti-slop.md</code> (extended)</li>
+              <li><code class="path">skills/frontend-review/SKILL.md</code> (surgical edits)</li>
+              <li><code class="path">skills/anti-ai-writing/SKILL.md</code> (UI microcopy section added)</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Suggested follow-up edits to the skill</summary>
+          <div class="details-body">
+            <ol>
+              <li>Add to <code>frontend-anti-slop/SKILL.md</code> Anti-Slop Rules / Structure: "P0: more than 6 to 8 top-level panels on one screen without a clear primary three. Demote the rest to nav, drill-in pages, or a collapsed appendix."</li>
+              <li>In the same file, promote "icon backgrounds on every small action" from P2 to P1 under Visual.</li>
+            </ol>
+          </div>
+        </details>
+      </section>
+    </div>
+
+    <footer class="footer">
+      Self-contained Codex HTML report. No external assets or build step required. Generated 2026-06-07 in <code class="path">/Users/canepro/src/codex-skills/reports/</code>.
+    </footer>
+  </main>
+</body>
+</html>

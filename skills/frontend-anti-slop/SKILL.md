@@ -7,9 +7,11 @@ metadata:
 
 # Frontend Anti-Slop
 
-Use this skill for design correction and implementation polish. It turns frontend-review findings into a better interface.
+Use this skill for design correction and implementation polish. It turns frontend-review findings into a better interface, removes generic AI UI habits, and preserves useful product intent.
 
-Use it to remove generic AI UI habits, preserve useful product intent, and make the screen work better.
+## Why This Skill Exists
+
+Coding agents default to templated SaaS UI: hero blocks on dashboards, metric grids without a task, mixed radii, glassmorphism, blue-purple gradients, welcome-back copy. That is the model reaching for its training distribution. The rules below are forcing functions, not taste. Follow them and the output stops looking generated.
 
 ## When To Use
 
@@ -21,9 +23,16 @@ Use this skill when:
 
 Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
 
-## How It Works With Frontend Review
+## Routing
 
-Default paired flow:
+Hand off before you start when one of these is the real task:
+- copy or microcopy in the change set: also run `anti-ai-writing`
+- breakpoint repair only: `responsive-design`
+- end-to-end browser proof of flows: `webapp-testing`
+- render, hydration, or bundle performance: `react-performance-review`
+- component library governance: `design-system-maintenance`
+
+## Paired Flow With Frontend Review
 
 1. Start from `frontend-review` findings when available.
 2. Fix the highest-impact UX and layout issue first.
@@ -42,33 +51,77 @@ If no review exists, run a quick review pass first: task, hierarchy, layout, acc
 
 Default to `implement` when the user clearly asks you to update the UI.
 
-## Core Standard
+## Pre-Design Discovery
 
-Good frontend polish is not decoration. It should improve:
+Required before any edit. Write these down. If any are unknown, ask the user or read the repo before designing.
 
-- task completion
-- information hierarchy
-- accessibility and interaction comfort
-- responsive behavior
-- product-specific visual identity
-- maintainability inside the existing codebase
+- Primary user task on this screen, in one sentence.
+- Existing spacing scale (the numbers actually used in the codebase).
+- Existing radii, type ramp, and primary color tokens.
+- Component primitives already available (Button, Card, Table, etc.).
+- Layout primitives or container conventions (Stack, Grid, Page, etc.).
+
+Skipping this step is the most common cause of slop: parallel tokens, reinvented primitives, off-system spacing.
+
+## Design Ladder
+
+Make decisions in this order. Most slop comes from skipping ahead.
+
+1. Structure: what blocks the page has, in what reading order.
+2. Hierarchy: which block dominates, which support it, which are background.
+3. State colors: success, warning, danger, info, used only where state changes meaning.
+4. Density: where the page breathes and where it tightens, by design not accident.
+5. Motion: short, local, explanatory.
+6. Surface effects: shadows, borders, gradients. Last, and only when they earn the cost.
+
+## Subtraction First
+
+Before adding any element, list 2 to 3 elements to delete, merge, or move. Name each one and the reason. If nothing can be removed, the layout is probably already too sparse and the real problem is hierarchy, not content.
+
+This is the single largest behavior gap between agents that produce good UI and agents that produce generic UI.
 
 ## Anti-Slop Rules
 
-Challenge these patterns:
-- decorative hero blocks inside operational screens
-- metric-card grids used before the page has a task model
-- cards inside cards without a functional reason
-- fake charts, fake activity, fake insights, and placeholder widgets
-- labels that describe mood instead of product meaning
-- oversized radii, pill overload, glow, blur haze, glass panels, and gradient shells used as taste substitutes
-- one-note palettes, especially default blue-purple SaaS styling, unless the product already owns that palette
-- excess whitespace that hides weak structure
-- hover transforms and animation that do not clarify interaction
-- repeated panels with identical visual weight but different importance
-- copy that explains how polished the UI is instead of helping the user act
+Severity is inline. P0 should always be fixed. P1 should be fixed unless there is a written product reason. P2 is judgment.
 
-Do not apply bans mechanically. The test is whether the choice helps the product, not whether it appears on a list.
+### Structure
+
+- P0: fake charts, fake activity, fake insights, placeholder widgets shipped as real UI
+- P0: decorative hero blocks inside operational screens
+- P0: cards inside cards without a functional reason
+- P0: more than 6 to 8 top-level panels on one screen without a clear primary three. Demote the rest to nav, drill-in pages, or a collapsed appendix.
+- P1: metric-card grids used before the page has a task model
+- P1: empty panels kept for symmetry
+- P1: right rails that repeat summary content shown elsewhere
+- P2: repeated panels with identical visual weight but different importance
+
+### Visual
+
+- P0: glassmorphism, blur haze, glow shadows used as default styling on operational screens
+- P1: oversized radii, pill overload, and gradient shells used as taste substitutes
+- P1: one-note palettes, especially default blue-purple SaaS styling, unless the product already owns that palette
+- P1: mixed radii across surfaces of the same role (4px and 16px buttons on the same page)
+- P1: icon backgrounds on every small action, or decorative icons on every nav row, KPI corner, and panel head
+- P2: decorative badges on ordinary labels
+
+### Copy
+
+- P0: unfilled placeholders (`[Your Name]`, `TODO`, lorem ipsum) shipped in real UI
+- P0: emoji-prefixed mood headers ("Welcome back!", "Let's get started", "Your AI insights")
+- P1: section headings that describe mood instead of function ("Command Center", "Live Pulse")
+- P1: copy that explains how polished the UI is instead of helping the user act
+- P1: empty-state copy that reassures instead of giving the next action
+- P2: button labels that are nouns or moods ("Continue your journey") instead of verbs ("Save changes")
+
+For any user-visible string you change, run `anti-ai-writing` over it before shipping.
+
+### Interaction
+
+- P1: hover transforms or animation that do not clarify interaction
+- P1: layout-shifting hover states
+- P2: long transitions on frequent interactions (over 200ms on hover or click)
+
+Do not apply these mechanically. The test is whether the choice helps the product, not whether it appears on a list.
 
 ## Preferred Patterns
 
@@ -77,26 +130,69 @@ Prefer:
 - restrained headers with useful actions and state
 - stable grids, tables, forms, tabs, and lists
 - cards only for repeated objects, modals, or genuinely framed tools
-- predictable spacing with an existing token scale where possible
+- predictable spacing on the existing token scale
 - accessible color contrast and non-color state indicators
 - component-level responsive behavior using intrinsic layout or container queries where they fit
 - real data, real product state, or honest empty states
 - fewer surfaces with stronger hierarchy
 
+## Concrete Defaults
+
+When the existing system gives no answer, start here. These values are conservative and rarely wrong. Override them when the product calls for it.
+
+- Spacing scale: 4, 8, 12, 16, 24, 32, 48. Pick one base unit and stay on it.
+- Radius: 4 to 8px for most surfaces. Do not mix scales on the same page. 0px is valid for dense work surfaces.
+- Type ramp on operational screens: body 14, label 12 to 13, section heading 16 to 18, page title 20 to 24. Bump higher only on marketing or empty-state surfaces.
+- Form control height: 32 to 40px, matched across the form.
+- Table row height: 36 to 44px.
+- Content max width for prose: roughly 72ch.
+- Motion: 150 to 200ms, ease-out, opacity and transform only on frequent interactions.
+- Shadow: one elevation level per page when possible. Two is the cap.
+- Color: one accent for primary action, one for destructive, plus state colors. No third decorative accent.
+
+See `references/anti-slop.md` for fuller defaults and bad-to-good rewrites of common surfaces.
+
 ## Implementation Rules
 
 When editing code:
 
-1. Read existing components, styles, tokens, and layout conventions.
+1. Complete Pre-Design Discovery first.
 2. Preserve the framework and design system unless there is a clear reason not to.
 3. Fix structure before color.
 4. Use existing components before adding new primitives.
 5. Add an abstraction only when repeated layout or visual logic needs one.
-6. Keep copy short and task-specific.
+6. Keep copy short and task-specific. Run `anti-ai-writing` over any strings you change.
 7. Define stable dimensions for fixed-format UI like boards, charts, cards, counters, and toolbars.
-8. Verify desktop and mobile. Include screenshots or browser observations when possible.
+8. Verify at the viewports listed below.
 9. Check accessibility basics after changes.
 10. If interaction feels slow or heavy, route to `react-performance-review` or `webapp-testing`.
+
+## Verification Protocol
+
+Replace vague "looks good on mobile" checks with:
+
+- Viewport widths: 360, 768, 1024, 1440. Spot-check 1920 if the layout has a wide variant.
+- Browser zoom: 100% and 125%. Text and controls should not clip.
+- Content states for each meaningful surface: long string, empty, error, loading.
+- Keyboard pass: tab through the primary action, confirm focus is visible at every stop.
+- Color and contrast: no color-only state, body text meets WCAG AA against its background.
+- Real data, or a clearly labeled mock state.
+
+Capture screenshots or a short rendered description for each viewport when possible.
+
+## Done When
+
+Stop polishing when all of these are true:
+
+- The primary user task is more obvious than before.
+- Layout works at 360 and 1440 widths.
+- Every copy string changed in this pass has run through `anti-ai-writing`.
+- No fake data, no placeholder text, no decorative filler.
+- All tokens used exist in the design system, or new tokens were added on purpose.
+- Focus, contrast, and target size were checked.
+- You can name what was removed, not only what was added.
+
+If you keep iterating past this list, you are adding slop back.
 
 ## Output
 
@@ -109,9 +205,10 @@ For audit or redesign mode:
 For implementation mode:
 - summarize the changed user experience
 - name the main files changed
-- report rendered checks, viewports, and accessibility or interaction checks
+- report rendered checks (viewports, zoom, content states) and accessibility checks
+- list what was removed in this pass
 - state remaining risk only if real
 
 ## Reference
 
-Use `references/anti-slop.md` as an anti-pattern catalogue and design-correction checklist.
+Use `references/anti-slop.md` as an anti-pattern catalogue, fuller defaults table, and bad-to-good design library.

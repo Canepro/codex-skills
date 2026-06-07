@@ -52,6 +52,7 @@ Infer the context when the user does not name one.
 - `proposal` or `report`: lead with status, decision, evidence, risks, and next action.
 - `email` or `handoff`: name the ask, owner, deadline, and blocker.
 - `social`: short rhythm is acceptable, but avoid hooks that sell ordinary facts as revelations.
+- `ui`: button labels are verbs, headings name the object or state, empty states give the next action, errors name the field and what to do, no greetings, no mood headers, no "let's get started" filler. Pair this with `frontend-anti-slop` when reviewing a UI change.
 
 If a rule conflicts with the context, choose the clearer version for the reader. Technical accuracy beats style cleanup.
 
@@ -90,6 +91,18 @@ If the user provides a writing sample, match its sentence length, register, cont
 - Cutoff disclaimers: "As of my last update", "I do not have real-time access". Verify or say the current limitation directly.
 - Leaked citation or tool markup: `turn0search0`, `contentReference`, `oai_citation`, `[attached_file:1]`, `utm_source=chatgpt.com`, `utm_source=openai`, `utm_source=claude.ai`.
 - Unfilled placeholders: `[Your Name]`, `[INSERT SOURCE]`, `2026-XX-XX`, TODO comments left in publishable prose.
+
+### UI Microcopy Artifacts
+
+These belong to the UI but the same rules apply. Strip them in the same pass.
+
+- Greeting filler: "Welcome back, {name}!", "Good morning, Vincent!", "Hi there!".
+- Mood headers: "Let's get started", "You're all set!", "Awesome work!", "Your AI insights".
+- Cheerleader empty states: "Nothing here yet, but exciting things are coming!".
+- Reassurance copy on forms: "We will never spam you, promise", "This helps us personalize your experience".
+- Verbose confirmations: "Are you absolutely sure you want to do this? This action cannot be undone and we want to make sure you have considered it." Replace with the concrete consequence and a verb-led button.
+- Button labels that are moods or nouns: "Continue your journey", "Get started", "Explore". Replace with the verb for the actual action: "Save changes", "Create ticket", "Delete project".
+- Error copy that hides the field: "Something went wrong, please try again." Name the field and the fix.
 
 ### Framing And Transitions
 

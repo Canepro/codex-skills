@@ -11,6 +11,20 @@ Use this skill for diagnosis and prioritization. It should produce evidence-back
 
 Do not redesign by default. If a fix is obvious and low-risk, state it, but keep the review focused on what is wrong, why it matters, and what should happen next.
 
+## Why This Skill Exists
+
+Coding agents tend to skim UI for surface polish and miss the failure modes that matter: unclear task, weak hierarchy, broken responsive behavior, inaccessible state, generic SaaS habits dressed up as design. This skill forces a structured pass against those lenses and routes the next step to the right specialist instead of redesigning on instinct.
+
+## Routing
+
+Pick a different skill if the request is really one of these:
+- redesign or polish: `frontend-anti-slop`
+- breakpoint repair only: `responsive-design`
+- end-to-end browser proof: `webapp-testing`
+- render, hydration, or bundle performance: `react-performance-review`
+- component library governance: `design-system-maintenance`
+- copy or microcopy: `anti-ai-writing`
+
 ## When To Use
 
 Use this skill when:
@@ -47,6 +61,13 @@ Prefer direct evidence over taste claims:
 
 If rendered evidence is unavailable, say that clearly and limit confidence.
 
+When you do have rendered evidence, check at concrete viewports and content states rather than "desktop and mobile":
+
+- Widths: 360, 768, 1024, 1440. Add 1920 only when a wide variant exists.
+- Browser zoom: 100% and 125%.
+- Content states per meaningful surface: long string, empty, error, loading.
+- Keyboard pass on the primary action with focus visible at every stop.
+
 ## Review Lenses
 
 Review in this order:
@@ -81,9 +102,10 @@ Findings should lead the response. Keep summaries secondary.
 
 Default output:
 
-1. Findings, ordered by severity, with file or screen references when available.
-2. Evidence checked, including viewports or screenshots if used.
-3. Recommended next step: fix directly, use `frontend-anti-slop`, use another specialist skill, or no change.
+1. Primary user task, in one sentence. This is the first line of the review and the anchor every finding is judged against.
+2. Findings, ordered by severity, with file or screen references when available.
+3. Evidence checked, including viewports, zoom levels, and content states.
+4. Recommended next step: fix directly, use `frontend-anti-slop`, use another specialist skill, or no change.
 
 Avoid long nit lists. Prefer fewer findings that change the outcome.
 
