@@ -33,6 +33,14 @@ Good webapp testing covers:
 - responsive behavior at key widths
 - basic accessibility and keyboard sanity
 
+## Security and sensitive data handling
+
+- Do not include real secrets in test artifacts such as logs, screenshots, traces, or shared notes.
+- Use only masked or test-only credentials for authentication checks.
+- Keep tokens redacted in reports, and avoid printing token values to console output.
+- Private keys are out of scope for this skill. If private key behavior must be tested, route it through the security review flow first.
+- Ask for explicit approval before using any real credentials, tokens, or private keys in a live run.
+
 ## Workflow
 
 ### 1. Identify the critical journey
