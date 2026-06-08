@@ -74,6 +74,7 @@ Use a reusable visual system:
 - proof rail for commands, logs, screenshots, tickets, and changed files
 - tables for files, tests, risks, and decisions
 - timestamped timeline for event order when it matters; use actual observed times, not generic "Step 1" labels alone
+- section anchors and IDs for stable navigation jumps
 - collapsible appendix for raw evidence
 - sticky or top navigation for longer reports
 
@@ -95,9 +96,11 @@ Prefer concrete proof:
 - short log/output excerpts
 - screenshots with absolute local paths when available
 - source URLs or ticket IDs when used
+- redacted proof for sensitive values when references are needed
 - explicit "not verified" entries for skipped or unavailable checks
 
 Do not imply review of logs, attachments, code, or screenshots unless they were actually opened.
+- Never include raw credentials or tokens in a report. Replace values with redacted evidence where possible.
 
 ## Workflow
 
@@ -105,6 +108,7 @@ Do not imply review of logs, attachments, code, or screenshots unless they were 
 2. Copy `templates/report.html` to the destination report path.
 3. Replace the template content with the task-specific report. Keep only useful sections.
 4. Verify the HTML is self-contained and opens locally.
+5. Validate anchors, keyboard traversal, and that print/PDF output behaves with readable page breaks.
 5. Run the checks in `references/report-qa.md` when the report is substantial or the template changed.
 6. In the final chat reply, give the report path and a compact summary of what it contains.
 
