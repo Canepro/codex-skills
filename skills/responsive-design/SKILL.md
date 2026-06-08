@@ -29,6 +29,7 @@ Use this skill when the main problem is layout adaptation across screen sizes an
 
 Identify:
 - current breakpoints and whether they are mobile-first
+- **layout stability dimensions**, including width, height, and reserved space for late-loading content
 - layout primitives in use: block flow, flex, grid, subgrid
 - components that depend too heavily on viewport width
 - failure points: overflow, awkward wrapping, broken alignment, unusable controls
@@ -40,8 +41,32 @@ Choose deliberately:
 - **container queries** for reusable components that appear in multiple contexts
 - **fluid scales** for typography and spacing that should grow smoothly
 - **content-based breakpoints** when the layout breaks before a standard device width
+- **safe-area-aware viewport sizing** for mobile chrome and notch behavior
 
 Do not add more breakpoints than the content actually needs.
+
+### 2a. Modern viewport units and safe areas
+
+Use modern viewport units where chrome and toolbars shift:
+- prefer dynamic viewport units such as `dvh` for full-height regions that must follow browser chrome
+- use `svh` for stable small-viewport calculations in constrained contexts
+- apply `env(safe-area-inset-top)`, `env(safe-area-inset-right)`, `env(safe-area-inset-bottom)`, and `env(safe-area-inset-left)` for edge padding
+- avoid hardcoded `100vh` on elements that need full-height behavior
+
+### 2b. Keep sensitive UI behavior unchanged
+
+Responsive layout changes must not mutate:
+- consent flow order, wording, and submission state
+- secret reveal, secret copy actions, masking, and ownership handling
+- approval buttons, step gates, and legal acknowledgment checkpoints
+
+### 2c. Container query specifics
+
+Use container queries for component-level adaptation:
+- set `container-type: inline-size` on the component wrapper that owns its own layout
+- define local rules with `@container (min-width: 40cqi)` and `@container (max-width: 30cqi)`
+- use `cqi` units for spacing or gaps so sizing follows the container, not the viewport
+- keep container breakpoints separate from global page breakpoints unless needed
 
 ### 3. Fix structure before polish
 
@@ -63,6 +88,13 @@ Give extra attention to:
 
 Use transformation patterns intentionally rather than just stacking everything.
 
+### 4a. Respect user motion and input preferences
+
+- wrap decorative transitions and animations behind `prefers-reduced-motion`
+- tailor hit targets and spacing for `pointer: coarse` inputs
+- provide non-hover interaction paths and test `hover: hover` alternatives
+- align theme-sensitive behavior with `prefers-color-scheme` so layouts stay clear in either mode
+
 ### 5. Verify key widths
 
 At minimum, verify:
@@ -73,6 +105,11 @@ At minimum, verify:
 - wide desktop
 
 Check both visual layout and interaction comfort.
+
+Also verify:
+- layout stability and dimensions across orientation and width shifts
+- motion and input preference behavior
+- consent, secret, and approval behavior remains unchanged
 
 ## Output expectations
 
