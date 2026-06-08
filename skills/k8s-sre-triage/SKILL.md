@@ -143,3 +143,7 @@ Usage:
 ```bash
 bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
 ```
+
+## SkillForge Validation Notes
+When updating this skill, preserve the behaviors covered by its benchmark cases and protected invariants.
+Focus on: The skill must continue to reference or enforce rules for credential.
