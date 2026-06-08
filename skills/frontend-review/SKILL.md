@@ -7,7 +7,7 @@ metadata:
 
 # Frontend Review
 
-Use this skill for diagnosis and prioritization. It should produce evidence-backed findings and decide whether `frontend-anti-slop`, `responsive-design`, `webapp-testing`, `react-performance-review`, or `design-system-maintenance` should take the next step.
+Use this skill for diagnosis, bug discovery, and prioritization. It should produce evidence-backed findings about regressions and defects, and then decide whether `frontend-anti-slop`, `responsive-design`, `webapp-testing`, `react-performance-review`, or `design-system-maintenance` should take the next step.
 
 Do not redesign by default. If a fix is obvious and low-risk, state it, but keep the review focused on what is wrong, why it matters, and what should happen next.
 
@@ -57,7 +57,8 @@ Prefer direct evidence over taste claims:
 - run the app or inspect screenshots when available
 - capture or inspect at least desktop and mobile states for meaningful UI work
 - identify the primary user task and expected outcome
-- name the exact element, state, viewport, or file behind each finding
+- name the exact element, state, viewport, and `file:line` behind each finding
+- include screenshot path for each visual issue and concise reproduction steps that recreate it
 
 If rendered evidence is unavailable, say that clearly and limit confidence.
 
@@ -75,14 +76,14 @@ Review in this order:
 1. Task flow and decision clarity
 2. Information hierarchy and content density
 3. Layout structure, responsiveness, and overflow handling
-4. Accessibility basics, including WCAG 2.2 practical checks
+4. Accessibility basics, including WCAG 2.2 practical checks with explicit tests for keyboard navigation, focus order, screen reader cues, color contrast, and skip link behavior
 5. Interaction responsiveness and perceived performance
 6. Visual-system consistency and design-system fit
 7. Implementation maintainability
 
 ## Modern Frontend Checks
 
-- Accessibility: visible focus, keyboard reachability, target size, labels, contrast, no color-only state, and no unnecessary cognitive load in authentication or forms.
+- Accessibility: keyboard navigation and reachability, focus order, visible focus, skip links, labels, target size, screen reader labeling and announcements, color contrast, no color-only state, and no unnecessary cognitive load in authentication or forms.
 - Responsiveness: component-level behavior, not only viewport breakpoints. Prefer intrinsic layout, container queries, stable dimensions, and intentional overflow.
 - Performance as UX: flag interactions likely to hurt responsiveness, excessive client work, layout shift, heavy animation, expensive hydration, or blocked input.
 - CSS architecture: watch for specificity fights, duplicated one-off styles, missing tokens, uncontrolled cascade, and component styles that cannot scale.
@@ -103,9 +104,18 @@ Findings should lead the response. Keep summaries secondary.
 Default output:
 
 1. Primary user task, in one sentence. This is the first line of the review and the anchor every finding is judged against.
-2. Findings, ordered by severity, with file or screen references when available.
-3. Evidence checked, including viewports, zoom levels, and content states.
-4. Recommended next step: fix directly, use `frontend-anti-slop`, use another specialist skill, or no change.
+2. Findings, ordered by severity, with this schema:
+   - bug: what is broken and why
+   - user impact: who is affected and the concrete outcome
+   - user impact: user outcome and task risk
+   - minimal remediation: smallest safe fix that closes the issue
+   - evidence: `file:line`, screenshot path, and reproducible steps
+3. Evidence checked, including viewports, zoom levels, content states, and how each finding was validated.
+4. Triage signal:
+   - ship-blocker: must be fixed before `ready to ship`
+   - follow-up: polish or design debt that can be deferred
+5. Recommended next step: fix directly, use `frontend-anti-slop`, use another specialist skill, or no change.
+6. Conclude with `ready to ship` decision only after ship-blockers are cleared.
 
 Avoid long nit lists. Prefer fewer findings that change the outcome.
 
