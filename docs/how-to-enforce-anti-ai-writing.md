@@ -23,7 +23,7 @@ Hard rules enforced on every reply:
 
 ### Claude Code (local)
 
-Already done if you cloned this repo and ran `scripts/bootstrap.sh`. The repo installer manages the flat Claude Code skill file at `~/.claude/skills/anti-ai-writing.md`. Some older machines may also have a preserved directory form at `~/.claude/skills/anti-ai-writing/SKILL.md`, but the flat file is the repo-managed install target. The paste block lives in `~/.claude/CLAUDE.md` under "Writing style (always)" and loads into every Claude Code session.
+Already done if you cloned this repo and ran `scripts/bootstrap.sh`. The repo installer manages the Claude Code skill directory at `~/.claude/skills/anti-ai-writing/SKILL.md`, the same directory layout Claude Code discovers natively (flat `<name>.md` files were the old install format and are removed on install). The paste block lives in `~/.claude/CLAUDE.md` under "Writing style (always)" and loads into every Claude Code session.
 
 To refresh after an upstream change, run `bash scripts/install.sh` from the repo root.
 

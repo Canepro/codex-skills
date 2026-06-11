@@ -64,33 +64,20 @@ done
 install_to_claude() {
   local dest_dir="$1"
   local manifest_path="$dest_dir/.codex-skills-managed"
-  local manifest_tmp
-  manifest_tmp="$(mktemp)"
 
   mkdir -p "$dest_dir"
 
+  # Claude Code discovers skills as <skill>/SKILL.md directories, not flat
+  # <skill>.md files. Remove legacy flat-file installs from the old format,
+  # then install full skill directories like every other tree.
   if [ -f "$manifest_path" ]; then
     while IFS= read -r old_skill; do
       [ -n "$old_skill" ] || continue
-      [ -d "$SRC_DIR/$old_skill" ] && continue
       rm -f "$dest_dir/$old_skill.md"
     done < "$manifest_path"
   fi
 
-  : > "$manifest_tmp"
-
-  for skill_path in "$SRC_DIR"/*; do
-    [ -d "$skill_path" ] || continue
-    skill_name="$(basename "$skill_path")"
-    skill_file="$skill_path/SKILL.md"
-    [ -f "$skill_file" ] || continue
-
-    printf '%s\n' "$skill_name" >> "$manifest_tmp"
-    cp "$skill_file" "$dest_dir/$skill_name.md"
-  done
-
-  mv "$manifest_tmp" "$manifest_path"
-  printf 'Installed repo-managed skills into %s\n' "$dest_dir"
+  install_to_dest "$dest_dir"
 }
 
 install_to_claude "$DEFAULT_CLAUDE_DIR"

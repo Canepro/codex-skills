@@ -189,6 +189,6 @@ bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
-- Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/*.md` files are generated from each repo skill's `SKILL.md`.
+- Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

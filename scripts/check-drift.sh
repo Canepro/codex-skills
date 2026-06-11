@@ -162,95 +162,6 @@ check_destination() {
   print_list 'external or preserved installed skills:' "$external_skills"
 }
 
-list_claude_installed_skills() {
-  local dir="$1"
-
-  if [[ ! -d "$dir" ]]; then
-    return 0
-  fi
-
-  find "$dir" -mindepth 1 -maxdepth 1 -type f -name '*.md' -exec basename {} .md \; | sort
-}
-
-claude_skill_has_content_drift() {
-  local skill_name="$1"
-  local dest_dir="$2"
-
-  if [[ ! -f "$dest_dir/$skill_name.md" ]]; then
-    return 1
-  fi
-
-  ! diff -q "$SRC_DIR/$skill_name/SKILL.md" "$dest_dir/$skill_name.md" >/dev/null 2>&1
-}
-
-check_claude_destination() {
-  local name="$1"
-  local dest_dir="$2"
-  local manifest_path="$dest_dir/$MANIFEST_NAME"
-  local repo_skills_file manifest_skills_file installed_skills_file
-  local repo_missing_from_manifest manifest_missing_from_repo
-  local repo_missing_from_install manifest_missing_from_install external_skills
-  local content_drift
-
-  repo_skills_file="$(make_tmp)"
-  manifest_skills_file="$(make_tmp)"
-  installed_skills_file="$(make_tmp)"
-  repo_missing_from_manifest="$(make_tmp)"
-  manifest_missing_from_repo="$(make_tmp)"
-  repo_missing_from_install="$(make_tmp)"
-  manifest_missing_from_install="$(make_tmp)"
-  external_skills="$(make_tmp)"
-  content_drift="$(make_tmp)"
-
-  trap 'rm -f "$repo_skills_file" "$manifest_skills_file" "$installed_skills_file" "$repo_missing_from_manifest" "$manifest_missing_from_repo" "$repo_missing_from_install" "$manifest_missing_from_install" "$external_skills" "$content_drift"' RETURN
-
-  list_repo_skills > "$repo_skills_file"
-  list_manifest_skills "$manifest_path" > "$manifest_skills_file"
-  list_claude_installed_skills "$dest_dir" > "$installed_skills_file"
-
-  printf '\n[%s]\n' "$name"
-  printf '  path: %s\n' "$dest_dir"
-
-  if [[ ! -d "$dest_dir" ]]; then
-    printf '  status: missing destination directory\n'
-    HAS_ISSUES=1
-    return 0
-  fi
-
-  if [[ ! -f "$manifest_path" ]]; then
-    printf '  status: missing manifest %s\n' "$manifest_path"
-    HAS_ISSUES=1
-    return 0
-  fi
-
-  comm -23 "$repo_skills_file" "$manifest_skills_file" > "$repo_missing_from_manifest"
-  comm -13 "$repo_skills_file" "$manifest_skills_file" > "$manifest_missing_from_repo"
-  comm -23 "$repo_skills_file" "$installed_skills_file" > "$repo_missing_from_install"
-  comm -23 "$manifest_skills_file" "$installed_skills_file" > "$manifest_missing_from_install"
-  comm -13 "$repo_skills_file" "$installed_skills_file" > "$external_skills"
-
-  while IFS= read -r skill_name; do
-    [[ -n "$skill_name" ]] || continue
-    if claude_skill_has_content_drift "$skill_name" "$dest_dir"; then
-      printf '%s\n' "$skill_name" >> "$content_drift"
-    fi
-  done < "$repo_skills_file"
-
-  if [[ -s "$repo_missing_from_manifest" || -s "$manifest_missing_from_repo" || -s "$repo_missing_from_install" || -s "$manifest_missing_from_install" || -s "$content_drift" ]]; then
-    printf '  status: drift detected\n'
-    HAS_ISSUES=1
-  else
-    printf '  status: repo-managed skills aligned\n'
-  fi
-
-  print_list 'repo skills missing from manifest:' "$repo_missing_from_manifest"
-  print_list 'manifest entries missing from repo:' "$manifest_missing_from_repo"
-  print_list 'repo skills missing from install:' "$repo_missing_from_install"
-  print_list 'manifest entries missing from install:' "$manifest_missing_from_install"
-  print_list 'installed skills with content drift:' "$content_drift"
-  print_list 'external or preserved installed skills:' "$external_skills"
-}
-
 check_system_skills() {
   local name="$1"
   local system_dir="$2"
@@ -401,7 +312,7 @@ printf '  source: %s\n' "$SRC_DIR"
 check_destination 'codex' "$DEFAULT_CODEX_DIR"
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
-check_claude_destination 'claude' "$DEFAULT_CLAUDE_DIR"
+check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
 check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system"
 check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system"
 check_installed_tree_alignment

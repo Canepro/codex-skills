@@ -28,7 +28,7 @@ Source repo: [Canepro/codex-skills](https://github.com/Canepro/codex-skills) at 
 
 - Cursor: `~/.cursor/skills/<skill-name>/SKILL.md`
 - Codex: `~/.codex/skills/<skill-name>/SKILL.md`
-- Claude Code: `~/.claude/skills/<skill-name>.md`
+- Claude Code: `~/.claude/skills/<skill-name>/SKILL.md`
 
 Refresh installs with `bash ~/src/codex-skills/scripts/bootstrap.sh`; check drift with `bash ~/src/codex-skills/scripts/check-drift.sh`.
 
