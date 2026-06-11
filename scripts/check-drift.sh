@@ -188,10 +188,10 @@ check_system_skills() {
   fi
 
   if [[ ! -d "$system_dir" ]]; then
-    # Codex 0.139+ no longer materializes ~/.codex/skills/.system. An absent
-    # directory means the agent does not provide system skills here; only a
+    # Codex materializes ~/.codex/skills/.system lazily, so the directory can
+    # be legitimately absent between runs or right after an upgrade. Only a
     # present-but-drifted directory counts as drift.
-    printf '  status: no system skill directory (agent does not provide one; not counted as drift)\n'
+    printf '  status: no system skill directory (agent has not materialized one; not counted as drift)\n'
     return 0
   fi
 

@@ -79,8 +79,6 @@ Library-managed skills as of this commit:
 
 Pinned system skills expected from Codex as of this commit:
 
-- `imagegen`
-- `openai-docs`
 - `plugin-creator`
 - `skill-creator`
 - `skill-installer`
@@ -108,7 +106,7 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-Codex 0.139 and later no longer materialize `~/.codex/skills/.system`; the drift check reports an absent system directory as a note, not a failure. The pinned contract still applies wherever a `.system` directory exists (for example the preserved copy under `~/.agents/skills/.system`).
+Codex materializes `~/.codex/skills/.system` lazily, so the directory can be absent between runs or right after an upgrade; the drift check reports an absent system directory as a note, not a failure. The pinned contract applies wherever a `.system` directory exists. Codex 0.139 shrank the bundled set to `plugin-creator`, `skill-creator`, and `skill-installer`; the lock was refreshed for that contract on 2026-06-11.
 
 If `check-drift.sh` fails on the system-skill section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
 
