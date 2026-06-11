@@ -9,6 +9,8 @@ metadata:
 
 Investigate the problem with minimal back-and-forth, separate symptoms from causes, and leave the user with either a fix in progress or a durable issue-quality diagnosis.
 
+This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), switch to `systematic-debugging` for its phased method, then come back here to write up the result.
+
 ## Workflow
 
 ### 1. Capture the problem

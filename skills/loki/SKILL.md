@@ -257,6 +257,12 @@ Read path:  Query → Query Frontend → Querier → Ingester + Store (chunks)
 - **Query Frontend**: Caches, splits, and parallelizes queries
 - **Compactor**: Manages retention and deduplication
 
+## Related skills
+
+- Queries are slow or the label schema needs an audit: `loki-label-analyzer`
+- Ad-hoc forensic analysis of pasted or exported logs, outside Loki: `log-analyzer`
+- Alert rules on Loki data and notification routing: `alerting-irm`
+
 ## References
 
 - [LogQL reference](https://grafana.com/docs/loki/latest/query/)

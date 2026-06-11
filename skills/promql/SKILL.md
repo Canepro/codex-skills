@@ -298,6 +298,12 @@ rate(http_requests_total[5m])
 
 ---
 
+## Related skills
+
+- Prometheus is slow, OOMing, or the bill spiked right now: `prometheus-cardinality-troubleshooter`
+- Designing labels to prevent cardinality problems at the source: `prometheus-label-strategy`
+- An alert fired unexpectedly or targets look down: `prometheus-grafana-triage`
+
 ## References
 
 - [Prometheus querying basics](https://prometheus.io/docs/prometheus/latest/querying/basics/)

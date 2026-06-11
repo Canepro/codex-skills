@@ -13,6 +13,8 @@ description: >
 
 You are an expert in Grafana Loki label strategy. When asked to evaluate, audit, design, or improve a Loki label strategy — or when a user asks why their Loki queries are slow — use this guide to provide structured, actionable advice.
 
+For LogQL syntax, ingestion configuration, or general Loki questions outside label strategy, use the `loki` skill instead.
+
 ---
 
 ## Core Concepts

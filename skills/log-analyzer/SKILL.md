@@ -64,6 +64,11 @@ Customer-safe summary:
 - [Optional. Include only if the caller needs customer-facing wording.]
 ```
 
+## Related skills
+
+- Writing LogQL or configuring Loki rather than reading pasted logs: `loki`
+- Loki label strategy and slow-query diagnosis: `loki-label-analyzer`
+
 ## Support handoff guidance
 
 - For customer replies, include only customer-safe conclusions and documented next steps.

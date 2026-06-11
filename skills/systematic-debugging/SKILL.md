@@ -43,6 +43,8 @@ Use for ANY technical issue:
 - You're in a hurry (rushing guarantees rework)
 - Manager wants it fixed NOW (systematic is faster than thrashing)
 
+This skill owns the method. When the user mainly wants a written diagnosis or an issue-quality fix plan for one stated bug, `triage-issue` owns that output shape; use this process inside it when the investigation needs discipline.
+
 ## The Four Phases
 
 You MUST complete each phase before proceeding to the next.
