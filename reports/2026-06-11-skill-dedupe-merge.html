@@ -1,0 +1,757 @@
+<!doctype html>
+<!-- Codex HTML Report Template v0.5.0: dark editorial report, layered surfaces, refined typography, gated status, timestamped, evidence-oriented. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Library Dedupe and Merge</title>
+  <style>
+    :root {
+      color-scheme: dark;
+
+      /* Elevation: the page is darkest; surfaces step up toward the reader. */
+      --bg: #0b0d11;
+      --bg-tint: #0f1117;
+      --surface-1: #15171f;   /* sections */
+      --surface-2: #1c1f29;   /* insets, table heads, cards */
+      --surface-3: #242836;   /* hover */
+      --pre-bg: #090a0d;
+
+      /* Ink */
+      --ink: #f4efe4;
+      --muted: #aab1be;
+      --soft: #868e9c;
+
+      /* Hairlines */
+      --line: rgba(255, 255, 255, 0.085);
+      --line-2: rgba(255, 255, 255, 0.16);
+
+      /* Accent: restrained graphite + amber */
+      --accent: #d6aa5c;
+      --accent-bright: #ecc379;
+      --accent-soft: rgba(214, 170, 92, 0.14);
+      --accent-line: rgba(214, 170, 92, 0.55);
+
+      /* Status */
+      --good: #87cc8b;
+      --warn: #e2b45e;
+      --bad: #e58b7d;
+      --info: #93b8df;
+      --neutral: #abb4c1;
+
+      --shadow: 0 18px 42px -26px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 44px 90px -46px rgba(0, 0, 0, 0.85);
+
+      --radius: 14px;
+      --radius-sm: 9px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      background:
+        radial-gradient(1100px 420px at 50% -160px, rgba(214, 170, 92, 0.10), transparent 70%),
+        linear-gradient(180deg, var(--bg-tint), var(--bg) 460px);
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover {
+      color: var(--accent-bright);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .shell {
+      width: min(1120px, 100% - 40px);
+      margin: 0 auto;
+      padding: 26px 0 72px;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      border: 1px solid var(--accent-line);
+      background: linear-gradient(180deg, rgba(214, 170, 92, 0.22), rgba(214, 170, 92, 0.04));
+      color: var(--accent-bright);
+      font-family: var(--serif);
+      font-weight: 700;
+    }
+    .topbar time { color: var(--ink); font-weight: 600; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 46px 46px 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(620px 200px at 8% -30px, rgba(214, 170, 92, 0.16), transparent 72%),
+        linear-gradient(180deg, var(--surface-2), var(--surface-1));
+      box-shadow: var(--shadow-lg);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 46px;
+      right: 46px;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-line), transparent);
+    }
+    .kicker {
+      margin: 0 0 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .kicker::before { content: ""; width: 24px; height: 1px; background: var(--accent-line); }
+
+    h1, h2, h3 { margin: 0; }
+    h1 {
+      max-width: 21ch;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 2.05rem;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 66ch;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.62;
+    }
+
+    /* Key facts strip */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0 6px;
+    }
+    .fact {
+      position: relative;
+      padding: 16px 16px 16px 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent), var(--surface-1);
+      box-shadow: var(--shadow);
+    }
+    .fact::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 15px;
+      bottom: 15px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--accent);
+      opacity: 0.85;
+    }
+    .fact .value { margin-top: 9px; font-size: 1.05rem; font-weight: 650; line-height: 1.3; }
+
+    .label, .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .label { color: var(--soft); }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); letter-spacing: 0.14em; }
+
+    /* Status pills */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 11px 4px 9px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-weight: 650;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .done    { color: var(--good);    background: rgba(135, 204, 139, 0.12); border-color: rgba(135, 204, 139, 0.42); }
+    .partial { color: var(--warn);    background: rgba(226, 180, 94, 0.13);  border-color: rgba(226, 180, 94, 0.42); }
+    .blocked, .risk, .gated { color: var(--bad); background: rgba(229, 139, 125, 0.13); border-color: rgba(229, 139, 125, 0.42); }
+    .info    { color: var(--info);    background: rgba(147, 184, 223, 0.13); border-color: rgba(147, 184, 223, 0.42); }
+    .neutral { color: var(--neutral); background: rgba(171, 180, 193, 0.12); border-color: rgba(171, 180, 193, 0.40); }
+
+    /* Sticky nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 20px 0 22px;
+      padding: 10px 0;
+      background: rgba(11, 13, 17, 0.8);
+      backdrop-filter: blur(10px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+    }
+    nav a {
+      padding: 7px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-1);
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+    nav a:hover, nav a:focus-visible {
+      color: var(--ink);
+      border-color: var(--accent-line);
+      background: var(--surface-2);
+      text-decoration: none;
+    }
+
+    /* Section grid */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .section {
+      grid-column: span 12;
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 140px), var(--surface-1);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 82px;
+    }
+    .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .section-head .eyebrow { margin-bottom: 8px; }
+
+    h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 1.16;
+      letter-spacing: -0.005em;
+    }
+    h3 { font-size: 0.96rem; font-weight: 700; }
+
+    .section p { margin: 0; color: var(--muted); }
+    .section p + p { margin-top: 12px; }
+    .section > p, .section .table-wrap, .section .cards, .section .timeline { margin-top: 16px; }
+
+    /* Cards */
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+    }
+    .card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; color: var(--ink); }
+    .card p { font-size: 0.95rem; }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-1);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th {
+      background: var(--surface-2);
+      color: var(--soft);
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    td:first-child { color: var(--ink); font-weight: 550; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    /* Code + evidence blocks */
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    code.path, code.hash { overflow-wrap: anywhere; word-break: break-word; }
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--pre-bg);
+      color: #e9efe9;
+      line-height: 1.55;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+    pre code { padding: 0; border: 0; background: none; font-size: 0.86rem; color: inherit; }
+
+    /* Collapsible details */
+    details {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-1);
+      overflow: hidden;
+    }
+    details + details { margin-top: 10px; }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 14px 16px;
+      font-weight: 650;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    summary:hover { background: var(--surface-2); }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--accent); font-size: 1.15rem; font-weight: 700; line-height: 1; }
+    details[open] summary { border-bottom: 1px solid var(--line); }
+    details[open] summary::after { content: "\2212"; }
+    .details-body { padding: 14px 16px 16px; color: var(--muted); }
+    .details-body ul { margin: 0; padding-left: 18px; }
+    .details-body li { margin: 4px 0; }
+    .details-body pre { margin-top: 0; }
+
+    /* Footer */
+    .footer {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 0.88rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 920px) {
+      .facts { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 24px, 1120px); padding-top: 18px; }
+      .hero { padding: 28px 22px 26px; }
+      .hero::after { left: 22px; right: 22px; }
+      .grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .facts { grid-template-columns: 1fr; }
+      .section { padding: 20px 18px; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 6px; }
+      table { min-width: 560px; }
+    }
+    @media (min-width: 721px) { h1 { font-size: 2.6rem; } h2 { font-size: 1.5rem; } }
+    @media (min-width: 1080px) { h1 { font-size: 3.05rem; } }
+
+    /* Print */
+    @media print {
+      body { background: #fff; color: #111; }
+      nav { display: none; }
+      .topbar, .hero, .fact, .section, .card, .table-wrap, table, details, summary {
+        background: #fff !important;
+        color: #111;
+        box-shadow: none;
+        border-color: #ddd;
+      }
+      a { color: #1a4f8f; }
+      .kicker, .eyebrow { color: #8a6d2f; }
+      h1, h2, h3, .brand, .topbar time, td:first-child, summary { color: #111; }
+      .label, .lede, .section p, .details-body, .footer, .card p, .value { color: #444; }
+      th { background: #f3f3f3 !important; color: #333; }
+      code { background: #f1f1f1; color: #111; border-color: #ddd; }
+      pre { background: #f6f6f6 !important; color: #111 !important; border-color: #ddd; }
+      .hero::after { display: none; }
+      details { break-inside: avoid; }
+      .status { border: 1px solid #999; background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="mark" aria-hidden="true">C</span> codex-skills</div>
+      <div>Generated <time datetime="2026-06-11">2026-06-11</time></div>
+    </header>
+
+    <section class="hero" aria-labelledby="report-title">
+      <p class="kicker">Implementation closeout</p>
+      <h1 id="report-title">Skill library dedupe: 60 skills reviewed, 5 merged away</h1>
+      <p class="lede">A full overlap review of the portable skill library. Five redundant skills were merged into their stronger counterparts, every cross-reference was rewired, the stale trigger matrix was repaired, and the DESIGN.md spec was wired into the two design skills. Install and drift checks pass.</p>
+    </section>
+
+    <section class="facts" aria-label="Report summary">
+      <div class="fact">
+        <div class="label">Status</div>
+        <div class="value"><span class="status done">Done, uncommitted</span></div>
+      </div>
+      <div class="fact">
+        <div class="label">Skills</div>
+        <div class="value">60 reviewed, 5 removed, 55 remain</div>
+      </div>
+      <div class="fact">
+        <div class="label">Verification</div>
+        <div class="value">install.sh + check-drift.sh OK</div>
+      </div>
+      <div class="fact">
+        <div class="label">Next step</div>
+        <div class="value">Review diff, then commit</div>
+      </div>
+    </section>
+
+    <nav aria-label="Report sections">
+      <a href="#outcome">Outcome</a>
+      <a href="#merges">Merges</a>
+      <a href="#kept">Kept separate</a>
+      <a href="#designmd">DESIGN.md</a>
+      <a href="#housekeeping">Housekeeping</a>
+      <a href="#verification">Verification</a>
+      <a href="#risks">Risks</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+
+    <div class="grid">
+      <section class="section span-7" id="outcome">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Outcome</span>
+            <h2>Five trigger collisions eliminated</h2>
+          </div>
+          <span class="status done">Done</span>
+        </div>
+        <p>All 60 skills were read and compared in six cluster reviews (browser/testing, Kubernetes/GitOps/CI, observability, frontend, writing/planning, misc). Five skills duplicated another skill's trigger surface closely enough to confuse routing; each was merged into the stronger skill with its unique content ported, then deleted. The rest of the library is intentionally layered (design vs triage vs query language) and was left intact.</p>
+        <p>No skill content was lost: scripts, reference docs, checklists, and the routing table all moved into their absorbing skills.</p>
+      </section>
+
+      <section class="section span-5" id="next-action">
+        <span class="eyebrow">Recommended next action</span>
+        <h2>Review and commit</h2>
+        <p>The working tree holds the full change set, uncommitted. Review with <code>git status</code> and <code>git diff</code>, then commit (suggested: one commit, e.g. <code>skillforge: merged 5 redundant skills</code>). After pushing, restart agent surfaces so they pick up the new skill set, and run a few trigger-matrix prompts in fresh chats to confirm routing.</p>
+      </section>
+
+      <section class="section" id="merges">
+        <span class="eyebrow">Changes</span>
+        <h2>Merges performed</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Removed skill</th>
+                <th>Absorbed by</th>
+                <th>Why it was redundant</th>
+                <th>What was ported</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>frontend-review</code></td>
+                <td><code>frontend-anti-slop</code></td>
+                <td>Both audited the same seven lenses with an identical verification protocol (viewports 360/768/1024/1440, zoom, content states, keyboard). Anti-slop already had an audit mode.</td>
+                <td>Review lenses, evidence standard (<code>file:line</code>, screenshots, repro steps), P0/P1/P2 finding severities, audit output schema with ready-to-ship gate, <code>references/review-checklist.md</code>.</td>
+              </tr>
+              <tr>
+                <td><code>gh-fix-ci</code></td>
+                <td><code>ci-pipeline-triage</code></td>
+                <td>A GitHub Actions subset of the same evidence-first pipeline triage workflow. Agents had no reliable way to pick between them.</td>
+                <td>New "GitHub Actions PR checks" section (gh auth, PR resolution, log extraction, external-provider scoping), <code>scripts/inspect_pr_checks.py</code>, Apache-2.0 license file kept beside the script.</td>
+              </tr>
+              <tr>
+                <td><code>kubernetes-specialist</code></td>
+                <td><code>kubernetes-platform-architecture</code></td>
+                <td>Vendor-style catch-all claiming both platform design (already owned by the architecture skill) and post-triage troubleshooting (owned by <code>k8s-sre-triage</code>), with no distinct methodology.</td>
+                <td>Deployment-strategy tree, resource and node-pool matrices, escalation red flags, and production checklist into <code>references/production-readiness.md</code>; REFERENCE.md and EXAMPLES.md moved into <code>references/</code>; Helm/operators/upgrades/cost triggers added to the description.</td>
+              </tr>
+              <tr>
+                <td><code>dev-browser</code></td>
+                <td><code>playwright</code></td>
+                <td>A ~450-word stub whose own notes deferred to <code>playwright</code> for anything substantive; both promised stateful browser automation.</td>
+                <td>Stateful-session triggers in the description, a "Stateful sessions" section, and the "do not invent credentials" guardrail.</td>
+              </tr>
+              <tr>
+                <td><code>skill-library</code></td>
+                <td><code>find-skills</code></td>
+                <td>Both owned "choose or install a skill". Highest-risk collision in the library: the same user prompt triggered either one.</td>
+                <td>Library routing table (updated for the merges), install paths per agent surface, bootstrap and check-drift commands, anti-ai-writing mandatory-pass note.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="kept">
+        <span class="eyebrow">Reviewed, kept separate</span>
+        <h2>Overlaps judged intentional</h2>
+        <p>These clusters look similar at a glance but split cleanly along design vs incident vs query-language lines, and most already carry explicit "do not use when" routing:</p>
+        <div class="cards">
+          <article class="card">
+            <strong>Observability (12 skills)</strong>
+            <p><code>loki</code> / <code>loki-label-analyzer</code> / <code>log-analyzer</code>, <code>promql</code> / cardinality / label-strategy, <code>alerting-irm</code> vs <code>prometheus-grafana-triage</code>: language vs prevention vs fire-fighting vs provisioning. No content duplication found.</p>
+          </article>
+          <article class="card">
+            <strong>K8s, GitOps, CI</strong>
+            <p><code>gitops-reconcile</code> vs <code>gitops-workflow</code> (incident vs operating model), <code>jenkins-sre</code> vs <code>ci-pipeline-triage</code> (Jenkins infrastructure vs pipeline logic), <code>k8s-sre-triage</code> vs platform architecture (incident vs design).</p>
+          </article>
+          <article class="card">
+            <strong>Writing and planning</strong>
+            <p><code>written-communication</code> coaches upstream, <code>anti-ai-writing</code> is the final pass; the PRD trio is a clean pipeline; <code>codex-closeout</code> (chat summary) vs <code>codex-html-report</code> (durable artifact).</p>
+          </article>
+        </div>
+        <p>Also reviewed and kept: <code>responsive-design</code> (real unique content: container queries, dvh/svh, safe areas), <code>webapp-testing</code> vs <code>playwright</code> (test strategy vs driving commands), <code>triage-issue</code> vs <code>systematic-debugging</code> (output shape vs methodology), <code>improve-codebase-architecture</code> vs <code>request-refactor-plan</code> (discovery vs sequencing), <code>security-best-practices</code> vs <code>adversary-informed-defense</code>, <code>m365-admin</code> vs <code>l2-l3-support-platform</code>.</p>
+      </section>
+
+      <section class="section" id="designmd">
+        <span class="eyebrow">DESIGN.md integration</span>
+        <h2>google-labs-code/design.md wired into the design skills</h2>
+        <p><code>design-system-maintenance</code> gained a "Tooling: DESIGN.md" section covering the format (YAML tokens plus prose rationale) and the three CLI checks: <code>lint</code> (spec validation, broken token refs, WCAG contrast), <code>diff</code> (token and prose regressions), and <code>export</code> (Tailwind v3/v4, W3C DTCG tokens.json), mapped to the skill's workflow steps.</p>
+        <p><code>frontend-anti-slop</code> gained a Pre-Design Discovery rule: when a repo has a <code>DESIGN.md</code>, treat it as the authority for tokens, palette, and type ramp, and lint edits against it.</p>
+      </section>
+
+      <section class="section" id="housekeeping">
+        <span class="eyebrow">Housekeeping</span>
+        <h2>Cross-references and docs rewired</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="path">README.md</code></td>
+                <td>Removed the five merged skills from "What Is Included".</td>
+              </tr>
+              <tr>
+                <td><code class="path">docs/how-to-manage-skills.md</code></td>
+                <td>Skill list trimmed to 55; historical note no longer cites <code>dev-browser</code>.</td>
+              </tr>
+              <tr>
+                <td><code class="path">evals/trigger-matrix.md</code></td>
+                <td>Repaired four stale <code>frontend-uncodixfy</code> references (skill was renamed to <code>frontend-anti-slop</code> at some point), repointed the frontend-review test at anti-slop audit mode, and added test 12b for GitHub Actions PR checks routing to <code>ci-pipeline-triage</code>.</td>
+              </tr>
+              <tr>
+                <td><code class="path">skills/design-system-maintenance/SKILL.md</code></td>
+                <td>"One-off screen review" route now points at <code>frontend-anti-slop</code> audit mode.</td>
+              </tr>
+              <tr>
+                <td><code class="path">skills/react-performance-review/SKILL.md</code></td>
+                <td>Generic review route now points at <code>frontend-anti-slop</code>.</td>
+              </tr>
+              <tr>
+                <td><code class="path">skills/frontend-anti-slop/agents/openai.yaml</code></td>
+                <td>Label and default prompt no longer reference <code>frontend-review</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="verification">
+        <span class="eyebrow">Verification</span>
+        <h2>Checks run</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Check</th>
+                <th>Result</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>git grep</code> for the five removed names plus <code>frontend-uncodixfy</code></td>
+                <td><span class="status done">Clean</span></td>
+                <td>No matches outside <code>reports/</code> (historical artifacts left untouched on purpose).</td>
+              </tr>
+              <tr>
+                <td><code>bash scripts/install.sh</code></td>
+                <td><span class="status done">Passed</span></td>
+                <td>Installed into <code>~/.codex</code>, <code>~/.agents</code>, <code>~/.cursor</code>, <code>~/.claude</code> skill trees; removed skills pruned from manifests and installs.</td>
+              </tr>
+              <tr>
+                <td><code>bash scripts/check-drift.sh</code></td>
+                <td><span class="status done">Result: OK</span></td>
+                <td>Repo-managed skills aligned, pinned system skills aligned, installed trees aligned. An intermediate run flagged leftovers of <code>frontend-review</code> and <code>gh-fix-ci</code>; a re-run after install converged.</td>
+              </tr>
+              <tr>
+                <td>Trigger-matrix prompts in fresh chats</td>
+                <td><span class="status partial">Not run</span></td>
+                <td>Routing behavior after the merge is best confirmed live; run a few matrix prompts after restarting agents.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="risks">
+        <span class="eyebrow">Risks</span>
+        <h2>Residual uncertainty</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Impact</th>
+                <th>Mitigation / next step</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>frontend-anti-slop</code> now owns both review and redesign; its description got broader</td>
+                <td>Medium: it could over-trigger against <code>responsive-design</code> or <code>webapp-testing</code></td>
+                <td>Trigger-matrix tests 1 to 7 cover exactly this boundary; run them after the commit and tighten the description if routing drifts.</td>
+              </tr>
+              <tr>
+                <td><code>dev-browser</code> CLI instructions were dropped, not ported</td>
+                <td>Low: the npm tool itself is gone from the library's guidance</td>
+                <td>Deliberate: the skill's own notes deferred to <code>playwright</code>. Restore from git history if the separate tool turns out to matter.</td>
+              </tr>
+              <tr>
+                <td>The DESIGN.md repo carries a Google Labs experimental disclaimer</td>
+                <td>Low: CLI flags may shift</td>
+                <td>Skill text leans only on the three documented commands (lint, diff, export).</td>
+              </tr>
+              <tr>
+                <td>Other machines still have the old skill set installed</td>
+                <td>Low</td>
+                <td>After pushing, run <code>bash scripts/bootstrap.sh</code> on each machine.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="evidence">
+        <span class="eyebrow">Evidence</span>
+        <h2>Proof rail</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Claim</th>
+                <th>Evidence</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No stale references to merged skills remain</td>
+                <td><code>git grep -n -E "frontend-review|gh-fix-ci|dev-browser|skill-library|kubernetes-specialist|frontend-uncodixfy" -- ':!reports'</code></td>
+                <td><span class="status done">CLEAN</span></td>
+              </tr>
+              <tr>
+                <td>Installed trees match the repo</td>
+                <td><code>bash scripts/check-drift.sh</code></td>
+                <td><span class="status done">Result: OK</span></td>
+              </tr>
+              <tr>
+                <td>Ported assets exist at their new paths</td>
+                <td>See file list below</td>
+                <td><span class="status done">Verified</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <details open>
+          <summary>Drift check output (final run)</summary>
+          <div class="details-body">
+            <pre><code>Checking codex-skills drift
+  status: repo-managed skills aligned
+  status: pinned system skills aligned
+  status: installed skill trees aligned
+Result: OK</code></pre>
+          </div>
+        </details>
+        <details>
+          <summary>Moved and created files</summary>
+          <div class="details-body">
+            <ul>
+              <li><code class="path">skills/frontend-anti-slop/references/review-checklist.md</code> (from frontend-review)</li>
+              <li><code class="path">skills/ci-pipeline-triage/scripts/inspect_pr_checks.py</code> (from gh-fix-ci)</li>
+              <li><code class="path">skills/ci-pipeline-triage/scripts/LICENSE-inspect-pr-checks.txt</code> (Apache-2.0, from gh-fix-ci)</li>
+              <li><code class="path">skills/kubernetes-platform-architecture/references/production-readiness.md</code> (new, from kubernetes-specialist SKILL.md)</li>
+              <li><code class="path">skills/kubernetes-platform-architecture/references/kubernetes-reference.md</code> (from kubernetes-specialist REFERENCE.md)</li>
+              <li><code class="path">skills/kubernetes-platform-architecture/references/kubernetes-examples.md</code> (from kubernetes-specialist EXAMPLES.md)</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Deleted skill directories</summary>
+          <div class="details-body">
+            <ul>
+              <li><code class="path">skills/frontend-review/</code></li>
+              <li><code class="path">skills/gh-fix-ci/</code></li>
+              <li><code class="path">skills/kubernetes-specialist/</code></li>
+              <li><code class="path">skills/dev-browser/</code></li>
+              <li><code class="path">skills/skill-library/</code></li>
+            </ul>
+          </div>
+        </details>
+      </section>
+    </div>
+
+    <footer class="footer">
+      Generated 2026-06-11 (Europe/London) by Claude Code for Vincent Mogah. Source: working tree on <code>main</code> after commit <code class="hash">7d37968</code>, changes uncommitted at time of writing. Self-contained HTML, no external assets.
+    </footer>
+  </main>
+</body>
+</html>
