@@ -253,7 +253,7 @@ def analyze_check(
 
     if run_id is None:
         base["status"] = "external"
-        base["note"] = "No GitHub Actions run id detected in detailsUrl."
+        base["note"] = "No GitHub Actions run id detected in detailsUrl or link."
         return base
 
     metadata = fetch_run_metadata(run_id, repo_root)

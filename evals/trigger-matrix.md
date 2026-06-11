@@ -7,26 +7,26 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 ### 1. Frontend review
 
 - Prompt: `review this settings page PR and tell me the highest-severity frontend issues before we merge`
-- Expected: `frontend-review`
-- Should not be first choice: `frontend-uncodixfy`, `responsive-design`, `webapp-testing`
+- Expected: `frontend-anti-slop` (audit mode)
+- Should not be first choice: `responsive-design`, `webapp-testing`, `react-performance-review`
 
 ### 2. Frontend redesign
 
 - Prompt: `this dashboard works but looks like generic AI slop; redesign it so it feels more intentional`
-- Expected: `frontend-uncodixfy`
-- Should not be first choice: `frontend-review`
+- Expected: `frontend-anti-slop`
+- Should not be first choice: `responsive-design`, `design-system-maintenance`
 
 ### 3. Responsive layout
 
 - Prompt: `this page is fine on desktop but collapses badly on mobile and the filter bar wraps awkwardly`
 - Expected: `responsive-design`
-- Should not be first choice: `frontend-uncodixfy`, `webapp-testing`
+- Should not be first choice: `frontend-anti-slop`, `webapp-testing`
 
 ### 4. Webapp testing
 
 - Prompt: `I changed the signup flow; define the highest-value browser checks and verify the flow still works`
 - Expected: `webapp-testing`
-- Should not be first choice: `playwright`, `frontend-review`
+- Should not be first choice: `playwright`, `frontend-anti-slop`
 
 ### 5. Browser driving only
 
@@ -38,13 +38,13 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 
 - Prompt: `this React table gets janky when filtering and typing; give me the biggest performance problems first`
 - Expected: `react-performance-review`
-- Should not be first choice: `frontend-review`
+- Should not be first choice: `frontend-anti-slop`
 
 ### 7. Design system maintenance
 
 - Prompt: `our shared button and form components have too many variants and teams keep bypassing tokens; how should we clean this up`
 - Expected: `design-system-maintenance`
-- Should not be first choice: `frontend-uncodixfy`, `frontend-review`
+- Should not be first choice: `frontend-anti-slop`
 
 ## GitOps and Kubernetes
 
@@ -77,6 +77,12 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 - Prompt: `our Jenkins inbound agents keep disconnecting and jobs queue forever even though the pipeline code is unchanged`
 - Expected: `jenkins-sre`
 - Should not be first choice: `ci-pipeline-triage`
+
+### 12b. GitHub Actions PR checks
+
+- Prompt: `this PR has two red GitHub Actions checks; pull the logs and tell me what is actually failing`
+- Expected: `ci-pipeline-triage`
+- Should not be first choice: `jenkins-sre`, `gh-address-comments`
 
 ## Observability and reliability
 

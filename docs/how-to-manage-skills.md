@@ -32,13 +32,10 @@ Library-managed skills as of this commit:
 - `codex-closeout`
 - `design-an-interface`
 - `design-system-maintenance`
-- `dev-browser`
 - `doc`
 - `find-skills`
-- `frontend-review`
 - `frontend-anti-slop`
 - `gh-address-comments`
-- `gh-fix-ci`
 - `gitops-reconcile`
 - `gitops-workflow`
 - `grill-me`
@@ -47,7 +44,6 @@ Library-managed skills as of this commit:
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
-- `kubernetes-specialist`
 - `l2-l3-support-platform`
 - `log-analyzer`
 - `loki`
@@ -72,7 +68,6 @@ Library-managed skills as of this commit:
 - `security-best-practices`
 - `security-ownership-map`
 - `setup-pre-commit`
-- `skill-library`
 - `slo-sli-design`
 - `systematic-debugging`
 - `tdd`
@@ -156,7 +151,7 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 3. Run `bash scripts/check-drift.sh`.
 4. Commit and push.
 
-This is how `dev-browser`, `find-skills`, and `naming-quality` were normalized.
+This is how `find-skills` and `naming-quality` were normalized.
 
 ## Drift triage
 

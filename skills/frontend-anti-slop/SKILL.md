@@ -1,13 +1,13 @@
 ---
 name: frontend-anti-slop
-description: Redesign or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use after frontend-review findings or when the user wants a UI anti-slop pass, dashboard cleanup, layout refinement, visual hierarchy correction, or implementation polish that avoids templated AI-generated patterns.
+description: Review, redesign, or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use when the user wants a frontend review, UI audit, UX critique, frontend PR review, severity-ranked findings, a UI anti-slop pass, dashboard cleanup, layout refinement, visual hierarchy correction, or implementation polish that avoids templated AI-generated patterns.
 metadata:
-  short-description: Frontend anti-slop redesign
+  short-description: Frontend review and anti-slop redesign
 ---
 
 # Frontend Anti-Slop
 
-Use this skill for design correction and implementation polish. It turns frontend-review findings into a better interface, removes generic AI UI habits, and preserves useful product intent.
+Use this skill for frontend diagnosis, design correction, and implementation polish. It audits screens for evidence-backed findings, turns those findings into a better interface, removes generic AI UI habits, and preserves useful product intent.
 
 ## Why This Skill Exists
 
@@ -16,7 +16,9 @@ Coding agents default to templated SaaS UI: hero blocks on dashboards, metric gr
 ## When To Use
 
 Use this skill when:
-- `frontend-review` found layout, hierarchy, or visual-system problems that need design correction
+- the user asks for a frontend review, UI audit, UX critique, or frontend PR review
+- a screen feels off and the failure mode is not yet clear
+- the user needs a severity-ranked list of findings before implementation
 - the user asks for redesign, polish, cleanup, less templated UI, or less AI-generated UI
 - an app has dashboard filler, weak hierarchy, overdecorated cards, awkward spacing, or generic SaaS styling
 - a page needs implementation changes, not only a critique
@@ -32,24 +34,56 @@ Hand off before you start when one of these is the real task:
 - render, hydration, or bundle performance: `react-performance-review`
 - component library governance: `design-system-maintenance`
 
-## Paired Flow With Frontend Review
+## Audit First, Then Fix
 
-1. Start from `frontend-review` findings when available.
+1. Run the audit pass first when no findings exist yet: task, hierarchy, layout, accessibility, performance, visual system.
 2. Fix the highest-impact UX and layout issue first.
 3. Remove generic visual filler only when it does not carry product meaning.
-4. Verify the revised screen with the same evidence standard used by `frontend-review`.
+4. Verify the revised screen with the Verification Protocol below.
 5. Return concise proof: what changed, what was checked, and what risk remains.
-
-If no review exists, run a quick review pass first: task, hierarchy, layout, accessibility, performance, visual system.
 
 ## Modes
 
-- `audit`: identify anti-slop problems and propose a direction without editing.
+- `audit`: produce severity-ranked, evidence-backed findings without editing. Use for review, UX critique, and pre-ship risk checks.
 - `redesign`: produce a concrete design direction or implementation plan.
 - `implement`: edit files and verify the rendered result when possible.
 - `verify`: inspect the result after changes and confirm whether the screen improved.
 
-Default to `implement` when the user clearly asks you to update the UI.
+Default to `implement` when the user clearly asks you to update the UI. Default to `audit` when the user asks for a review, critique, or findings.
+
+## Audit Mode
+
+Review in this order:
+
+1. Task flow and decision clarity
+2. Information hierarchy and content density
+3. Layout structure, responsiveness, and overflow handling
+4. Accessibility basics, including WCAG 2.2 practical checks: keyboard navigation, focus order, screen reader cues, color contrast, skip links
+5. Interaction responsiveness and perceived performance
+6. Visual-system consistency and design-system fit
+7. Implementation maintainability
+
+Prefer direct evidence over taste claims:
+- read relevant components, routes, styles, tokens, and design-system docs
+- run the app or inspect screenshots when available
+- name the exact element, state, viewport, and `file:line` behind each finding
+- include a screenshot path and concise reproduction steps for each visual issue
+- if rendered evidence is unavailable, say so clearly and limit confidence
+
+Finding severity:
+- P0: blocks task completion, hides critical state, prevents access, or risks wrong user action.
+- P1: causes likely confusion, broken mobile behavior, inaccessible controls, obvious visual inconsistency, or poor interaction response.
+- P2: polish, maintainability, minor hierarchy, copy, spacing, or consistency issues.
+
+Audit output:
+1. Primary user task, in one sentence. Every finding is judged against it.
+2. Findings ordered by severity: what is broken and why, user impact, minimal remediation, evidence (`file:line`, screenshot path, reproduction steps).
+3. Evidence checked: viewports, zoom levels, content states, how each finding was validated.
+4. Triage signal: ship-blocker vs follow-up.
+5. Recommended next step: fix directly here in `implement` mode, route to a specialist skill, or no change.
+6. Conclude with a `ready to ship` decision only after ship-blockers are cleared.
+
+Avoid long nit lists. Prefer fewer findings that change the outcome. Do not redesign by default in audit mode; if a fix is obvious and low-risk, state it.
 
 ## Pre-Design Discovery
 
@@ -62,6 +96,8 @@ Required before any edit. Write these down. If any are unknown, ask the user or 
 - Layout primitives or container conventions (Stack, Grid, Page, etc.).
 
 Skipping this step is the most common cause of slop: parallel tokens, reinvented primitives, off-system spacing.
+
+If the repo has a `DESIGN.md` file per the [DESIGN.md spec](https://github.com/google-labs-code/design.md), treat it as the authority for tokens, palette, and type ramp. Read it before inventing values, and validate edits against it with `npx @google/design.md lint DESIGN.md`.
 
 ## Design Ladder
 
@@ -212,3 +248,5 @@ For implementation mode:
 ## Reference
 
 Use `references/anti-slop.md` as an anti-pattern catalogue, fuller defaults table, and bad-to-good design library.
+
+Read `references/review-checklist.md` when an audit needs a fuller checklist.

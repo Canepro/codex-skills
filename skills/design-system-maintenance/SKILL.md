@@ -19,7 +19,7 @@ Use this skill when the problem is system coherence over time, not just one scre
 
 ## Do not use when
 
-- the request is a one-off screen review. Use `frontend-review`.
+- the request is a one-off screen review. Use `frontend-anti-slop` in audit mode.
 - the request is a visual redesign of a specific page. Use `frontend-anti-slop`.
 - the main issue is responsive behavior on one screen. Use `responsive-design`.
 
@@ -70,6 +70,17 @@ When changing the system:
 - Remove weak abstractions rather than preserving them for sentiment.
 - Treat docs and examples as part of the system, not optional garnish.
 
+## Tooling: DESIGN.md
+
+If the project keeps (or could keep) its design system in a `DESIGN.md` file per the [DESIGN.md spec](https://github.com/google-labs-code/design.md), use it as the single source of truth. The format pairs machine-readable design tokens (YAML front matter) with prose rationale, so agents get exact values and the reasons behind them. That makes it useful for step 1 (mapping tokens), step 2 (spotting drift against a canonical token set), and step 4 (durable documentation consumers can follow).
+
+CLI checks worth running:
+
+- `npx @google/design.md lint DESIGN.md` validates against the spec, catches broken token references, and checks WCAG contrast ratios. Output is structured JSON.
+- `npx @google/design.md diff DESIGN.md DESIGN-v2.md` detects token-level and prose regressions between two versions. Useful before publishing a system change.
+- `npx @google/design.md export --format json-tailwind|css-tailwind|dtcg DESIGN.md` exports tokens to a Tailwind v3 config object, a Tailwind v4 `@theme` CSS block, or W3C DTCG `tokens.json`, keeping code-side tokens generated rather than hand-maintained.
+
 ## References
 
 - Read `references/maintenance-checklist.md` for a working maintenance checklist.
+- [DESIGN.md spec and CLI](https://github.com/google-labs-code/design.md) (Google Labs): format for describing a design system to coding agents.

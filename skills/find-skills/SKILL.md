@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. Use this when the user is looking for functionality that might already exist as a skill.
+description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. Also routes to the portable codex-skills library, including choosing the right installed skill, refreshing installs, and checking drift. Use this when the user is looking for functionality that might already exist as a skill.
 ---
 
 # Find Skills
@@ -16,11 +16,49 @@ Use this skill when the user is really asking whether a skill already exists for
 
 ## Workflow
 
-1. Check the current session skill catalog first.
+1. Check the current session skill catalog first, starting with the library routing table below.
 2. If a relevant local skill already exists, recommend or use that instead of installing more drift.
 3. If no local skill fits, search the broader ecosystem with the Skills CLI.
 4. Verify quality before recommending anything.
 5. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
+
+## Library routing
+
+Source repo: [Canepro/codex-skills](https://github.com/Canepro/codex-skills) at `~/src/codex-skills`. Global installs after bootstrap:
+
+- Cursor: `~/.cursor/skills/<skill-name>/SKILL.md`
+- Codex: `~/.codex/skills/<skill-name>/SKILL.md`
+- Claude Code: `~/.claude/skills/<skill-name>.md`
+
+Refresh installs with `bash ~/src/codex-skills/scripts/bootstrap.sh`; check drift with `bash ~/src/codex-skills/scripts/check-drift.sh`.
+
+Common routes:
+
+| Task | Skill |
+|------|-------|
+| Copy polish; remove AI tone | `anti-ai-writing` |
+| UI review, audit, or anti-slop redesign | `frontend-anti-slop` |
+| Mobile/responsive layout | `responsive-design` |
+| Browser verification | `webapp-testing` or `playwright` |
+| Design tokens / UI drift | `design-system-maintenance` |
+| CI, GitHub Actions, Jenkins, or pipeline failures | `ci-pipeline-triage` |
+| PR review threads | `gh-address-comments` |
+| Commit hooks | `setup-pre-commit` |
+| Delivery summary | `codex-closeout` |
+| Customer-safe prose | `written-communication` |
+| Kubernetes incidents | `k8s-sre-triage` |
+| Kubernetes platform or cluster design | `kubernetes-platform-architecture` |
+| GitOps sync issues | `gitops-reconcile` |
+| Prometheus/Grafana alert or scrape triage | `prometheus-grafana-triage` |
+| PromQL query writing or optimization | `promql` |
+| Loki or LogQL work | `loki` |
+| Grafana alert routing, silences, SLOs, IRM | `alerting-irm` |
+| Prometheus cardinality fire | `prometheus-cardinality-troubleshooter` |
+| Prometheus label strategy | `prometheus-label-strategy` |
+| Loki label strategy | `loki-label-analyzer` |
+| Grafana MCP setup for agents | `assistant-mcp` |
+
+Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
 
 ## Skills CLI
 

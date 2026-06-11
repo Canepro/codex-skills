@@ -1,4 +1,4 @@
 interface:
   display_name: "Frontend Anti-Slop"
-  short_description: "Redesign generic UI into product-specific frontend"
-  default_prompt: "Use $frontend-anti-slop to turn frontend-review findings into a cleaner, product-specific UI and verify the rendered result."
+  short_description: "Review and redesign generic UI into product-specific frontend"
+  default_prompt: "Use $frontend-anti-slop to audit this UI, turn the findings into a cleaner, product-specific interface, and verify the rendered result."

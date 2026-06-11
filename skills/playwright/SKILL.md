@@ -1,6 +1,6 @@
 ---
 name: "playwright"
-description: "Automate a real browser from the terminal for navigation, form filling, screenshots, snapshots, scraping, and UI-flow debugging using `playwright-cli` or the bundled wrapper. Use when browser automation or visual web interaction is required and the user has not explicitly asked for `@playwright/test` files."
+description: "Automate a real browser from the terminal for navigation, form filling, screenshots, snapshots, scraping, and UI-flow debugging using `playwright-cli` or the bundled wrapper. Use when the user wants to navigate websites, click through flows, fill forms, extract rendered web data, or automate browser workflows in a stateful session, and has not explicitly asked for `@playwright/test` files."
 ---
 
 
@@ -136,8 +136,13 @@ Open only what you need:
 - CLI command reference: `references/cli.md`
 - Practical workflows and troubleshooting: `references/workflows.md`
 
+## Stateful sessions
+
+The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Extract only the data the user asked for instead of dumping whole pages.
+
 ## Guardrails
 
+- Do not invent credentials. Reuse the existing session or the user's normal login flow when auth is required.
 - Always snapshot before referencing element ids like `e12`.
 - Re-snapshot when refs seem stale.
 - Prefer explicit commands over `eval` and `run-code` unless needed.

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Dev Browser"
-  short_description: "Automate browser tasks with stateful sessions"
-  default_prompt: "Use $dev-browser to drive a real browser for this flow and keep page state across steps."

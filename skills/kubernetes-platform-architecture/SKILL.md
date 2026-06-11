@@ -1,6 +1,6 @@
 ---
 name: kubernetes-platform-architecture
-description: Design Kubernetes platform architecture for production workloads, including cluster topology, tenancy, networking, delivery strategy, security boundaries, upgrades, and operational ownership. Use when planning a Kubernetes platform, multi-cluster model, namespace strategy, GitOps operating model, or long-term platform direction rather than debugging a live incident.
+description: Design Kubernetes platform architecture for production workloads, including cluster topology, tenancy, networking, delivery strategy, security boundaries, upgrades, and operational ownership. Use when planning a Kubernetes platform, multi-cluster model, namespace strategy, GitOps operating model, Helm or operator strategy, cluster upgrades, resource and cost optimization, or long-term platform direction on EKS, AKS, GKE, or on-prem, rather than debugging a live incident.
 metadata:
   short-description: Design Kubernetes platform architecture
 ---
@@ -16,6 +16,8 @@ Use this skill for platform design and durable operating-model decisions.
 - defining namespace, tenancy, and environment boundaries
 - deciding how GitOps, secrets, policy, and upgrades should work
 - reviewing an existing cluster platform for architectural weaknesses
+- planning Kubernetes upgrades, deployment strategy (rolling, blue-green, canary), or resource and cost optimization
+- designing Helm chart, operator, or service mesh adoption for the platform
 
 ## Do not use when
 
@@ -84,3 +86,5 @@ A good answer includes:
 ## References
 
 - Read `references/platform-decisions.md` for the decision matrix.
+- Read `references/production-readiness.md` for deployment-strategy selection, resource and node-pool starting points, escalation red flags, and the production quality checklist.
+- Read `references/kubernetes-reference.md` and `references/kubernetes-examples.md` for detailed technical reference and code examples.

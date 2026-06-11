@@ -20,8 +20,7 @@ Use this skill for performance diagnosis and prioritization in React application
 ## Do not use when
 
 - the app is not meaningfully React-based
-- the main task is generic frontend review. Use `frontend-review`.
-- the main task is visual redesign. Use `frontend-anti-slop`.
+- the main task is generic frontend review or visual redesign. Use `frontend-anti-slop`.
 - the main task is browser automation. Use `webapp-testing`.
 
 ## Review priorities

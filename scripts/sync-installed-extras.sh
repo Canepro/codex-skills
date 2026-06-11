@@ -29,7 +29,7 @@ list_top_level_dirs() {
     return 0
   fi
 
-  find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort
+  find "$dir" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -exec basename {} \; | sort
 }
 
 usage() {

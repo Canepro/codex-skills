@@ -1,4 +1,0 @@
-interface:
-  display_name: "Frontend Review"
-  short_description: "Evidence-first frontend UX audit"
-  default_prompt: "Use $frontend-review to audit this screen or PR, rank the highest-impact findings, and route redesign work to $frontend-anti-slop when needed."

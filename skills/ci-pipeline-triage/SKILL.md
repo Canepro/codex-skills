@@ -1,6 +1,6 @@
 ---
 name: ci-pipeline-triage
-description: Investigate and fix failing CI/CD pipelines, Jenkins jobs, PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeline diagnoses. Use when builds are red, checks are stuck, deploy stages fail, or the reported root cause looks wrong; identify the exact failing run, stage, and command before fixing the right layer.
+description: Investigate and fix failing CI/CD pipelines, Jenkins jobs, GitHub Actions PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeline diagnoses. Use when builds are red, GitHub checks are stuck, workflow logs need summarizing, deploy stages fail, or the reported root cause looks wrong; identify the exact failing run, stage, and command before fixing the right layer.
 metadata:
   short-description: Triage CI, Jenkins, and deployment pipeline failures
 ---
@@ -16,7 +16,7 @@ Treat pipeline incidents as evidence problems first. Identify the exact failing 
 - Terraform validation or plan steps are failing in CI
 - a deployment pipeline failed after merge
 - auto-generated diagnoses or issues look wrong or incomplete
-- the user says “CI failed again” or “pipeline is stuck”
+- the user says "CI failed again" or "pipeline is stuck"
 
 ## Do not use when
 
@@ -37,7 +37,7 @@ Always identify:
 - commit SHA
 - whether the run is for branch head or merge commit
 
-Do not debug “the pipeline” in the abstract.
+Do not debug "the pipeline" in the abstract.
 
 ### 2. Extract the real error
 
@@ -92,9 +92,24 @@ Summarize:
 - local verification
 - whether the next rerun is expected to pass
 
+## GitHub Actions PR checks
+
+When the failing run is a GitHub Actions check on a PR, use `gh` to capture the evidence for steps 1 and 2:
+
+1. Verify auth with `gh auth status` (repo and workflow scopes). If unauthenticated, ask the user to run `gh auth login` first.
+2. Resolve the PR: `gh pr view --json number,url` for the current branch, or use the number or URL the user gave.
+3. Preferred: run the bundled script, which handles `gh` field drift and job-log fallbacks:
+   - `python "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "<number-or-url>"`
+   - Add `--json` for machine-friendly output. It exits non-zero while failures remain, so it also works in automation.
+4. Manual fallback:
+   - `gh pr checks <pr> --json name,state,bucket,link,startedAt,completedAt,workflow`
+   - For each failing check, extract the run id from `detailsUrl` or `link`, then `gh run view <run_id> --log`.
+   - If the run is still in progress, fetch job logs directly: `gh api "/repos/<owner>/<repo>/actions/jobs/<job_id>/logs"`.
+5. If the details URL or link is not a GitHub Actions run, label the check as external and report only the URL. Do not drive Buildkite or other providers from here.
+
 ## Guidance
 
-- Distinguish “failing now” from “old red check still visible”.
+- Distinguish "failing now" from "old red check still visible".
 - If the failure comes from an external provider, say so explicitly.
 - If a live unblock was required, note the resulting drift and how it will be reconciled.
 - For recurring failures, prefer a durable config fix over re-running blindly.
