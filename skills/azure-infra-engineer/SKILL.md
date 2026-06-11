@@ -1,6 +1,6 @@
 ---
 name: azure-infra-engineer
-description: Expert in Microsoft Azure cloud services, specializing in Bicep/ARM templates, Enterprise Landing Zones, and Cloud Adoption Framework (CAF).
+description: Design, deploy, and review Microsoft Azure infrastructure, including Bicep and ARM templates, Enterprise Landing Zones, Cloud Adoption Framework alignment, hub-and-spoke networking, governance, RBAC, and cost controls. Use when the user asks for Azure IaC, landing zone or subscription design, Azure networking topology, or an Azure architecture review.
 ---
 
 # Azure Infrastructure Engineer

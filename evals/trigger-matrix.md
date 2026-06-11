@@ -2,6 +2,8 @@
 
 Use these prompts in fresh chats after a skill-pack change. The goal is to verify intended routing and catch overlap early.
 
+Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribution, not a single pass. A prompt that routes wrong even once in five runs usually means two descriptions overlap; fix the descriptions, not the prompt. See `docs/skill-authoring-best-practices.md` for the full authoring guidance.
+
 ## Frontend review vs redesign vs responsive vs testing
 
 ### 1. Frontend review
@@ -141,3 +143,49 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 - Prompt: `break this PRD into small, independently shippable issue drafts`
 - Expected: `prd-to-issues`
 - Should not be first choice: `prd-to-plan`
+
+## Logs and labels
+
+### 22. LogQL query writing
+
+- Prompt: `write a LogQL query that counts error-level lines per service over the last hour`
+- Expected: `loki`
+- Should not be first choice: `log-analyzer`, `loki-label-analyzer`, `promql`
+
+### 23. Ad-hoc log forensics
+
+- Prompt: `here is a pasted stack trace and a chunk of nginx logs from the ticket; tell me what actually happened`
+- Expected: `log-analyzer`
+- Should not be first choice: `loki`, `triage-issue`
+
+### 24. Loki label audit
+
+- Prompt: `our Loki queries got slow and ingestion costs keep climbing; review our label setup`
+- Expected: `loki-label-analyzer`
+- Should not be first choice: `loki`, `prometheus-label-strategy`
+
+### 25. PromQL query writing
+
+- Prompt: `give me a PromQL expression for p99 latency per route from these histogram buckets`
+- Expected: `promql`
+- Should not be first choice: `prometheus-grafana-triage`, `prometheus-cardinality-troubleshooter`
+
+### 26. Cardinality fire
+
+- Prompt: `Prometheus is OOMing and our active series count doubled since yesterday; help now`
+- Expected: `prometheus-cardinality-troubleshooter`
+- Should not be first choice: `promql`, `prometheus-label-strategy`
+
+### 27. Label strategy design
+
+- Prompt: `we are instrumenting a new service; design metric labels that will not blow up cardinality later`
+- Expected: `prometheus-label-strategy`
+- Should not be first choice: `prometheus-cardinality-troubleshooter`, `promql`
+
+## Discovery
+
+### 28. Skill discovery
+
+- Prompt: `is there a skill that can help me work with Excel files, and how do I install it`
+- Expected: `find-skills`
+- Should not be first choice: `migrate-to-codex`
