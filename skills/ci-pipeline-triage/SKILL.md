@@ -26,6 +26,11 @@ Treat pipeline incidents as evidence problems first. Identify the exact failing 
 
 ## Workflow
 
+### 0. Consent and pause before final actions
+
+Before any final fix, merge push, rerun, or destructive action, require explicit approval from the user.
+Pause before final submission to confirm intent and blast radius.
+
 ### 1. Capture the exact run
 
 Always identify:
@@ -55,7 +60,7 @@ Be skeptical of:
 
 Choose the primary category:
 - pipeline logic or job configuration
-- credential, secret, or identity failure
+- credential, secret, token, private key, or identity failure
 - environment mismatch between local and CI
 - test or lint failure
 - Terraform or infra validation failure
@@ -111,7 +116,7 @@ When the failing run is a GitHub Actions check on a PR, use `gh` to capture the 
 
 - Distinguish "failing now" from "old red check still visible".
 - If the failure comes from an external provider, say so explicitly.
-- If a live unblock was required, note the resulting drift and how it will be reconciled.
+- Never copy, print, or share raw token or private key values in logs, notes, or tickets. If a live unblock was required, note the resulting drift and how it will be reconciled.
 - For recurring failures, prefer a durable config fix over re-running blindly.
 
 ## References
