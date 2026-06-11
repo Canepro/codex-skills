@@ -277,8 +277,10 @@ check_system_skills() {
   fi
 
   if [[ ! -d "$system_dir" ]]; then
-    printf '  status: missing system skill directory\n'
-    HAS_ISSUES=1
+    # Codex 0.139+ no longer materializes ~/.codex/skills/.system. An absent
+    # directory means the agent does not provide system skills here; only a
+    # present-but-drifted directory counts as drift.
+    printf '  status: no system skill directory (agent does not provide one; not counted as drift)\n'
     return 0
   fi
 
@@ -341,6 +343,57 @@ check_installed_tree_alignment() {
   print_list 'installed only in agents:' "$agents_only"
 }
 
+check_docs_sync() {
+  local readme="$REPO_DIR/README.md"
+  local doc="$REPO_DIR/docs/how-to-manage-skills.md"
+  local repo_skills_file readme_names doc_names
+  local repo_missing_from_readme readme_missing_from_repo
+  local repo_missing_from_doc doc_missing_from_repo
+
+  repo_skills_file="$(make_tmp)"
+  readme_names="$(make_tmp)"
+  doc_names="$(make_tmp)"
+  repo_missing_from_readme="$(make_tmp)"
+  readme_missing_from_repo="$(make_tmp)"
+  repo_missing_from_doc="$(make_tmp)"
+  doc_missing_from_repo="$(make_tmp)"
+
+  trap 'rm -f "$repo_skills_file" "$readme_names" "$doc_names" "$repo_missing_from_readme" "$readme_missing_from_repo" "$repo_missing_from_doc" "$doc_missing_from_repo"' RETURN
+
+  printf '\n[docs-sync]\n'
+
+  if [[ ! -f "$readme" || ! -f "$doc" ]]; then
+    printf '  status: missing README.md or docs/how-to-manage-skills.md\n'
+    HAS_ISSUES=1
+    return 0
+  fi
+
+  list_repo_skills > "$repo_skills_file"
+
+  awk '/^## What Is Included$/{flag=1; next} /^## /{flag=0} flag' "$readme" \
+    | { grep -oE '`[a-z0-9-]+`' || true; } | tr -d '`' | sort -u > "$readme_names"
+
+  awk '/^## Current available skills$/{flag=1; next} /^## /{flag=0} /^Pinned system skills/{flag=0} flag' "$doc" \
+    | { grep -E '^- `[a-z0-9-]+`$' || true; } | tr -d '`' | sed 's/^- //' | sort -u > "$doc_names"
+
+  comm -23 "$repo_skills_file" "$readme_names" > "$repo_missing_from_readme"
+  comm -13 "$repo_skills_file" "$readme_names" > "$readme_missing_from_repo"
+  comm -23 "$repo_skills_file" "$doc_names" > "$repo_missing_from_doc"
+  comm -13 "$repo_skills_file" "$doc_names" > "$doc_missing_from_repo"
+
+  if [[ -s "$repo_missing_from_readme" || -s "$readme_missing_from_repo" || -s "$repo_missing_from_doc" || -s "$doc_missing_from_repo" ]]; then
+    printf '  status: docs out of sync with skills/\n'
+    HAS_ISSUES=1
+  else
+    printf '  status: README and docs skill lists aligned\n'
+  fi
+
+  print_list 'repo skills missing from README "What Is Included":' "$repo_missing_from_readme"
+  print_list 'README names with no skills/ directory:' "$readme_missing_from_repo"
+  print_list 'repo skills missing from docs skill list:' "$repo_missing_from_doc"
+  print_list 'docs list names with no skills/ directory:' "$doc_missing_from_repo"
+}
+
 printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
@@ -352,6 +405,7 @@ check_claude_destination 'claude' "$DEFAULT_CLAUDE_DIR"
 check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system"
 check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system"
 check_installed_tree_alignment
+check_docs_sync
 
 if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'

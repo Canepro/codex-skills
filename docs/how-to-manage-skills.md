@@ -108,6 +108,8 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
+Codex 0.139 and later no longer materialize `~/.codex/skills/.system`; the drift check reports an absent system directory as a note, not a failure. The pinned contract still applies wherever a `.system` directory exists (for example the preserved copy under `~/.agents/skills/.system`).
+
 If `check-drift.sh` fails on the system-skill section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
 
 ```bash
@@ -152,6 +154,15 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 4. Commit and push.
 
 This is how `find-skills` and `naming-quality` were normalized.
+
+## Skillforge lifecycle convention
+
+Commits prefixed `skillforge:` record the external skillforge eval loop. They do not install, uninstall, or move skills:
+
+- `skillforge: promoted <skill>` means the skill passed its benchmark and is endorsed as-is.
+- `skillforge: quarantined <skill>` means the eval flagged a behavior. The commit adds guardrails inside the skill itself, such as a consent-and-pause workflow step or a "SkillForge Validation Notes" section listing protected invariants. The skill stays installed and active.
+
+When editing a quarantined skill, preserve the added guard sections and the behaviors its validation notes protect.
 
 ## Drift triage
 
