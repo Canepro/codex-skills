@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.3.0`
+`v0.5.0`
 
 ## Version Rules
 
@@ -17,12 +17,73 @@ Use this file when changing the canonical `templates/report.html` or the report 
 | Priority | Idea | Reason | Status |
 | --- | --- | --- | --- |
 | P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Proposed |
-| P1 | Add print/export polish | Durable reports may be shared or printed later. | Proposed |
+| P1 | Add print/export polish | Durable reports may be shared or printed later. | Done in v0.5.0 (light panels, dark-on-light code, nav hidden) |
 | P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Proposed |
 | P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Proposed |
 | P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Proposed |
 
 ## Decision Log
+
+### 2026-05-30 - v0.5.0 - Editorial redesign with layered surfaces
+
+Reworked the visual system after review feedback that the v0.4.0 pass still read as a flat dark admin surface: panels did not separate from the page, the hero wasted space, and the amber accent was underused.
+
+Changes:
+- introduced an explicit elevation system (page below section below inset) with distinct surface tokens, hairline borders, and soft shadows so panels read as separate objects
+- replaced the two-column hero (which stretched against the taller meta column and left a dead zone) with a full-width editorial headline band plus a horizontal four-up key-facts strip
+- added an amber kicker above the title, fixed the title scale so it no longer wraps oversized, and tightened the type rhythm
+- kept the editorial serif for the title and section headings but supported it with amber eyebrows and crisper hierarchy so it reads intentional rather than bolted on
+- turned the timeline into a real connected sequence with amber nodes and a vertical rail
+- refined nav, status pills, tables, code/pre, and collapsible details; strengthened print styles
+- nudged the muted label color brighter so table headers clear WCAG AA
+
+Preserved from v0.4.0 and v0.3: Outcome, Next, Gates, Changes, Verification, Timeline, Risks, the evidence index, the timestamped timeline, long-value handling, dark-first default, the restrained graphite/amber palette, and single-file self-contained output.
+
+Reason: the information architecture from v0.3 and v0.4 was right, but the surface needed real depth, a stronger hero, and bolder-but-restrained accent use to feel like a polished browser-native report instead of a plain dark panel stack.
+
+Verification:
+- rendered desktop (1280px) and mobile (375px) in a browser and confirmed hero, facts strip, sections, timeline, and collapsibles
+- confirmed all eight nav anchors resolve and there are no duplicate IDs (DOM audit)
+- confirmed no external assets: no link/script/img tags, and no `http`, `cdn`, or `@import` in source
+- checked that table, details, and section tags balance
+- recomputed WCAG contrast for ink, muted, labels, table headers, links, status pills, and code; all key pairs clear AA
+
+### 2026-05-30 - v0.4.0 - Restore richer report typography
+
+Restored a more designed report surface after review feedback that the v0.3.1 pass had become too plain compared with the richer external design direction.
+
+Changes:
+- kept the v0.3 operational additions: `Next`, `Gates`, `Risks`, evidence index, timestamped timeline, and long-value handling
+- restored richer display typography using a local system serif stack for report titles and section headings
+- added a more deliberate dark hero treatment, subtle rule accent, and stronger panel hierarchy
+- retained the restrained graphite/amber palette instead of returning to teal/purple AI-dashboard styling
+- removed viewport-width font scaling from the main title and used fixed responsive breakpoints instead
+
+Reason: the live template needed the information architecture hardening from v0.3, but the visual system should still feel like a polished browser-native report rather than a plain admin page.
+
+Verification:
+- checked template anchors resolve
+- checked table/detail tags remain balanced
+- confirmed the template remains self-contained
+- recalculated core dark-mode contrast pairs
+
+### 2026-05-30 - v0.3.1 - Template polish after external review
+
+Applied small fixes after reviewing an external pass on the skill.
+
+Changes:
+- aligned the skill UI brand color with the graphite/amber template palette
+- added `Timeline` to the default navigation because the template ships with a timeline section
+- strengthened print styles so dark panels and muted text do not print as dark-mode leftovers
+- replaced the placeholder `href="#"` source link with an internal report anchor
+
+Reason: the v0.3.0 template was directionally sound, but a few defaults were stale or incomplete enough to create friction in generated reports.
+
+Verification:
+- checked template anchors resolve
+- checked table/detail tags remain balanced
+- confirmed the template remains self-contained
+- recalculated core dark-mode contrast pairs
 
 ### 2026-05-16 - v0.3.0 - Live ops report hardening
 

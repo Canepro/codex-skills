@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Codex HTML Report Template v0.3.0: dark-first, gated-status, timestamped, evidence-oriented. -->
+<!-- Codex HTML Report Template v0.5.0: dark editorial report, layered surfaces, refined typography, gated status, timestamped, evidence-oriented. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,418 +8,493 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0f1115;
-      --paper: #171a20;
-      --paper-2: #20242c;
-      --ink: #f3f1e8;
-      --muted: #b9b5aa;
-      --line: #343843;
-      --accent: #d1a85b;
-      --accent-2: #9aa5b1;
-      --good: #8fcf91;
-      --warn: #e2b15e;
-      --bad: #e07b73;
-      --info: #9bb5d6;
-      --shadow: 0 22px 54px rgba(0, 0, 0, 0.34);
-      --radius: 8px;
+
+      /* Elevation: the page is darkest; surfaces step up toward the reader. */
+      --bg: #0b0d11;
+      --bg-tint: #0f1117;
+      --surface-1: #15171f;   /* sections */
+      --surface-2: #1c1f29;   /* insets, table heads, cards */
+      --surface-3: #242836;   /* hover */
+      --pre-bg: #090a0d;
+
+      /* Ink */
+      --ink: #f4efe4;
+      --muted: #aab1be;
+      --soft: #868e9c;
+
+      /* Hairlines */
+      --line: rgba(255, 255, 255, 0.085);
+      --line-2: rgba(255, 255, 255, 0.16);
+
+      /* Accent: restrained graphite + amber */
+      --accent: #d6aa5c;
+      --accent-bright: #ecc379;
+      --accent-soft: rgba(214, 170, 92, 0.14);
+      --accent-line: rgba(214, 170, 92, 0.55);
+
+      /* Status */
+      --good: #87cc8b;
+      --warn: #e2b45e;
+      --bad: #e58b7d;
+      --info: #93b8df;
+      --neutral: #abb4c1;
+
+      --shadow: 0 18px 42px -26px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 44px 90px -46px rgba(0, 0, 0, 0.85);
+
+      --radius: 14px;
+      --radius-sm: 9px;
+
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
     }
 
     * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       margin: 0;
-      background: linear-gradient(180deg, #15171c 0, var(--bg) 420px);
       color: var(--ink);
       font-family: var(--sans);
       font-size: 16px;
-      line-height: 1.55;
+      line-height: 1.6;
+      background:
+        radial-gradient(1100px 420px at 50% -160px, rgba(214, 170, 92, 0.10), transparent 70%),
+        linear-gradient(180deg, var(--bg-tint), var(--bg) 460px);
     }
 
-    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover {
+      color: var(--accent-bright);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
 
     .shell {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1120px, 100% - 40px);
       margin: 0 auto;
-      padding: 28px 0 56px;
+      padding: 26px 0 72px;
     }
 
+    /* Topbar */
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 34px;
+      margin-bottom: 22px;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
       color: var(--ink);
-      font-weight: 750;
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
-
     .mark {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(209, 168, 91, 0.38);
-      border-radius: 7px;
-      background: #121419;
-      color: var(--accent);
-      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.18);
+      border-radius: 9px;
+      border: 1px solid var(--accent-line);
+      background: linear-gradient(180deg, rgba(214, 170, 92, 0.22), rgba(214, 170, 92, 0.04));
+      color: var(--accent-bright);
+      font-family: var(--serif);
+      font-weight: 700;
     }
+    .topbar time { color: var(--ink); font-weight: 600; }
 
+    /* Hero */
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.75fr);
-      gap: 24px;
-      align-items: stretch;
-      margin-bottom: 22px;
-    }
-
-    .headline {
-      padding: 34px;
+      position: relative;
+      overflow: hidden;
+      padding: 46px 46px 40px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(21, 28, 26, 0.94);
-      box-shadow: var(--shadow);
+      background:
+        radial-gradient(620px 200px at 8% -30px, rgba(214, 170, 92, 0.16), transparent 72%),
+        linear-gradient(180deg, var(--surface-2), var(--surface-1));
+      box-shadow: var(--shadow-lg);
     }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 46px;
+      right: 46px;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-line), transparent);
+    }
+    .kicker {
+      margin: 0 0 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .kicker::before { content: ""; width: 24px; height: 1px; background: var(--accent-line); }
 
-    h1, h2, h3 { margin: 0; line-height: 1.12; letter-spacing: 0; }
-
+    h1, h2, h3 { margin: 0; }
     h1 {
-      max-width: 920px;
-      font-size: clamp(2rem, 4vw, 4.7rem);
-      font-weight: 820;
+      max-width: 21ch;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 2.05rem;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
     }
-
     .lede {
-      max-width: 760px;
+      max-width: 66ch;
       margin: 18px 0 0;
       color: var(--muted);
       font-size: 1.08rem;
+      line-height: 1.62;
     }
 
-    .meta-grid {
+    /* Key facts strip */
+    .facts {
       display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
-      align-content: stretch;
+      margin: 16px 0 6px;
     }
-
-    .meta-card, .card, .section {
+    .fact {
+      position: relative;
+      padding: 16px 16px 16px 20px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
+      border-radius: var(--radius-sm);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent), var(--surface-1);
+      box-shadow: var(--shadow);
     }
-
-    .meta-card {
-      padding: 18px;
-      min-height: 96px;
+    .fact::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 15px;
+      bottom: 15px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--accent);
+      opacity: 0.85;
     }
+    .fact .value { margin-top: 9px; font-size: 1.05rem; font-weight: 650; line-height: 1.3; }
 
-    .label {
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+    .label, .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
+    .label { color: var(--soft); }
+    .eyebrow { display: block; margin-bottom: 9px; color: var(--accent); letter-spacing: 0.14em; }
 
-    .value {
-      margin-top: 8px;
-      font-size: 1.15rem;
-      font-weight: 760;
-    }
-
+    /* Status pills */
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      min-height: 30px;
-      padding: 5px 10px;
+      gap: 7px;
+      padding: 4px 11px 4px 9px;
+      border: 1px solid transparent;
       border-radius: 999px;
-      border: 1px solid currentColor;
-      font-weight: 780;
-      font-size: 0.86rem;
+      font-weight: 650;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      white-space: nowrap;
     }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .done    { color: var(--good);    background: rgba(135, 204, 139, 0.12); border-color: rgba(135, 204, 139, 0.42); }
+    .partial { color: var(--warn);    background: rgba(226, 180, 94, 0.13);  border-color: rgba(226, 180, 94, 0.42); }
+    .blocked, .risk, .gated { color: var(--bad); background: rgba(229, 139, 125, 0.13); border-color: rgba(229, 139, 125, 0.42); }
+    .info    { color: var(--info);    background: rgba(147, 184, 223, 0.13); border-color: rgba(147, 184, 223, 0.42); }
+    .neutral { color: var(--neutral); background: rgba(171, 180, 193, 0.12); border-color: rgba(171, 180, 193, 0.40); }
 
-    .status::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    .done { color: var(--good); }
-    .partial { color: var(--warn); }
-    .blocked, .risk, .gated { color: var(--bad); }
-    .info { color: var(--info); }
-    .neutral { color: var(--accent-2); }
-
+    /* Sticky nav */
     nav {
       position: sticky;
       top: 0;
-      z-index: 5;
+      z-index: 10;
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 0 14px;
-      margin: 8px 0 18px;
-      backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 20px 0 22px;
+      padding: 10px 0;
+      background: rgba(11, 13, 17, 0.8);
+      backdrop-filter: blur(10px) saturate(140%);
+      border-bottom: 1px solid var(--line);
     }
-
     nav a {
-      flex: 0 0 auto;
-      padding: 8px 12px;
+      padding: 7px 13px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(21, 28, 26, 0.9);
+      background: var(--surface-1);
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+    nav a:hover, nav a:focus-visible {
       color: var(--ink);
-      font-size: 0.9rem;
-      font-weight: 700;
+      border-color: var(--accent-line);
+      background: var(--surface-2);
       text-decoration: none;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
-    }
-
+    /* Section grid */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
     .section {
       grid-column: span 12;
-      padding: 24px;
-      scroll-margin-top: 86px;
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 140px), var(--surface-1);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 82px;
     }
-
     .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
     .span-5 { grid-column: span 5; }
     .span-4 { grid-column: span 4; }
-    .span-6 { grid-column: span 6; }
 
     .section-head {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
       align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
     }
+    .section-head .eyebrow { margin-bottom: 8px; }
 
-    h2 { font-size: 1.35rem; }
-    h3 { font-size: 1rem; }
-
-    .section p { margin: 10px 0 0; color: var(--muted); }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+    h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 1.16;
+      letter-spacing: -0.005em;
     }
+    h3 { font-size: 0.96rem; font-weight: 700; }
 
-    .card { padding: 16px; }
+    .section p { margin: 0; color: var(--muted); }
+    .section p + p { margin-top: 12px; }
+    .section > p, .section .table-wrap, .section .cards, .section .timeline { margin-top: 16px; }
 
-    .card strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 0.98rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
+    /* Cards */
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card {
+      padding: 18px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-      font-size: 0.94rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
     }
+    .card strong { display: block; margin-bottom: 8px; font-size: 0.95rem; color: var(--ink); }
+    .card p { font-size: 0.95rem; }
 
-    th, td {
-      padding: 12px 13px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: var(--paper-2);
-      color: var(--muted);
-      font-size: 0.76rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-    }
-
-    tr:last-child td { border-bottom: 0; }
-
+    /* Tables */
     .table-wrap {
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
+      background: var(--surface-1);
     }
-
-    .table-wrap table {
-      border: 0;
-      border-radius: 0;
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th {
+      background: var(--surface-2);
+      color: var(--soft);
+      font-size: 0.71rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
     }
+    td:first-child { color: var(--ink); font-weight: 550; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
-    code, pre {
-      font-family: var(--mono);
-      font-size: 0.9em;
-    }
-
+    /* Code + evidence blocks */
     code {
-      padding: 2px 5px;
-      border-radius: 5px;
-      background: #242831;
+      font-family: var(--mono);
+      font-size: 0.88em;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
       color: var(--ink);
     }
-
-    code.path, code.hash {
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-
+    code.path, code.hash { overflow-wrap: anywhere; word-break: break-word; }
     pre {
+      margin: 0;
+      padding: 16px;
       overflow: auto;
-      margin: 12px 0 0;
-      padding: 14px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #090d0c;
-      color: #edf5ee;
-      line-height: 1.5;
+      border-radius: var(--radius-sm);
+      background: var(--pre-bg);
+      color: #e9efe9;
+      line-height: 1.55;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
     }
+    pre code { padding: 0; border: 0; background: none; font-size: 0.86rem; color: inherit; }
 
-    .timeline {
-      display: grid;
-      gap: 12px;
-      margin-top: 6px;
-    }
-
+    /* Timeline */
+    .timeline { display: grid; gap: 0; }
     .event {
       display: grid;
-      grid-template-columns: 170px minmax(0, 1fr);
-      gap: 14px;
-      padding: 14px 0;
+      grid-template-columns: 142px minmax(0, 1fr);
+      gap: 18px;
+      padding: 16px 0;
       border-top: 1px solid var(--line);
     }
-
-    .event:first-child { border-top: 0; }
-
-    .time {
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.86rem;
+    .event:first-child { border-top: 0; padding-top: 2px; }
+    .time { color: var(--muted); font-family: var(--mono); font-size: 0.82rem; }
+    .time time { display: block; color: var(--ink); font-weight: 650; }
+    .time span { display: block; margin-top: 3px; color: var(--soft); }
+    .event-body { position: relative; padding-left: 24px; }
+    .event-body::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
     }
-
-    .time time {
-      display: block;
-      color: var(--ink);
-      font-weight: 760;
+    .event-body::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 19px;
+      bottom: -32px;
+      width: 1px;
+      background: var(--line-2);
     }
+    .event:last-child .event-body::after { display: none; }
+    .event-body strong { color: var(--ink); }
+    .event-body p { margin-top: 5px; }
 
-    .time span {
-      display: block;
-      margin-top: 3px;
-    }
-
+    /* Collapsible details */
     details {
+      margin-top: 14px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
+      border-radius: var(--radius-sm);
+      background: var(--surface-1);
       overflow: hidden;
     }
-
     details + details { margin-top: 10px; }
-
     summary {
       cursor: pointer;
-      padding: 14px 16px;
-      font-weight: 760;
       list-style: none;
+      padding: 14px 16px;
+      font-weight: 650;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
-
+    summary:hover { background: var(--surface-2); }
     summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--accent); font-size: 1.15rem; font-weight: 700; line-height: 1; }
+    details[open] summary { border-bottom: 1px solid var(--line); }
+    details[open] summary::after { content: "\2212"; }
+    .details-body { padding: 14px 16px 16px; color: var(--muted); }
+    .details-body ul { margin: 0; padding-left: 18px; }
+    .details-body li { margin: 4px 0; }
+    .details-body pre { margin-top: 0; }
 
-    summary::after {
-      content: "+";
-      float: right;
-      color: var(--muted);
-    }
-
-    details[open] summary::after { content: "-"; }
-
-    .details-body {
-      padding: 0 16px 16px;
-      color: var(--muted);
-    }
-
+    /* Footer */
     .footer {
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 0.9rem;
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 0.88rem;
     }
 
-    @media (max-width: 860px) {
-      .shell { width: min(100% - 24px, 1180px); padding-top: 18px; }
-      .hero, .grid, .cards { grid-template-columns: 1fr; }
-      .span-7, .span-5, .span-4, .span-6 { grid-column: span 12; }
-      .headline { padding: 24px; }
-      .section { padding: 18px; }
+    /* Responsive */
+    @media (max-width: 920px) {
+      .facts { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 24px, 1120px); padding-top: 18px; }
+      .hero { padding: 28px 22px 26px; }
+      .hero::after { left: 22px; right: 22px; }
+      .grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .facts { grid-template-columns: 1fr; }
+      .section { padding: 20px 18px; }
       .event { grid-template-columns: 1fr; gap: 4px; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      table { min-width: 680px; }
-      .table-wrap { margin-inline: -2px; }
+      .event-body { padding-left: 0; }
+      .event-body::before, .event-body::after { display: none; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 6px; }
+      table { min-width: 560px; }
     }
+    @media (min-width: 721px) { h1 { font-size: 2.6rem; } h2 { font-size: 1.5rem; } }
+    @media (min-width: 1080px) { h1 { font-size: 3.05rem; } }
 
+    /* Print */
     @media print {
       body { background: #fff; color: #111; }
-      nav { position: static; backdrop-filter: none; }
-      .headline, .meta-card, .section { box-shadow: none; }
+      nav { display: none; }
+      .topbar, .hero, .fact, .section, .card, .table-wrap, table, details, summary {
+        background: #fff !important;
+        color: #111;
+        box-shadow: none;
+        border-color: #ddd;
+      }
+      a { color: #1a4f8f; }
+      .kicker, .eyebrow { color: #8a6d2f; }
+      h1, h2, h3, .brand, .topbar time, td:first-child, .event-body strong, summary { color: #111; }
+      .label, .lede, .section p, .details-body, .footer, .time, .time span, .card p, .value { color: #444; }
+      th { background: #f3f3f3 !important; color: #333; }
+      code { background: #f1f1f1; color: #111; border-color: #ddd; }
+      pre { background: #f6f6f6 !important; color: #111 !important; border-color: #ddd; }
+      .hero::after, .event-body::after { display: none; }
       details { break-inside: avoid; }
+      .status { border: 1px solid #999; background: #fff; }
     }
   </style>
 </head>
 <body>
   <main class="shell">
     <header class="topbar">
-      <div class="brand"><span class="mark" aria-hidden="true">C</span> Codex report</div>
+      <div class="brand"><span class="mark" aria-hidden="true">C</span> Codex</div>
       <div>Generated <time datetime="YYYY-MM-DD">YYYY-MM-DD</time></div>
     </header>
 
     <section class="hero" aria-labelledby="report-title">
-      <div class="headline">
-        <h1 id="report-title">Report title goes here</h1>
-        <p class="lede">One or two sentences with the outcome, the current state, and why this report exists.</p>
+      <p class="kicker">Proof report</p>
+      <h1 id="report-title">Report title goes here</h1>
+      <p class="lede">One or two sentences with the outcome, the current state, and why this report exists.</p>
+    </section>
+
+    <section class="facts" aria-label="Report summary">
+      <div class="fact">
+        <div class="label">Status</div>
+        <div class="value"><span class="status partial">Ready for review</span></div>
       </div>
-      <aside class="meta-grid" aria-label="Report summary">
-        <div class="meta-card">
-          <div class="label">Status</div>
-          <div class="value"><span class="status partial">Ready for review</span></div>
-        </div>
-        <div class="meta-card">
-          <div class="label">Report type</div>
-          <div class="value">Implementation closeout</div>
-        </div>
-        <div class="meta-card">
-          <div class="label">Gate</div>
-          <div class="value">No blocking risk recorded</div>
-        </div>
-        <div class="meta-card">
-          <div class="label">Next step</div>
-          <div class="value">Review proof and ship</div>
-        </div>
-      </aside>
+      <div class="fact">
+        <div class="label">Report type</div>
+        <div class="value">Implementation closeout</div>
+      </div>
+      <div class="fact">
+        <div class="label">Gate</div>
+        <div class="value">No blocking risk recorded</div>
+      </div>
+      <div class="fact">
+        <div class="label">Next step</div>
+        <div class="value">Review proof and ship</div>
+      </div>
     </section>
 
     <nav aria-label="Report sections">
@@ -428,6 +503,7 @@
       <a href="#gates">Gates</a>
       <a href="#changes">Changes</a>
       <a href="#verification">Verification</a>
+      <a href="#timeline">Timeline</a>
       <a href="#risks">Risks</a>
       <a href="#evidence">Evidence</a>
     </nav>
@@ -436,7 +512,7 @@
       <section class="section span-7" id="outcome">
         <div class="section-head">
           <div>
-            <div class="label">Outcome</div>
+            <span class="eyebrow">Outcome</span>
             <h2>Plain-English verdict</h2>
           </div>
           <span class="status done">Done</span>
@@ -445,13 +521,13 @@
       </section>
 
       <section class="section span-5" id="next-action">
-        <div class="label">Recommended next action</div>
+        <span class="eyebrow">Recommended next action</span>
         <h2>Best next move</h2>
         <p>Replace this with one clear recommendation. Keep it operational, testable, and boring enough to trust.</p>
       </section>
 
       <section class="section" id="gates">
-        <div class="label">Gate checklist</div>
+        <span class="eyebrow">Gate checklist</span>
         <h2>What must be true before the next move</h2>
         <div class="table-wrap">
           <table>
@@ -482,12 +558,8 @@
       </section>
 
       <section class="section" id="changes">
-        <div class="section-head">
-          <div>
-            <div class="label">Changes</div>
-            <h2>What changed</h2>
-          </div>
-        </div>
+        <span class="eyebrow">Changes</span>
+        <h2>What changed</h2>
         <div class="cards">
           <article class="card">
             <strong>Change area</strong>
@@ -505,54 +577,77 @@
       </section>
 
       <section class="section span-6" id="verification">
-        <div class="label">Verification</div>
+        <span class="eyebrow">Verification</span>
         <h2>Checks run</h2>
         <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Check</th>
-              <th>Result</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>command here</code></td>
-              <td><span class="status done">Passed</span></td>
-              <td>Short output summary.</td>
-            </tr>
-            <tr>
-              <td>Manual review</td>
-              <td><span class="status partial">Partial</span></td>
-              <td>State any limitation honestly.</td>
-            </tr>
-          </tbody>
-        </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Check</th>
+                <th>Result</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>command here</code></td>
+                <td><span class="status done">Passed</span></td>
+                <td>Short output summary.</td>
+              </tr>
+              <tr>
+                <td>Manual review</td>
+                <td><span class="status partial">Partial</span></td>
+                <td>State any limitation honestly.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
       <section class="section span-6" id="timeline">
-        <div class="label">Timeline</div>
+        <span class="eyebrow">Timeline</span>
         <h2>Work sequence</h2>
         <div class="timeline">
           <div class="event">
             <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 1</span></div>
-            <div><strong>Investigated.</strong><p>Evidence gathered and source of truth identified.</p></div>
+            <div class="event-body"><strong>Investigated.</strong><p>Evidence gathered and source of truth identified.</p></div>
           </div>
           <div class="event">
             <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 2</span></div>
-            <div><strong>Changed.</strong><p>Implementation or decision made.</p></div>
+            <div class="event-body"><strong>Changed.</strong><p>Implementation or decision made.</p></div>
           </div>
           <div class="event">
             <div class="time"><time datetime="YYYY-MM-DDTHH:MM:SSZ">HH:MM UTC</time><span>Step 3</span></div>
-            <div><strong>Verified.</strong><p>Checks completed and residual gaps recorded.</p></div>
+            <div class="event-body"><strong>Verified.</strong><p>Checks completed and residual gaps recorded.</p></div>
           </div>
         </div>
       </section>
 
+      <section class="section" id="risks">
+        <span class="eyebrow">Risks</span>
+        <h2>Residual uncertainty</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Impact</th>
+                <th>Mitigation / next step</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No meaningful residual risk identified</td>
+                <td>Low</td>
+                <td>Replace this row if there is a real risk.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="section" id="evidence">
-        <div class="label">Evidence</div>
+        <span class="eyebrow">Evidence</span>
         <h2>Proof rail</h2>
         <div class="table-wrap">
           <table>
@@ -586,33 +681,10 @@ Keep raw dumps in collapsible sections.</code></pre>
           <div class="details-body">
             <ul>
               <li><code class="path">/absolute/path/to/file</code></li>
-              <li><a href="#">Source or ticket link</a></li>
+              <li><a href="#evidence">Source or ticket link</a></li>
             </ul>
           </div>
         </details>
-      </section>
-
-      <section class="section" id="risks">
-        <div class="label">Risks</div>
-        <h2>Residual uncertainty</h2>
-        <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Risk</th>
-              <th>Impact</th>
-              <th>Mitigation / next step</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>No meaningful residual risk identified</td>
-              <td>Low</td>
-              <td>Replace this row if there is a real risk.</td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
       </section>
     </div>
 

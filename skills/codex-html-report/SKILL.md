@@ -19,7 +19,7 @@ Do not use this skill for tiny answers, paste-ready support replies, one-command
 
 Create a self-contained browser-native report: lightweight, visually pleasing, evidence-first, dark-first by default, and readable from `file://` with no build step.
 
-The report should feel like a small internal product, not a decorative dashboard. Prefer crisp hierarchy, restrained color, useful tables, timelines, proof blocks, and honest status over ornamental visuals.
+The report should feel like a polished internal product, not a decorative dashboard. Preserve a rich but restrained editorial feel: a strong title, clear surface layering (page, panel, inset), restrained color, useful tables, timelines, proof blocks, and honest status over ornamental visuals. Keep the editorial polish without flattening into a plain admin page.
 
 Default to dark mode/dark-first styling for read-mostly reports. Do not create a light-mode report unless the user asks for it, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
@@ -68,15 +68,16 @@ Every substantial report must answer:
 
 Use a reusable visual system:
 - dark-first base styling with comfortable contrast for long reading
+- layered surfaces (page, panel, inset) with hairline borders and soft shadows so panels separate from the background
+- an editorial hero: short eyebrow, strong title, one-line lede, then a key-facts strip
 - status strip for Done / Partial / Blocked / Risk
 - outcome panel with the plain-English verdict
 - gate checklist for ops, migration, deployment, and incident reports
 - proof rail for commands, logs, screenshots, tickets, and changed files
 - tables for files, tests, risks, and decisions
 - timestamped timeline for event order when it matters; use actual observed times, not generic "Step 1" labels alone
-- section anchors and IDs for stable navigation jumps
 - collapsible appendix for raw evidence
-- sticky or top navigation for longer reports
+- sticky or top navigation for longer reports, with explicit in-document anchors on major sections (for example `#summary`, `#verification`, `#risks`) and a matching table of contents that links to them
 
 Avoid:
 - huge decorative gradients
@@ -88,6 +89,20 @@ Avoid:
 - external dependencies
 - mobile overflow or clipped text
 
+## Accessibility Baseline
+
+Build reports with accessibility defaults that reduce rework:
+- target WCAG 2.1 AA checks for semantic headings, labels, contrast, and landmarks.
+- ensure the report is fully keyboard reachable, including copy buttons and disclosure widgets, and that tab focus follows a logical focus order.
+- add visible focus styles, and do not remove focus outlines unless a stronger visual is proven better.
+- add descriptive alt text for informative images and meaningful icon controls.
+- provide screen reader labels and table summaries so screen reader users can parse purpose quickly.
+- respect prefers-reduced-motion by disabling non-essential transitions when reduced motion is requested.
+- print and export checks are mandatory for durable artifacts:
+  - verify the browser print flow
+  - ensure the report exports cleanly to PDF when needed
+  - use page-break control to avoid breaking tables and code blocks across pages
+
 ## Evidence Rules
 
 Prefer concrete proof:
@@ -96,11 +111,19 @@ Prefer concrete proof:
 - short log/output excerpts
 - screenshots with absolute local paths when available
 - source URLs or ticket IDs when used
-- redacted proof for sensitive values when references are needed
+- redacted proof for any sensitive material, including credentials and tokens
 - explicit "not verified" entries for skipped or unavailable checks
 
+For redacted proof, include enough detail to confirm intent without exposing secret values, for example `credentials` purpose and owner, token type and short suffix, and the command or context where it was used.
 Do not imply review of logs, attachments, code, or screenshots unless they were actually opened.
-- Never include raw credentials or tokens in a report. Replace values with redacted evidence where possible.
+
+## Provenance and Dating
+
+Every substantial report should include a metadata strip in the visible header or footer with:
+- generated at: timezone-aware timestamp for when the artifact was built
+- report author: person or lane identity that created the report
+- source revision: commit hash, ticket, source URL, or upstream artifact revision
+- if updated later, note the revision delta from the previous version
 
 ## Workflow
 
@@ -108,7 +131,6 @@ Do not imply review of logs, attachments, code, or screenshots unless they were 
 2. Copy `templates/report.html` to the destination report path.
 3. Replace the template content with the task-specific report. Keep only useful sections.
 4. Verify the HTML is self-contained and opens locally.
-5. Validate anchors, keyboard traversal, and that print/PDF output behaves with readable page breaks.
 5. Run the checks in `references/report-qa.md` when the report is substantial or the template changed.
 6. In the final chat reply, give the report path and a compact summary of what it contains.
 

@@ -1,7 +1,7 @@
 interface:
   display_name: "Codex HTML Report"
   short_description: "Create polished self-contained HTML reports"
-  brand_color: "#365E58"
+  brand_color: "#D6AA5C"
   default_prompt: "Use $codex-html-report to create a self-contained proof report for this work."
 
 policy:
