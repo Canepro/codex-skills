@@ -16,6 +16,7 @@ Choose names that survive contact with real usage, not just the current patch.
 - tightening API field names, CLI flags, env vars, or fixture names
 - cleaning up environment terminology across docs and code
 - reviewing whether an existing name is misleading, temporary, too local, or too implementation-shaped
+- reviewing names for fields or variables that represent a secret, a credential, a token, or a private key
 - deciding whether to keep a deployed resource identifier while changing the product or documentation vocabulary
 
 ## Do not use when
@@ -49,6 +50,7 @@ Good names usually prefer:
 - user meaning over implementation detail
 - stable behavior over current hosting or machine specifics
 - scenario-based language over local workstation names
+- explicit scope for names tied to secret, credential, token, or private key handling
 
 Examples:
 
@@ -99,6 +101,7 @@ Do not generate a long brainstorm list.
 - Treat naming as product quality, not polish.
 - Push back when a requested rename creates churn without improving meaning.
 - Keep public contracts stable unless the name is actively misleading or harmful.
+- For names tied to secret, credential, token, and private key domains, avoid exposing scope changes that can break safety policy, and keep migration plans explicit.
 - If the safest answer is to keep the current public contract and only improve internal labels, say so clearly.
 
 ## Workflow Coordination
