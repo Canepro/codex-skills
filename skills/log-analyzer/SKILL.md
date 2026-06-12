@@ -68,6 +68,7 @@ Customer-safe summary:
 
 - Writing LogQL or configuring Loki rather than reading pasted logs: `loki`
 - Loki label strategy and slow-query diagnosis: `loki-label-analyzer`
+- Suspicious patterns that may be an attack rather than a fault (repeated auth failures, scanning, odd traffic, possible intrusion): `adversary-informed-defense`
 
 ## Support handoff guidance
 

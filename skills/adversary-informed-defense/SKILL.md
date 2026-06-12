@@ -1,6 +1,6 @@
 ---
 name: adversary-informed-defense
-description: Use when security work needs attacker-method knowledge for defensive outcomes, including purple-team planning, detection engineering, incident reconstruction, external security-skill intake, or evaluating offensive workflows for safe local use.
+description: Use when work needs attacker-method knowledge for defensive outcomes. Triggers include deciding whether suspicious log lines, repeated auth failures, or odd traffic in a ticket is an attack or a fault; CVE and exposure triage ("are we affected", "is this exploitable"); hardening reviews of Kubernetes, CI/CD, or Terraform surfaces; purple-team planning; detection engineering; incident reconstruction; external security-skill intake; or evaluating offensive tools, repos, and workflows for safe local use.
 ---
 
 # Adversary-Informed Defense
@@ -124,6 +124,13 @@ For live security work, report:
 - evidence gathered
 - actions taken or intentionally not taken
 - residual risk and next approval needed
+
+## Related Skills
+
+- Use `log-analyzer` or `rocketchat-log-analysis` first when the evidence is raw logs; come back here when the question becomes "is this an attack and what would the attacker do next".
+- Use `k8s-sre-triage` for cluster faults; route here when compromise is a live hypothesis.
+- Use `security-best-practices` for language-level secure-coding review; this skill owns attacker-method reasoning, detection mapping, and exposure assessment.
+- Use `security-ownership-map` when the question is who owns the sensitive code rather than how it would be attacked.
 
 ## Workflow Coordination
 

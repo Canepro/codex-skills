@@ -111,6 +111,7 @@ Report:
 - Use `loki` when the next step is LogQL, log parsers, Loki pipeline behavior, or log-derived metrics.
 - Use `gitops-reconcile` when the runtime issue is caused by Argo CD or Flux convergence rather than cluster mechanics.
 - Use `observability-architecture` when the result is a monitoring design gap, not a live runtime fix.
+- Use `adversary-informed-defense` when the evidence suggests compromise rather than a fault: unexpected workloads, privilege changes, or credential misuse.
 
 ## References
 
