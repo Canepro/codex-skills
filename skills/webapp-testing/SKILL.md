@@ -67,7 +67,7 @@ Use:
 - **browser automation** for end-to-end flow verification
 - **exploratory testing** for weird state transitions
 - **responsive checks** for key widths
-- **a11y smoke checks** for labels, focus order, and keyboard navigation
+- **a11y smoke checks** for labels, focus order, keyboard navigation, and screen reader error announcements
 
 ### 4. Use real browser evidence
 
@@ -79,7 +79,14 @@ Prefer:
 
 If using terminal automation, pair this skill with `playwright`.
 
-### 5. Report confidence honestly
+### 5. Add a final submission gate
+
+Before closing a workflow, identify any final submission or checkout-like action in the test flow.
+- Mark these steps as final submission points, because they can be irreversible.
+- Require explicit confirmation, and verify that the operation cannot be undone in normal flow; do not depend on rollback as the default.
+- Use dry-run mode where available, otherwise pause for explicit approval before the irreversible submit action runs.
+
+### 6. Report confidence honestly
 
 State:
 - what flows were exercised
@@ -93,6 +100,7 @@ State:
 - Avoid brittle assertions tied to incidental DOM details.
 - Include at least one unhappy path for critical forms or mutations.
 - Verify post-submit states, not just the click that triggered them.
+- Validate spoken error announcements for failures by checking `aria-live`, `aria-label`, `aria-describedby`, or `role="alert"` so screen readers announce the error text clearly.
 
 ## References
 
