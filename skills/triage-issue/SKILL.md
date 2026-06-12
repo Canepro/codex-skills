@@ -72,3 +72,7 @@ If the user explicitly asks for a GitHub issue:
 - Prefer one strong diagnosis over a long list of guesses.
 - Avoid coupling the final write-up to fragile file paths unless the user asked for implementation detail.
 - If the diagnosis is still uncertain, state the leading hypothesis and the missing evidence clearly.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

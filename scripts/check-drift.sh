@@ -307,7 +307,7 @@ check_docs_sync() {
 
 check_workflow_links() {
   printf '\n'
-  if ! python3 "$REPO_DIR/scripts/check-workflow-links.py"; then
+  if ! python3 "$REPO_DIR/scripts/check-workflow-links.py" --all; then
     HAS_ISSUES=1
   fi
 }

@@ -189,3 +189,9 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Prompt: `is there a skill that can help me work with Excel files, and how do I install it`
 - Expected: `find-skills`
 - Should not be first choice: `migrate-to-codex`
+
+### 29. New skill with workflow state
+
+- Prompt: `create a new skill for repo maintenance handoffs; it needs to record decisions, blockers, reports, and closeout proof`
+- Expected: `skill-creator` plus the repo creation flow should include a `Workflow Coordination` section and pass `scripts/check-workflow-links.py`
+- Should not be first choice: creating a standalone decision, blocker, or handoff format inside the new skill

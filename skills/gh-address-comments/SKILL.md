@@ -61,3 +61,7 @@ The `id` fields are GraphQL node ids; use them directly in the reply and resolve
 - Quote the reviewer's ask in your summary when it is ambiguous, and say what you would change before changing it.
 - If `gh` hits auth or rate-limit errors mid-run, prompt the user to re-authenticate with `gh auth login`, then retry.
 - For comments that are really CI failures pasted by a bot, switch to `ci-pipeline-triage` and say so.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

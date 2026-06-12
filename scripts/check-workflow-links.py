@@ -31,6 +31,16 @@ EXPECTED_LINKS = {
     "memory": ("second-brain-context", "vincent-workflow"),
 }
 
+TEMPLATE = """## Workflow Coordination
+
+This skill owns <domain-specific work>. It does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.
+"""
+
 
 def repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
@@ -93,7 +103,16 @@ def main() -> int:
         action="store_true",
         help="Check every repo skill instead of only changed or untracked skills.",
     )
+    parser.add_argument(
+        "--template",
+        action="store_true",
+        help="Print the standard Workflow Coordination section and exit.",
+    )
     args = parser.parse_args()
+
+    if args.template:
+        print(TEMPLATE)
+        return 0
 
     root = repo_root()
     skill_files = all_skill_files(root) if args.all else git_changed_skill_files(root)
@@ -114,7 +133,8 @@ def main() -> int:
         return 0
 
     if not failures:
-        print("  status: changed skills have expected workflow links")
+        scope = "all skills" if args.all else "changed skills"
+        print(f"  status: {scope} have expected workflow links")
         return 0
 
     print("  status: missing expected workflow links")
@@ -127,6 +147,9 @@ def main() -> int:
     print("")
     print("Add a Workflow Coordination section when the skill owns domain work but")
     print("creates durable decisions, blockers, handoffs, closeouts, reports, or memory.")
+    print("")
+    print("Template:")
+    print(TEMPLATE)
     return 1
 
 

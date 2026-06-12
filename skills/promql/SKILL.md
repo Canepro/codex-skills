@@ -310,3 +310,7 @@ rate(http_requests_total[5m])
 - [Grafana Explore — PromQL](https://grafana.com/docs/grafana/latest/explore/)
 - [Prometheus best practices](https://prometheus.io/docs/practices/naming/)
 - [Grafana Cloud Metrics (Grafana Mimir)](https://grafana.com/docs/mimir/latest/)
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

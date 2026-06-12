@@ -125,7 +125,11 @@ Use this when the skill should be available across machines or compatible agent 
 1. Create `skills/<skill-name>/SKILL.md`.
 2. Add `agents/openai.yaml` if the skill should have a polished UI label or default prompt.
 3. Keep the skill concise; put detailed references in `references/` only when needed.
-4. If the skill mentions decisions, blockers, handoffs, closeout, reports, or memory, add a `Workflow Coordination` section that routes durable state to the existing owner instead of inventing another ledger:
+4. If the skill mentions decisions, blockers, handoffs, closeout, reports, or memory, add a `Workflow Coordination` section that routes durable state to the existing owner instead of inventing another ledger. Print the standard section with:
+
+```bash
+python3 scripts/check-workflow-links.py --template
+```
 
 ```markdown
 ## Workflow Coordination
@@ -146,7 +150,7 @@ bash scripts/install.sh
 bash scripts/check-drift.sh
 ```
 
-`check-drift.sh` runs `scripts/check-workflow-links.py` against changed or untracked skills, so this is part of the normal creation gate. You should not need to remember it manually.
+`check-drift.sh` runs `scripts/check-workflow-links.py --all`, so this is part of the normal creation gate and also protects old skills from quietly drifting. You should not need to remember it manually.
 
 6. Commit and push:
 

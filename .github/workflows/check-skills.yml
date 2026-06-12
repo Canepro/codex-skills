@@ -1,0 +1,23 @@
+name: Check skills
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run workflow-link audit
+        run: python3 scripts/check-workflow-links.py --all
+
+      - name: Install skills into runner surfaces
+        run: bash scripts/install.sh
+
+      - name: Run drift-safe repository checks
+        run: bash scripts/check-drift.sh

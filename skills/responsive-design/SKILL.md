@@ -123,3 +123,7 @@ Also verify:
 - Read `references/patterns.md` for breakpoint strategy, container-query guidance, and common failure modes.
 - Pair with `frontend-anti-slop` when the page also needs visual direction.
 - Pair with `webapp-testing` when the user wants regression confidence after the layout pass.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

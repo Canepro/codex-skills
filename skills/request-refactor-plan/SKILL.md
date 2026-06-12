@@ -77,3 +77,7 @@ If the user explicitly asks for one:
 - A refactor plan should reduce risk, not just describe the destination.
 - If test coverage is weak, say so and make verification part of the plan.
 - If the safest answer is "do less," say that clearly.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

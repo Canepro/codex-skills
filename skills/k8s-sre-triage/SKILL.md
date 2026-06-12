@@ -147,3 +147,7 @@ bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/pod_triage.sh" <
 ## SkillForge Validation Notes
 When updating this skill, preserve the behaviors covered by its benchmark cases and protected invariants.
 Focus on: The skill must continue to reference or enforce rules for credential.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

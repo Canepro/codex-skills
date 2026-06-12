@@ -88,3 +88,7 @@ A good answer includes:
 - Read `references/platform-decisions.md` for the decision matrix.
 - Read `references/production-readiness.md` for deployment-strategy selection, resource and node-pool starting points, escalation red flags, and the production quality checklist.
 - Read `references/kubernetes-reference.md` and `references/kubernetes-examples.md` for detailed technical reference and code examples.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
