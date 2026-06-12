@@ -1,6 +1,6 @@
 ---
 name: "security-ownership-map"
-description: "Analyze git repositories to build a security ownership topology (people-to-file), compute bus factor and sensitive-code ownership, and export CSV/JSON for graph databases and visualization. Trigger only when the user explicitly wants a security-oriented ownership or bus-factor analysis grounded in git history (for example: orphaned sensitive code, security maintainers, CODEOWNERS reality checks for risk, sensitive hotspots, or ownership clusters). Do not trigger for general maintainer lists or non-security ownership questions."
+description: "Build a security ownership topology from git history: people-to-file mapping, bus factor, sensitive-code ownership, and CSV/JSON export for graphs. Trigger only for explicitly security-oriented ownership or bus-factor analysis (orphaned sensitive code, security maintainers, CODEOWNERS reality checks, sensitive hotspots, ownership clusters). Not for general maintainer lists or non-security ownership questions."
 ---
 
 # Security Ownership Map
