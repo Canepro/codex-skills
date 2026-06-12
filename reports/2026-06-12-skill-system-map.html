@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mira Skill System Map</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0d10;
+      --surface: #151820;
+      --surface-2: #1c202b;
+      --surface-3: #242a36;
+      --ink: #f4efe4;
+      --muted: #aeb6c2;
+      --soft: #858e9b;
+      --line: rgba(255,255,255,.11);
+      --line-2: rgba(255,255,255,.18);
+      --accent: #d7aa5f;
+      --accent-2: #93b8df;
+      --good: #87cc8b;
+      --warn: #e2b45e;
+      --bad: #e58b7d;
+      --radius: 12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --serif: ui-serif, "Iowan Old Style", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: radial-gradient(900px 360px at 20% -90px, rgba(215,170,95,.16), transparent 70%), linear-gradient(180deg, #10131a, var(--bg) 420px); color: var(--ink); font: 15px/1.58 var(--sans); }
+    a { color: var(--accent); }
+    code { font-family: var(--mono); font-size: .92em; }
+    .shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 28px 0 72px; }
+    .topbar { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); margin-bottom: 22px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 700; }
+    .mark { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid rgba(215,170,95,.55); border-radius: 9px; color: var(--accent); background: rgba(215,170,95,.12); font-family: var(--serif); }
+    .hero, section { border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(255,255,255,.035), transparent), var(--surface); box-shadow: 0 28px 70px -48px rgba(0,0,0,.8); }
+    .hero { padding: 42px 42px 34px; }
+    .kicker { margin: 0 0 14px; color: var(--accent); text-transform: uppercase; letter-spacing: .16em; font-size: .75rem; font-weight: 800; }
+    h1 { margin: 0; max-width: 20ch; font: 650 clamp(2rem, 5vw, 4.8rem)/1.02 var(--serif); letter-spacing: -.01em; }
+    .lede { max-width: 76ch; color: var(--muted); font-size: 1.06rem; margin: 18px 0 0; }
+    .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+    .fact { padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
+    .label { display: block; color: var(--soft); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; }
+    .value { display: block; margin-top: 7px; font-size: 1.25rem; font-weight: 750; }
+    nav { position: sticky; top: 0; z-index: 5; margin: 18px 0; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: rgba(11,13,16,.88); backdrop-filter: blur(14px); }
+    nav a { display: inline-block; padding: 7px 10px; color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--ink); }
+    section { margin-top: 18px; padding: 24px; }
+    h2 { margin: 0 0 10px; font-size: 1.35rem; }
+    h3 { margin: 0 0 10px; font-size: 1rem; }
+    p { color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+    .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-12 { grid-column: 1 / -1; }
+    .panel, .family-card { border: 1px solid var(--line); border-radius: 10px; padding: 16px; background: var(--surface-2); }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: stretch; margin-top: 16px; }
+    .node { min-height: 118px; padding: 14px; border: 1px solid var(--line-2); border-radius: 12px; background: #11151d; position: relative; }
+    .node strong { display: block; margin-bottom: 7px; }
+    .node p { margin: 0; font-size: .92rem; }
+    .arrow { display: grid; place-items: center; color: var(--accent); font-weight: 900; }
+    .families { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { display: inline-flex; padding: 5px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-3); color: var(--ink); }
+    .chip.repo { border-color: rgba(147,184,223,.35); }
+    .chip.local { border-color: rgba(226,180,94,.48); background: rgba(226,180,94,.09); }
+    .chip.system { border-color: rgba(135,204,139,.42); background: rgba(135,204,139,.08); }
+    .chip.missing { border-color: rgba(229,139,125,.45); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--ink); background: var(--surface-2); position: sticky; top: 46px; }
+    td { color: var(--muted); }
+    .status { display: inline-flex; gap: 7px; align-items: center; padding: 4px 9px; border-radius: 999px; font-weight: 750; border: 1px solid rgba(135,204,139,.42); color: var(--good); background: rgba(135,204,139,.1); }
+    .status:before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .timeline { margin: 0; padding-left: 20px; color: var(--muted); }
+    .timeline li { margin: 7px 0; }
+    details { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--surface-2); margin-top: 12px; }
+    summary { cursor: pointer; font-weight: 750; }
+    .note { border-left: 3px solid var(--accent); padding: 10px 12px; background: rgba(215,170,95,.08); color: var(--muted); }
+    .search { width: 100%; margin-top: 12px; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: #0d1016; color: var(--ink); }
+    @media (max-width: 980px) { .facts, .flow, .families { grid-template-columns: 1fr 1fr; } .span-4, .span-5, .span-6, .span-7 { grid-column: 1 / -1; } }
+    @media (max-width: 680px) { .shell { width: min(100% - 22px, 1180px); } .hero, section { padding: 20px; } .facts, .flow, .families { grid-template-columns: 1fr; } nav { position: static; } }
+    @media print { body { background: #fff; color: #111; } nav { display:none; } section,.hero,.panel,.family-card { box-shadow:none; break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar"><div class="brand"><span class="mark">M</span> Mira skill system</div><time>2026-06-12 03:16:48 BST</time></div>
+    <header class="hero">
+      <p class="kicker">Skill tree and workflow map</p>
+      <h1>How the local skill system fits together</h1>
+      <p class="lede">This report maps the portable repo skills, private local skills, OpenAI system skills, and the workflow spine we built so future skills do not drift into duplicate decision, handoff, report, or closeout mechanisms.</p>
+      <div class="facts">
+        <div class="fact"><span class="label">Portable repo skills</span><span class="value">55</span></div>
+        <div class="fact"><span class="label">Advertised local extras</span><span class="value">29</span></div>
+        <div class="fact"><span class="label">Pinned system skills</span><span class="value">5</span></div>
+        <div class="fact"><span class="label">Current repo revision</span><span class="value"><code>855bcd0</code></span></div>
+      </div>
+    </header>
+
+    <nav aria-label="Report navigation">
+      <a href="#model">Model</a><a href="#spine">Workflow spine</a><a href="#families">Skill families</a><a href="#private">Private skills</a><a href="#gates">Creation gates</a><a href="#inventory">Inventory</a><a href="#timeline">Timeline</a>
+    </nav>
+
+    <section id="model">
+      <h2>Operating Model</h2>
+      <div class="grid">
+        <div class="panel span-6"><h3>Three layers</h3><p><strong>OpenAI system skills</strong> provide built-in capabilities. <strong>Portable repo skills</strong> live in <code>~/src/codex-skills/skills</code> and are shared across Codex, Agents, Cursor, and Claude. <strong>Private local skills</strong> live in <code>~/.codex/skills</code> and <code>~/.agents/skills</code> when the workflow is personal, customer-specific, Mira-specific, or machine-local.</p></div>
+        <div class="panel span-6"><h3>One workflow spine</h3><p><code>vincent-workflow</code> owns durable task state, decisions, blockers, handoffs, and cleanup obligations. Specialist skills own their domain work. Reports, closeouts, and local-brain memory each have their own owner.</p></div>
+      </div>
+      <div class="legend"><span class="chip repo"><code>portable repo skill</code></span> <span class="chip local"><code>private local skill</code></span> <span class="chip system"><code>OpenAI system skill</code></span></div>
+    </section>
+
+    <section id="spine">
+      <h2>Workflow Spine</h2>
+      <p>The core design is simple: a specialist skill does the work, then shared workflow owners handle durable coordination. That avoids duplicate ledgers and keeps future sessions discoverable.</p>
+      <div class="flow">
+        <div class="node"><strong>1. Find or trigger skill</strong><p><code>find-skills</code>, skill descriptions, and repo guidance route the task.</p></div>
+        <div class="node"><strong>2. Specialist acts</strong><p>Domain skills handle CI, support, frontend, observability, secrets, Velora, or other focused work.</p></div>
+        <div class="node"><strong>3. Workflow state</strong><p><code>vincent-workflow</code> captures durable decisions, blockers, handoffs, known issues, and cleanup.</p></div>
+        <div class="node"><strong>4. Proof surface</strong><p><code>codex-html-report</code> creates durable reader artifacts. Runtime proof stays in the owning runtime or domain tool.</p></div>
+        <div class="node"><strong>5. Closeout</strong><p><code>codex-closeout</code> shapes the final chat response with verification, commit/push, cleanup, and real residual risk.</p></div>
+      </div>
+      <div class="note"><strong>First-principles check:</strong> the workflow now asks what goal, facts, assumptions, constraints, simplest correct solution, proof, and revisit signal matter before a decision becomes durable.</div>
+    </section>
+
+    <section id="families">
+      <h2>Skill Families</h2>
+      <p>Families show how skills combine in normal work. A skill can appear in more than one family when it acts as shared infrastructure.</p>
+      <div class="families">
+      <article class="family-card">
+        <h3>Workflow spine</h3>
+        <div class="chips"><span class="chip local" title="Use for Vincent&#x27;s non-trivial Codex work that needs durable task state, proof, blockers, handoffs, or project constraints: multi-session engineering, Velora/OpenClaw oper..."><code>vincent-workflow</code></span>
+<span class="chip repo" title="Use when finishing implementation work, summarizing progress, or giving a Codex app closeout after code, config, infra, automation, script, doc, or test changes. Helps pr..."><code>codex-closeout</code></span>
+<span class="chip repo" title="Use when creating durable Codex work artifacts such as completed-work reports, proof reports, implementation closeouts, deployment verification, code reviews, operational..."><code>codex-html-report</code></span>
+<span class="chip local" title="Use when Mira/Codex should pull context from the shared local second_brain before work, route across Mira, Velora, and Selene memory views, or write back durable decision..."><code>second-brain-context</code></span>
+<span class="chip local" title="Use when Vincent asks to inspect Chronicle/Codex memories, identify repeated workflows, improve his Codex usage, or turn recurring patterns into skills, runbooks, or dura..."><code>memory-workflow-miner</code></span>
+<span class="chip local" title="Use when Vincent asks Mira to orchestrate repository maintenance, triage GitHub issue/PR queues, coordinate autonomous repo work across threads, run a repo-maintenance lo..."><code>maintainer-orchestrator</code></span>
+<span class="chip local" title="Use for Mira-owned engineering review before merge, deploy, architecture change, or risky local-tooling change. Inspired by gstack review and plan-review workflows, rewri..."><code>mira-review-gate</code></span>
+<span class="chip repo" title="Helps users discover and install agent skills when they ask questions like &quot;how do I do X&quot;, &quot;find a skill for X&quot;, &quot;is there a skill that can...&quot;, or express interest in e..."><code>find-skills</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Writing and reader surfaces</h3>
+        <div class="chips"><span class="chip repo" title="ALWAYS use as the final pass before returning user-visible prose in any agent session (Cursor, Codex, Claude). Direct, human, specific copy for docs, README, site content..."><code>anti-ai-writing</code></span>
+<span class="chip repo" title="Help users communicate more effectively in writing. Use when someone is drafting memos, emails, strategy docs, announcements, or any written communication that needs to b..."><code>written-communication</code></span>
+<span class="chip repo" title="Use when creating durable Codex work artifacts such as completed-work reports, proof reports, implementation closeouts, deployment verification, code reviews, operational..."><code>codex-html-report</code></span>
+<span class="chip repo" title="Read, create, review, and edit `.docx` documents with layout-aware validation. Use when working on Word documents, templates, tables, pagination, formatting fidelity, or ..."><code>doc</code></span>
+<span class="chip repo" title="Use when tasks involve reading, creating, or reviewing PDF files where rendering and layout matter; prefer visual checks by rendering pages (Poppler) and use Python tools..."><code>pdf</code></span>
+<span class="chip repo" title="Use when the user explicitly asks for a desktop or system screenshot (full screen, specific app or window, or a pixel region), or when tool-specific capture capabilities ..."><code>screenshot</code></span>
+<span class="chip repo" title="Transcribe audio files to text with optional diarization and known-speaker hints. Use when a user asks to transcribe speech from audio/video, extract text from recordings..."><code>transcribe</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Creation, migration, and tooling</h3>
+        <div class="chips"><span class="chip system" title=""><code>skill-creator</code></span>
+<span class="chip system" title=""><code>skill-installer</code></span>
+<span class="chip repo" title="Helps users discover and install agent skills when they ask questions like &quot;how do I do X&quot;, &quot;find a skill for X&quot;, &quot;is there a skill that can...&quot;, or express interest in e..."><code>find-skills</code></span>
+<span class="chip repo" title="Migrate supported instruction files, skills, agents, and MCP config into Codex project and global files."><code>migrate-to-codex</code></span>
+<span class="chip repo" title="Build a composable CLI for Codex from API docs, an OpenAPI spec, existing curl examples, an SDK, a web app, an admin tool, or a local script. Use when the user wants Code..."><code>cli-creator</code></span>
+<span class="chip repo" title="Set up Husky-based pre-commit automation with lint-staged, Prettier, type checks, and tests. Use when adding commit-time formatting or validation, configuring Husky, wiri..."><code>setup-pre-commit</code></span>
+<span class="chip repo" title="Improve or review names for files, modules, exported identifiers, routes, API fields, fixtures, environment labels, and user-facing copy. Use when naming or renaming some..."><code>naming-quality</code></span>
+<span class="chip local" title="Use when local Codex MCP or connector setup fails, including Zoho MCP, streamable_http auth, stdio wrappers, mcp-remote, malformed local state, startup warnings, missing ..."><code>codex-mcp-repair</code></span>
+<span class="chip local" title="Use when Vincent shares a tool, repo, app, X post, product, or utility and asks is this useful, this seems interesting, whether to install it, or how it fits his Codex/Ve..."><code>utility-usefulness-review</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Planning and product</h3>
+        <div class="chips"><span class="chip repo" title="Turn a rough feature idea into a concise, implementation-ready product requirements document through targeted questioning, codebase exploration, and scope tightening. Use..."><code>write-a-prd</code></span>
+<span class="chip repo" title="Turn a PRD into a phased implementation plan with tracer-bullet vertical slices saved to `./plans/`. Use when the user wants a build plan, phased delivery approach, archi..."><code>prd-to-plan</code></span>
+<span class="chip repo" title="Break a PRD into small, independently shippable implementation issues using vertical slices. Use when the user wants a backlog, milestone breakdown, delivery phases, issu..."><code>prd-to-issues</code></span>
+<span class="chip repo" title="Create a detailed, low-risk refactor plan with tiny, safe steps based on codebase exploration and the user&#x27;s goals. Use when planning a risky refactor, drafting a refacto..."><code>request-refactor-plan</code></span>
+<span class="chip repo" title="Generate multiple substantially different API or module interface designs and compare their trade-offs. Use when designing a new interface, reshaping a module boundary, e..."><code>design-an-interface</code></span>
+<span class="chip repo" title="Stress-test a plan, design, or technical decision until weak assumptions are exposed and resolved. Use when the user wants to be grilled, pressure-test a proposal, walk t..."><code>grill-me</code></span>
+<span class="chip repo" title="Explore a codebase for architectural refactors that deepen modules and reduce coupling. Use when the user wants refactoring ideas, architecture review, maintainability im..."><code>improve-codebase-architecture</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Frontend and UI</h3>
+        <div class="chips"><span class="chip repo" title="Review, redesign, or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use when the user wants a frontend review, UI..."><code>frontend-anti-slop</code></span>
+<span class="chip repo" title="Build or fix responsive frontend layouts across mobile, tablet, and desktop using mobile-first breakpoints, fluid spacing and typography, container queries, adaptive navi..."><code>responsive-design</code></span>
+<span class="chip repo" title="Verify web applications through realistic user flows using browser automation, exploratory checks, accessibility smoke tests, and responsive validation. Use when the user..."><code>webapp-testing</code></span>
+<span class="chip repo" title="Review React applications for rendering inefficiency, unnecessary client work, bundle bloat, hydration cost, state placement problems, and slow interaction paths. Use whe..."><code>react-performance-review</code></span>
+<span class="chip repo" title="Maintain and evolve a design system or component library by managing tokens, primitives, variants, documentation, deprecations, and consumer consistency. Use when the use..."><code>design-system-maintenance</code></span>
+<span class="chip repo" title="Automate a real browser from the terminal for navigation, form filling, screenshots, snapshots, scraping, and UI-flow debugging using `playwright-cli` or the bundled wrap..."><code>playwright</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>CI, GitHub, and delivery</h3>
+        <div class="chips"><span class="chip repo" title="Investigate and fix failing CI/CD pipelines, Jenkins jobs, GitHub Actions PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeli..."><code>ci-pipeline-triage</code></span>
+<span class="chip repo" title="Fetch and address review threads, review submissions, and conversation comments on the GitHub PR for the current branch using `gh` and the bundled fetch script. Use when ..."><code>gh-address-comments</code></span>
+<span class="chip repo" title="Investigate Jenkins controller and agent runtime problems such as offline nodes, queue or executor issues, credential failures, WebSocket or inbound-agent errors, and con..."><code>jenkins-sre</code></span>
+<span class="chip repo" title="Investigate and restore GitOps convergence for Argo CD or Flux. Use when apps are `OutOfSync`, `Missing`, `Progressing`, or `Degraded`, merged changes do not land, revisi..."><code>gitops-reconcile</code></span>
+<span class="chip repo" title="Design or improve a GitOps operating model for Kubernetes delivery, including repo layout, environment promotion, app boundaries, sync ordering, secrets handling, and rol..."><code>gitops-workflow</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Security and secrets</h3>
+        <div class="chips"><span class="chip repo" title="Use when security work needs attacker-method knowledge for defensive outcomes, including purple-team planning, detection engineering, incident reconstruction, external se..."><code>adversary-informed-defense</code></span>
+<span class="chip repo" title="Perform language and framework specific security best-practice reviews and suggest improvements. Trigger only when the user explicitly requests security best practices gu..."><code>security-best-practices</code></span>
+<span class="chip repo" title="Analyze git repositories to build a security ownership topology (people-to-file), compute bus factor and sensitive-code ownership, and export CSV/JSON for graph databases..."><code>security-ownership-map</code></span>
+<span class="chip local" title="Use when Vincent asks to protect, migrate, inventory, stage, rotate, inject, or consume project/runtime secrets, API keys, CI/CD tokens, service credentials, agent tokens..."><code>infisical-secrets-management</code></span>
+<span class="chip local" title="Use for Microsoft Entra OIDC app integrations with Argo CD, Grafana, Kubernetes dashboards, CI/CD tools, or other apps that need Entra login, group claims, app registrati..."><code>entra-oidc-app-integration</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s browser-based application, signup, profile, job, or identity/contact form workflows where Codex should inspect pages, prepare or fill known low-risk fie..."><code>browser-form-privacy-flow</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Platform and Kubernetes</h3>
+        <div class="chips"><span class="chip repo" title="Investigate Kubernetes and container runtime incidents with evidence-first triage. Use when pods are crashing or pending, rollouts are stuck, ingress or DNS routing is br..."><code>k8s-sre-triage</code></span>
+<span class="chip repo" title="Design Kubernetes platform architecture for production workloads, including cluster topology, tenancy, networking, delivery strategy, security boundaries, upgrades, and o..."><code>kubernetes-platform-architecture</code></span>
+<span class="chip repo" title="Design, deploy, and review Microsoft Azure infrastructure, including Bicep and ARM templates, Enterprise Landing Zones, Cloud Adoption Framework alignment, hub-and-spoke ..."><code>azure-infra-engineer</code></span>
+<span class="chip local" title="Use when reducing or changing Azure AKS Kubernetes PVC disk size or storage class in a GitOps-managed workload, especially when ArgoCD or Flux is outside the AKS cluster...."><code>aks-gitops-pvc-rightsize</code></span>
+<span class="chip local" title="Use when writing, reviewing, or debugging Terraform/OpenTofu modules, tests, CI, scans, or state ops - diagnoses failure mode (identity churn, secrets, blast radius, CI d..."><code>terraform-skill</code></span>
+<span class="chip repo" title="Use when user needs Microsoft 365 administration, automation, and management for Exchange Online, Teams, SharePoint, licensing, and Graph API operations. Handles secure i..."><code>m365-admin</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Observability and reliability</h3>
+        <div class="chips"><span class="chip repo" title="Investigate Prometheus, Grafana, and Alertmanager incidents by separating real platform problems from scrape failures and bad rules. Use when alerts fire unexpectedly, ta..."><code>prometheus-grafana-triage</code></span>
+<span class="chip repo" title="Write, validate, and optimise PromQL queries for Prometheus and Grafana Cloud Metrics. Use when"><code>promql</code></span>
+<span class="chip repo" title=""><code>loki</code></span>
+<span class="chip repo" title=""><code>alerting-irm</code></span>
+<span class="chip repo" title=""><code>prometheus-cardinality-troubleshooter</code></span>
+<span class="chip repo" title=""><code>prometheus-label-strategy</code></span>
+<span class="chip repo" title=""><code>loki-label-analyzer</code></span>
+<span class="chip repo" title="Connect AI coding agents (Claude Code, Cursor, VS Code, OpenAI Codex) to Grafana Cloud via"><code>assistant-mcp</code></span>
+<span class="chip repo" title="Design or review observability architecture across metrics, logs, traces, dashboards, alert routing, telemetry standards, retention, and ownership. Use when the user want..."><code>observability-architecture</code></span>
+<span class="chip repo" title="Define service level indicators, service level objectives, and error budgets that reflect real user outcomes. Use when the user wants SLIs or SLOs for APIs, background jo..."><code>slo-sli-design</code></span>
+<span class="chip repo" title="Inspect Sentry issues, recent events, and basic project health through the Sentry API with read-only queries. Use when the user wants recent production errors summarized,..."><code>sentry</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Support and operations</h3>
+        <div class="chips"><span class="chip repo" title="Pragmatic L2/L3 support workflow for Microsoft 365, Entra, and Rocket.Chat tickets. Use when Codex needs to investigate customer-reported issues, platform faults, admin p..."><code>l2-l3-support-platform</code></span>
+<span class="chip repo" title="Analyze logs, stack traces, HAR excerpts, and timestamped incident evidence. Use when the user provides log files, pasted log snippets, exported ticket attachments, or er..."><code>log-analyzer</code></span>
+<span class="chip local" title="Use when drafting, reviewing, or updating Rocket.Chat support ticket work, including customer replies, L1 handoff notes, L3 escalations, Jira comments, case summaries, Zo..."><code>rocketchat-support-ticket</code></span>
+<span class="chip local" title="Use when analyzing Rocket.Chat logs, stack traces, HAR excerpts, reverse proxy logs, MongoDB errors, mobile or desktop client logs, timestamped incident evidence, exporte..."><code>rocketchat-log-analysis</code></span>
+<span class="chip local" title="Use when investigating Rocket.Chat on Kubernetes-based platforms, including crashing pods, pending pods, stuck rollouts, ingress or service routing, TLS, DNS, PVC/storage..."><code>rocketchat-kubernetes-triage</code></span>
+<span class="chip local" title="Use when investigating failing Rocket.Chat CI, PR checks, GitHub Actions workflows, Jenkins jobs, release or deployment pipelines, flaky tests, stuck checks, or misleadin..."><code>rocketchat-ci-triage</code></span>
+<span class="chip local" title="Use when triaging GitHub issues on the RocketChat/Rocket.Chat repository, especially the L2 untriaged bug backlog. Produces a draft triage assessment with copy-pasteable ..."><code>rocketchat-github-issue-triage</code></span>
+<span class="chip local" title="Use when a Rocket.Chat bug, regression, support issue, operational failure, flaky behavior, or integration problem has an unclear cause and needs structured root-cause in..."><code>rocketchat-root-cause-debugging</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Mira, Velora, and local continuity</h3>
+        <div class="chips"><span class="chip local" title="Use for Vincent&#x27;s non-trivial Codex work that needs durable task state, proof, blockers, handoffs, or project constraints: multi-session engineering, Velora/OpenClaw oper..."><code>vincent-workflow</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s Velora/OpenClaw operational handoff work: checking for V messages, sending or reading Codex/Velora handoffs, release-readiness checks, Mission Control o..."><code>velora-handoff-ops</code></span>
+<span class="chip local" title="Use when Vincent asks about SignalForge diagnostics, Selene using SignalForge, source-bound automation-agent wrappers, live diagnostic evidence, Codex App Server as Signa..."><code>signalforge-ops</code></span>
+<span class="chip local" title="Use when Mira/Codex mines Garry Tan&#x27;s gstack or GBrain for local Codex workflows, engineering memory, review gates, QA evidence, closeouts, and adoption proposals. This s..."><code>mira-gstack-gbrain-mining</code></span>
+<span class="chip local" title="Use when Mira/Codex designs or evaluates GBrain-style memory architecture for Mira&#x27;s engineering memory, Codex workflow memory, and routed Velora/Selene context without e..."><code>mira-gbrain-memory-architecture</code></span>
+<span class="chip local" title="Use when Vincent asks for local spoken alerts, ElevenLabs or sag voice output, Mira voice notifications, command completion announcements, brief audio summaries, voiceove..."><code>mira-voice-workflow</code></span>
+<span class="chip local" title="|"><code>chronicle</code></span>
+<span class="chip local" title="Use when the user asks to open, inspect, summarize, verify, or reason about an X/Twitter post, status URL, thread, or X search result. Helps Codex use X API credentials s..."><code>x-post-lookup</code></span></div>
+      </article>
+    
+      <article class="family-card">
+        <h3>Job, learning, and personal flows</h3>
+        <div class="chips"><span class="chip local" title="Use for Vincent&#x27;s job-search and job-application preparation workflow: evaluate a role, reconcile the application ledger, research employer and sponsorship signals, tailo..."><code>job-application-packet-flow</code></span>
+<span class="chip local" title="Use when Vincent asks for quick Gmail inbox triage, email trige please, recent mailbox review, urgency buckets, or likely next actions in Gmail. Keep the default read-onl..."><code>gmail-inbox-triage-readonly</code></span>
+<span class="chip local" title="Use when Vincent asks to learn, understand, walk through, internalize, explain, teach, drill, quiz, or verify comprehension of a topic, code path, system, bug, design, in..."><code>learning-mode</code></span>
+<span class="chip repo" title="Create, repair, validate, preview, and package Codex-compatible animated pet spritesheets from character art, screenshots, generated images, or visual references. Use whe..."><code>hatch-pet</code></span></div>
+      </article>
+    </div>
+    </section>
+
+    <section id="private">
+      <h2>Private Local Skills</h2>
+      <p>These are advertised in both Codex and Agents manifests but intentionally stay local unless promoted. They cover Vincent-specific, Mira-specific, Velora/Selene, Rocket.Chat, secrets, and other machine-local lanes.</p>
+      <div class="chips"><span class="chip local" title="Use when reducing or changing Azure AKS Kubernetes PVC disk size or storage class in a GitOps-managed workload, especially when ArgoCD or Flux is outside the AKS cluster...."><code>aks-gitops-pvc-rightsize</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s browser-based application, signup, profile, job, or identity/contact form workflows where Codex should inspect pages, prepare or fill known low-risk fie..."><code>browser-form-privacy-flow</code></span>
+<span class="chip local" title="|"><code>chronicle</code></span>
+<span class="chip local" title="Use when local Codex MCP or connector setup fails, including Zoho MCP, streamable_http auth, stdio wrappers, mcp-remote, malformed local state, startup warnings, missing ..."><code>codex-mcp-repair</code></span>
+<span class="chip local" title="Use for Microsoft Entra OIDC app integrations with Argo CD, Grafana, Kubernetes dashboards, CI/CD tools, or other apps that need Entra login, group claims, app registrati..."><code>entra-oidc-app-integration</code></span>
+<span class="chip local" title="Use when Vincent asks for quick Gmail inbox triage, email trige please, recent mailbox review, urgency buckets, or likely next actions in Gmail. Keep the default read-onl..."><code>gmail-inbox-triage-readonly</code></span>
+<span class="chip local" title="Use when Vincent asks to protect, migrate, inventory, stage, rotate, inject, or consume project/runtime secrets, API keys, CI/CD tokens, service credentials, agent tokens..."><code>infisical-secrets-management</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s job-search and job-application preparation workflow: evaluate a role, reconcile the application ledger, research employer and sponsorship signals, tailo..."><code>job-application-packet-flow</code></span>
+<span class="chip local" title="Use when Vincent asks to learn, understand, walk through, internalize, explain, teach, drill, quiz, or verify comprehension of a topic, code path, system, bug, design, in..."><code>learning-mode</code></span>
+<span class="chip local" title="Use when Vincent asks Mira to orchestrate repository maintenance, triage GitHub issue/PR queues, coordinate autonomous repo work across threads, run a repo-maintenance lo..."><code>maintainer-orchestrator</code></span>
+<span class="chip local" title="Use when Vincent asks to inspect Chronicle/Codex memories, identify repeated workflows, improve his Codex usage, or turn recurring patterns into skills, runbooks, or dura..."><code>memory-workflow-miner</code></span>
+<span class="chip local" title="Use when Mira/Codex designs or evaluates GBrain-style memory architecture for Mira&#x27;s engineering memory, Codex workflow memory, and routed Velora/Selene context without e..."><code>mira-gbrain-memory-architecture</code></span>
+<span class="chip local" title="Use when Mira/Codex mines Garry Tan&#x27;s gstack or GBrain for local Codex workflows, engineering memory, review gates, QA evidence, closeouts, and adoption proposals. This s..."><code>mira-gstack-gbrain-mining</code></span>
+<span class="chip local" title="Use for Mira-owned engineering review before merge, deploy, architecture change, or risky local-tooling change. Inspired by gstack review and plan-review workflows, rewri..."><code>mira-review-gate</code></span>
+<span class="chip local" title="Use when Vincent asks for local spoken alerts, ElevenLabs or sag voice output, Mira voice notifications, command completion announcements, brief audio summaries, voiceove..."><code>mira-voice-workflow</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s private local PipelineHealer release cut, ACA promotion, ACR import, Infisical-injected deployment, and live release verification. Trigger when Pipeline..."><code>pipelinehealer-aca-release</code></span>
+<span class="chip local" title="Use when investigating failing Rocket.Chat CI, PR checks, GitHub Actions workflows, Jenkins jobs, release or deployment pipelines, flaky tests, stuck checks, or misleadin..."><code>rocketchat-ci-triage</code></span>
+<span class="chip local" title="Use when triaging GitHub issues on the RocketChat/Rocket.Chat repository, especially the L2 untriaged bug backlog. Produces a draft triage assessment with copy-pasteable ..."><code>rocketchat-github-issue-triage</code></span>
+<span class="chip local" title="Use when investigating Rocket.Chat on Kubernetes-based platforms, including crashing pods, pending pods, stuck rollouts, ingress or service routing, TLS, DNS, PVC/storage..."><code>rocketchat-kubernetes-triage</code></span>
+<span class="chip local" title="Use when analyzing Rocket.Chat logs, stack traces, HAR excerpts, reverse proxy logs, MongoDB errors, mobile or desktop client logs, timestamped incident evidence, exporte..."><code>rocketchat-log-analysis</code></span>
+<span class="chip local" title="Use when a Rocket.Chat bug, regression, support issue, operational failure, flaky behavior, or integration problem has an unclear cause and needs structured root-cause in..."><code>rocketchat-root-cause-debugging</code></span>
+<span class="chip local" title="Use when drafting, reviewing, or updating Rocket.Chat support ticket work, including customer replies, L1 handoff notes, L3 escalations, Jira comments, case summaries, Zo..."><code>rocketchat-support-ticket</code></span>
+<span class="chip local" title="Use when Mira/Codex should pull context from the shared local second_brain before work, route across Mira, Velora, and Selene memory views, or write back durable decision..."><code>second-brain-context</code></span>
+<span class="chip local" title="Use when Vincent asks about SignalForge diagnostics, Selene using SignalForge, source-bound automation-agent wrappers, live diagnostic evidence, Codex App Server as Signa..."><code>signalforge-ops</code></span>
+<span class="chip local" title="Use when writing, reviewing, or debugging Terraform/OpenTofu modules, tests, CI, scans, or state ops - diagnoses failure mode (identity churn, secrets, blast radius, CI d..."><code>terraform-skill</code></span>
+<span class="chip local" title="Use when Vincent shares a tool, repo, app, X post, product, or utility and asks is this useful, this seems interesting, whether to install it, or how it fits his Codex/Ve..."><code>utility-usefulness-review</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s Velora/OpenClaw operational handoff work: checking for V messages, sending or reading Codex/Velora handoffs, release-readiness checks, Mission Control o..."><code>velora-handoff-ops</code></span>
+<span class="chip local" title="Use for Vincent&#x27;s non-trivial Codex work that needs durable task state, proof, blockers, handoffs, or project constraints: multi-session engineering, Velora/OpenClaw oper..."><code>vincent-workflow</code></span>
+<span class="chip local" title="Use when the user asks to open, inspect, summarize, verify, or reason about an X/Twitter post, status URL, thread, or X search result. Helps Codex use X API credentials s..."><code>x-post-lookup</code></span></div>
+    </section>
+
+    <section id="gates">
+      <h2>Creation And Validation Gates</h2>
+      <div class="grid">
+        <div class="panel span-6"><h3>New skill creation</h3><p>New skills that mention decisions, blockers, handoffs, closeout, reports, or memory must include a <code>Workflow Coordination</code> section. The standard section comes from <code>python3 scripts/check-workflow-links.py --template</code>.</p></div>
+        <div class="panel span-6"><h3>All-skill enforcement</h3><p><code>bash scripts/check-drift.sh</code> runs <code>scripts/check-workflow-links.py --all</code>. GitHub Actions runs the same audit, installs the skills into runner surfaces, then runs the drift check.</p></div>
+        <div class="panel span-6"><h3>Private skill path</h3><p>Private skills mirror from <code>~/.codex/skills/&lt;name&gt;</code> to <code>~/.agents/skills/&lt;name&gt;</code>, stay in both manifests, and use <code>sync-installed-extras.sh --check</code> for drift proof.</p></div>
+        <div class="panel span-6"><h3>Promotion rule</h3><p>Generic, portable behavior belongs in this repo. Vincent/Mira/Velora/Selene identity, customer support specifics, secrets, and machine-local workflows stay local unless explicitly promoted.</p></div>
+      </div>
+    </section>
+
+    <section id="inventory">
+      <h2>Inventory</h2>
+      <input class="search" id="skillSearch" type="search" placeholder="Filter skills by name, layer, or description" aria-label="Filter skills">
+      <details open><summary>Portable repo skills (55)</summary><table data-filter-table><thead><tr><th>Name</th><th>Layer</th><th>Description</th></tr></thead><tbody><tr><td><code>adversary-informed-defense</code></td><td>Portable repo skill</td><td>Use when security work needs attacker-method knowledge for defensive outcomes, including purple-team planning, detection engineering, incident reconstruction, external se...</td></tr><tr><td><code>alerting-irm</code></td><td>Portable repo skill</td><td></td></tr><tr><td><code>anti-ai-writing</code></td><td>Portable repo skill</td><td>ALWAYS use as the final pass before returning user-visible prose in any agent session (Cursor, Codex, Claude). Direct, human, specific copy for docs, README, site content...</td></tr><tr><td><code>assistant-mcp</code></td><td>Portable repo skill</td><td>Connect AI coding agents (Claude Code, Cursor, VS Code, OpenAI Codex) to Grafana Cloud via</td></tr><tr><td><code>azure-infra-engineer</code></td><td>Portable repo skill</td><td>Design, deploy, and review Microsoft Azure infrastructure, including Bicep and ARM templates, Enterprise Landing Zones, Cloud Adoption Framework alignment, hub-and-spoke ...</td></tr><tr><td><code>ci-pipeline-triage</code></td><td>Portable repo skill</td><td>Investigate and fix failing CI/CD pipelines, Jenkins jobs, GitHub Actions PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeli...</td></tr><tr><td><code>cli-creator</code></td><td>Portable repo skill</td><td>Build a composable CLI for Codex from API docs, an OpenAPI spec, existing curl examples, an SDK, a web app, an admin tool, or a local script. Use when the user wants Code...</td></tr><tr><td><code>codex-closeout</code></td><td>Portable repo skill</td><td>Use when finishing implementation work, summarizing progress, or giving a Codex app closeout after code, config, infra, automation, script, doc, or test changes. Helps pr...</td></tr><tr><td><code>codex-html-report</code></td><td>Portable repo skill</td><td>Use when creating durable Codex work artifacts such as completed-work reports, proof reports, implementation closeouts, deployment verification, code reviews, operational...</td></tr><tr><td><code>design-an-interface</code></td><td>Portable repo skill</td><td>Generate multiple substantially different API or module interface designs and compare their trade-offs. Use when designing a new interface, reshaping a module boundary, e...</td></tr><tr><td><code>design-system-maintenance</code></td><td>Portable repo skill</td><td>Maintain and evolve a design system or component library by managing tokens, primitives, variants, documentation, deprecations, and consumer consistency. Use when the use...</td></tr><tr><td><code>doc</code></td><td>Portable repo skill</td><td>Read, create, review, and edit `.docx` documents with layout-aware validation. Use when working on Word documents, templates, tables, pagination, formatting fidelity, or ...</td></tr><tr><td><code>find-skills</code></td><td>Portable repo skill</td><td>Helps users discover and install agent skills when they ask questions like &quot;how do I do X&quot;, &quot;find a skill for X&quot;, &quot;is there a skill that can...&quot;, or express interest in e...</td></tr><tr><td><code>frontend-anti-slop</code></td><td>Portable repo skill</td><td>Review, redesign, or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use when the user wants a frontend review, UI...</td></tr><tr><td><code>gh-address-comments</code></td><td>Portable repo skill</td><td>Fetch and address review threads, review submissions, and conversation comments on the GitHub PR for the current branch using `gh` and the bundled fetch script. Use when ...</td></tr><tr><td><code>gitops-reconcile</code></td><td>Portable repo skill</td><td>Investigate and restore GitOps convergence for Argo CD or Flux. Use when apps are `OutOfSync`, `Missing`, `Progressing`, or `Degraded`, merged changes do not land, revisi...</td></tr><tr><td><code>gitops-workflow</code></td><td>Portable repo skill</td><td>Design or improve a GitOps operating model for Kubernetes delivery, including repo layout, environment promotion, app boundaries, sync ordering, secrets handling, and rol...</td></tr><tr><td><code>grill-me</code></td><td>Portable repo skill</td><td>Stress-test a plan, design, or technical decision until weak assumptions are exposed and resolved. Use when the user wants to be grilled, pressure-test a proposal, walk t...</td></tr><tr><td><code>hatch-pet</code></td><td>Portable repo skill</td><td>Create, repair, validate, preview, and package Codex-compatible animated pet spritesheets from character art, screenshots, generated images, or visual references. Use whe...</td></tr><tr><td><code>improve-codebase-architecture</code></td><td>Portable repo skill</td><td>Explore a codebase for architectural refactors that deepen modules and reduce coupling. Use when the user wants refactoring ideas, architecture review, maintainability im...</td></tr><tr><td><code>jenkins-sre</code></td><td>Portable repo skill</td><td>Investigate Jenkins controller and agent runtime problems such as offline nodes, queue or executor issues, credential failures, WebSocket or inbound-agent errors, and con...</td></tr><tr><td><code>k8s-sre-triage</code></td><td>Portable repo skill</td><td>Investigate Kubernetes and container runtime incidents with evidence-first triage. Use when pods are crashing or pending, rollouts are stuck, ingress or DNS routing is br...</td></tr><tr><td><code>kubernetes-platform-architecture</code></td><td>Portable repo skill</td><td>Design Kubernetes platform architecture for production workloads, including cluster topology, tenancy, networking, delivery strategy, security boundaries, upgrades, and o...</td></tr><tr><td><code>l2-l3-support-platform</code></td><td>Portable repo skill</td><td>Pragmatic L2/L3 support workflow for Microsoft 365, Entra, and Rocket.Chat tickets. Use when Codex needs to investigate customer-reported issues, platform faults, admin p...</td></tr><tr><td><code>log-analyzer</code></td><td>Portable repo skill</td><td>Analyze logs, stack traces, HAR excerpts, and timestamped incident evidence. Use when the user provides log files, pasted log snippets, exported ticket attachments, or er...</td></tr><tr><td><code>loki</code></td><td>Portable repo skill</td><td></td></tr><tr><td><code>loki-label-analyzer</code></td><td>Portable repo skill</td><td></td></tr><tr><td><code>m365-admin</code></td><td>Portable repo skill</td><td>Use when user needs Microsoft 365 administration, automation, and management for Exchange Online, Teams, SharePoint, licensing, and Graph API operations. Handles secure i...</td></tr><tr><td><code>migrate-to-codex</code></td><td>Portable repo skill</td><td>Migrate supported instruction files, skills, agents, and MCP config into Codex project and global files.</td></tr><tr><td><code>naming-quality</code></td><td>Portable repo skill</td><td>Improve or review names for files, modules, exported identifiers, routes, API fields, fixtures, environment labels, and user-facing copy. Use when naming or renaming some...</td></tr><tr><td><code>observability-architecture</code></td><td>Portable repo skill</td><td>Design or review observability architecture across metrics, logs, traces, dashboards, alert routing, telemetry standards, retention, and ownership. Use when the user want...</td></tr><tr><td><code>pdf</code></td><td>Portable repo skill</td><td>Use when tasks involve reading, creating, or reviewing PDF files where rendering and layout matter; prefer visual checks by rendering pages (Poppler) and use Python tools...</td></tr><tr><td><code>playwright</code></td><td>Portable repo skill</td><td>Automate a real browser from the terminal for navigation, form filling, screenshots, snapshots, scraping, and UI-flow debugging using `playwright-cli` or the bundled wrap...</td></tr><tr><td><code>prd-to-issues</code></td><td>Portable repo skill</td><td>Break a PRD into small, independently shippable implementation issues using vertical slices. Use when the user wants a backlog, milestone breakdown, delivery phases, issu...</td></tr><tr><td><code>prd-to-plan</code></td><td>Portable repo skill</td><td>Turn a PRD into a phased implementation plan with tracer-bullet vertical slices saved to `./plans/`. Use when the user wants a build plan, phased delivery approach, archi...</td></tr><tr><td><code>prometheus-cardinality-troubleshooter</code></td><td>Portable repo skill</td><td></td></tr><tr><td><code>prometheus-grafana-triage</code></td><td>Portable repo skill</td><td>Investigate Prometheus, Grafana, and Alertmanager incidents by separating real platform problems from scrape failures and bad rules. Use when alerts fire unexpectedly, ta...</td></tr><tr><td><code>prometheus-label-strategy</code></td><td>Portable repo skill</td><td></td></tr><tr><td><code>promql</code></td><td>Portable repo skill</td><td>Write, validate, and optimise PromQL queries for Prometheus and Grafana Cloud Metrics. Use when</td></tr><tr><td><code>react-performance-review</code></td><td>Portable repo skill</td><td>Review React applications for rendering inefficiency, unnecessary client work, bundle bloat, hydration cost, state placement problems, and slow interaction paths. Use whe...</td></tr><tr><td><code>request-refactor-plan</code></td><td>Portable repo skill</td><td>Create a detailed, low-risk refactor plan with tiny, safe steps based on codebase exploration and the user&#x27;s goals. Use when planning a risky refactor, drafting a refacto...</td></tr><tr><td><code>responsive-design</code></td><td>Portable repo skill</td><td>Build or fix responsive frontend layouts across mobile, tablet, and desktop using mobile-first breakpoints, fluid spacing and typography, container queries, adaptive navi...</td></tr><tr><td><code>screenshot</code></td><td>Portable repo skill</td><td>Use when the user explicitly asks for a desktop or system screenshot (full screen, specific app or window, or a pixel region), or when tool-specific capture capabilities ...</td></tr><tr><td><code>security-best-practices</code></td><td>Portable repo skill</td><td>Perform language and framework specific security best-practice reviews and suggest improvements. Trigger only when the user explicitly requests security best practices gu...</td></tr><tr><td><code>security-ownership-map</code></td><td>Portable repo skill</td><td>Analyze git repositories to build a security ownership topology (people-to-file), compute bus factor and sensitive-code ownership, and export CSV/JSON for graph databases...</td></tr><tr><td><code>sentry</code></td><td>Portable repo skill</td><td>Inspect Sentry issues, recent events, and basic project health through the Sentry API with read-only queries. Use when the user wants recent production errors summarized,...</td></tr><tr><td><code>setup-pre-commit</code></td><td>Portable repo skill</td><td>Set up Husky-based pre-commit automation with lint-staged, Prettier, type checks, and tests. Use when adding commit-time formatting or validation, configuring Husky, wiri...</td></tr><tr><td><code>slo-sli-design</code></td><td>Portable repo skill</td><td>Define service level indicators, service level objectives, and error budgets that reflect real user outcomes. Use when the user wants SLIs or SLOs for APIs, background jo...</td></tr><tr><td><code>systematic-debugging</code></td><td>Portable repo skill</td><td>Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes</td></tr><tr><td><code>tdd</code></td><td>Portable repo skill</td><td>Implement features or fixes with a red-green-refactor loop and behavior-focused tests. Use when the user asks for test-first development, TDD, integration-style tests, or...</td></tr><tr><td><code>transcribe</code></td><td>Portable repo skill</td><td>Transcribe audio files to text with optional diarization and known-speaker hints. Use when a user asks to transcribe speech from audio/video, extract text from recordings...</td></tr><tr><td><code>triage-issue</code></td><td>Portable repo skill</td><td>Investigate a bug or regression, identify the likely root cause, and produce a durable fix plan or issue-quality diagnosis. Use when behavior is broken, a regression need...</td></tr><tr><td><code>webapp-testing</code></td><td>Portable repo skill</td><td>Verify web applications through realistic user flows using browser automation, exploratory checks, accessibility smoke tests, and responsive validation. Use when the user...</td></tr><tr><td><code>write-a-prd</code></td><td>Portable repo skill</td><td>Turn a rough feature idea into a concise, implementation-ready product requirements document through targeted questioning, codebase exploration, and scope tightening. Use...</td></tr><tr><td><code>written-communication</code></td><td>Portable repo skill</td><td>Help users communicate more effectively in writing. Use when someone is drafting memos, emails, strategy docs, announcements, or any written communication that needs to b...</td></tr></tbody></table></details>
+      <details><summary>Private local extras (29)</summary><table data-filter-table><thead><tr><th>Name</th><th>Layer</th><th>Description</th></tr></thead><tbody><tr><td><code>aks-gitops-pvc-rightsize</code></td><td>Private/local advertised skill</td><td>Use when reducing or changing Azure AKS Kubernetes PVC disk size or storage class in a GitOps-managed workload, especially when ArgoCD or Flux is outside the AKS cluster....</td></tr><tr><td><code>browser-form-privacy-flow</code></td><td>Private/local advertised skill</td><td>Use for Vincent&#x27;s browser-based application, signup, profile, job, or identity/contact form workflows where Codex should inspect pages, prepare or fill known low-risk fie...</td></tr><tr><td><code>chronicle</code></td><td>Private/local advertised skill</td><td>|</td></tr><tr><td><code>codex-mcp-repair</code></td><td>Private/local advertised skill</td><td>Use when local Codex MCP or connector setup fails, including Zoho MCP, streamable_http auth, stdio wrappers, mcp-remote, malformed local state, startup warnings, missing ...</td></tr><tr><td><code>entra-oidc-app-integration</code></td><td>Private/local advertised skill</td><td>Use for Microsoft Entra OIDC app integrations with Argo CD, Grafana, Kubernetes dashboards, CI/CD tools, or other apps that need Entra login, group claims, app registrati...</td></tr><tr><td><code>gmail-inbox-triage-readonly</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks for quick Gmail inbox triage, email trige please, recent mailbox review, urgency buckets, or likely next actions in Gmail. Keep the default read-onl...</td></tr><tr><td><code>infisical-secrets-management</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks to protect, migrate, inventory, stage, rotate, inject, or consume project/runtime secrets, API keys, CI/CD tokens, service credentials, agent tokens...</td></tr><tr><td><code>job-application-packet-flow</code></td><td>Private/local advertised skill</td><td>Use for Vincent&#x27;s job-search and job-application preparation workflow: evaluate a role, reconcile the application ledger, research employer and sponsorship signals, tailo...</td></tr><tr><td><code>learning-mode</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks to learn, understand, walk through, internalize, explain, teach, drill, quiz, or verify comprehension of a topic, code path, system, bug, design, in...</td></tr><tr><td><code>maintainer-orchestrator</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks Mira to orchestrate repository maintenance, triage GitHub issue/PR queues, coordinate autonomous repo work across threads, run a repo-maintenance lo...</td></tr><tr><td><code>memory-workflow-miner</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks to inspect Chronicle/Codex memories, identify repeated workflows, improve his Codex usage, or turn recurring patterns into skills, runbooks, or dura...</td></tr><tr><td><code>mira-gbrain-memory-architecture</code></td><td>Private/local advertised skill</td><td>Use when Mira/Codex designs or evaluates GBrain-style memory architecture for Mira&#x27;s engineering memory, Codex workflow memory, and routed Velora/Selene context without e...</td></tr><tr><td><code>mira-gstack-gbrain-mining</code></td><td>Private/local advertised skill</td><td>Use when Mira/Codex mines Garry Tan&#x27;s gstack or GBrain for local Codex workflows, engineering memory, review gates, QA evidence, closeouts, and adoption proposals. This s...</td></tr><tr><td><code>mira-review-gate</code></td><td>Private/local advertised skill</td><td>Use for Mira-owned engineering review before merge, deploy, architecture change, or risky local-tooling change. Inspired by gstack review and plan-review workflows, rewri...</td></tr><tr><td><code>mira-voice-workflow</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks for local spoken alerts, ElevenLabs or sag voice output, Mira voice notifications, command completion announcements, brief audio summaries, voiceove...</td></tr><tr><td><code>pipelinehealer-aca-release</code></td><td>Private/local advertised skill</td><td>Use for Vincent&#x27;s private local PipelineHealer release cut, ACA promotion, ACR import, Infisical-injected deployment, and live release verification. Trigger when Pipeline...</td></tr><tr><td><code>rocketchat-ci-triage</code></td><td>Private/local advertised skill</td><td>Use when investigating failing Rocket.Chat CI, PR checks, GitHub Actions workflows, Jenkins jobs, release or deployment pipelines, flaky tests, stuck checks, or misleadin...</td></tr><tr><td><code>rocketchat-github-issue-triage</code></td><td>Private/local advertised skill</td><td>Use when triaging GitHub issues on the RocketChat/Rocket.Chat repository, especially the L2 untriaged bug backlog. Produces a draft triage assessment with copy-pasteable ...</td></tr><tr><td><code>rocketchat-kubernetes-triage</code></td><td>Private/local advertised skill</td><td>Use when investigating Rocket.Chat on Kubernetes-based platforms, including crashing pods, pending pods, stuck rollouts, ingress or service routing, TLS, DNS, PVC/storage...</td></tr><tr><td><code>rocketchat-log-analysis</code></td><td>Private/local advertised skill</td><td>Use when analyzing Rocket.Chat logs, stack traces, HAR excerpts, reverse proxy logs, MongoDB errors, mobile or desktop client logs, timestamped incident evidence, exporte...</td></tr><tr><td><code>rocketchat-root-cause-debugging</code></td><td>Private/local advertised skill</td><td>Use when a Rocket.Chat bug, regression, support issue, operational failure, flaky behavior, or integration problem has an unclear cause and needs structured root-cause in...</td></tr><tr><td><code>rocketchat-support-ticket</code></td><td>Private/local advertised skill</td><td>Use when drafting, reviewing, or updating Rocket.Chat support ticket work, including customer replies, L1 handoff notes, L3 escalations, Jira comments, case summaries, Zo...</td></tr><tr><td><code>second-brain-context</code></td><td>Private/local advertised skill</td><td>Use when Mira/Codex should pull context from the shared local second_brain before work, route across Mira, Velora, and Selene memory views, or write back durable decision...</td></tr><tr><td><code>signalforge-ops</code></td><td>Private/local advertised skill</td><td>Use when Vincent asks about SignalForge diagnostics, Selene using SignalForge, source-bound automation-agent wrappers, live diagnostic evidence, Codex App Server as Signa...</td></tr><tr><td><code>terraform-skill</code></td><td>Private/local advertised skill</td><td>Use when writing, reviewing, or debugging Terraform/OpenTofu modules, tests, CI, scans, or state ops - diagnoses failure mode (identity churn, secrets, blast radius, CI d...</td></tr><tr><td><code>utility-usefulness-review</code></td><td>Private/local advertised skill</td><td>Use when Vincent shares a tool, repo, app, X post, product, or utility and asks is this useful, this seems interesting, whether to install it, or how it fits his Codex/Ve...</td></tr><tr><td><code>velora-handoff-ops</code></td><td>Private/local advertised skill</td><td>Use for Vincent&#x27;s Velora/OpenClaw operational handoff work: checking for V messages, sending or reading Codex/Velora handoffs, release-readiness checks, Mission Control o...</td></tr><tr><td><code>vincent-workflow</code></td><td>Private/local advertised skill</td><td>Use for Vincent&#x27;s non-trivial Codex work that needs durable task state, proof, blockers, handoffs, or project constraints: multi-session engineering, Velora/OpenClaw oper...</td></tr><tr><td><code>x-post-lookup</code></td><td>Private/local advertised skill</td><td>Use when the user asks to open, inspect, summarize, verify, or reason about an X/Twitter post, status URL, thread, or X search result. Helps Codex use X API credentials s...</td></tr></tbody></table></details>
+      <details><summary>Pinned system skills (5)</summary><div class="chips"><span class="chip system" title=""><code>imagegen</code></span>
+<span class="chip system" title=""><code>openai-docs</code></span>
+<span class="chip system" title=""><code>plugin-creator</code></span>
+<span class="chip system" title=""><code>skill-creator</code></span>
+<span class="chip system" title=""><code>skill-installer</code></span></div></details>
+    </section>
+
+    <section id="timeline">
+      <h2>Recent Work Timeline</h2>
+      <p>These commits are the durable repo trail for the skill-system hardening work.</p>
+      <ol class="timeline"><li><code>855bcd0</code> Enforce workflow coordination for all skills</li><li><code>d9d7120</code> Gate new skills on workflow coordination</li><li><code>0d63be1</code> Link workflow coordination across skills</li><li><code>1ded18e</code> Preserve private skills in local skill maintenance</li><li><code>c2aeaa9</code> Refresh system skill lock for the Codex 0.139 contract</li><li><code>58a6f2e</code> Install Claude Code skills as directories so Claude discovers them</li><li><code>190d8fd</code> Promote installed anti-ai-writing and codex-html-report improvements</li><li><code>bbde7a2</code> Add skill authoring best practices and extend trigger matrix</li></ol>
+      <details><summary>Verification commands used for this report</summary><ul><li><code>bash scripts/list-skills.sh</code></li><li><code>python3 scripts/check-workflow-links.py --all</code></li><li><code>sed -n '1,140p' ~/.codex/skills/.codex-skills-managed</code></li><li><code>git log --oneline -n 8</code></li></ul></details>
+    </section>
+
+    <section id="status">
+      <h2>Status</h2>
+      <p><span class="status">Verified locally</span></p>
+      <p>The report is based on the current repo checkout, Codex installed-skill manifest, and pinned system skill lock. It does not include secret values, private profile data, or raw chat transcripts.</p>
+    </section>
+  </main>
+  <script>
+    const search = document.getElementById('skillSearch');
+    const tables = Array.from(document.querySelectorAll('[data-filter-table]'));
+    search?.addEventListener('input', () => {
+      const q = search.value.toLowerCase().trim();
+      for (const table of tables) {
+        for (const row of table.tBodies[0].rows) {
+          row.hidden = q && !row.innerText.toLowerCase().includes(q);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
