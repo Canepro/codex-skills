@@ -100,3 +100,7 @@ Do not generate a long brainstorm list.
 - Push back when a requested rename creates churn without improving meaning.
 - Keep public contracts stable unless the name is actively misleading or harmful.
 - If the safest answer is to keep the current public contract and only improve internal labels, say so clearly.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

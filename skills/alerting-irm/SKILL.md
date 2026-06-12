@@ -137,6 +137,10 @@ Use this section for sensitive runs, incident edits, and secret-aware workflows.
 - Use a `live test first` posture in non-production, then promote to production only after safety checks.
 - In this runtime, follow handoff conventions with `mira`, `selene`, and `velora` for sensitive operational actions.
 
+## Workflow Coordination
+
+This skill owns Grafana alerting, IRM, SLO, silence, and notification-routing work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, incident handoffs, approval state, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+
 ## Contact Points (YAML provisioning)
 
 ```yaml

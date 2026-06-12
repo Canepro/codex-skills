@@ -70,7 +70,10 @@ Do:
 - summarize behavior, not edit inventory
 - include exact validation commands
 - mention commits when useful
-- include 1 to 4 file references only when they add real value
+- mention only 1 to 4 files when they add real value
+- treat secret, credential, token, and private key handling as sensitive output boundaries
+
+When a task involves any secret, credential, token, or private key, only include what was touched and verified, not actual values.
 
 Do not:
 - default to a full report every turn
@@ -78,6 +81,9 @@ Do not:
 - dump long file lists
 - narrate every micro-step
 - include a risks section if there is no meaningful residual risk
+- include raw secret, credential, token, or private key values in closeout text
+
+If those items were part of the work, include redacted confirmation, location, and verification outcome only.
 
 ## When To Use The Full Structure
 
