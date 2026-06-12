@@ -102,6 +102,7 @@ Report:
 - If you cannot prove root cause yet, say what is still unknown and what evidence would resolve it.
 - Do not assume provider-specific behavior; verify it.
 - When checking previous logs for a restart, verify the pod namespace first. A correct command in the wrong namespace is still bad evidence.
+- Treat Secret values, service-account tokens, kubeconfig contents, and any other credential material as redacted. Quote Secret names and keys as evidence, never decoded values; a finding that pastes a live credential is worse than no finding.
 
 ## Related specialist skills
 
@@ -143,10 +144,6 @@ Usage:
 ```bash
 bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
 ```
-
-## SkillForge Validation Notes
-When updating this skill, preserve the behaviors covered by its benchmark cases and protected invariants.
-Focus on: The skill must continue to reference or enforce rules for credential.
 
 ## Workflow Coordination
 
