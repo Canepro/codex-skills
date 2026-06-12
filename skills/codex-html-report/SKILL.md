@@ -73,7 +73,7 @@ Every substantial report must answer:
 - What changed or was discovered?
 - How was it verified?
 - What evidence supports the claim?
-- If outcome is partial, risky, or blocked, include Open risk items with a named risk owner, a concrete next action, and a due date.
+- If outcome is partial, risky, or blocked, include open risk items with a named owner or next action, and a due date when one is known.
 - What remains uncertain?
 - What should the user do next?
 
