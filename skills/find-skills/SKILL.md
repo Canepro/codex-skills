@@ -45,6 +45,11 @@ Common routes:
 | PR review threads | `gh-address-comments` |
 | Commit hooks | `setup-pre-commit` |
 | Delivery summary | `codex-closeout` |
+| Durable task state, decisions, blockers, handoffs | `vincent-workflow` |
+| Browser-native proof report | `codex-html-report` |
+| Repeated workflow mining from memory | `memory-workflow-miner` |
+| Shared local-brain query or writeback | `second-brain-context` |
+| Repo queue orchestration | `maintainer-orchestrator` |
 | Customer-safe prose | `written-communication` |
 | Kubernetes incidents | `k8s-sre-triage` |
 | Kubernetes platform or cluster design | `kubernetes-platform-architecture` |
@@ -59,6 +64,12 @@ Common routes:
 | Grafana MCP setup for agents | `assistant-mcp` |
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
+
+When the user asks to improve the skill system itself, check for an existing
+coordination surface before adding a new skill. Shared workflow concerns belong
+in `vincent-workflow`; final chat delivery belongs in `codex-closeout`; durable
+reader artifacts belong in `codex-html-report`; cross-context memory belongs in
+`second-brain-context`.
 
 ## Skills CLI
 

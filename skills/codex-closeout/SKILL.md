@@ -26,6 +26,25 @@ Produce a closeout that is easy to scan in the Codex app:
 - mention only the most important files
 - mention risks only when they are real
 
+## Coordination
+
+This skill owns the final chat shape, not durable workflow state.
+
+When the work used or should use `vincent-workflow`, make the closeout include
+the workflow facts Vincent cares about:
+
+- verification run and result
+- commit/push/cleanup status for repo changes
+- workflow file created or updated, if any
+- remaining blocker or decision, only when real
+
+Do not create separate blocker, decision, or handoff formats here. Use
+`vincent-workflow` for those records and summarize them in the closeout.
+
+If the work produced a browser-native artifact, use `codex-html-report` for the
+artifact and keep the chat closeout compact: report path, status, verification,
+and any real limitation.
+
 ## Default Shape
 
 For normal implementation work, prefer this order:

@@ -23,6 +23,18 @@ The report should feel like a polished internal product, not a decorative dashbo
 
 Default to dark mode/dark-first styling for read-mostly reports. Do not create a light-mode report unless the user asks for it, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
+## Coordination
+
+This skill owns reader-facing proof artifacts. It does not own task state.
+
+Use `vincent-workflow` when the report creates or captures a durable decision,
+blocker, known issue, handoff, or closeout obligation. The report can show those
+facts, but the project-local workflow record should live in the workflow surface
+when it needs to survive beyond the artifact.
+
+Use `codex-closeout` for the final chat reply after the report is created.
+Keep the reply short and link the report path.
+
 ## Default Location
 
 Write reports under the current working context:
