@@ -8,6 +8,7 @@ External consensus on writing agent skills, checked against this library on 2026
 - `description`: max 1024 chars, third person, and it must cover both what the skill does and when to use it, with the concrete words a user would type. This is the only text the agent sees when routing, so specificity here beats anything in the body.
 - State negative triggers. Our "Do not use when" sections do this in the body; the description should carry the strongest exclusions too when collisions are likely.
 - Never write persona descriptions ("Expert in X"). They describe a character, not a trigger.
+- The whole catalog is budgeted, not just each description: Codex advertises roughly 8,000 characters (about 2% of context) of skill metadata per session, shortens long descriptions first, and silently omits skills when still over budget. With a large installed set, every extra character raises some skill's omission risk, so keep descriptions tight and keep must-never-miss contracts (like the continuity layer) in always-loaded AGENTS.md guidance as the backstop, not only in a skill.
 
 ## Body
 
