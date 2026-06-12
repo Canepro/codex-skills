@@ -30,13 +30,14 @@ install_to_dest() {
 
   mkdir -p "$dest_dir"
 
+  # The manifest lists repo-managed skills only. A manifest entry that left the
+  # repo was deliberately deleted, so uninstall it. Private skills are never in
+  # the manifest; they live as unmanaged directories and are not touched here.
   if [ -f "$manifest_path" ]; then
     while IFS= read -r old_skill; do
       [ -n "$old_skill" ] || continue
       [ -d "$SRC_DIR/$old_skill" ] && continue
-      if [ -f "$dest_dir/$old_skill/SKILL.md" ]; then
-        printf '%s\n' "$old_skill" >> "$manifest_tmp"
-      fi
+      rm -rf "$dest_dir/$old_skill"
     done < "$manifest_path"
   fi
 

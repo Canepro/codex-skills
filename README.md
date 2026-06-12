@@ -36,6 +36,8 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 - Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `tdd`, `triage-issue`
 - Naming, discovery, and handoff: `naming-quality`, `find-skills`, `codex-closeout`
 
+Skills end with a "Workflow Coordination" section that may name local coordination skills (for example `vincent-workflow` or `second-brain-context`) which are not part of this repo. If you do not have them installed, agents ignore those references; the skills work standalone.
+
 ## Maintainers
 
 Maintenance details live in [docs/how-to-manage-skills.md](docs/how-to-manage-skills.md).
