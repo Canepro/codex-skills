@@ -50,10 +50,20 @@ Common routes:
 | Repeated workflow mining from memory | `memory-workflow-miner` |
 | Shared local-brain query or writeback | `second-brain-context` |
 | Repo queue orchestration | `maintainer-orchestrator` |
+| Naming, renaming, terminology drift | `naming-quality` |
+| Pressure-test a plan or decision | `grill-me` |
+| API or module interface design | `design-an-interface` |
+| Codebase architecture improvement ideas | `improve-codebase-architecture` |
+| Risky refactor sequencing | `request-refactor-plan` |
 | Customer-safe prose | `written-communication` |
+| Word documents | `doc` |
+| PDFs | `pdf` |
+| Audio transcription | `transcribe` |
+| Desktop screenshots | `screenshot` |
 | Kubernetes incidents | `k8s-sre-triage` |
 | Kubernetes platform or cluster design | `kubernetes-platform-architecture` |
 | GitOps sync issues | `gitops-reconcile` |
+| Azure infrastructure | `azure-infra-engineer` |
 | Prometheus/Grafana alert or scrape triage | `prometheus-grafana-triage` |
 | PromQL query writing or optimization | `promql` |
 | Loki or LogQL work | `loki` |
@@ -62,6 +72,11 @@ Common routes:
 | Prometheus label strategy | `prometheus-label-strategy` |
 | Loki label strategy | `loki-label-analyzer` |
 | Grafana MCP setup for agents | `assistant-mcp` |
+| Security best-practice review | `security-best-practices` |
+| Security ownership or bus-factor map | `security-ownership-map` |
+| Adversary-informed defensive planning | `adversary-informed-defense` |
+| CLI creation from API docs or curls | `cli-creator` |
+| Migrate Claude-style artifacts into Codex | `migrate-to-codex` |
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
 

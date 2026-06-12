@@ -195,3 +195,173 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Prompt: `create a new skill for repo maintenance handoffs; it needs to record decisions, blockers, reports, and closeout proof`
 - Expected: `skill-creator` plus the repo creation flow should include a `Workflow Coordination` section and pass `scripts/check-workflow-links.py`
 - Should not be first choice: creating a standalone decision, blocker, or handoff format inside the new skill
+
+## Underused utility and review skills
+
+### 30. Naming quality
+
+- Prompt: `what should we call this new module and the API field it exposes so the name still makes sense after we move providers`
+- Expected: `naming-quality`
+- Should not be first choice: `written-communication`, `design-an-interface`
+
+### 31. Pressure-test a plan
+
+- Prompt: `grill me on this architecture plan before I commit to it; what am I missing and what would bite us later`
+- Expected: `grill-me`
+- Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`
+
+### 32. API or module interface design
+
+- Prompt: `design this module interface two or three different ways and compare the trade-offs before we implement it`
+- Expected: `design-an-interface`
+- Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`
+
+### 33. Codebase architecture opportunities
+
+- Prompt: `explore this repo and find architectural refactors that would reduce coupling and make it easier for agents to work in`
+- Expected: `improve-codebase-architecture`
+- Should not be first choice: `request-refactor-plan`, `triage-issue`
+
+### 34. Risky refactor plan
+
+- Prompt: `this refactor is risky; turn it into tiny safe steps with a verification plan and clear out-of-scope boundaries`
+- Expected: `request-refactor-plan`
+- Should not be first choice: `improve-codebase-architecture`, `tdd`
+
+### 35. Anti-AI writing pass
+
+- Prompt: `make this draft less AI-sounding, more direct, and keep the technical meaning intact`
+- Expected: `anti-ai-writing`
+- Should not be first choice: `written-communication`
+
+### 36. General writing improvement
+
+- Prompt: `tighten this stakeholder email so the ask, owner, and next step are clear`
+- Expected: `written-communication`
+- Should not be first choice: `anti-ai-writing`
+
+### 37. Implementation closeout
+
+- Prompt: `summarize what changed, what passed, what failed, and whether the repo was committed and pushed`
+- Expected: `codex-closeout`
+- Should not be first choice: `codex-html-report`
+
+### 38. Durable HTML report
+
+- Prompt: `create a browser-readable proof report for this migration with summary, verification, risks, and evidence`
+- Expected: `codex-html-report`
+- Should not be first choice: `codex-closeout`
+
+## Documents, media, and local surfaces
+
+### 39. Word document work
+
+- Prompt: `edit this docx template and verify the table layout and pagination still render correctly`
+- Expected: `doc`
+- Should not be first choice: `pdf`, `written-communication`
+
+### 40. PDF layout work
+
+- Prompt: `inspect this PDF visually, extract the important fields, and tell me whether the rendered layout is intact`
+- Expected: `pdf`
+- Should not be first choice: `doc`, `screenshot`
+
+### 41. Desktop screenshot
+
+- Prompt: `take a screenshot of the current app window because the browser capture tool cannot see it`
+- Expected: `screenshot`
+- Should not be first choice: `playwright`
+
+### 42. Audio transcription
+
+- Prompt: `transcribe this meeting recording and label speakers where possible`
+- Expected: `transcribe`
+- Should not be first choice: `doc`, `written-communication`
+
+### 43. Hatch Codex pet
+
+- Prompt: `turn this character image into a Codex pet spritesheet and validate the animation frames`
+- Expected: `hatch-pet`
+- Should not be first choice: `imagegen`
+
+## Security, ownership, and platform setup
+
+### 44. Security best-practices review
+
+- Prompt: `review this TypeScript API for security best practices and point out framework-specific risks`
+- Expected: `security-best-practices`
+- Should not be first choice: `adversary-informed-defense`, `triage-issue`
+
+### 45. Security ownership map
+
+- Prompt: `build a file ownership and bus-factor map from git history so we know who owns sensitive code`
+- Expected: `security-ownership-map`
+- Should not be first choice: `security-best-practices`
+
+### 46. Adversary-informed defensive plan
+
+- Prompt: `use attacker methods to help us design detections and harden this exposed service defensively`
+- Expected: `adversary-informed-defense`
+- Should not be first choice: `security-best-practices`
+
+### 47. Azure infrastructure design
+
+- Prompt: `design the Azure landing zone, networking, RBAC, and cost controls for this workload`
+- Expected: `azure-infra-engineer`
+- Should not be first choice: `kubernetes-platform-architecture`
+
+### 48. Grafana MCP setup
+
+- Prompt: `connect Codex and Claude to Grafana Cloud through MCP and document the agent setup`
+- Expected: `assistant-mcp`
+- Should not be first choice: `prometheus-grafana-triage`
+
+### 49. Microsoft 365 admin automation
+
+- Prompt: `create a Microsoft 365 admin automation plan for Exchange Online users and Teams policy setup`
+- Expected: `m365-admin`
+- Should not be first choice: `l2-l3-support-platform`
+
+### 50. L2/L3 support case
+
+- Prompt: `investigate this customer support case and prepare an evidence-backed L2 to L3 escalation note`
+- Expected: `l2-l3-support-platform`
+- Should not be first choice: `log-analyzer`, `written-communication`
+
+## Tooling and migration
+
+### 51. CLI creation
+
+- Prompt: `build a CLI from these API docs and curl examples so agents can use the admin API safely`
+- Expected: `cli-creator`
+- Should not be first choice: `migrate-to-codex`
+
+### 52. Migrate to Codex
+
+- Prompt: `migrate these Claude skills, agents, and MCP config into Codex-compatible artifacts and validate the target`
+- Expected: `migrate-to-codex`
+- Should not be first choice: `find-skills`
+
+### 53. Setup pre-commit
+
+- Prompt: `add Husky and lint-staged so formatting and type checks run before commit`
+- Expected: `setup-pre-commit`
+- Should not be first choice: `ci-pipeline-triage`
+
+### 54. GitHub review comments
+
+- Prompt: `fetch the unresolved review comments on this PR and apply the smallest fixes for each thread`
+- Expected: `gh-address-comments`
+- Should not be first choice: `ci-pipeline-triage`
+
+### 55. Systematic debugging
+
+- Prompt: `this test failure makes no sense; trace the root cause before suggesting fixes`
+- Expected: `systematic-debugging`
+- Should not be first choice: `triage-issue`, `tdd`
+
+### 56. Alert routing and IRM
+
+- Prompt: `configure Grafana alert contact points, notification policies, silences, and incident routing`
+- Expected: `alerting-irm`
+- Should not be first choice: `prometheus-grafana-triage`, `slo-sli-design`

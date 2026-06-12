@@ -18,6 +18,10 @@ description: >
 ### Grafana-Managed Alert Rule (YAML provisioning)
 
 ```yaml
+uid: high-error-rate
+```
+
+```yaml
 # provisioning/alerting/rules.yaml
 apiVersion: 1
 groups:
@@ -36,7 +40,7 @@ groups:
               from: 300   # 5 minutes
               to: 0
             model:
-              expr: sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+              expr: sum(rate(http_requests_total{status=~"5..."}[5m])) by (service)
           - refId: B
             datasourceUid: __expr__
             model:
@@ -71,7 +75,7 @@ groups:
     rules:
       - alert: HighErrorRate
         expr: |
-          sum(rate(http_requests_total{status=~"5.."}[5m])) by (service)
+          sum(rate(http_requests_total{status=~"5..."}[5m])) by (service)
           /
           sum(rate(http_requests_total[5m])) by (service)
           > 0.05
@@ -121,6 +125,17 @@ groups:
         labels:
           severity: critical
 ```
+
+## Sensitive handling and governance
+
+Use this section for sensitive runs, incident edits, and secret-aware workflows.
+- Ask for consent before touching a `secret`, `private key`, or `destructive` change path.
+- Ask for consent and approval before making changes that impact `live infra`; always `pause before` `final submission`.
+- Do not echo `secret` or `private key` values in logs, shell output, or chat.
+- Redact, mask, or hide sensitive values when sharing examples or debug output.
+- Use `infisical` for credentials and avoid `no hardcoded` secrets in configs, alert templates, and repos.
+- Use a `live test first` posture in non-production, then promote to production only after safety checks.
+- In this runtime, follow handoff conventions with `mira`, `selene`, and `velora` for sensitive operational actions.
 
 ## Contact Points (YAML provisioning)
 

@@ -1,6 +1,6 @@
 ---
 name: naming-quality
-description: Improve or review names for files, modules, exported identifiers, routes, API fields, fixtures, environment labels, and user-facing copy. Use when naming or renaming something important, cleaning up terminology drift, or choosing durable vocabulary that should stay clear across code, docs, and product surfaces.
+description: Improve or review names for files, modules, exported identifiers, routes, API fields, fixtures, environment labels, and user-facing copy. Use when the user asks what something should be called, wants to name or rename something important, asks for better terminology, notices confusing vocabulary, or needs durable names across code, docs, product surfaces, logs, and operator workflows.
 metadata:
   short-description: Choose clearer, more durable names
 ---
@@ -11,10 +11,12 @@ Choose names that survive contact with real usage, not just the current patch.
 
 ## Use when
 
+- the user asks "what should we call this?", "is this name right?", or "help me name this"
 - creating or renaming files, modules, components, routes, or exported identifiers
 - tightening API field names, CLI flags, env vars, or fixture names
 - cleaning up environment terminology across docs and code
 - reviewing whether an existing name is misleading, temporary, too local, or too implementation-shaped
+- deciding whether to keep a deployed resource identifier while changing the product or documentation vocabulary
 
 ## Do not use when
 
@@ -95,4 +97,6 @@ Do not generate a long brainstorm list.
 
 - Prefer names that still make sense when open-sourced.
 - Treat naming as product quality, not polish.
+- Push back when a requested rename creates churn without improving meaning.
+- Keep public contracts stable unless the name is actively misleading or harmful.
 - If the safest answer is to keep the current public contract and only improve internal labels, say so clearly.
