@@ -96,7 +96,7 @@ If the user provides a writing sample, match its sentence length, register, cont
 
 These belong to the UI but the same rules apply. Strip them in the same pass.
 
-- Greeting filler: "Welcome back, {name}!", "Good morning, Vincent!", "Hi there!".
+- Greeting filler: "Welcome back, {name}!", "Good morning, Alex!", "Hi there!".
 - Mood headers: "Let's get started", "You're all set!", "Awesome work!", "Your AI insights".
 - Cheerleader empty states: "Nothing here yet, but exciting things are coming!".
 - Reassurance copy on forms: "We will never spam you, promise", "This helps us personalize your experience".
