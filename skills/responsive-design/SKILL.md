@@ -75,7 +75,8 @@ Prioritize:
 - predictable grid collapse behavior
 - stable control sizing
 - touch-friendly spacing where interaction density allows
-- clear order of importance on smaller screens
+- explicit touch target minimums: set `min-width: 44px` and `min-height: 44px` for interactive elements on touch screens
+- keep a clear order of importance on smaller screens
 
 ### 4. Handle high-risk UI patterns explicitly
 
@@ -87,6 +88,12 @@ Give extra attention to:
 - dashboards with card grids of uneven importance
 
 Use transformation patterns intentionally rather than just stacking everything.
+
+For long content and dense tables on narrow screens, enforce:
+- `overflow-x: auto` on a dedicated scroll wrapper, such as `.table-shell`, so wide rows can scroll instead of forcing page overflow
+- `overflow-wrap: break-word;` for long unbroken strings in content cells and labels
+- `word-break: break-word;` for dense text blocks, IDs, tokens, and code-like values
+- `max-width: 100%` on tables, preformatted blocks, and long text containers to keep overflow controlled
 
 ### 4a. Respect user motion and input preferences
 
