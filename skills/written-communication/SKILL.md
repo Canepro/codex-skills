@@ -16,6 +16,7 @@ When the user asks for help with written communication:
 3. **Cut ruthlessly** - Help them eliminate unnecessary context and get to the point faster
 4. **Test for simplicity** - Ensure someone unfamiliar with the topic could understand the core message
 5. **Run the anti-AI pass** - Use `anti-ai-writing` as the final check for drafts that must sound direct, specific, and human
+6. **Respect confidentiality** - If a draft includes any secret, credential, token, or private key context, keep values out of the written artifact and route real values through secure channels with explicit consent
 
 ## Core Principles
 
@@ -63,6 +64,7 @@ Wes Kao: "I dislike when people overuse bullets and sentence fragments when they
 - "Could someone unfamiliar with this topic understand the core point?"
 - "Is this something you've explained multiple times that should be documented?"
 - "Have you read this out loud to check if it sounds like natural conversation?"
+- "Does this draft mention any secret, credential, token, or private key details that need redaction or secure handling?"
 
 ## Common Mistakes to Flag
 
@@ -86,4 +88,4 @@ For all 61 insights from 38 guests, see `references/guest-insights.md`
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. For any handling of secret, credential, token, or private key context, avoid exposing values in artifacts and call out redaction requirements before drafting. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
