@@ -199,11 +199,13 @@ Interpretation:
 - `pinned system skills aligned`: `.system` matches `system-skills.lock`
 - `installed-tree-alignment`: `~/.codex/skills` and `~/.agents/skills` expose the same top-level directories
 
-If non-repo entries differ between the two installed trees, run:
+If non-repo entries differ between the installed trees, run:
 
 ```bash
 bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 ```
+
+Besides reconciling `~/.codex/skills` and `~/.agents/skills`, this mirrors Codex-tree private skills one way into `~/.claude/skills` (manifest included) so Claude Code discovers them too. Claude-only externals are left alone.
 
 ## Rules to avoid drift again
 

@@ -5,6 +5,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_DIR="$REPO_DIR/skills"
 DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
 DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
+DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
 MODE="${1:---check}"
 
 ensure_tmpdir() {
@@ -46,6 +47,10 @@ This script is for installed entries that are not managed by this repo's skills/
 directory. Shared entries with content drift are synced from ~/.codex/skills into
 ~/.agents/skills, because Codex's local install is the authoritative source for
 platform-provided system skills.
+
+Codex-tree externals are also mirrored one way into ~/.claude/skills (with the
+claude manifest updated) so private skills stay discoverable by Claude Code.
+Claude-only externals are left untouched.
 USAGE
 }
 
@@ -83,6 +88,12 @@ comm -23 "$codex_external" "$agents_external" > "$codex_only"
 comm -13 "$codex_external" "$agents_external" > "$agents_only"
 comm -12 "$codex_external" "$agents_external" > "$shared_external"
 
+claude_missing="$tmpdir/claude-missing.txt"
+claude_drift="$tmpdir/claude-drift.txt"
+: > "$shared_drift"
+: > "$claude_missing"
+: > "$claude_drift"
+
 dir_has_drift() {
   local src_dir="$1"
   local dest_dir="$2"
@@ -116,6 +127,15 @@ while IFS= read -r skill_dir; do
   fi
 done < "$shared_external"
 
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  if [[ ! -d "$DEFAULT_CLAUDE_DIR/$skill_dir" ]]; then
+    printf '%s\n' "$skill_dir" >> "$claude_missing"
+  elif dir_has_drift "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_CLAUDE_DIR/$skill_dir"; then
+    printf '%s\n' "$skill_dir" >> "$claude_drift"
+  fi
+done < "$codex_external"
+
 print_list() {
   local title="$1"
   local file="$2"
@@ -131,8 +151,10 @@ print_list() {
 print_list "External only in $DEFAULT_CODEX_DIR:" "$codex_only"
 print_list "External only in $DEFAULT_AGENTS_DIR:" "$agents_only"
 print_list "Shared external entries with content drift:" "$shared_drift"
+print_list "Codex externals missing from $DEFAULT_CLAUDE_DIR:" "$claude_missing"
+print_list "Codex externals with drift in $DEFAULT_CLAUDE_DIR:" "$claude_drift"
 
-if [[ ! -s "$codex_only" && ! -s "$agents_only" && ! -s "$shared_drift" ]]; then
+if [[ ! -s "$codex_only" && ! -s "$agents_only" && ! -s "$shared_drift" && ! -s "$claude_missing" && ! -s "$claude_drift" ]]; then
   echo "External installed skill directories are in sync."
   exit 0
 fi
@@ -155,5 +177,15 @@ while IFS= read -r skill_dir; do
   [[ -n "$skill_dir" ]] || continue
   sync_dir "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_AGENTS_DIR/$skill_dir"
 done < "$shared_drift"
+
+claude_manifest="$DEFAULT_CLAUDE_DIR/.codex-skills-managed"
+mkdir -p "$DEFAULT_CLAUDE_DIR"
+touch "$claude_manifest"
+while IFS= read -r skill_dir; do
+  [[ -n "$skill_dir" ]] || continue
+  sync_dir "$DEFAULT_CODEX_DIR/$skill_dir" "$DEFAULT_CLAUDE_DIR/$skill_dir"
+  printf '%s\n' "$skill_dir" >> "$claude_manifest"
+done < <(cat "$claude_missing" "$claude_drift")
+sort -u "$claude_manifest" -o "$claude_manifest"
 
 echo "Synced external installed skill directories."
