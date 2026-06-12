@@ -40,4 +40,9 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 
 Maintenance details live in [docs/how-to-manage-skills.md](docs/how-to-manage-skills.md).
 
+New or changed skills are checked for workflow coordination during drift
+validation. If a skill introduces decisions, blockers, handoffs, closeout,
+reports, or memory behavior, route that state to the existing workflow owners
+instead of creating a parallel mechanism.
+
 Unless a nested skill directory says otherwise, this repository is licensed under Apache-2.0. Some bundled skills include their own `LICENSE.txt` or `NOTICE.txt` files; keep those files with the relevant skill when copying or redistributing it.

@@ -305,6 +305,13 @@ check_docs_sync() {
   print_list 'docs list names with no skills/ directory:' "$doc_missing_from_repo"
 }
 
+check_workflow_links() {
+  printf '\n'
+  if ! python3 "$REPO_DIR/scripts/check-workflow-links.py"; then
+    HAS_ISSUES=1
+  fi
+}
+
 printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
@@ -317,6 +324,7 @@ check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system"
 check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system"
 check_installed_tree_alignment
 check_docs_sync
+check_workflow_links
 
 if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'

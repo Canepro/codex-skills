@@ -125,7 +125,20 @@ Use this when the skill should be available across machines or compatible agent 
 1. Create `skills/<skill-name>/SKILL.md`.
 2. Add `agents/openai.yaml` if the skill should have a polished UI label or default prompt.
 3. Keep the skill concise; put detailed references in `references/` only when needed.
-4. Install and validate:
+4. If the skill mentions decisions, blockers, handoffs, closeout, reports, or memory, add a `Workflow Coordination` section that routes durable state to the existing owner instead of inventing another ledger:
+
+```markdown
+## Workflow Coordination
+
+This skill owns <domain-specific work>. It does not own general workflow state.
+
+Use `vincent-workflow` when this work creates durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.
+```
+
+5. Install and validate:
 
 ```bash
 cd ~/src/codex-skills
@@ -133,7 +146,9 @@ bash scripts/install.sh
 bash scripts/check-drift.sh
 ```
 
-5. Commit and push:
+`check-drift.sh` runs `scripts/check-workflow-links.py` against changed or untracked skills, so this is part of the normal creation gate. You should not need to remember it manually.
+
+6. Commit and push:
 
 ```bash
 git status
