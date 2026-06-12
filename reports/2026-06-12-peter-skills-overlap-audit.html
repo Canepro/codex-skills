@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peter Skills Overlap Audit</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #151b23;
+      --panel-2: #1b2330;
+      --text: #e6edf3;
+      --muted: #9aa7b3;
+      --line: #303946;
+      --good: #7ee787;
+      --warn: #f2cc60;
+      --blue: #7aa2f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 44px 22px 64px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 24px; }
+    .eyebrow { color: var(--blue); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; margin: 10px 0 12px; letter-spacing: 0; }
+    h2 { margin-top: 34px; font-size: 1.35rem; }
+    p { color: var(--muted); max-width: 82ch; }
+    a { color: var(--blue); }
+    .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 22px; }
+    .fact, section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .fact b { display: block; color: var(--text); font-size: 1.05rem; }
+    .fact span { color: var(--muted); font-size: 0.9rem; }
+    section { margin-top: 18px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; overflow-wrap: anywhere; }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--text); background: var(--panel-2); font-size: 0.86rem; }
+    td { color: var(--muted); }
+    code { color: var(--text); background: #0b0f14; border: 1px solid var(--line); padding: 2px 5px; border-radius: 5px; }
+    .status { display: inline-block; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.82rem; color: var(--text); }
+    .done { border-color: rgba(126, 231, 135, .45); color: var(--good); }
+    .skip { border-color: rgba(242, 204, 96, .45); color: var(--warn); }
+    ul { color: var(--muted); }
+    li + li { margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Skill Overlap Audit</div>
+      <h1>Peter Skills Compared Against Vincent's Toolkit</h1>
+      <p>Generated 2026-06-12T00:48:04Z. Scope: Peter Steinberger's public maintainer orchestration patterns from <code>steipete/agent-scripts</code> and the inspectable OpenClaw <code>autoreview</code> skill, compared against installed Codex and Agents skills on this Mac.</p>
+      <div class="facts">
+        <div class="fact"><b>Verdict</b><span>Adapted into existing private skill</span></div>
+        <div class="fact"><b>Duplicate skills added</b><span>None</span></div>
+        <div class="fact"><b>Primary target</b><span><code>maintainer-orchestrator</code></span></div>
+        <div class="fact"><b>Verification</b><span>Drift and helper smoke checks passed</span></div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Decision</h2>
+      <p>Do not import Peter's skills wholesale. The repo-specific owner rules, RepoBar assumptions, 1Password paths, and Peter/OpenClaw defaults would create duplicate routing and future confusion. The durable value is the pattern: queue snapshots, owner-ready briefs, contributor signals, focused worker prompts, and release/public-artifact gates.</p>
+    </section>
+
+    <section>
+      <h2>Overlap Matrix</h2>
+      <table>
+        <thead>
+          <tr><th>Peter pattern</th><th>Existing local home</th><th>Action</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>maintainer-orchestrator</code></td>
+            <td><code>~/.codex/skills/maintainer-orchestrator</code></td>
+            <td><span class="status done">Improved</span></td>
+            <td>Control-plane orchestration belongs in one private skill, not a second imported Peter-specific copy.</td>
+          </tr>
+          <tr>
+            <td><code>github-project-triage</code></td>
+            <td><code>maintainer-orchestrator</code>, <code>gh-address-comments</code>, <code>ci-pipeline-triage</code>, Rocket.Chat triage skills</td>
+            <td><span class="status done">Mined</span></td>
+            <td>Generic GitHub queue triage would duplicate several focused skills. The useful pieces were contributor signals, repo direction docs, URL-first output, and autonomy boundaries.</td>
+          </tr>
+          <tr>
+            <td><code>autoreview</code></td>
+            <td><code>mira-review-gate</code> plus normal code-review behavior</td>
+            <td><span class="status skip">Not installed</span></td>
+            <td>The inspectable OpenClaw skill depends on a heavier helper stack and reviewer model setup. Our current gap is a possible future helper, not another broad skill today.</td>
+          </tr>
+          <tr>
+            <td>Public release gates</td>
+            <td><code>maintainer-orchestrator</code></td>
+            <td><span class="status done">Added</span></td>
+            <td>The new section blocks accidental public identifiers, release notes, comments, or deploy claims without source-backed proof.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Changes Made</h2>
+      <ul>
+        <li>Added repo direction-doc checks to queue classification: <code>VISION.md</code>, <code>ROADMAP.md</code>, <code>CONTRIBUTING.md</code>, <code>AGENTS.md</code>, <code>README.md</code>, and <code>docs/KNOWN_ISSUES.md</code>.</li>
+        <li>Added focused-skill routing so the orchestrator calls existing skills instead of replacing them.</li>
+        <li>Added a contributor-signal workflow and deterministic <code>activity</code> helper command.</li>
+        <li>Added release and public-artifact gates for public names, model IDs, URLs, comments, changelogs, and proof.</li>
+        <li>Fixed the activity helper so a repo owner is not mislabeled as a new contributor.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Verification</h2>
+      <table>
+        <thead>
+          <tr><th>Check</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>repo_maintenance.py snapshot --repo Canepro/codex-skills --limit 3</code></td><td>Passed. Detected dirty worktree and context files.</td></tr>
+          <tr><td><code>repo_maintenance.py activity --repo steipete/agent-scripts --login steipete</code></td><td>Passed. Classified as owner or org account.</td></tr>
+          <tr><td><code>repo_maintenance.py brief</code></td><td>Passed. Worker prompt includes direction docs and gates.</td></tr>
+          <tr><td><code>sync-installed-extras.sh --check</code></td><td>Passed. External installed skill directories are in sync.</td></tr>
+          <tr><td><code>check-drift.sh</code></td><td>Passed. Repo-managed skills, local extras, system skills, installed-tree alignment, and docs sync are OK.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

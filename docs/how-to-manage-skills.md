@@ -153,6 +153,8 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 
 This is how `find-skills` and `naming-quality` were normalized.
 
+Local, private, product-specific, or machine-specific skills can stay out of this repo on purpose. When they should remain local but still be easy for Codex and Agents to discover, keep matching skill directories in `~/.codex/skills/<skill-name>` and `~/.agents/skills/<skill-name>`, and keep the skill name in both `.codex-skills-managed` manifests. `scripts/install.sh` preserves those advertised local extras when they still have `SKILL.md`.
+
 ## Skillforge lifecycle convention
 
 Commits prefixed `skillforge:` record the external skillforge eval loop. They do not install, uninstall, or move skills:
@@ -173,6 +175,7 @@ bash ~/src/codex-skills/scripts/check-drift.sh
 Interpretation:
 
 - `library-managed skills aligned`: repo content, manifests, and installs match
+- `manifest entries from local extras`: intentionally local skills advertised in the installed Codex or Agents manifest
 - `external or preserved installed skills`: entries not managed by this repo
 - `pinned system skills aligned`: `.system` matches `system-skills.lock`
 - `installed-tree-alignment`: `~/.codex/skills` and `~/.agents/skills` expose the same top-level directories
@@ -187,6 +190,7 @@ bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
+- If a skill is intentionally local, keep the Codex and Agents copies mirrored and advertised instead of promoting it by accident.
 - Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

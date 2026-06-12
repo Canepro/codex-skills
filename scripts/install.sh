@@ -24,8 +24,9 @@ fi
 install_to_dest() {
   local dest_dir="$1"
   local manifest_path="$dest_dir/.codex-skills-managed"
-  local manifest_tmp
+  local manifest_tmp manifest_sorted_tmp
   manifest_tmp="$(mktemp)"
+  manifest_sorted_tmp="$(mktemp)"
 
   mkdir -p "$dest_dir"
 
@@ -33,11 +34,11 @@ install_to_dest() {
     while IFS= read -r old_skill; do
       [ -n "$old_skill" ] || continue
       [ -d "$SRC_DIR/$old_skill" ] && continue
-      rm -rf "$dest_dir/$old_skill"
+      if [ -f "$dest_dir/$old_skill/SKILL.md" ]; then
+        printf '%s\n' "$old_skill" >> "$manifest_tmp"
+      fi
     done < "$manifest_path"
   fi
-
-  : > "$manifest_tmp"
 
   for skill_path in "$SRC_DIR"/*; do
     [ -d "$skill_path" ] || continue
@@ -53,7 +54,9 @@ install_to_dest() {
     fi
   done
 
-  mv "$manifest_tmp" "$manifest_path"
+  sort -u "$manifest_tmp" > "$manifest_sorted_tmp"
+  mv "$manifest_sorted_tmp" "$manifest_path"
+  rm -f "$manifest_tmp"
   printf 'Installed repo-managed skills into %s\n' "$dest_dir"
 }
 

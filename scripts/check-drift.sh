@@ -147,7 +147,7 @@ check_destination() {
     fi
   done < "$repo_skills_file"
 
-  if [[ -s "$repo_missing_from_manifest" || -s "$manifest_missing_from_repo" || -s "$repo_missing_from_install" || -s "$manifest_missing_from_install" || -s "$content_drift" ]]; then
+  if [[ -s "$repo_missing_from_manifest" || -s "$repo_missing_from_install" || -s "$manifest_missing_from_install" || -s "$content_drift" ]]; then
     printf '  status: drift detected\n'
     HAS_ISSUES=1
   else
@@ -155,7 +155,7 @@ check_destination() {
   fi
 
   print_list 'repo skills missing from manifest:' "$repo_missing_from_manifest"
-  print_list 'manifest entries missing from repo:' "$manifest_missing_from_repo"
+  print_list 'manifest entries from local extras:' "$manifest_missing_from_repo"
   print_list 'repo skills missing from install:' "$repo_missing_from_install"
   print_list 'manifest entries missing from install:' "$manifest_missing_from_install"
   print_list 'installed skills with content drift:' "$content_drift"
