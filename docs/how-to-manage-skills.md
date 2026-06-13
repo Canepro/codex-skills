@@ -22,6 +22,7 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 Library-managed skills as of this commit:
 
 - `anti-ai-writing`
+- `agent-plan-backlog`
 - `adversary-informed-defense`
 - `alerting-irm`
 - `assistant-mcp`

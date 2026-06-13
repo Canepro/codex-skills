@@ -25,7 +25,7 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 
 ## What Is Included
 
-- Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
+- Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `agent-plan-backlog`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-me`
 - Frontend review and delivery: `frontend-anti-slop`, `responsive-design`, `webapp-testing`, `react-performance-review`, `design-system-maintenance`, `playwright`
 - CI and GitHub workflow: `ci-pipeline-triage`, `gh-address-comments`, `setup-pre-commit`
 - Security and adversary-informed defense: `adversary-informed-defense`, `security-best-practices`, `security-ownership-map`

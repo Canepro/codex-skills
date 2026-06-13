@@ -5,7 +5,7 @@ description: Turn a PRD into a phased implementation plan with tracer-bullet ver
 
 # PRD to Plan
 
-Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./plans/`.
+Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./plans/`. Use `agent-plan-backlog` when approved phases need to become executor-grade technical plans for another model or later session.
 
 ## Process
 
@@ -108,4 +108,4 @@ A concise description of this vertical slice. Describe the end-to-end behavior, 
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns PRD-to-phase planning. Use `agent-plan-backlog` when a phase must become a self-contained technical execution plan with drift checks, STOP conditions, and done criteria for another agent. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

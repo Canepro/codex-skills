@@ -7,7 +7,7 @@ metadata:
 
 # Request Refactor Plan
 
-Build a refactor plan that is technically credible, incrementally shippable, and explicit about what stays out of scope.
+Build a refactor plan that is technically credible, incrementally shippable, and explicit about what stays out of scope. Use `agent-plan-backlog` when the result must become numbered, commit-stamped plan files for another agent to execute later.
 
 ## Workflow
 
@@ -61,6 +61,8 @@ Default to a Markdown plan or issue draft with sections like:
 - decision record
 - testing decisions
 - out of scope
+
+If the user wants the plan written into `plans/` for a weaker executor, switch to `agent-plan-backlog`. This skill owns refactor reasoning and sequence design; `agent-plan-backlog` owns self-contained plan files, drift checks, STOP conditions, done criteria, and reconcile.
 
 Do not over-index on exact file paths unless the user explicitly wants implementation-level instructions.
 

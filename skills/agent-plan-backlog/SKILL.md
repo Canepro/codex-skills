@@ -1,0 +1,156 @@
+---
+name: agent-plan-backlog
+description: Create, review, execute, or reconcile executor-grade implementation plans for other agents. Use when the user asks to adopt /improve-style planning, audit a repo and write self-contained plans, create a plans/ backlog, hand work to a weaker or cheaper model, review stale plans, reconcile drift, or split advisor planning from executor implementation.
+metadata:
+  short-description: Build executor-grade plan backlogs
+---
+
+# Agent Plan Backlog
+
+Use this skill when the plan is the product: Mira acts as the advisor, writes self-contained implementation plans, and leaves execution to a separate agent, a later session, or a human.
+
+This adopts the useful mechanics from `shadcn/improve` without creating a parallel workflow system. Specialist skills still own discovery and diagnosis. This skill owns the executor-grade backlog.
+
+## Use when
+
+- the user asks for `/improve`-style planning, borrowed-intelligence planning, or a backlog of plans
+- an audit should produce implementation plans for a different model or future session
+- a plan must be executable with no access to the advisor conversation
+- the work needs `plans/README.md`, numbered plan files, commit stamps, drift checks, STOP conditions, and done criteria
+- an existing plan needs review, refresh, execution dispatch, or reconciliation
+
+## Do not use when
+
+- the user wants Mira to implement the fix directly in the current repo
+- a short issue draft or normal refactor plan is enough
+- the task is a PRD-to-phase breakdown without executor-grade file-level steps
+- the work is only a chat answer, code review, or diagnosis
+
+## Role split
+
+- Advisor: performs recon, audits, vets findings, prioritizes, and writes plans.
+- Executor: implements one selected plan in a later session, separate agent, or isolated worktree.
+- Reviewer: Mira reviews executor output against the plan, reruns verification, checks scope, and reports a verdict.
+
+The advisor should not edit source code while running this skill. Writes belong under `plans/` or, if that directory is already used for unrelated project planning, `advisor-plans/`.
+
+## Workflow
+
+### 1. Recon
+
+Read the repo before judging it:
+
+- `README`, `AGENTS.md`, `CONTRIBUTING`, and root config files
+- package/build/test/lint/typecheck scripts
+- CI config and deployment notes
+- intent documents such as ADRs, PRDs, `CONTEXT.md`, `DESIGN.md`, and `PRODUCT.md` when present
+- recent git history and churn hotspots when useful
+
+Record exact verification commands. Do not guess. If the repo lacks a working verification command, make "establish verification baseline" the first candidate plan when relevant.
+
+### 2. Discover findings through specialist skills
+
+Use the narrow skill that matches the discovery job:
+
+- `improve-codebase-architecture` for boundary, coupling, and architecture opportunities
+- `request-refactor-plan` for one risky refactor that needs sequencing
+- `triage-issue` for one bug or regression
+- `security-best-practices`, `adversary-informed-defense`, or platform skills for domain-specific risks
+- `prd-to-plan` for product phase slicing before executor-grade technical plans
+
+This skill takes the selected finding or goal and turns it into executor-grade plan files.
+
+### 3. Vet before planning
+
+Before writing a plan, personally open every cited file and verify:
+
+- the finding exists
+- the line references and current behavior are accurate
+- the plan is worth doing
+- the fix can be verified
+- the risk is known enough to bound
+
+Record rejected findings in the index so they do not come back next run.
+
+### 4. Write the backlog
+
+Create or update:
+
+```text
+plans/
+  README.md
+  001-short-slug.md
+  002-short-slug.md
+```
+
+If `plans/` already exists for unrelated planning, use `advisor-plans/` and say why.
+
+Every plan must include:
+
+- planned-at commit from `git rev-parse --short HEAD`
+- purpose, concrete cost, and expected outcome
+- exact in-scope and out-of-scope files
+- current-state excerpts with `file:line` markers
+- repo conventions and exemplar files to follow
+- exact commands and expected results
+- small ordered steps
+- test plan
+- machine-checkable done criteria
+- STOP conditions specific to the plan
+- maintenance notes for the reviewer
+
+Write for the weakest plausible executor. If a step depends on context from this chat, inline the context in the plan.
+
+### 5. Reconcile instead of duplicating
+
+When a backlog exists, read `plans/README.md` first.
+
+- `DONE`: spot-check cheap done criteria and mark verified when useful.
+- `BLOCKED`: investigate the blocker, then refresh, replace, or reject the plan.
+- `IN PROGRESS`: check whether an executor died mid-run and report the state.
+- `TODO`: run the drift check. If in-scope files changed, refresh excerpts and the planned-at commit or reject the plan if the finding is gone.
+
+Keep numbering monotonic. Do not reuse plan numbers.
+
+### 6. Execute only as a reviewed handoff
+
+If the user asks to execute a plan:
+
+- prefer a separate executor agent in an isolated worktree when the runtime supports it
+- inline the full plan in the executor prompt
+- tell the executor to touch only in-scope files and stop on STOP conditions
+- never merge, push, or commit to the user's branch without explicit approval
+- review the diff yourself, rerun done criteria, check scope, and issue a verdict: approve, revise, or block
+
+If isolated execution is not available, say so and hand over the plan for manual or current-session execution.
+
+### 7. GitHub issues are distribution, not the source of truth
+
+Only create issues when the user explicitly asks or uses an issue-publishing flag.
+
+Before publishing security, credential, or sensitive findings to a public repo, confirm visibility and get explicit approval.
+
+## Plan quality bar
+
+A plan is not ready until:
+
+- a fresh executor can run it without reading this chat
+- every verification gate is a command with an expected result
+- every STOP condition names a real risk
+- no secret values are copied into the plan
+- the drift check uses the planned-at commit and in-scope paths
+- a reviewer can understand the intent from the purpose and done criteria alone
+
+## Related skills
+
+- Use `improve-codebase-architecture` to discover architecture opportunities.
+- Use `request-refactor-plan` to reason through a risky refactor before deciding it deserves a backlog plan.
+- Use `triage-issue` to diagnose one bug before writing an executor-grade fix plan.
+- Use `prd-to-plan` for product phase slicing; use this skill when each phase must become executor-grade technical work.
+- Use `grill-me` to pressure-test a plan before it enters the backlog.
+
+## Workflow Coordination
+
+This skill owns executor-grade plan files and plan reconciliation. It does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery. Use `codex-html-report` for durable reader-facing proof. Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.

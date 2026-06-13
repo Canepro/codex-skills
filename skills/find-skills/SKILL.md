@@ -52,6 +52,7 @@ Common routes:
 | Repo queue orchestration | `maintainer-orchestrator` |
 | Naming, renaming, terminology drift | `naming-quality` |
 | Pressure-test a plan or decision | `grill-me` |
+| Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
 | API or module interface design | `design-an-interface` |
 | Codebase architecture improvement ideas | `improve-codebase-architecture` |
 | Risky refactor sequencing | `request-refactor-plan` |

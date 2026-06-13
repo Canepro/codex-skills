@@ -227,7 +227,13 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `this refactor is risky; turn it into tiny safe steps with a verification plan and clear out-of-scope boundaries`
 - Expected: `request-refactor-plan`
-- Should not be first choice: `improve-codebase-architecture`, `tdd`
+- Should not be first choice: `improve-codebase-architecture`, `agent-plan-backlog`, `tdd`
+
+### 34b. Executor-grade plan backlog
+
+- Prompt: `audit this repo and write /improve-style self-contained plans in plans/ that another cheaper agent can execute later, with drift checks and STOP conditions`
+- Expected: `agent-plan-backlog`
+- Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`, `prd-to-plan`
 
 ### 35. Anti-AI writing pass
 

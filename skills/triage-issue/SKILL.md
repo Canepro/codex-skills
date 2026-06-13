@@ -9,7 +9,7 @@ metadata:
 
 Investigate the problem with minimal back-and-forth, separate symptoms from causes, and leave the user with either a fix in progress or a durable issue-quality diagnosis.
 
-This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), switch to `systematic-debugging` for its phased method, then come back here to write up the result.
+This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), switch to `systematic-debugging` for its phased method, then come back here to write up the result. If the fix should be handed to another agent as a commit-stamped plan file, use `agent-plan-backlog` after diagnosis.
 
 ## Workflow
 
@@ -58,6 +58,8 @@ If the user wants planning only:
   - proposed fix direction
   - test plan
   - acceptance criteria
+
+If the user wants an executor-grade plan, write the diagnosis first, then use `agent-plan-backlog` to create a self-contained `plans/NNN-*.md` file with current-state excerpts, verification gates, scope boundaries, and STOP conditions.
 
 ### 5. GitHub is optional
 

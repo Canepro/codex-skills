@@ -7,7 +7,7 @@ metadata:
 
 # Improve Codebase Architecture
 
-Explore the codebase as a maintainer would, notice where understanding breaks down, and turn that friction into concrete architectural recommendations.
+Explore the codebase as a maintainer would, notice where understanding breaks down, and turn that friction into concrete architectural recommendations. When a selected opportunity needs executor-grade plan files, hand it to `agent-plan-backlog`.
 
 ## Workflow
 
@@ -59,6 +59,8 @@ After comparison, recommend one direction or a hybrid. Be opinionated and explai
 
 Default to a Markdown recommendation or RFC draft.
 
+If the user wants a backlog of implementation plans for another agent, use `agent-plan-backlog` after the architecture opportunity is selected and vetted. This skill owns architecture discovery and recommendation; `agent-plan-backlog` owns commit-stamped plan files, STOP conditions, drift checks, and reconciliation.
+
 If the user explicitly wants a GitHub issue:
 - draft it first
 - only then create it with `gh` if auth is available
@@ -68,3 +70,7 @@ If the user explicitly wants a GitHub issue:
 - Prefer durable architecture language over file-path-level instructions.
 - Focus on boundaries, responsibilities, and testability.
 - Replace shallow internal tests with stronger boundary tests when recommending deepened modules.
+
+## Workflow Coordination
+
+This skill owns its domain work. Use `agent-plan-backlog` for executor-grade plan files and plan reconciliation. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
