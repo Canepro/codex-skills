@@ -16,6 +16,8 @@ Choose names that survive contact with real usage, not just the current patch.
 - tightening API field names, CLI flags, env vars, or fixture names
 - cleaning up environment terminology across docs and code
 - reviewing whether an existing name is misleading, temporary, too local, or too implementation-shaped
+- naming or reviewing consent, approval, and final submission checkpoints where explicit user consent and final-submission naming is required
+- naming destructive and live infra actions where a mistaken name can increase operational **risk** or trigger the wrong action
 - reviewing names for fields or variables that represent a secret, a credential, a token, or a private key
 - deciding whether to keep a deployed resource identifier while changing the product or documentation vocabulary
 
@@ -34,6 +36,8 @@ Be explicit about:
 - what is being named
 - who reads or types the name
 - whether it is internal, user-facing, or part of a public contract
+- whether this name implies consent or final submission and which approval gate it represents
+- what level of risk it carries for destructive live infra actions
 - how expensive a future rename would be
 
 ### 2. Verify the real behavior first
@@ -51,6 +55,8 @@ Good names usually prefer:
 - stable behavior over current hosting or machine specifics
 - scenario-based language over local workstation names
 - explicit scope for names tied to secret, credential, token, or private key handling
+- explicit **approval** and consent language for final submission paths
+- explicit **risk** language for destructive and live infra actions
 
 Examples:
 
