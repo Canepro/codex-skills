@@ -45,6 +45,7 @@ Library-managed skills as of this commit:
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
+- `last30days`
 - `l2-l3-support-platform`
 - `log-analyzer`
 - `loki`
@@ -213,6 +214,7 @@ Besides reconciling `~/.codex/skills` and `~/.agents/skills`, this mirrors Codex
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
 - If a skill is intentionally local, keep the installed copies mirrored with `sync-installed-extras.sh --sync` and out of the manifests instead of promoting it by accident.
+- If a skill is vendored from an upstream author, preserve its upstream `SKILL.md` wording and route around it in local docs or wrapper skills. The workflow-link check skips skills with explicit upstream `repository` and `author` frontmatter.
 - Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

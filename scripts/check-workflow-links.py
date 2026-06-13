@@ -75,6 +75,20 @@ def all_skill_files(root: Path) -> list[Path]:
     return sorted((root / "skills").glob("*/SKILL.md"))
 
 
+def frontmatter(text: str) -> str:
+    if not text.startswith("---\n"):
+        return ""
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return ""
+    return parts[1].lower()
+
+
+def is_vendored_skill(text: str) -> bool:
+    metadata = frontmatter(text)
+    return "repository:" in metadata and "author:" in metadata
+
+
 def detect_concepts(text: str) -> list[str]:
     lower = text.lower()
     return [
@@ -118,8 +132,12 @@ def main() -> int:
     skill_files = all_skill_files(root) if args.all else git_changed_skill_files(root)
 
     failures: list[tuple[Path, dict[str, list[str]]]] = []
+    skipped_vendored: list[Path] = []
     for skill_file in skill_files:
         text = skill_file.read_text(encoding="utf-8")
+        if is_vendored_skill(text):
+            skipped_vendored.append(skill_file)
+            continue
         concepts = detect_concepts(text)
         if not concepts:
             continue
@@ -131,6 +149,11 @@ def main() -> int:
     if not skill_files:
         print("  status: no changed skills to check")
         return 0
+
+    if skipped_vendored:
+        print("  skipped vendored upstream skills:")
+        for skill_file in skipped_vendored:
+            print(f"    - {skill_file.relative_to(root)}")
 
     if not failures:
         scope = "all skills" if args.all else "changed skills"

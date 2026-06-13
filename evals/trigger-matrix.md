@@ -197,6 +197,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Required repo gate: include a Workflow Coordination section and pass `scripts/check-workflow-links.py`
 - Should not be first choice: creating a standalone decision, blocker, or handoff format inside the new skill
 
+### 29b. Last 30 days research
+
+- Prompt: `research the latest agent improvement techniques from the last 30 days across X, Reddit, YouTube, GitHub, and Hacker News`
+- Expected: `last30days`
+- Should not be first choice: `find-skills`, `agent-plan-backlog`
+
 ## Underused utility and review skills
 
 ### 30. Naming quality

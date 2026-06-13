@@ -50,6 +50,7 @@ Common routes:
 | Repeated workflow mining from memory | `memory-workflow-miner` |
 | Shared local-brain query or writeback | `second-brain-context` |
 | Repo queue orchestration | `maintainer-orchestrator` |
+| Latest research, last-30-days trends, recent community signals, improvement techniques | `last30days` |
 | Naming, renaming, terminology drift | `naming-quality` |
 | Pressure-test a plan or decision | `grill-me` |
 | Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
