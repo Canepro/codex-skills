@@ -11,12 +11,13 @@ Help the user communicate more effectively in writing using frameworks and insig
 
 When the user asks for help with written communication:
 
-1. **Clarify the purpose** - Ask what action or outcome they want from readers
+1. **Preserve the author's voice** - Ask what action or outcome they want from readers, then keep their tone and intent while editing, and do not over-polish into generic corporate language
 2. **Apply the pyramid principle** - Guide them to lead with the conclusion, not build up to it
 3. **Cut ruthlessly** - Help them eliminate unnecessary context and get to the point faster
 4. **Test for simplicity** - Ensure someone unfamiliar with the topic could understand the core message
 5. **Run the anti-AI pass** - Use `anti-ai-writing` as the final check for drafts that must sound direct, specific, and human
-6. **Respect confidentiality** - If a draft includes any secret, credential, token, or private key context, keep values out of the written artifact and route real values through secure channels with explicit consent
+6. **Choose a revision mode** - Offer a concrete path such as rewrite, outline, critique, or before/after comparison before drafting edits
+7. **Respect confidentiality** - If a draft includes any secret, credential, token, or private key context, keep values out of the written artifact and route real values through secure channels with explicit consent
 
 ## Core Principles
 
