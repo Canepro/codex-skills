@@ -18,13 +18,14 @@ description: "Read, create, review, and edit `.docx` documents with layout-aware
    - If these tools are missing, install them or ask the user to review rendered pages locally.
 2. Use `python-docx` for edits and structured creation (headings, styles, tables, lists).
 3. After each meaningful change, re-render and inspect the pages.
-4. If visual review is not possible, extract text with `python-docx` as a fallback and call out layout risk.
+4. If visual review is not possible, extract text with `python-docx` as a fallback and call out layout risk, including suspected clipped text, broken tables, and any secret-like content.
 5. Keep intermediate outputs organized and clean up after final approval.
 
 ## Temp and output conventions
 - Use `tmp/docs/` for intermediate files; delete when done.
 - Write final artifacts under `output/doc/` when working in this repo.
 - Keep filenames stable and descriptive.
+- If any rendered output contains `secret`, `credential`, `token`, or `private key` placeholders, scrub or redact them before sharing outside your local environment.
 
 ## Dependencies (install if missing)
 Prefer `uv` for dependency management.
@@ -51,6 +52,10 @@ If installation isn't possible in this environment, tell the user which dependen
 ## Environment
 No required environment variables.
 
+## Sensitive handling
+Do not process DOCX rendering or delivery of documents containing real `secret`, `credential`, `token`, or `private key` values outside the local environment unless the user gives explicit consent.
+If a file includes sensitive values, keep all edits and renders local, confirm consent before sharing, and document that boundary in notes.
+
 ## Rendering commands
 DOCX -> PDF:
 ```
@@ -75,10 +80,10 @@ python3 scripts/render_docx.py /path/to/file.docx --output_dir /tmp/docx_pages
 - Citations and references must be human-readable; never leave tool tokens or placeholder strings.
 
 ## Final checks
-- Re-render and inspect every page at 100% zoom before final delivery.
+- Re-render and inspect every page at 100% zoom before final delivery or final submission.
 - Fix any spacing, alignment, or pagination issues and repeat the render loop.
 - Confirm there are no leftovers (temp files, duplicate renders) unless the user asks to keep them.
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work. Keep it non-destructive and avoid live infra edits. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
