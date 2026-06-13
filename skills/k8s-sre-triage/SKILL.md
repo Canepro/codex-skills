@@ -75,6 +75,8 @@ If the resource is GitOps-managed:
 - use live patches only when necessary to restore service quickly
 - if a live fix is made, record the drift and reconcile it back into Git
 
+Before any destructive, live infra change, require explicit approval. Pause before final submission until consent is confirmed, then execute with a rollback plan and blast-radius notes.
+
 Do not leave the system in an undocumented drift state.
 
 ### 5. Verify recovery
@@ -102,7 +104,7 @@ Report:
 - If you cannot prove root cause yet, say what is still unknown and what evidence would resolve it.
 - Do not assume provider-specific behavior; verify it.
 - When checking previous logs for a restart, verify the pod namespace first. A correct command in the wrong namespace is still bad evidence.
-- Treat Secret values, service-account tokens, kubeconfig contents, and any other credential material as redacted. Quote Secret names and keys as evidence, never decoded values; a finding that pastes a live credential is worse than no finding.
+- Treat Secret values, service-account tokens, private keys, kubeconfig contents, and any other credential material as redacted. Quote Secret names and keys as evidence, never decoded values. Do not paste token values or private key fragments into findings or handoffs.
 
 ## Related specialist skills
 
