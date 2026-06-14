@@ -71,6 +71,14 @@ If the user explicitly wants a GitHub issue:
 - Focus on boundaries, responsibilities, and testability.
 - Replace shallow internal tests with stronger boundary tests when recommending deepened modules.
 
+## Safety boundaries
+
+- If recommendations may touch secret handling, credential handling, token flows, private key paths, or Infisical-backed secret usage, do not echo values, do not expose secret or credential artifacts, and keep all outputs redacted.
+- Require user consent and explicit approval before moving toward executor-grade steps that include destructive actions.
+- Never proceed with destructive updates to live infra without explicit consent and a rollback-safe plan.
+- If architecture work intersects identity or operations contexts involving Mira, Velora, or Selene, preserve those boundaries and call out any final submission conditions clearly.
+- For any final submission path, restate risk, consent status, and destructive/live infra implications before proceeding.
+
 ## Workflow Coordination
 
 This skill owns its domain work. Use `agent-plan-backlog` for executor-grade plan files and plan reconciliation. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
