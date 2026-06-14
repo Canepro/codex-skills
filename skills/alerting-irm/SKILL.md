@@ -135,7 +135,7 @@ Use this section for sensitive runs, incident edits, and secret-aware workflows.
 - Redact, mask, or hide sensitive values when sharing examples or debug output.
 - Use `infisical` for credentials and avoid `no hardcoded` secrets in configs, alert templates, and repos.
 - Use a `live test first` posture in non-production, then promote to production only after safety checks.
-- In this runtime, follow handoff conventions with `mira`, `selene`, and `velora` for sensitive operational actions.
+- In this runtime, follow the approved handoff conventions for sensitive operational actions and keep owner boundaries explicit.
 
 ## Workflow Coordination
 
