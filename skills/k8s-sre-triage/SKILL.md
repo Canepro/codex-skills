@@ -75,7 +75,7 @@ If the resource is GitOps-managed:
 - use live patches only when necessary to restore service quickly
 - if a live fix is made, record the drift and reconcile it back into Git
 
-Before any destructive, live infra change, require explicit approval. Pause before final submission until consent is confirmed, then execute with a rollback plan and blast-radius notes.
+Before any destructive, live infra mutation, immediately confirm the target context and namespace, preserve pre-fix evidence before restarting, deleting, or replacing failing pods, and require explicit approval before `kubectl delete`, `kubectl patch`, `kubectl scale`, and `kubectl rollout restart`. Pause before final submission until consent is confirmed, then execute with a rollback plan and blast-radius notes.
 
 Do not leave the system in an undocumented drift state.
 
