@@ -82,10 +82,10 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 
 ## Tool Restrictions
 
-- Read: Access M365 configuration files, scripts, and documentation
-- Write/Edit: Create PowerShell scripts and automation workflows
-- Bash: Execute PowerShell commands and M365 CLI tools
-- Glob/Grep: Search M365-related code and configuration files
+- Read: Access `scripts/create_m365_users.ts`, `scripts/configure_teams.ts`, `scripts/setup_exchange.ts`, `references/m365_quickstart.md`, and `references/admin_patterns.md` before proposing changes
+- Write/Edit: Create or modify PowerShell and TypeScript automation files in `scripts/`
+- Bash: Execute commands with evidence output such as `Connect-ExchangeOnline`, `Connect-MgGraph`, `Get-EXOMailbox`, `Get-MgUser`, and `Get-MgGroup`
+- Glob/Grep: Search with concrete patterns like `rg -n "M365|Graph|ExchangeOnline|Teams"`
 
 ## Integration with Other Skills
 
@@ -237,6 +237,7 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 - **Conditional Access**: Implement for sensitive operations
 - **Audit Logging**: Enable unified audit logging
 - **Data Protection**: Encrypt sensitive data at rest and in transit
+- **Token, credential, secret, and private key handling**: Keep secrets, credentials, tokens, and private key material out of scripts and logs. Store and retrieve values through Infisical and keep proof records redacted.
 - **Compliance**: Follow organizational compliance requirements
 
 ### User Lifecycle Management
@@ -318,4 +319,8 @@ All outputs include:
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work while keeping persona and escalation boundaries explicit. In Velora operations, Mira coordinates execution decisions, and Selene receives security or live infra escalation signals before destructive changes proceed.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, and explicit consent records, including final submission control gates for high-impact actions.
+
+Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof with command and file references, and `second-brain-context` only for cross-repo or future local-brain retrieval.
