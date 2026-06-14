@@ -12,7 +12,7 @@ description: >
 
 > **Docs**: https://grafana.com/docs/loki/latest/
 
-Indexes only metadata (labels), not full log content — dramatically cheaper than full-text search systems.
+Indexes only metadata (labels), not full log content - dramatically cheaper than full-text search systems.
 
 ## LogQL Quick Reference
 
@@ -179,6 +179,22 @@ sum(rate({env="prod"}[5m])) by (service)
 {namespace="prod"} |~ `https?://\w+:\w+@`
 ```
 
+### Secret and token handling with examples
+
+Use specific examples, commands, and file paths when debugging and sharing results.
+
+```bash
+# Keep secret checks reproducible and safe
+grep -n "basic_auth" /etc/grafana/loki/loki.yaml
+# Query with a redacted token and keep output in a temporary file
+curl -s -H "Authorization: Bearer <REDACTED_TOKEN>" \
+  "https://logs.example.com/loki/api/v1/labels" > /tmp/loki-labels.json
+```
+
+- Redact secret and credential values before sharing query output.
+- Do not echo secrets, credentials, or private keys in chat, logs, or tickets.
+- Keep temporary artifacts short-lived, for example `/tmp/loki-labels.json`, and delete after use.
+
 ## Sending Logs to Loki
 
 ### Via Grafana Alloy
@@ -271,4 +287,4 @@ Read path:  Query → Query Frontend → Querier → Ingester + Store (chunks)
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work. For live infra changes, use `vincent-workflow` for durable decisions, explicit consent, blockers, resume handoffs, known issues, commit/push/cleanup obligations, and project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
