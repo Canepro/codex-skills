@@ -1,36 +1,48 @@
 ---
 name: agent-plan-backlog
-description: Create, review, execute, or reconcile executor-grade implementation plans for other agents. Use when the user asks to adopt /improve-style planning, audit a repo and write self-contained plans, create a plans/ backlog, hand work to a weaker or cheaper model, review stale plans, reconcile drift, or split advisor planning from executor implementation.
+description: Create, review, execute, or reconcile executor-grade implementation plans for other agents. Use when the user asks to adopt /improve-style planning, audit a repo and write self-contained plans, create a plans/ backlog, hand work to a weaker or cheaper model, review stale plans, reconcile drift, split advisor planning from executor implementation, build an agent work queue, or turn review findings into autonomous follow-up plans.
 metadata:
   short-description: Build executor-grade plan backlogs
 ---
 
 # Agent Plan Backlog
 
-Use this skill when the plan is the product: Mira acts as the advisor, writes self-contained implementation plans, and leaves execution to a separate agent, a later session, or a human.
+Use this skill when the plan is the product: the advisor agent writes self-contained implementation plans and leaves execution to a separate agent, a later session, or a human.
 
 This adopts the useful mechanics from `shadcn/improve` without creating a parallel workflow system. Specialist skills still own discovery and diagnosis. This skill owns the executor-grade backlog.
+
+Plain-English triggers that should route here:
+
+- "turn this into plans another agent can execute"
+- "make a backlog from these findings"
+- "split this into safe autonomous agent passes"
+- "write the next work queue, not just a chat plan"
+- "review these stale plans and reconcile them"
+- "use improve-style planning, but do not implement yet"
 
 ## Use when
 
 - the user asks for `/improve`-style planning, borrowed-intelligence planning, or a backlog of plans
 - an audit should produce implementation plans for a different model or future session
 - a plan must be executable with no access to the advisor conversation
+- a review or self-improvement pass produces multiple independent fixes that should become an agent-driven work queue
+- the user wants automation-first follow-up but the work needs STOP conditions, proof gates, and scoped handoffs
 - the work needs `plans/README.md`, numbered plan files, commit stamps, drift checks, STOP conditions, and done criteria
 - an existing plan needs review, refresh, execution dispatch, or reconciliation
 
 ## Do not use when
 
-- the user wants Mira to implement the fix directly in the current repo
+- the user wants the current agent to implement the fix directly in the current repo
 - a short issue draft or normal refactor plan is enough
 - the task is a PRD-to-phase breakdown without executor-grade file-level steps
 - the work is only a chat answer, code review, or diagnosis
+- there is only one obvious current-session fix and no future executor needs the plan
 
 ## Role split
 
 - Advisor: performs recon, audits, vets findings, prioritizes, and writes plans.
 - Executor: implements one selected plan in a later session, separate agent, or isolated worktree.
-- Reviewer: Mira reviews executor output against the plan, reruns verification, checks scope, and reports a verdict.
+- Reviewer: the primary agent reviews executor output against the plan, reruns verification, checks scope, and reports a verdict.
 
 The advisor should not edit source code while running this skill. Writes belong under `plans/` or, if that directory is already used for unrelated project planning, `advisor-plans/`.
 
@@ -129,6 +141,14 @@ If isolated execution is not available, say so and hand over the plan for manual
 Only create issues when the user explicitly asks or uses an issue-publishing flag.
 
 Before publishing security, credential, or sensitive findings to a public repo, confirm visibility and get explicit approval.
+
+## Sensitive Plan Handling
+
+Executor plans must be useful without leaking authority. Do not copy secret values, credentials, tokens, private keys, cookies, kubeconfigs, browser sessions, or personal profile data into a plan. Name the required variable, file, secret name, or approval gate instead.
+
+Pause for explicit approval before plans that would direct an executor to perform consent-changing action, final submission, public posting, destructive cleanup, billing changes, live infra mutation, DNS or firewall changes, credential movement, or secret-value handling.
+
+For project-specific local lanes, keep private persona, customer, runtime, and secret-manager context in the relevant local skills or repo runbooks unless the plan needs a redacted reference to the authority boundary. Do not make a portable plan depend on private machine-local context that a fresh executor cannot access.
 
 ## Plan quality bar
 

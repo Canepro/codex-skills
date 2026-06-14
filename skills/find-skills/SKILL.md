@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. Also routes to the portable codex-skills library, including choosing the right installed skill, refreshing installs, and checking drift. Use this when the user is looking for functionality that might already exist as a skill.
+description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", express interest in extending capabilities, or ask why a skill is underused, stale, missing, obsolete, or superseded. Also routes to the portable codex-skills library, including choosing the right installed skill, refreshing installs, and checking drift. Use this when the user is looking for functionality that might already exist as a skill.
 ---
 
 # Find Skills
@@ -13,6 +13,8 @@ Use this skill when the user is really asking whether a skill already exists for
 - The user asks for a skill recommendation or installable capability
 - The user wants to extend the agent with a reusable workflow
 - The user says they wish the agent had help for a specific domain
+- The user asks about underused, stale, obsolete, missing, retired, or superseded skills
+- A task is being handled manually but a plain-English route likely maps to an installed skill
 
 ## Workflow
 
@@ -51,6 +53,7 @@ Common routes:
 | Shared local-brain query or writeback | `second-brain-context` |
 | Repo queue orchestration | `maintainer-orchestrator` |
 | Latest research, last-30-days trends, recent community signals, improvement techniques | `last30days` |
+| Agent self-improvement, skill routing, underused-skill review, loop engineering | use the installed local loop-engineering skill with the workflow conductor |
 | Naming, renaming, terminology drift | `naming-quality` |
 | Pressure-test a plan or decision | `grill-me` |
 | Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
@@ -81,6 +84,23 @@ Common routes:
 | Migrate Claude-style artifacts into Codex | `migrate-to-codex` |
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
+
+Plain-language trigger aliases:
+
+- Use `last30days` for "what are people saying now", "latest community signal", "recent chatter", "last month research", "current agent research", "trend scan", or "what changed recently".
+- Use `agent-plan-backlog` for "make this a queue for other agents", "turn these findings into plans", "split this into autonomous passes", "reconcile stale plans", or "write improve-style executor plans".
+- Use the installed local loop-engineering skill for "improve how the agent works", "self-improving loop", "loop engineering", "underused or overused skills", "skill routing drift", "SkillForge evals", or "why did the agent miss this".
+- Use `frontend-anti-slop` for "this UI feels AI-generated", "frontend slop", "make the dashboard less generic", "UI audit", or "polish this screen".
+- Use `design-an-interface` for "design the API", "module boundary", "interface options", "design it twice", or "compare API shapes".
+- Use `assistant-mcp` for "MCP server setup", "agent tools", "Grafana MCP", "connect coding agents to Grafana", or "agent observability tools".
+
+If a historical usage scan mentions a skill that is not installed, first check the source repo and any SkillForge retired record. Treat source-path-missing records as obsolete unless a current source directory or explicit user request says to revive them. Route to the current replacement rather than reinstalling a dead name.
+
+## Safety and authority boundaries
+
+Skill discovery, metadata review, local catalog checks, source inspection, and redacted proof are inside normal routing. Pause for explicit approval before secret-value handling, credential movement, token reads, private key access, cookie or session import, consent-changing action, final submission, destructive cleanup, live infra mutation, billing, public posting, or tool installation that changes authority.
+
+When a route touches project-specific local lanes, keep private persona, customer, runtime, and secret-manager boundaries explicit. Do not move or reveal private context, credentials, or secret values while recommending a skill. Name the safer owner skill and use redacted proof instead.
 
 When the user asks to improve the skill system itself, check for an existing
 coordination surface before adding a new skill. Shared workflow concerns belong
