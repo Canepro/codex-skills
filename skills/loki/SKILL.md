@@ -12,7 +12,7 @@ description: >
 
 > **Docs**: https://grafana.com/docs/loki/latest/
 
-Indexes only metadata (labels), not full log content — dramatically cheaper than full-text search systems.
+Indexes only metadata (labels), not full log content  -  dramatically cheaper than full-text search systems.
 
 ## LogQL Quick Reference
 
@@ -272,3 +272,15 @@ Read path:  Query → Query Frontend → Querier → Ingester + Store (chunks)
 ## Workflow Coordination
 
 This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+
+### Safety and consent boundaries
+
+- Keep secret, credential, token, and private key values out of command output.
+- Use redaction before sharing data. Common bad patterns to avoid are quoted as: "do not echo", "redact", "never print".
+- Before live infra work, pause and request explicit consent and approval. Treat destructive actions like retention resets, index deletes, or retention policy edits as gated actions.
+- Include specific examples, including concrete commands and file paths, for example `/etc/grafana-agent/agent.yaml`, `/etc/loki/config.yaml`, and `/var/log/app/*.log`.
+- Safe command example:
+```bash
+grep -n "token" /etc/grafana-agent/agent.yaml | head -n 20
+```
+- Gate `final submission` until checks pass and workflow approval is documented.
