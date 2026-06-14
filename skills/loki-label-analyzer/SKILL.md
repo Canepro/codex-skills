@@ -5,13 +5,13 @@ description: >
   Expert evaluator for Grafana Loki label strategy. Audits, designs, and improves
   label schemas using cardinality scoring, access-pattern alignment, static vs.
   dynamic label rules, and consistency checks. Use when the user asks to evaluate,
-  audit, design, or improve a Loki label strategy — or asks why their Loki queries
+  audit, design, or improve a Loki label strategy - or asks why their Loki queries
   are slow.
 ---
 
 # Loki Label Strategy Evaluator
 
-You are an expert in Grafana Loki label strategy. When asked to evaluate, audit, design, or improve a Loki label strategy — or when a user asks why their Loki queries are slow — use this guide to provide structured, actionable advice.
+You are an expert in Grafana Loki label strategy. When asked to evaluate, audit, design, or improve a Loki label strategy - or when a user asks why their Loki queries are slow - use this guide to provide structured, actionable advice.
 
 For LogQL syntax, ingestion configuration, or general Loki questions outside label strategy, use the `loki` skill instead.
 
@@ -21,11 +21,11 @@ For LogQL syntax, ingestion configuration, or general Loki questions outside lab
 
 **Streams** are the fundamental unit in Loki. Each unique combination of label key-value pairs creates a new stream. Too many streams = performance problems. Too few = broad, slow queries.
 
-**Cardinality** = the number of unique values a label can have. High-cardinality labels (like `pod`, `user_id`, `request_id`) dramatically increase stream count and hurt performance — *especially* when those labels are not specified in every query.
+**Cardinality** = the number of unique values a label can have. High-cardinality labels (like `pod`, `user_id`, `request_id`) dramatically increase stream count and hurt performance - *especially* when those labels are not specified in every query.
 
 **The dual impact rule**: High-cardinality labels hurt on both paths:
 - **Ingestion path**: More streams → larger index, higher storage costs
-- **Query path**: If a high-cardinality label exists but isn't in the query selector, Loki must scan ALL streams matching the other selectors — catastrophic for performance
+- **Query path**: If a high-cardinality label exists but isn't in the query selector, Loki must scan ALL streams matching the other selectors - catastrophic for performance
 
 **The key question for any dynamic label**: "Will this label be used in 9 out of 10 queries?" If no → it should NOT be a label.
 
@@ -39,10 +39,10 @@ When auditing a label strategy, assess each label against these criteria.
 
 | Label Example | Cardinality | Verdict |
 |---|---|---|
-| `env` (prod/staging/dev) | 2–5 values | ✅ Good |
-| `level` (info/warn/error) | 3–6 values | ✅ Good |
+| `env` (prod/staging/dev) | 2-5 values | ✅ Good |
+| `level` (info/warn/error) | 3-6 values | ✅ Good |
 | `namespace` (K8s) | Tens | ✅ Acceptable |
-| `instance` / `hostname` | Hundreds–thousands | ⚠️ Evaluate access patterns |
+| `instance` / `hostname` | Hundreds-thousands | ⚠️ Evaluate access patterns |
 | `pod` | Thousands + transient | ❌ Avoid as label |
 | `user_id`, `request_id` | Unbounded | ❌ Never use as label |
 
@@ -57,9 +57,9 @@ For each label, ask:
 - **Dynamic labels** (values change per log line) must be bounded. Keep possible values in the single digits or low tens.
 
 ### Consistency Check
-- Are label names consistent across services? (case-sensitive — `Level` ≠ `level`)
+- Are label names consistent across services? (case-sensitive - `Level` ≠ `level`)
 - Are label values normalized? (`INFO`, `info`, `Info` should all become `info`)
-- Is there a naming convention? (pick one: `snake_case` or `camelCase` — be consistent)
+- Is there a naming convention? (pick one: `snake_case` or `camelCase` - be consistent)
 
 ---
 
@@ -76,7 +76,7 @@ When auditing a label set, produce a report in this structure:
 ### Label Analysis
 | Label | Cardinality | Used in Queries? | Verdict | Action |
 |---|---|---|---|---|
-| app | Low (tens) | Always | ✅ Keep | — |
+| app | Low (tens) | Always | ✅ Keep | - |
 | pod | Very High (transient)| Rarely | ❌ Remove | Move to structured metadata or embed in log line |
 
 ### Estimated Impact
@@ -95,7 +95,7 @@ When auditing a label set, produce a report in this structure:
 
 ## Recommended Common Labels
 
-Every log source should consider these base labels — all low cardinality, high query value:
+Every log source should consider these base labels - all low cardinality, high query value:
 
 | Label | Purpose |
 |---|---|
@@ -103,11 +103,11 @@ Every log source should consider these base labels — all low cardinality, high
 | `env` | Environment (prod, staging, dev) |
 | `cluster` | Multi-cluster differentiation |
 | `region` | Geographic region |
-| `level` | Log severity — normalize to: `info`, `warn`, `error`, `debug` |
+| `level` | Log severity - normalize to: `info`, `warn`, `error`, `debug` |
 | `job` | Collector job name |
 | `team` / `squad` | Ownership (also useful for LBAC) |
 | `source` | Log origin type (`file`, `k8s-events`, `journal`, `syslog`, etc.) |
-| `classification` | Data sensitivity level — for LBAC policies |
+| `classification` | Data sensitivity level - for LBAC policies |
 
 ---
 
@@ -117,12 +117,12 @@ Every log source should consider these base labels — all low cardinality, high
 
 | Label | Description |
 |---|---|
-| `namespace` | K8s namespace — delineates isolation boundaries |
-| `container` | Container name — low cardinality, differentiates log formats |
+| `namespace` | K8s namespace - delineates isolation boundaries |
+| `container` | Container name - low cardinality, differentiates log formats |
 | `service` | K8s service generating logs |
-| `workload` | `{controller_kind}/{controller_name}` e.g. `ReplicaSet/payment-api` — **strongly recommended** |
+| `workload` | `{controller_kind}/{controller_name}` e.g. `ReplicaSet/payment-api` - **strongly recommended** |
 
-**Why `workload` beats `app` for K8s**: Derived from `{{controller_kind}}/{{controller_name}}` — static values that never change like pod names do. Unlike `app` (which may aggregate multiple workload types), `workload` is precise and predictable. Users always know exactly what value to query.
+**Why `workload` beats `app` for K8s**: Derived from `{{controller_kind}}/{{controller_name}}` - static values that never change like pod names do. Unlike `app` (which may aggregate multiple workload types), `workload` is precise and predictable. Users always know exactly what value to query.
 
 ### Labels to AVOID in Kubernetes
 
@@ -155,7 +155,7 @@ In addition to common labels, add:
 | Label | Description | Notes |
 |---|---|---|
 | `instance` | Hostname of the machine | Cardinality = number of machines; acceptable for fixed infrastructure |
-| `filename` | Full path to the file being tailed | Normalize rotating filenames — strip date suffixes |
+| `filename` | Full path to the file being tailed | Normalize rotating filenames - strip date suffixes |
 
 ```alloy
 // Remove date suffixes from rotating log file names
@@ -175,8 +175,8 @@ When collecting via `loki.source.journal`, many labels are auto-discovered under
 `boot_id`, `cap_effective`, `cmdline`, `comm`, `exe`, `gid`, `hostname`, `machine_id`, `pid`, `stream_id`, `systemd_cgroup`, `systemd_invocation_id`, `systemd_slice`, `systemd_unit`, `transport`, `uid`
 
 Almost all are high-cardinality. **Keep only**:
-- `instance` — hostname where journal logs were collected
-- `unit` — the `systemd_unit` name (e.g., `nginx.service`)
+- `instance` - hostname where journal logs were collected
+- `unit` - the `systemd_unit` name (e.g., `nginx.service`)
 
 Drop everything else:
 ```alloy
@@ -201,12 +201,12 @@ limits_config:
 ```
 
 **Good candidates for structured metadata** (not labels):
-- `pod` — K8s pod name
-- `node` — K8s worker node
+- `pod` - K8s pod name
+- `node` - K8s worker node
 - `version` / `image` / `tag`
 - `trace_id` / `user_id`
 - `process_id`
-- `restarted` — pod restart timestamp
+- `restarted` - pod restart timestamp
 
 Query structured metadata at query time without a parser:
 ```logql
@@ -347,7 +347,7 @@ loki.process "normalize_level" {
 ### Conditional Meta-Label Extraction
 
 ```alloy
-// Only extract when the relevant field is present — avoids unnecessary cardinality
+// Only extract when the relevant field is present - avoids unnecessary cardinality
 loki.process "conditional_extraction" {
  forward_to = [...]
  stage.match {
@@ -388,7 +388,7 @@ These reduce storage costs. Establish a cost-per-GB baseline before implementing
 
 ### Remove Timestamps from Log Lines
 
-Each log entry already has a metadata timestamp — the inline timestamp is redundant (~30–34 bytes each, ~6% of a typical log line).
+Each log entry already has a metadata timestamp - the inline timestamp is redundant (~30-34 bytes each, ~6% of a typical log line).
 
 ```alloy
 loki.process "drop_timestamp" {
@@ -451,7 +451,7 @@ stage.replace {
 ```
 
 **Practical savings** (Istio access log example):
-Starting at 753 bytes (minified) → after removing nulls, placeholders, unused fields, normalizing keys: **464 bytes — 38% reduction**.
+Starting at 753 bytes (minified) → after removing nulls, placeholders, unused fields, normalizing keys: **464 bytes - 38% reduction**.
 
 ---
 
@@ -460,12 +460,14 @@ Starting at 753 bytes (minified) → after removing nulls, placeholders, unused 
 Grafana Enterprise Logs (GEL) supports Label-Based Access Control (LBAC). Any label can serve as an access control selector.
 
 **Best labels for LBAC**:
-- `classification` — data sensitivity (`public`, `restricted`, `confidential`, `top-secret`)
-- `source` — controls which teams can see which log origins
-- `team` / `squad` — ownership-based access
-- `env` — environment-level restrictions
+- `classification` - data sensitivity (`public`, `restricted`, `confidential`, `top-secret`)
+- `source` - controls which teams can see which log origins
+- `team` / `squad` - ownership-based access
+- `env` - environment-level restrictions
 
 Static aggregate labels like `owner=sysadmins` or `category=database` are particularly effective: one label value gates access to many log files, rather than requiring a long allowlist of filenames or streams.
+
+When sharing an LBAC audit, keep evidence as redacted proof: show label names, policy shape, and example sensitivity classes, not sensitive log values.
 
 ---
 
@@ -473,16 +475,16 @@ Static aggregate labels like `owner=sysadmins` or `category=database` are partic
 
 The most impactful improvements almost always come from these four changes:
 
-1. **Remove `pod` as a label** — biggest stream reduction in K8s environments
-2. **Add `level` as a label AND always specify it in queries** — can eliminate 94%+ of scanned data when searching for errors
-3. **Normalize label values** — eliminates phantom duplicate streams from inconsistent casing
-4. **Remove or normalize `filename`** in K8s — highly variable paths inflate stream count significantly
+1. **Remove `pod` as a label** - biggest stream reduction in K8s environments
+2. **Add `level` as a label AND always specify it in queries** - can eliminate 94%+ of scanned data when searching for errors
+3. **Normalize label values** - eliminates phantom duplicate streams from inconsistent casing
+4. **Remove or normalize `filename`** in K8s - highly variable paths inflate stream count significantly
 
 Focus on these before anything else.
 
 ---
 
-## Labels to Avoid — Quick Reference
+## Labels to Avoid - Quick Reference
 
 | Label | Why | Alternative |
 |---|---|---|
@@ -495,4 +497,4 @@ Focus on these before anything else.
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery. Use `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
