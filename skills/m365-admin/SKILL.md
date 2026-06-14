@@ -319,7 +319,7 @@ All outputs include:
 
 ## Workflow Coordination
 
-This skill owns its domain work while keeping persona and escalation boundaries explicit. In Velora operations, Mira coordinates execution decisions, and Selene receives security or live infra escalation signals before destructive changes proceed.
+This skill owns its domain work while keeping actor, service, and escalation boundaries explicit. In live operations, route execution decisions and security or live infra escalation signals to the approved owner before destructive changes proceed.
 
 Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, and explicit consent records, including final submission control gates for high-impact actions.
 

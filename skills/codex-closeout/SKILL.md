@@ -29,10 +29,10 @@ Produce a closeout that is easy to scan in the Codex app:
 ## Coordination
 
 This skill owns the final chat shape, not durable workflow state.
-When Velora, Selene, or Mira are involved, preserve their identity and handoff boundaries and do not blur who owns the action in the thread.
+When multiple agents, personas, services, or handoff owners are involved, preserve their identity and handoff boundaries and do not blur who owns the action in the thread.
 
 When the work used or should use `vincent-workflow`, make the closeout include
-the workflow facts Vincent cares about:
+the workflow facts the user cares about:
 
 - verification run and result
 - commit/push/cleanup status for repo changes
@@ -43,6 +43,10 @@ Do not create separate blocker, decision, or handoff formats here. Use
 `vincent-workflow` for those records and summarize them in the closeout.
 
 If the work is destructive or could be destructive, include a dedicated destructive action status note: list each action and mark it as avoided, run, or blocked pending approval, then state outcome.
+
+If the work approaches consent-changing action, final submission, public posting, destructive cleanup, live infra mutation, billing, credential movement, or other approval-gated action, state the consent or approval status plainly. Do not let a closeout imply an approval that was not granted.
+
+For live infra work, distinguish dry-run proof, staging proof, and live infra proof. Name which layer was verified and which layer was not touched.
 
 If the work produced a browser-native artifact, use `codex-html-report` for the
 artifact and keep the chat closeout compact: report path, status, verification,
@@ -77,8 +81,9 @@ Do:
 - mention only 1 to 4 files when they add real value
 - treat secret, credential, token, and private key handling as sensitive output boundaries
 - if destructive actions occurred or were avoided, include them in a separate destructive action status note and state whether approval was required and whether it was granted
+- for Infisical or other secret-manager work, report redacted proof, secret location metadata, consumer state, and verification outcome only
 
-When a task involves any secret, credential, token, or private key, only include what was touched and verified, not actual values.
+When a task involves any secret, credential, token, or private key, only include what was touched and verified, not raw values.
 
 Do not:
 - default to a full report every turn
@@ -88,7 +93,7 @@ Do not:
 - include a risks section if there is no meaningful residual risk
 - include raw secret, credential, token, or private key values in closeout text
 
-If those items were part of the work, include redacted confirmation, location, and verification outcome only.
+If those items were part of the work, include redacted confirmation, location metadata, and verification outcome only.
 
 ## When To Use The Full Structure
 

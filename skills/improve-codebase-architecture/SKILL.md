@@ -76,7 +76,7 @@ If the user explicitly wants a GitHub issue:
 - If recommendations may touch secret handling, credential handling, token flows, private key paths, or Infisical-backed secret usage, do not echo values, do not expose secret or credential artifacts, and keep all outputs redacted.
 - Require user consent and explicit approval before moving toward executor-grade steps that include destructive actions.
 - Never proceed with destructive updates to live infra without explicit consent and a rollback-safe plan.
-- If architecture work intersects identity or operations contexts involving Mira, Velora, or Selene, preserve those boundaries and call out any final submission conditions clearly.
+- If architecture work intersects identity or operations contexts involving multiple agents, services, or handoff owners, preserve those boundaries and call out any final submission conditions clearly.
 - For any final submission path, restate risk, consent status, and destructive/live infra implications before proceeding.
 
 ## Workflow Coordination

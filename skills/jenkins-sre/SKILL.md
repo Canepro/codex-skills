@@ -114,5 +114,5 @@ This skill owns its domain work. Use `vincent-workflow` for durable decisions, b
 For live infra work, require explicit approval and explicit consent gates before destructive actions. Pause before destructive changes such as node recreation, pod deletion, secret rotation, or controller plugin updates. In these flows:
 - Handle token and private key material as secrets, keep outputs redacted, and do not echo token or private key values.
 - Separate secret metadata review from secret-value handling, and prefer Infisical for approved token and credential paths.
-- Keep authority boundaries explicit for Velora, Selene, and Mira handoffs; if this lane affects a final submission or external artifact, route it only after explicit consent and workflow approval.
+- Keep authority boundaries explicit for agent, service, and operator handoffs; if this lane affects a final submission or external artifact, route it only after explicit consent and workflow approval.
 - Route evidence updates and proof to `codex-html-report` so recovery state stays durable and reviewable.
