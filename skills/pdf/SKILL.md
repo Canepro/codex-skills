@@ -12,12 +12,16 @@ description: "Use when tasks involve reading, creating, or reviewing PDF files w
 - Validate final rendering before delivery.
 
 ## Workflow
-1. Prefer visual review: render PDF pages to PNGs and inspect them.
+1. Name the actor before acting: capture who requested the work and who owns the output.
+2. Require explicit consent before reading, extracting from, editing, or redistributing PDFs from a user or collaborator.
+3. Prefer visual review: render PDF pages to PNGs and inspect them.
    - Use `pdftoppm` if available.
    - If unavailable, install Poppler or ask the user to review the output locally.
-2. Use `reportlab` to generate PDFs when creating new documents.
-3. Use `pdfplumber` (or `pypdf`) for text extraction and quick checks; do not rely on it for layout fidelity.
-4. After each meaningful update, re-render pages and verify alignment, spacing, and legibility.
+4. Use `reportlab` to generate PDFs when creating new documents.
+5. Use `pdfplumber` (or `pypdf`) for text extraction and quick checks; do not rely on it for layout fidelity.
+   - Keep sensitive data safe by replacing secrets and identifiers with masked text or redact where needed before sharing evidence.
+6. After each meaningful update, re-render pages and verify alignment, spacing, and legibility.
+7. Treat destructive actions as approval-gated. Deleting source PDFs, overwriting inputs, or cleaning non-temp archives is a destructive action requiring explicit approval from the actor.
 
 ## Temp and output conventions
 - Use `tmp/pdfs/` for intermediate files; delete when done.
@@ -62,6 +66,7 @@ pdftoppm -png $INPUT_PDF $OUTPUT_PREFIX
 - Citations and references must be human-readable; never leave tool tokens or placeholder strings.
 
 ## Final checks
+- Keep concrete evidence by recording exact commands, paths, and artifact references (`tmp/pdfs/...`, `output/pdf/...`, `pdftoppm` output PNGs).
 - Do not deliver until the latest PNG inspection shows zero visual or formatting defects.
 - Confirm headers/footers, page numbering, and section transitions look polished.
 - Keep intermediate files organized or remove them after final approval.
