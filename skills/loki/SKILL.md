@@ -12,7 +12,15 @@ description: >
 
 > **Docs**: https://grafana.com/docs/loki/latest/
 
-Indexes only metadata (labels), not full log content — dramatically cheaper than full-text search systems.
+Indexes only metadata (labels), not full log content, which is dramatically cheaper than full-text search systems.
+
+Use specific examples, commands, and file paths when documenting Loki troubleshooting.
+
+## Safety for credentials and secrets
+
+- Never print, do not echo, or expose credential values in chat, tickets, or command logs.
+- Redact secrets before sharing copied log lines, traces, payloads, or screenshots.
+- Prefer secret-backed config injection (for example via `/var/run/secrets/loki/token` and environment variables) and avoid hard-coded inline credentials in Alloy and Loki config.
 
 ## LogQL Quick Reference
 
@@ -174,7 +182,7 @@ sum(rate({env="prod"}[5m])) by (service)
 {app="nginx"} | pattern `<ip> - - <_> "<method> <uri> <_>" <status> <bytes>` | status >= 500
 ```
 
-### Credential leak detection
+### Credential and secret leak detection
 ```logql
 {namespace="prod"} |~ `https?://\w+:\w+@`
 ```
