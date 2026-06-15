@@ -62,11 +62,13 @@ playwright-cli --help
 
 ## Core workflow
 
-1. Open the page.
-2. Snapshot to get stable element refs.
-3. Interact using refs from the latest snapshot.
-4. Re-snapshot after navigation or significant DOM changes.
-5. Capture artifacts (screenshot, pdf, traces) when useful.
+1. Name the actor / who is doing the action (user, operator, agent).
+2. Open the page.
+3. Snapshot to get stable element refs.
+4. Interact using refs from the latest snapshot.
+5. Re-snapshot after navigation or significant DOM changes.
+6. Collect concrete evidence with command output and file path references before and after critical steps.
+7. Capture artifacts (screenshot, pdf, traces) when useful.
 
 Minimal loop:
 
@@ -138,11 +140,13 @@ Open only what you need:
 
 ## Stateful sessions
 
-The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Extract only the data the user asked for instead of dumping whole pages.
+The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages. Redact `secret` and `credential` values before sharing outputs, screenshots, traces, or logs.
 
 ## Guardrails
 
 - Do not invent credentials. Reuse the existing session or the user's normal login flow when auth is required.
+- Do not store or share raw `secret` or `credential` values. Redact sensitive fields in logs, screenshots, traces, and pasted snippets.
+- Before final submission or any irreversible action (publish, payment, account changes), pause before final submission and request explicit user confirmation.
 - Always snapshot before referencing element ids like `e12`.
 - Re-snapshot when refs seem stale.
 - Prefer explicit commands over `eval` and `run-code` unless needed.
