@@ -88,7 +88,11 @@ When auditing a label set, produce a report in this structure:
 [Final recommended labels]
 
 ### Migration Notes
-[How to implement changes via Alloy/Agent pipeline stages]
+Treat every label schema change as a `label allowlist` change-control event, not a routine config tweak.
+- Apply review-first `change control` before changing allowed label names.
+- If you are `renaming labels`, do not cut over instantly. Keep old and new keys active for a `rollout` `query and dashboard compatibility window`.
+- Use `dual-write` for renamed keys during migration, and validate impacted saved queries and dashboards for both key names to prevent query and dashboard compatibility gaps.
+- Add explicit `rollback` notes: how to revert the allowlist, collector stages, and query/dashboard references quickly if regressions appear.
 ```
 
 ---
