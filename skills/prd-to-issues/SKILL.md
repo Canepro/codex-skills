@@ -25,6 +25,7 @@ Before slicing, inspect the repo enough to understand:
 ### 3. Break work into vertical slices
 
 Each issue should:
+- trace to a PRD section, requirement, or user story that justifies it
 - deliver observable value on its own
 - cut through the stack end-to-end when possible
 - have clear acceptance criteria
@@ -36,9 +37,11 @@ Avoid horizontal issues like "build DB layer", "build API layer", "build UI laye
 
 For each issue include:
 - title
+- traceability reference (PRD section, requirement, or user story)
 - why this slice exists
 - scope
 - acceptance criteria
+- validation with concrete test cases and expected results
 - dependencies, if any
 - implementation notes only if they are durable
 
@@ -49,10 +52,18 @@ Use a compact template:
 
 ### Outcome
 
+### PRD Traceability
+- Section:
+- Requirement / User Story:
+
 ### Scope
 
 ### Acceptance Criteria
 - [ ] ...
+
+### Validation & Test
+- [ ] Test: ...
+- [ ] Expected result: ...
 
 ### Dependencies
 ```
