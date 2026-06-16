@@ -60,6 +60,7 @@ Use repo-local evidence first:
 - recent reports only as secondary context
 
 For a parked or retired target, do not report absent metrics, DNS failure, Argo CD `Unknown`, or `up == 0` as a live platform incident by itself. Report it as expected offline state, stale visibility, or an expected blind spot.
+In hub-and-spoke environments, before treating missing hub data as target failure, check remote write and federation flow health first. Confirm whether there is federation lag, and inspect remote write queue depth and backfill status so ingest delay is not mistaken for a real outage.
 
 Escalate an offline target only when:
 - the user asked for that target to be checked as online
@@ -115,6 +116,7 @@ Look for common rule problems:
 - rules evaluated against the wrong cluster label
 
 Prefer a corrected query over ad hoc silencing when the rule itself is wrong.
+After any PromQL or rule fix, run deterministic rule validation with `promtool check rules` and `promtool test rules` (or equivalent rule tests) before closing the fix loop.
 
 For OOM alerts, avoid treating a sticky `last_terminated_reason` gauge as proof that the problem is still active. A real OOM event can coexist with a stale firing alert.
 
@@ -124,7 +126,7 @@ Pick one:
 - runtime issue: hand off to `k8s-sre-triage`
 - scrape config issue: fix service, ServiceMonitor, scrape config, port, or path
 - rule issue: fix the PromQL and docs
-- temporary operational noise: add or update a silence only if the rule is otherwise correct
+- temporary operational noise: before adding or updating a silence, inspect alertmanager notification policy and route configuration for routing, grouping, repeat interval, and inhibition behavior to ensure the silence maps to the right route scope
 - expected offline state: document the parked, retired, or on-demand state and recommend checks only for the next startup or intended-online window
 
 ### 7. Verify
@@ -134,6 +136,7 @@ After the change:
 - corrected query returns the expected count
 - firing or pending state clears as expected
 - no important alert coverage was removed accidentally
+- changed rules pass deterministic checks such as `promtool check rules` and `promtool test rules`
 - expected-state classification is backed by a current repo doc, runbook, automation schedule, or explicit user instruction
 
 ## Guidance
