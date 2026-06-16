@@ -16,8 +16,7 @@ PromQL is a functional query language for time series data. Every query returns 
 **instant vector** (one value per label set at a point in time), a **range vector** (a sliding
 window of samples), or a **scalar**.
 
-**Golden rule:** `rate()` and `increase()` always require a range vector. The range must be at
-least 4x the scrape interval to avoid gaps. For a 60s scrape interval, use `[5m]` minimum.
+**Golden rule:** rate() and increase() always require a range vector. The range must be at least 4x the scrape interval to avoid gaps. For a 60s scrape interval, use a [5m] minimum.
 
 ---
 
@@ -28,7 +27,7 @@ least 4x the scrape interval to avoid gaps. For a 60s scrape interval, use `[5m]
 rate(http_requests_total[5m])
 ```
 
-**Rate with label aggregation — "sum then rate" is wrong, always rate then sum:**
+**Rate with label aggregation - "sum then rate" is wrong, always rate then sum:**
 ```promql
 # CORRECT: rate first, then aggregate
 sum(rate(http_requests_total{job="api"}[5m])) by (status_code)
@@ -307,7 +306,7 @@ rate(http_requests_total[5m])
 ## References
 
 - [Prometheus querying basics](https://prometheus.io/docs/prometheus/latest/querying/basics/)
-- [Grafana Explore — PromQL](https://grafana.com/docs/grafana/latest/explore/)
+- [Grafana Explore - PromQL](https://grafana.com/docs/grafana/latest/explore/)
 - [Prometheus best practices](https://prometheus.io/docs/practices/naming/)
 - [Grafana Cloud Metrics (Grafana Mimir)](https://grafana.com/docs/mimir/latest/)
 
