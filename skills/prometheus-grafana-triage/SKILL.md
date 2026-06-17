@@ -107,6 +107,20 @@ Confirm the endpoint directly where possible:
 - wrong port or bind address often returns `connection refused`
 - missing auth returns `401` or `403`
 
+For Prometheus warnings like `Error on ingesting samples with different value
+but same timestamp`, use a duplicate-sample workflow before changing scrape
+config:
+- map the warning target IP and port back to a pod, service, endpoint, or
+  EndpointSlice
+- sample the target directly and count duplicate metric-label-timestamp keys
+  when the endpoint is reachable
+- distinguish duplicate exposition by the target from duplicate scrape paths or
+  overlapping scrape jobs
+- inspect the owning source object or GitOps manifest that creates the duplicate
+  target data
+- after a fix, search Prometheus logs with `--since-time` after the last known
+  matching warning; broad log output can include stale historical warnings
+
 ### 5. Check the rule logic
 
 Look for common rule problems:
@@ -138,6 +152,8 @@ After the change:
 - no important alert coverage was removed accidentally
 - changed rules pass deterministic checks such as `promtool check rules` and `promtool test rules`
 - expected-state classification is backed by a current repo doc, runbook, automation schedule, or explicit user instruction
+- log-derived symptoms have a cutoff proof: the same log query after the last
+  observed warning or error timestamp returns no new matches
 
 ## Guidance
 
