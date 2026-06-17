@@ -19,6 +19,8 @@ description: "Use when tasks involve reading, creating, or reviewing PDF files w
    - If unavailable, install Poppler or ask the user to review the output locally.
 4. Use `reportlab` to generate PDFs when creating new documents.
 5. Use `pdfplumber` (or `pypdf`) for text extraction and quick checks; do not rely on it for layout fidelity.
+   - For scanned or image-only PDFs, run OCR before making extraction claims, then treat results as a best-effort textual signal.
+   - In handoff notes, state the ocr limits for low-resolution scans, handwriting, and low-contrast or rotated pages.
    - Keep sensitive data safe by replacing secrets and identifiers with masked text or redact where needed before sharing evidence.
 6. After each meaningful update, re-render pages and verify alignment, spacing, and legibility.
 7. Treat destructive actions as approval-gated. Deleting source PDFs, overwriting inputs, or cleaning non-temp archives is a destructive action requiring explicit approval from the actor.
@@ -61,6 +63,7 @@ pdftoppm -png $INPUT_PDF $OUTPUT_PREFIX
 ## Quality expectations
 - Maintain polished visual design: consistent typography, spacing, margins, and section hierarchy.
 - Avoid rendering issues: clipped text, overlapping elements, broken tables, black squares, or unreadable glyphs.
+- Verify font embedding or fallback font behavior and check for missing glyphs when a custom font is unavailable.
 - Charts, tables, and images must be sharp, aligned, and clearly labeled.
 - Use ASCII hyphens only. Avoid U+2011 (non-breaking hyphen) and other Unicode dashes.
 - Citations and references must be human-readable; never leave tool tokens or placeholder strings.
