@@ -107,9 +107,7 @@ Confirm the endpoint directly where possible:
 - wrong port or bind address often returns `connection refused`
 - missing auth returns `401` or `403`
 
-For Prometheus warnings like `Error on ingesting samples with different value
-but same timestamp`, use a duplicate-sample workflow before changing scrape
-config:
+For Prometheus warnings containing `Error on ingesting samples with different value but same timestamp`, use a duplicate-sample workflow before changing scrape config:
 - map the warning target IP and port back to a pod, service, endpoint, or
   EndpointSlice
 - sample the target directly and count duplicate metric-label-timestamp keys

@@ -50,6 +50,7 @@ Then narrow to the affected namespace and owner resource:
 - `kubectl get deploy,statefulset,daemonset,job,cronjob -n <ns>`
 - `kubectl describe pod <pod> -n <ns>`
 - `kubectl logs <pod> -n <ns> --all-containers`
+- `kubectl logs <pod> -n <ns> -c <container>` when a container is named
 - `kubectl logs <pod> -n <ns> --all-containers --previous` when restarts are involved
 
 When the user names a specific pod or `namespace/pod:container`, make logs part
