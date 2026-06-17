@@ -52,6 +52,13 @@ Then narrow to the affected namespace and owner resource:
 - `kubectl logs <pod> -n <ns> --all-containers`
 - `kubectl logs <pod> -n <ns> --all-containers --previous` when restarts are involved
 
+When the user names a specific pod or `namespace/pod:container`, make logs part
+of the first evidence batch. Fetch the named container explicitly when present,
+extract recent warnings and errors with timestamps, and summarize the log signal
+before pod-status-only conclusions. Check `--previous` only when restart count
+or `lastState` says a previous container should exist; if it is unavailable,
+record that as evidence instead of silently skipping it.
+
 Bundled helpers:
 - `scripts/k8s_snapshot.sh` for a fast cluster-wide baseline snapshot
 - `scripts/pod_triage.sh <namespace> <pod>` for pod-specific evidence
@@ -103,6 +110,9 @@ Report:
 - Prefer a single evidence-backed diagnosis over several weak guesses.
 - If you cannot prove root cause yet, say what is still unknown and what evidence would resolve it.
 - Do not assume provider-specific behavior; verify it.
+- For pod-log requests, lead with the log finding and the time window checked,
+  then use pod status, events, and owner resources to explain the surrounding
+  runtime state.
 - When checking previous logs for a restart, verify the pod namespace first. A correct command in the wrong namespace is still bad evidence.
 - Treat Secret values, service-account tokens, private keys, kubeconfig contents, and any other credential material as redacted. Quote Secret names and keys as evidence, never decoded values. Do not paste token values or private key fragments into findings or handoffs.
 
