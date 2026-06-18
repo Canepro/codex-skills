@@ -15,6 +15,13 @@ description: Implement features or fixes with a red-green-refactor loop and beha
 
 See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
 
+## Consent, actor ownership, and finality gates
+
+- **Name the actor** for each behavior, and record who approved and who executes each change.
+- Require **consent** before behavior-changing edits, external API calls, migrations, or user-visible data changes.
+- Gather **concrete evidence** from each cycle with command output, file paths, and changed-file context.
+- Require a **pause before final submission** for merge, deploy, release, or handoff events until explicit approval is confirmed.
+
 ## Anti-Pattern: Horizontal Slices
 
 **DO NOT write all tests first, then all implementation.** This is "horizontal slicing" - treating RED as "write all tests" and GREEN as "write all code."
@@ -46,14 +53,17 @@ RIGHT (vertical):
 
 Before writing any code:
 
+- [ ] Name the actor and confirm who owns approval
 - [ ] Confirm with user what interface changes are needed
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
 - [ ] List the behaviors to test (not implementation steps)
+- [ ] Confirm consent for irreversible behavior changes, external integrations, and user-visible data changes
+- [ ] Define concrete evidence to capture next (target files, commands, test output, and expected names)
 - [ ] Get user approval on the plan
 
-Ask: "What should the public interface look like? Which behaviors are most important to test?"
+Ask: "Name the actor. What should the public interface look like? Which behaviors are most important to test?"
 
 **You can't test everything.** Confirm with the user exactly which behaviors matter most. Focus testing effort on critical paths and complex logic, not every possible edge case.
 
@@ -95,6 +105,14 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 - [ ] Run tests after each refactor step
 
 **Never refactor while RED.** Get to GREEN first.
+
+### 5. Finalization gate
+
+Before handoff or deployment:
+
+- [ ] Run the project-standard completion checks (full test command, lint, or equivalent)
+- [ ] Capture concrete evidence for the final state (commands run, outputs, test names, and changed file paths)
+- [ ] Pause before final submission and confirm consent for merge, release, or publish actions
 
 ## Checklist Per Cycle
 
