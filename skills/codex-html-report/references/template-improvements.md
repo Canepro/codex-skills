@@ -36,6 +36,7 @@ Changes:
 - added a reusable, accessible tabs pattern (`role=tablist`/`tab`/`tabpanel`) as a new optional `Options` section plus a nav entry, for comparing options/environments/before-after
 - print styles hide the toolbar and copy buttons and reveal all hidden tabpanels so no content is lost on export
 - all new JS is feature-detected and wrapped in one IIFE, so deleting any section keeps the report working
+- added an empty data-URL favicon so local static-server QA does not create a misleading `/favicon.ico` console error
 
 Preserved: every contract section (Outcome, Next, Gates, Changes, Verification, Timeline, Risks, Evidence), the timestamped timeline, dark-first default, the graphite/amber palette, and single-file self-contained output.
 
@@ -44,7 +45,7 @@ Reason: future reports should ship with the polish and explorability that landed
 Verification:
 - rendered the template in a browser via a local static server; confirmed hero, facts strip, nav (now nine anchors incl. Options), sections, and footer
 - exercised behaviors in-page: theme toggle flips light/dark and back; Options tabs switch panels (A hidden when B shown); a copy button is injected on the single `<pre>` block; no console errors
-- self-contained check: no `http(s)`, `cdn`, or `@import`; single intentional `<script>`; section tags balance 11/11; no duplicate IDs
+- self-contained check: no `http(s)`, `cdn`, or `@import`; one intentional inline favicon; single intentional `<script>`; section tags balance 11/11; no duplicate IDs
 - light-theme amber (`#a9711f`) and ink (`#1c2027`) chosen for AA contrast on cream surfaces
 
 ### 2026-05-30 - v0.5.0 - Editorial redesign with layered surfaces
