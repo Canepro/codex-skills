@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.5.0`
+`v0.6.0`
 
 ## Version Rules
 
@@ -18,11 +18,34 @@ Use this file when changing the canonical `templates/report.html` or the report 
 | --- | --- | --- | --- |
 | P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Proposed |
 | P1 | Add print/export polish | Durable reports may be shared or printed later. | Done in v0.5.0 (light panels, dark-on-light code, nav hidden) |
-| P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Proposed |
+| P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Done in v0.6.0 (topbar toggle, dark default, light palette) |
 | P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Proposed |
 | P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Proposed |
 
 ## Decision Log
+
+### 2026-06-18 - v0.6.0 - Optional interactivity: theme toggle, copy, tabs
+
+Added broadly reusable interactivity after report feedback that a faithfully-filled template read as generic. Kept dark-first default and the v0.5.0 editorial system; layered in optional, feature-detected behaviors.
+
+Changes:
+- topbar tools: a light/dark theme toggle (dark stays the default via `data-theme="dark"`) and a Save-PDF button (`window.print()`)
+- added an `html[data-theme="light"]` palette (cream surfaces, dark ink, darker amber for AA contrast) so the toggle has a real light mode without a jarring switch
+- converted status pills from hardcoded rgba to `color-mix(in srgb, var(--token) ..%, transparent)` so they adapt to either theme
+- copy-to-clipboard button injected on every `<pre>` evidence block (JS wraps each `pre` in `.pre-wrap`); shows on hover/focus, falls back to a manual-copy hint when the Clipboard API is unavailable
+- added a reusable, accessible tabs pattern (`role=tablist`/`tab`/`tabpanel`) as a new optional `Options` section plus a nav entry, for comparing options/environments/before-after
+- print styles hide the toolbar and copy buttons and reveal all hidden tabpanels so no content is lost on export
+- all new JS is feature-detected and wrapped in one IIFE, so deleting any section keeps the report working
+
+Preserved: every contract section (Outcome, Next, Gates, Changes, Verification, Timeline, Risks, Evidence), the timestamped timeline, dark-first default, the graphite/amber palette, and single-file self-contained output.
+
+Reason: future reports should ship with the polish and explorability that landed well in a live report (the n8n/Zoho architecture plan), without specializing the template to one topic.
+
+Verification:
+- rendered the template in a browser via a local static server; confirmed hero, facts strip, nav (now nine anchors incl. Options), sections, and footer
+- exercised behaviors in-page: theme toggle flips light/dark and back; Options tabs switch panels (A hidden when B shown); a copy button is injected on the single `<pre>` block; no console errors
+- self-contained check: no `http(s)`, `cdn`, or `@import`; single intentional `<script>`; section tags balance 11/11; no duplicate IDs
+- light-theme amber (`#a9711f`) and ink (`#1c2027`) chosen for AA contrast on cream surfaces
 
 ### 2026-05-30 - v0.5.0 - Editorial redesign with layered surfaces
 

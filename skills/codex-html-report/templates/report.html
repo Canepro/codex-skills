@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Codex HTML Report Template v0.5.0: dark editorial report, layered surfaces, refined typography, gated status, timestamped, evidence-oriented. -->
-<html lang="en">
+<!-- Codex HTML Report Template v0.6.0: dark-first editorial report with optional light/dark toggle, Save-PDF button, copy-to-clipboard evidence, and a reusable tabs pattern. Layered surfaces, gated status, timestamped, evidence-oriented. All JS is feature-detected, so any section can be deleted safely. -->
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,6 +50,18 @@
       --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
     }
 
+    /* Optional light theme. Dark stays the default; the topbar toggle switches this. */
+    html[data-theme="light"] {
+      --bg: #f4f1ea; --bg-tint: #efebe1;
+      --surface-1: #ffffff; --surface-2: #f7f4ec; --surface-3: #efeadd; --pre-bg: #1d2128;
+      --ink: #1c2027; --muted: #4f5763; --soft: #727a86;
+      --line: rgba(20, 22, 28, 0.10); --line-2: rgba(20, 22, 28, 0.18);
+      --accent: #a9711f; --accent-bright: #8a5c16; --accent-soft: rgba(169, 113, 31, 0.12); --accent-line: rgba(169, 113, 31, 0.45);
+      --good: #2f8a47; --warn: #9a6a12; --bad: #bb4a3a; --info: #2f6aa3; --neutral: #5a6473;
+      --shadow: 0 16px 38px -26px rgba(40, 30, 10, 0.30), 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 30px 70px -44px rgba(40, 30, 10, 0.32);
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
@@ -59,8 +71,9 @@
       font-family: var(--sans);
       font-size: 16px;
       line-height: 1.6;
+      transition: background 0.4s ease, color 0.25s ease;
       background:
-        radial-gradient(1100px 420px at 50% -160px, rgba(214, 170, 92, 0.10), transparent 70%),
+        radial-gradient(1100px 420px at 50% -160px, var(--accent-soft), transparent 70%),
         linear-gradient(180deg, var(--bg-tint), var(--bg) 460px);
     }
 
@@ -109,6 +122,12 @@
       font-weight: 700;
     }
     .topbar time { color: var(--ink); font-weight: 600; }
+    .tools { display: inline-flex; align-items: center; gap: 8px; }
+    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px;
+      background: var(--surface-1); color: var(--muted); font: inherit; font-size: 0.83rem; font-weight: 600; cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s; }
+    .btn:hover, .btn:focus-visible { color: var(--ink); border-color: var(--accent-line); background: var(--surface-2); outline: none; }
+    .btn svg { width: 15px; height: 15px; }
 
     /* Hero */
     .hero {
@@ -213,11 +232,11 @@
       white-space: nowrap;
     }
     .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-    .done    { color: var(--good);    background: rgba(135, 204, 139, 0.12); border-color: rgba(135, 204, 139, 0.42); }
-    .partial { color: var(--warn);    background: rgba(226, 180, 94, 0.13);  border-color: rgba(226, 180, 94, 0.42); }
-    .blocked, .risk, .gated { color: var(--bad); background: rgba(229, 139, 125, 0.13); border-color: rgba(229, 139, 125, 0.42); }
-    .info    { color: var(--info);    background: rgba(147, 184, 223, 0.13); border-color: rgba(147, 184, 223, 0.42); }
-    .neutral { color: var(--neutral); background: rgba(171, 180, 193, 0.12); border-color: rgba(171, 180, 193, 0.40); }
+    .done    { color: var(--good);    background: color-mix(in srgb, var(--good) 14%, transparent);    border-color: color-mix(in srgb, var(--good) 42%, transparent); }
+    .partial { color: var(--warn);    background: color-mix(in srgb, var(--warn) 14%, transparent);    border-color: color-mix(in srgb, var(--warn) 42%, transparent); }
+    .blocked, .risk, .gated { color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent); border-color: color-mix(in srgb, var(--bad) 42%, transparent); }
+    .info    { color: var(--info);    background: color-mix(in srgb, var(--info) 14%, transparent);    border-color: color-mix(in srgb, var(--info) 42%, transparent); }
+    .neutral { color: var(--neutral); background: color-mix(in srgb, var(--neutral) 13%, transparent); border-color: color-mix(in srgb, var(--neutral) 40%, transparent); }
 
     /* Sticky nav */
     nav {
@@ -344,6 +363,24 @@
     }
     pre code { padding: 0; border: 0; background: none; font-size: 0.86rem; color: inherit; }
 
+    /* Copy-to-clipboard on evidence blocks (JS injects the button and wrapper) */
+    .pre-wrap { position: relative; }
+    .copy-btn { position: absolute; top: 8px; right: 8px; padding: 4px 9px; font: inherit; font-size: 0.74rem; font-weight: 600;
+      border: 1px solid var(--line-2); border-radius: 7px; background: var(--surface-2); color: var(--muted); cursor: pointer;
+      opacity: 0; transition: opacity 0.15s, color 0.15s, border-color 0.15s; }
+    .pre-wrap:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
+    .copy-btn:hover { color: var(--ink); border-color: var(--accent-line); }
+
+    /* Tabs (optional reusable pattern for comparisons) */
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tabs button { padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface-1); color: var(--muted);
+      font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
+    .tabs button:hover { color: var(--ink); border-color: var(--accent-line); }
+    .tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #14110a; }
+    html[data-theme="light"] .tabs button[aria-selected="true"] { color: #fff; }
+    .tabpanel { margin-top: 16px; color: var(--muted); }
+    .tabpanel[hidden] { display: none; }
+
     /* Timeline */
     .timeline { display: grid; gap: 0; }
     .event {
@@ -445,7 +482,8 @@
     /* Print */
     @media print {
       body { background: #fff; color: #111; }
-      nav { display: none; }
+      nav, .tools, .copy-btn { display: none; }
+      .tabpanel[hidden] { display: block; }
       .topbar, .hero, .fact, .section, .card, .table-wrap, table, details, summary {
         background: #fff !important;
         color: #111;
@@ -469,7 +507,17 @@
   <main class="shell">
     <header class="topbar">
       <div class="brand"><span class="mark" aria-hidden="true">C</span> Codex</div>
-      <div>Generated <time datetime="YYYY-MM-DD">YYYY-MM-DD</time></div>
+      <div class="tools">
+        <span>Generated <time datetime="YYYY-MM-DD">YYYY-MM-DD</time></span>
+        <button class="btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.2 17.2 19 19M19 5l-1.4 1.4M6.8 17.2 5 19"/></svg>
+          <span id="themeLabel">Light</span>
+        </button>
+        <button class="btn" id="printBtn" type="button" aria-label="Print or save as PDF">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+          Save PDF
+        </button>
+      </div>
     </header>
 
     <section class="hero" aria-labelledby="report-title">
@@ -502,6 +550,7 @@
       <a href="#next-action">Next</a>
       <a href="#gates">Gates</a>
       <a href="#changes">Changes</a>
+      <a href="#options">Options</a>
       <a href="#verification">Verification</a>
       <a href="#timeline">Timeline</a>
       <a href="#risks">Risks</a>
@@ -574,6 +623,20 @@
             <p>Explain the decision or constraint that shaped the work.</p>
           </article>
         </div>
+      </section>
+
+      <!-- Optional reusable pattern: tabs. Use for comparing options, environments, or before/after. Delete if unused. -->
+      <section class="section" id="options">
+        <span class="eyebrow">Options</span>
+        <h2>Compare the choices</h2>
+        <div class="tabs" role="tablist" aria-label="Options">
+          <button role="tab" aria-selected="true" aria-controls="opt-a" id="ot-a">Option A</button>
+          <button role="tab" aria-selected="false" aria-controls="opt-b" id="ot-b">Option B</button>
+          <button role="tab" aria-selected="false" aria-controls="opt-c" id="ot-c">Option C</button>
+        </div>
+        <div class="tabpanel" id="opt-a" role="tabpanel" aria-labelledby="ot-a"><p>Describe option A: what it is, when to pick it, and the trade-off.</p></div>
+        <div class="tabpanel" id="opt-b" role="tabpanel" aria-labelledby="ot-b" hidden><p>Describe option B.</p></div>
+        <div class="tabpanel" id="opt-c" role="tabpanel" aria-labelledby="ot-c" hidden><p>Describe option C.</p></div>
       </section>
 
       <section class="section span-6" id="verification">
@@ -692,5 +755,58 @@ Keep raw dumps in collapsible sections.</code></pre>
       Self-contained Codex HTML report. No external assets or build step required.
     </footer>
   </main>
+
+  <script>
+    /* Optional behaviors. Each is feature-detected, so deleting any section above stays safe. */
+    (function () {
+      var root = document.documentElement;
+      var themeBtn = document.getElementById('themeBtn');
+      var themeLabel = document.getElementById('themeLabel');
+      if (themeBtn) themeBtn.addEventListener('click', function () {
+        var light = root.getAttribute('data-theme') === 'light';
+        root.setAttribute('data-theme', light ? 'dark' : 'light');
+        if (themeLabel) themeLabel.textContent = light ? 'Light' : 'Dark';
+      });
+
+      var printBtn = document.getElementById('printBtn');
+      if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+
+      // Tab groups: each [role="tablist"] toggles its [role="tabpanel"] targets by aria-controls.
+      document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+        var tabs = list.querySelectorAll('[role="tab"]');
+        tabs.forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            tabs.forEach(function (t) {
+              t.setAttribute('aria-selected', 'false');
+              var p = document.getElementById(t.getAttribute('aria-controls'));
+              if (p) p.hidden = true;
+            });
+            tab.setAttribute('aria-selected', 'true');
+            var panel = document.getElementById(tab.getAttribute('aria-controls'));
+            if (panel) panel.hidden = false;
+          });
+        });
+      });
+
+      // Add a Copy button to every <pre> evidence block.
+      document.querySelectorAll('pre').forEach(function (pre) {
+        var wrap = document.createElement('div');
+        wrap.className = 'pre-wrap';
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+          var reset = function (msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy'; }, 1400); };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(pre.innerText).then(function () { reset('Copied'); }, function () { reset('Ctrl/Cmd+C'); });
+          } else { reset('Ctrl/Cmd+C'); }
+        });
+        wrap.appendChild(btn);
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -91,4 +91,11 @@ While TLS is important for production deployments, most development work will be
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use the project's active workflow process for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, and project-local follow-up state. If available, use a closeout workflow for final chat delivery, a durable report format for reader-facing proof, and a cross-repo context system only when cross-repo retrieval is needed.
+This skill owns security best-practice review and secure-coding guidance. It
+does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known
+issues, commit/push/cleanup obligations, and project-local follow-up state. Use
+`codex-closeout` for final chat delivery. Use `codex-html-report` for durable
+reader-facing proof. Use `second-brain-context` only when the lesson should
+survive across repos, agents, or future local-brain retrieval.
