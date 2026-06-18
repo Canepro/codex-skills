@@ -66,6 +66,33 @@ Run the migration in this order for each selected global or project source:
 
     `Status` must be `Added`, `Check before using`, or `Not Added`. Use `Added` when a Codex-facing artifact was created or changed and needs no special review. Use `Check before using` when a Codex-facing artifact was created or changed but the migration changed semantics, inferred behavior, preserved tool rules as guidance, or dropped unsupported behavior. Use `Not Added` when a source artifact was detected but no Codex-facing artifact was created. `Item` combines the artifact type and concrete item name in one cell. Artifact type must be singular: `Skill`, `Slash command`, `Subagent`, `MCP`, `Hook`, or `Plugin`. Wrap the artifact type in inline code; write the item name as plain text after it. `Notes` is always required; never leave it empty. Keep notes short, plain, and literal. Avoid internal implementation terms such as runtime expansion. Prefer phrases like `Converted into a Codex skill`, `Added as a Codex subagent`, `Added to Codex config`, `Converted into a Codex hook`, `Converted, but some Claude hook behavior differs in Codex`, `Codex does not have an equivalent notification hook`, `Plugin needs manual setup`, or `Plugin marketplace needs manual setup`.
 
+## Codex Hook Trust Checks
+
+When the selected migration includes hooks, do not treat a converted
+`.codex/hooks.json` or documented event name as proof that the hook works in the
+current Codex surface. Prove the runtime behavior before relying on it.
+
+Before changing Codex hooks:
+
+1. Inventory the active hook files, feature flag, and any existing hook trust or
+   state records available on the machine.
+2. Preserve an already-trusted hook command when possible. If a trusted command
+   such as TokenJuice is already active, prefer composing inside that trusted
+   adapter over replacing the command string.
+3. If you patch a global package or trusted adapter, create a backup, save a
+   reapply patch, and document the reinstall/update recovery check before final
+   smoke testing.
+4. Verify emitted events with a normal `codex exec` run. Do not use
+   `--dangerously-bypass-hook-trust` as the only proof.
+5. Verify hook-output semantics, not just process exit: injected context,
+   `hookSpecificOutput`, blocking fields, and preserved upstream hook output must
+   merge correctly.
+
+If the first hook smoke is silent or contradicts the docs, stop guessing and use
+`systematic-debugging`: name the actor, collect the exact hook input/output/log,
+separate event emission from matcher behavior and trust behavior, then test one
+hypothesis at a time.
+
 ## Self-Healing Loop
 
 Keep looping until the selected migration is complete:
