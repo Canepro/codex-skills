@@ -9,9 +9,14 @@ description: Use when encountering any bug, test failure, or unexpected behavior
 
 Random fixes waste time and create new bugs. Quick patches mask underlying issues.
 
-**Core principle:** ALWAYS find root cause before attempting fixes. Symptom fixes are failure.
+**Core principle:** Name the actor, collect concrete evidence, and find root cause before attempting fixes. Symptom fixes are failure.
 
 **Violating the letter of this process is violating the spirit of debugging.**
+
+**Guardrails:**
+- Name the actor and ownership: user, operator, CI system, service, or dependency.
+- Use concrete evidence from specific file paths, commands, and logs. No guesses.
+- Before sharing debug output, redact sensitive values such as tokens, credentials, IPs, and PII.
 
 ## The Iron Law
 
@@ -53,7 +58,10 @@ You MUST complete each phase before proceeding to the next.
 
 **BEFORE attempting ANY fix:**
 
-1. **Read Error Messages Carefully**
+1. **Name the actor and read error evidence carefully**
+   - Name who is seeing or triggering the issue.
+   - Collect concrete evidence from file paths, commands, and logs tied to that actor.
+   - If evidence includes sensitive values, redact before sharing.
    - Don't skip past errors or warnings
    - They often contain the exact solution
    - Read stack traces completely
