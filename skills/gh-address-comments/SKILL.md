@@ -31,7 +31,9 @@ Find the PR associated with the current branch, collect every comment and review
 
 1. Verify auth with `gh auth status`.
 2. Fetch everything with the bundled script:
-   - `python "<path-to-skill>/scripts/fetch_comments.py" > pr_comments.json`
+   - `python3 "<path-to-skill>/scripts/fetch_comments.py" > pr_comments.json`
+   - If `python3` is not on `PATH`, run the script through its shebang: `"<path-to-skill>/scripts/fetch_comments.py" > pr_comments.json`
+   - Do not fall back to `python` unless `python --version` proves it is Python 3.
 3. Triage the output. Number each open item, lead with unresolved review threads and `CHANGES_REQUESTED` reviews, and give each a one-line summary of what a fix would take. Skip resolved and outdated threads unless the user asks for them.
 4. Ask the user which numbered items to address.
 5. Apply fixes for the selected items. Prefer the smallest change that closes the thread; keep unrelated cleanup out of the diff.

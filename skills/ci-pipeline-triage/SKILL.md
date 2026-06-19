@@ -104,7 +104,7 @@ When the failing run is a GitHub Actions check on a PR, use `gh` to capture the 
 1. Verify auth with `gh auth status` (repo and workflow scopes). If unauthenticated, ask the user to run `gh auth login` first.
 2. Resolve the PR: `gh pr view --json number,url` for the current branch, or use the number or URL the user gave.
 3. Preferred: run the bundled script, which handles `gh` field drift and job-log fallbacks:
-   - `python "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "<number-or-url>"`
+   - `python3 "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "<number-or-url>"`
    - Add `--json` for machine-friendly output. It exits non-zero while failures remain, so it also works in automation.
 4. Manual fallback:
    - `gh pr checks <pr> --json name,state,bucket,link,startedAt,completedAt,workflow`
