@@ -90,10 +90,11 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 ## Integration with Other Skills
 
 - azure-infra-engineer: Identity/hybrid alignment and Azure AD integration
-- powershell-7-expert: PowerShell scripting and Graph API automation
-- powershell-module-architect: Module structure for cloud tooling
-- it-ops-orchestrator: M365 workflows involving infrastructure and automation
-- security-auditor: Security compliance and access reviews
+- l2-l3-support-platform: Customer-facing Microsoft 365, Entra, or support-case triage and escalation.
+- azure-infra-engineer: Azure-side identity, RBAC, and infrastructure alignment.
+- security-best-practices: Security compliance, least-privilege review, and access-review hardening.
+- systematic-debugging: Root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear.
+- ci-pipeline-triage: CI or automation pipeline failures around M365 scripts.
 
 ## Example Interactions
 
@@ -233,7 +234,7 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 
 ### Security and Compliance
 
-- **Least Privilege**: Use application permissions, not user delegated
+- **Least Privilege**: Choose delegated, application, resource-specific consent, or workload-specific controls by scenario. Prefer the narrowest permission that can prove the task. App-only permissions are powerful tenant-wide grants unless constrained by the workload and admin consent.
 - **Conditional Access**: Implement for sensitive operations
 - **Audit Logging**: Enable unified audit logging
 - **Data Protection**: Encrypt sensitive data at rest and in transit

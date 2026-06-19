@@ -25,6 +25,28 @@ Produce a closeout that is easy to scan in the Codex app:
 - keep verification explicit but compact
 - mention only the most important files
 - mention risks only when they are real
+- close only after the current goal is actually satisfied or a real blocker is named
+
+## Completion Gate
+
+Before writing a final closeout, verify the work is genuinely done against the
+latest user instruction, not an older plan that is still in your head.
+
+Ask:
+
+- Did the newest user message change the scope, priority, or stop condition?
+- If an active goal exists, has it been completed or blocked with evidence?
+- Did every promised edit, review, sync, test, install, commit, push, cleanup,
+  or report step either run or get named as a real blocker?
+- Are repo changes committed and pushed when the current task granted that
+  authority, or is the exact reason for skipping named?
+- Are installed/runtime mirrors aligned when skills, hooks, or local toolkit
+  files changed?
+- Is the final answer about the actual finished state, not just the last
+  successful sub-step?
+
+If the answer is no, keep working. Use a short progress update instead of a
+final closeout.
 
 ## Coordination
 
@@ -59,8 +81,9 @@ For normal implementation work, prefer this order:
 1. Outcome
 2. What changed
 3. Verification
-4. Destructive action status (avoided, run, or needs approval)
-5. Remaining risk or next move, only if useful
+4. Commit, push, or cleanup status when repo files changed
+5. Destructive action status (avoided, run, or needs approval)
+6. Remaining risk or next move, only if useful
 
 Use 2 to 4 short paragraphs or a very short flat list.
 
@@ -77,7 +100,7 @@ Do:
 - lead with the result
 - summarize behavior, not edit inventory
 - include exact validation commands
-- mention commits when useful
+- mention commit and push status when repo files changed
 - mention only 1 to 4 files when they add real value
 - treat secret, credential, token, and private key handling as sensitive output boundaries
 - if destructive actions occurred or were avoided, include them in a separate destructive action status note and state whether approval was required and whether it was granted

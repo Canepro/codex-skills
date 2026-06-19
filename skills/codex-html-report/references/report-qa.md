@@ -9,6 +9,9 @@ Use this checklist before finishing a substantial report or any canonical templa
 - The first viewport states the outcome, status, report type, and next step.
 - The report includes evidence for the main claim: commands, files, logs, screenshots, tickets, or source links as applicable.
 - Verification is explicit: passed, failed, skipped, or not verified.
+- The report does not replace the underlying work proof. Installs, runtime sync,
+  tests, commits, pushes, deploys, or cleanup are verified separately when the
+  report claims they happened.
 - Timelines include actual observed timestamps when a sequence is shown. If exact time was not captured, say that instead of inventing one.
 - Ops, migration, deployment, and incident reports include gates or stop conditions before risky next moves.
 - Residual risk is either real and stated, or omitted/marked low without theater.

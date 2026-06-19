@@ -35,6 +35,10 @@ when it needs to survive beyond the artifact.
 Use `codex-closeout` for the final chat reply after the report is created.
 Keep the reply short and link the report path.
 
+Do not let a report become a substitute for finishing the task. If the work
+also requires installs, runtime sync, tests, commit/push, or cleanup, complete
+those steps or name the real blocker before treating the report as done.
+
 ## Default Location
 
 Write reports under the current working context:
@@ -144,8 +148,11 @@ Every substantial report should include a metadata strip in the visible header o
 2. Copy `templates/report.html` to the destination report path.
 3. Replace the template content with the task-specific report. Keep only useful sections.
 4. Verify the HTML is self-contained and opens locally.
-5. Run the checks in `references/report-qa.md` when the report is substantial or the template changed.
-6. In the final chat reply, give the report path and a compact summary of what it contains.
+5. Run the checks in `references/report-qa.md` when the report is substantial,
+   risky, reader-facing, or the template changed.
+6. If the report summarizes code, config, infra, automation, or skill changes,
+   verify the underlying work separately and record skipped checks explicitly.
+7. In the final chat reply, give the report path and a compact summary of what it contains.
 
 ## Final Reply
 

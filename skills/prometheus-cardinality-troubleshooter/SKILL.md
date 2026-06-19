@@ -8,7 +8,8 @@ description: >
   per-metric and per-label drill-downs, common-culprit galleries, and remediation paths.
   Use when the user is *currently experiencing* a cardinality fire. For preventing
   cardinality issues at the source, route to prometheus-label-strategy. For post-ingest
-  aggregation, route to adaptive-metrics. For DPM-specific analysis, route to dpm-finder.
+  aggregation, use adaptive-metrics only when installed; otherwise route through
+  prometheus-grafana-triage. For DPM-specific analysis, use prometheus-grafana-triage.
 ---
 
 # Prometheus Cardinality Troubleshooter
@@ -31,7 +32,7 @@ The only safe remediations are:
 
 1. **Drop an *entire* unwanted metric** (`action: drop` on `__name__`) — you're discarding the whole metric, not merging distinct series.
 2. **Fix the source** — stop the application emitting the bad label (the real fix for unbounded `path`, `user_id`, etc.).
-3. **Adaptive Metrics** — for structural cardinality on series you can't fix at the source. It aggregates *correctly* (counter-reset-aware, audited, reversible). This is the right way to reduce the cost of a label like `pod`. Route to `adaptive-metrics`.
+3. **Adaptive Metrics** — for structural cardinality on series you can't fix at the source. It aggregates *correctly* (counter-reset-aware, audited, reversible). This is the right way to reduce the cost of a label like `pod`. Use a dedicated `adaptive-metrics` skill only when installed; otherwise route Grafana Cloud investigation through `prometheus-grafana-triage`.
 
 Everywhere below that says "drop a label," read it through this rule: drop whole metrics, fix the source, or use Adaptive Metrics — never `labeldrop` a distinguishing label.
 
@@ -46,7 +47,7 @@ Everywhere below that says "drop a label," read it through this rule: drop whole
 | Remote write lagging, WAL growing | Sample throughput spike — series count OR scrape interval changed | [Active Series triage](#step-1-active-series-triage) + check scrape intervals |
 | `429 Too Many Samples` / `out of bounds` errors | Hitting Mimir/Cortex ingester per-tenant series limit | [Per-metric drill-down](#step-3-per-metric-drill-down), find the new offender |
 | Grafana Cloud Active Series bill spiked | New metric, new label, or rollout creating churn | [Per-metric drill-down](#step-3-per-metric-drill-down) + churn check |
-| Grafana Cloud DPM bill spiked but Active Series flat | Scrape interval shortened, OR remote_write sending duplicates | DPM-side issue — route to `dpm-finder` |
+| Grafana Cloud DPM bill spiked but Active Series flat | Scrape interval shortened, OR remote_write sending duplicates | DPM-side issue - route to `prometheus-grafana-triage` |
 | `series_limit_per_user` errors after a deploy | Application change introduced a new bad label | [Recent change diff](#step-4-recent-change-diff) |
 | Series count grows then resets every restart | Series churn from ephemeral label values | [Churn diagnosis](#step-5-churn-diagnosis) |
 
@@ -271,7 +272,7 @@ Restarting Prometheus drops churned series but is not a fix. The fix is at the s
 
 **Tell**: `http_requests_total` (or framework equivalent) grew 10×+ overnight. `topk(20, count by (path) (http_requests_total))` shows hundreds of `/users/123456`-style values.
 
-**Fix**: the real fix is to **template the path in application code** (`/users/:id`) — route the user to `prometheus-label-strategy`. For series already in Grafana Cloud, **Adaptive Metrics** can aggregate `path` away correctly — route to `adaptive-metrics`.
+**Fix**: the real fix is to **template the path in application code** (`/users/:id`) — route the user to `prometheus-label-strategy`. For series already in Grafana Cloud, **Adaptive Metrics** can aggregate `path` away correctly. Use `adaptive-metrics` only when installed; otherwise use `prometheus-grafana-triage`.
 
 Do **not** "normalize" `path` with a relabel `replacement` rule — collapsing `/users/123`, `/users/456`, … into one `/users/:id` value at scrape merges distinct series and produces duplicate-sample errors and broken `rate()`. The merge has to happen at the source (templating) or post-ingest (Adaptive Metrics), never at scrape.
 
@@ -347,9 +348,9 @@ Cardinality fire confirmed
 │
 ├── It's a Grafana Cloud Active Series bill issue, not a perf issue
 │   ├── Cardinality is structural and you can't fix the app
-│   │   └── Route to `adaptive-metrics` skill (post-ingest aggregation rules — the safe way)
+│   │   └── Use `adaptive-metrics` if installed; otherwise use `prometheus-grafana-triage`
 │   └── You want metric-by-metric DPM breakdown
-│       └── Route to `dpm-finder` skill
+│       └── Route to `prometheus-grafana-triage`
 │
 ├── It's a fixable application bug (unbounded label, debug metric in prod)
 │   ├── Short-term: drop the whole metric at scrape, OR aggregate via Adaptive Metrics
@@ -372,7 +373,7 @@ Cardinality fire confirmed
 
 These are the **safe** scrape-time emergency actions: dropping an *entire* unwanted metric. They do not merge distinct series, so they don't corrupt the data.
 
-> ⚠️ There is intentionally **no `labeldrop` of a distinguishing label** and **no value-normalizing relabel** here. Both merge distinct series and break `rate()`/DPM (see [The One Rule](#before-you-remediate-the-one-rule)). To reduce cardinality *without* dropping the whole metric, fix the source or use **Adaptive Metrics** (route to `adaptive-metrics`). The only safe `labeldrop` is removing a label that *exactly duplicates* a target label (e.g. `exported_instance`) — see [App-emitted labels colliding with target labels](#app-emitted-labels-colliding-with-target-labels).
+> ⚠️ There is intentionally **no `labeldrop` of a distinguishing label** and **no value-normalizing relabel** here. Both merge distinct series and break `rate()`/DPM (see [The One Rule](#before-you-remediate-the-one-rule)). To reduce cardinality *without* dropping the whole metric, fix the source or use **Adaptive Metrics** via `adaptive-metrics` when installed, otherwise `prometheus-grafana-triage`. The only safe `labeldrop` is removing a label that *exactly duplicates* a target label (e.g. `exported_instance`) — see [App-emitted labels colliding with target labels](#app-emitted-labels-colliding-with-target-labels).
 
 For Prometheus `scrape_configs`:
 
@@ -410,10 +411,10 @@ prometheus.relabel "drop_bad_metric" {
 ## When to Hand Off
 
 - **"Now design a label strategy so this doesn't happen again"** → `prometheus-label-strategy`
-- **"We need to keep these metrics but reduce cost"** → `adaptive-metrics`
-- **"Which metric is the most expensive in DPM terms?"** → `dpm-finder`
-- **"Write the PromQL to find this"** → `promql`
-- **"Configure this in Alloy"** → `alloy`
+- **"We need to keep these metrics but reduce cost"** → `adaptive-metrics` if installed; otherwise `prometheus-grafana-triage`
+- **"Which metric is the most expensive in DPM terms?"** → `prometheus-grafana-triage`
+- **"Write the PromQL to find this"** → use PromQL directly or route through `prometheus-grafana-triage`
+- **"Configure this in Alloy"** → use Grafana Alloy docs or `prometheus-grafana-triage`; do not assume an `alloy` skill exists
 - **"Why is my Loki slow?"** → `loki-label-analyzer` (different system, same family of problems)
 
 This skill's lane is **diagnosis under pressure**. Prevention, design, and post-ingest cost optimization live elsewhere.

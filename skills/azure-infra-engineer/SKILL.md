@@ -55,9 +55,9 @@ What is the connectivity need?
 1.  **Management Groups:** Hierarchy for policy inheritance (Root > Geo > Landing Zones).
 2.  **Azure Policy:** "Deny" non-compliant resources (e.g., only East US region).
 3.  **RBAC:** Least privilege access via Entra ID Groups.
-4.  **Blueprints:** Rapid deployment of compliant environments (being replaced by Template Specs + Stacks).
+4.  **Template Specs + Deployment Stacks:** Preferred replacement path for Azure Blueprints. Azure Blueprints (Preview) is deprecated on 2026-07-11, so use it only for migration or existing-estate support.
 
-**Red Flags → Escalate to `security-engineer`:**
+**Red Flags → Route to `security-best-practices` or `adversary-informed-defense`:**
 - Public access enabled on Storage Accounts or SQL Databases
 - Management Ports (RDP/SSH) open to internet
 - Subscription Owner permissions granted to individual users (Use Contributors/PIM)
@@ -79,7 +79,8 @@ What is the connectivity need?
     param location string = resourceGroup().location
     param name string
     
-    resource stg 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+    // Verify the current stable API version for the target subscription before use.
+    resource stg 'Microsoft.Storage/storageAccounts@2025-01-01' = {
       name: name
       location: location
       sku: { name: 'Standard_LRS' }
@@ -289,7 +290,7 @@ What is the connectivity need?
 
 - **Policy as Guardrails**: Azure Policy for prevention, not just detection
 - **Management Groups**: Hierarchy reflecting organizational structure
-- **Blueprint Usage**: Azure Blueprints for standard compliant environments
+- **Governance Templates**: Do not design new Azure Blueprints. Migrate existing Blueprint definitions to ARM/Bicep, Template Specs when useful, and Deployment Stacks for deployment and deny-setting behavior.
 - **Monitoring Strategy**: Centralized logging to Log Analytics workspace
 - **Automation**: Runbooks for routine operational tasks
 

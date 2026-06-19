@@ -7,7 +7,8 @@ description: >
   dynamic label rules, histogram bucket discipline, and instrumentation hygiene. Prevents
   high cardinality at the source — in application code and scrape target labels — without
   dropping labels that make series unique (which breaks the data). For reducing the cost of
-  series already in Grafana Cloud, routes to the adaptive-metrics skill. Use when the user
+  series already in Grafana Cloud, use Adaptive Metrics when that specialist exists;
+  otherwise route evidence gathering through prometheus-grafana-triage. Use when the user
   asks to evaluate, audit, design, or improve Prometheus labels — or asks how to prevent
   high cardinality at the source. For "why is my Prometheus slow / expensive right now"
   triage, see prometheus-cardinality-troubleshooter.
@@ -17,7 +18,7 @@ description: >
 
 You are an expert in Prometheus label strategy. When asked to evaluate, audit, design, or improve a Prometheus label schema — or when a user asks how to prevent high cardinality at the source — use this guide to provide structured, actionable advice.
 
-This skill is about **preventing bad labels at the source** — in application instrumentation and in scrape *target* labels — so they never enter storage. It is **not** about stripping labels off metrics after they've been emitted: removing a label that makes a series unique at scrape time silently breaks the data (see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique) below). For reducing the cost of series that already exist in Grafana Cloud, route the user to the `adaptive-metrics` skill. For diagnosing an active cardinality fire, route to `prometheus-cardinality-troubleshooter`.
+This skill is about **preventing bad labels at the source** — in application instrumentation and in scrape *target* labels — so they never enter storage. It is **not** about stripping labels off metrics after they've been emitted: removing a label that makes a series unique at scrape time silently breaks the data (see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique) below). For reducing the cost of series that already exist in Grafana Cloud, use a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` and keep the Adaptive Metrics recommendation explicit. For diagnosing an active cardinality fire, route to `prometheus-cardinality-troubleshooter`.
 
 ---
 
@@ -36,7 +37,7 @@ The trap is that none of this errors at config time. The pipeline keeps running;
 **The right tools, in order:**
 
 1. **Don't emit the bad label in the first place** — fix the application code. This is the only place a label can be *removed* without consequence, because the series was never unique on it to begin with.
-2. **For series already flowing into Grafana Cloud that you can't fix at the source → Adaptive Metrics.** This is exactly what it is for: it aggregates series *correctly* — counter-reset-aware, with a recorded audit trail, and reversible — instead of blindly stripping labels. Route the user to the `adaptive-metrics` skill.
+2. **For series already flowing into Grafana Cloud that you can't fix at the source → Adaptive Metrics.** This is exactly what it is for: it aggregates series *correctly* — counter-reset-aware, with a recorded audit trail, and reversible — instead of blindly stripping labels. Use a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` for Grafana Cloud investigation and document the Adaptive Metrics rule intent.
 
 `metric_relabel_configs` has a couple of narrow, safe uses (dropping an *entire* unwanted metric; removing a label that *exactly duplicates* a target label) — covered in [Source-Side Prevention](#4-metric_relabel_configs-narrow-safe-uses-only) — but **reducing cardinality by dropping a distinguishing label is never one of them.**
 
@@ -200,7 +201,7 @@ These should **NOT** be re-emitted by the application. If the app emits a `clust
 Instead:
 - **Add `workload`** (`{controller_kind}/{controller_name}`) as a *target* label via `relabel_configs`, so dashboards and alerts can aggregate on the stable workload identity (`sum by (workload)`) without touching `pod`. This is additive — it removes nothing.
 - **Don't emit `pod` from application code** — let it come from Kubernetes service discovery, so there is exactly one source of truth (see below).
-- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, reduce them with **Adaptive Metrics**, which aggregates `pod` away *correctly* (post-ingest, counter-reset-aware, reversible) rather than corrupting the raw data at scrape. Route to the `adaptive-metrics` skill.
+- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, reduce them with **Adaptive Metrics**, which aggregates `pod` away *correctly* (post-ingest, counter-reset-aware, reversible) rather than corrupting the raw data at scrape. Use a dedicated `adaptive-metrics` skill only when installed; otherwise route Grafana Cloud evidence gathering through `prometheus-grafana-triage`.
 
 ### Don't Map Ephemeral Fields into Labels in the First Place
 
@@ -267,7 +268,7 @@ It works *after* ingest, as aggregation rules applied in Grafana Cloud. Cruciall
 - It records what was aggregated, so there's an audit trail — you can answer "why did this change?" later.
 - It's reversible: drop a rule and the full-resolution series come back.
 
-This is the difference between "the data is now cheaper" (Adaptive Metrics) and "the data is now wrong" (`labeldrop` at scrape). Route the user to the `adaptive-metrics` skill for rule design.
+This is the difference between "the data is now cheaper" (Adaptive Metrics) and "the data is now wrong" (`labeldrop` at scrape). Use a dedicated `adaptive-metrics` skill for rule design only when installed; otherwise use `prometheus-grafana-triage` and document the Adaptive Metrics rule intent.
 
 ### 4. `metric_relabel_configs` (narrow, safe uses only)
 
@@ -383,11 +384,11 @@ Focus on these before anything else.
 
 ## When to Route Elsewhere
 
-- **"Reduce my Grafana Cloud bill"** / **"reduce cardinality on series already ingested"** → engage `adaptive-metrics` skill (post-ingest aggregation rules — the safe, counter-reset-aware way; never `labeldrop` distinguishing labels at scrape)
-- **"Which metrics are driving my DPM?"** → engage `dpm-finder` skill
+- **"Reduce my Grafana Cloud bill"** / **"reduce cardinality on series already ingested"** → use `adaptive-metrics` when installed; otherwise use `prometheus-grafana-triage` and keep the fix framed as post-ingest Adaptive Metrics, never `labeldrop` of distinguishing labels at scrape.
+- **"Which metrics are driving my DPM?"** → use `prometheus-grafana-triage` with Grafana Cloud usage or PromQL evidence.
 - **"My Prometheus is OOMing / scraping is failing right now"** → engage `prometheus-cardinality-troubleshooter` skill
-- **"How do I write the query to find the bad metric?"** → engage `promql` skill
-- **"How do I configure relabel rules in Alloy?"** → engage `alloy` skill
+- **"How do I write the query to find the bad metric?"** → use PromQL directly or route through `prometheus-grafana-triage`.
+- **"How do I configure relabel rules in Alloy?"** → use Grafana Alloy docs or `prometheus-grafana-triage`; do not assume an `alloy` skill exists.
 
 This skill's lane is **strategy and design**. Other skills own **diagnosis** and **operational remediation**.
 

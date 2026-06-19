@@ -24,6 +24,26 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Decision Log
 
+### 2026-06-19 - v0.6.1 - Report completion guardrail
+
+Changed the report workflow and QA checklist, without changing the template, so
+durable HTML reports cannot stand in for unfinished implementation work.
+
+Changes:
+- `codex-html-report` now says installs, runtime sync, tests, commit/push, and
+  cleanup must complete or be named as blockers before a report is treated as
+  done.
+- `report-qa.md` now checks that underlying work proof is separate from the
+  report artifact.
+
+Reason: reports are proof surfaces, not a permission slip to stop early.
+
+Verification:
+- no template version bump required because `templates/report.html` was not
+  changed
+- `bash scripts/check-drift.sh`
+- `python3 scripts/check-workflow-links.py --all`
+
 ### 2026-06-18 - v0.6.0 - Optional interactivity: theme toggle, copy, tabs
 
 Added broadly reusable interactivity after report feedback that a faithfully-filled template read as generic. Kept dark-first default and the v0.5.0 editorial system; layered in optional, feature-detected behaviors.

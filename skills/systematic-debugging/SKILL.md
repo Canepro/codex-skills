@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+description: Use when root cause is unclear, fixes are starting to thrash, prior attempts failed, or pressure to guess is high. Applies to bugs, test failures, build failures, performance regressions, and unexpected behavior where evidence-first investigation matters. Not for routine one-line fixes with an obvious cause.
 ---
 
 # Systematic Debugging
@@ -28,7 +28,7 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
 ## When to Use
 
-Use for ANY technical issue:
+Use for unclear or failure-prone technical issues:
 - Test failures
 - Bugs in production
 - Unexpected behavior
