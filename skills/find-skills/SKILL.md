@@ -55,7 +55,7 @@ Common routes:
 | Latest research, last-30-days trends, recent community signals, improvement techniques | `last30days` |
 | Agent self-improvement, skill routing, underused-skill review, loop engineering | use the installed local loop-engineering skill with the workflow conductor |
 | Naming, renaming, terminology drift | `naming-quality` |
-| Pressure-test a plan or decision | `grill-me` |
+| Pressure-test a plan or decision | `grill-with-docs` |
 | Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
 | API or module interface design | `design-an-interface` |
 | Codebase architecture improvement ideas | `improve-codebase-architecture` |

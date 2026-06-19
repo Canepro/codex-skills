@@ -39,7 +39,7 @@ Library-managed skills as of this commit:
 - `gh-address-comments`
 - `gitops-reconcile`
 - `gitops-workflow`
-- `grill-me`
+- `grill-with-docs`
 - `hatch-pet`
 - `improve-codebase-architecture`
 - `jenkins-sre`

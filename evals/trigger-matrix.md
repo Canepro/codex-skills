@@ -214,7 +214,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 31. Pressure-test a plan
 
 - Prompt: `grill me on this architecture plan before I commit to it; what am I missing and what would bite us later`
-- Expected: `grill-me`
+- Expected: `grill-with-docs`
 - Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`
 
 ### 32. API or module interface design

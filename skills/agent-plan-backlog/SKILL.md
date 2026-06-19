@@ -167,7 +167,7 @@ A plan is not ready until:
 - Use `request-refactor-plan` to reason through a risky refactor before deciding it deserves a backlog plan.
 - Use `triage-issue` to diagnose one bug before writing an executor-grade fix plan.
 - Use `prd-to-plan` for product phase slicing; use this skill when each phase must become executor-grade technical work.
-- Use `grill-me` to pressure-test a plan before it enters the backlog.
+- Use `grill-with-docs` to pressure-test a plan before it enters the backlog.
 
 ## Workflow Coordination
 
