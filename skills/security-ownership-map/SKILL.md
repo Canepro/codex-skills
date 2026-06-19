@@ -207,4 +207,4 @@ Use `references/neo4j-import.md` when you need to load the CSVs into Neo4j. It i
 
 ## Workflow Coordination
 
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns its domain work. Use the current repository's normal workflow, review, report, and closeout instructions for durable decisions, blockers, resume handoffs, known issues, commit or cleanup obligations, project-local follow-up state, final delivery, reader-facing proof, and cross-repo retrieval.

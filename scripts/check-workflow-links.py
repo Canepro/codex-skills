@@ -31,6 +31,15 @@ EXPECTED_LINKS = {
     "memory": ("second-brain-context", "vincent-workflow"),
 }
 
+PORTABLE_ALTERNATIVES = {
+    "decision": ("current repository's normal workflow", "durable decisions"),
+    "handoff": ("current repository's normal workflow",),
+    "blocker": ("current repository's normal workflow",),
+    "closeout": ("current repository's normal workflow", "final delivery"),
+    "report": ("reader-facing proof", "report"),
+    "memory": ("cross-repo retrieval",),
+}
+
 TEMPLATE = """## Workflow Coordination
 
 This skill owns <domain-specific work>. It does not own general workflow state.
@@ -102,6 +111,9 @@ def missing_links(text: str, concepts: list[str]) -> dict[str, list[str]]:
     lower = text.lower()
     missing: dict[str, list[str]] = {}
     for concept in concepts:
+        alternatives = PORTABLE_ALTERNATIVES.get(concept, ())
+        if alternatives and any(phrase in lower for phrase in alternatives):
+            continue
         absent = [name for name in EXPECTED_LINKS[concept] if name not in lower]
         if absent:
             missing[concept] = absent

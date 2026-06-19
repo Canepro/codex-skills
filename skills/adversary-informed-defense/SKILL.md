@@ -17,7 +17,7 @@ Use this skill for:
 - purple-team planning in owned, authorized, or lab environments
 - reviewing exploit, phishing, cracking, credential-access, malware, or C2-related material for defensive value
 
-Do not use this skill as approval to run active testing. It defines the gates before active testing can happen.
+Do not use this skill as approval to perform active testing. It defines the gates before active testing can happen.
 
 ## Default Posture
 
@@ -25,9 +25,10 @@ Start in defensive-analysis mode:
 
 1. Identify the defensive objective: detection, hardening, triage, containment, recovery, training, or validation.
 2. State the authorized scope before any active step.
-3. Prefer read-only analysis, detection mapping, configuration review, and lab-only reproduction.
-4. Treat secret values, credentials, tokens, hashes, dumps, cookies, private keys, and customer data as separate approval boundaries.
-5. If authorization is absent or unclear, stop at explanation, detection logic, lab design, or safe hardening guidance.
+3. Identify the defensive objective and authorized scope in the same review summary before moving beyond read-only work.
+4. Prefer read-only analysis, detection mapping, configuration review, and lab-only reproduction.
+5. Treat secret values, credentials, tokens, hashes, dumps, cookies, private keys, and customer data as separate approval boundaries. Require consent before handling, transmitting, or deriving sensitive values.
+6. If authorization is absent or unclear, stop at explanation, detection logic, lab design, or safe hardening guidance.
 
 ## Workflow Tiers
 
@@ -68,6 +69,8 @@ These workflows must stay reference-only unless the user explicitly approves a c
 - destructive ransomware simulation
 - exploit chains that can disrupt systems or expose data
 
+Treat live infra as out of scope for Tier 3 unless the user explicitly approves the exact owned target, test window, rollback plan, and expected blast radius in the current task.
+
 For Tier 3, keep outputs redacted and avoid printing sensitive values. Prefer synthetic data.
 
 ## External Skill Pack Intake
@@ -95,12 +98,7 @@ Good names:
 - `security-skill-intake`
 - `incident-reconstruction`
 
-Avoid names that make the default behavior sound like exploitation:
-
-- `offensive-security`
-- `exploit-runner`
-- `attack-agent`
-- `red-team-autopilot`
+Avoid names that make the default behavior sound like exploitation, autonomous attacks, payload execution, or unsupervised red-team activity.
 
 If importing a specific external skill, preserve its source attribution but wrap it in local trigger rules when needed.
 
@@ -124,6 +122,7 @@ For live security work, report:
 - evidence gathered
 - actions taken or intentionally not taken
 - residual risk and next approval needed
+- consent, final submission, live infra, Infisical, or secret-boundary gates that were avoided or still need approval
 
 ## Related Skills
 

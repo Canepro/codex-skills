@@ -60,6 +60,8 @@ Read the repo before judging it:
 
 Record exact verification commands. Do not guess. If the repo lacks a working verification command, make "establish verification baseline" the first candidate plan when relevant.
 
+Record dependencies and execution order when findings depend on one another. Assign priority from evidence, blast radius, and unlock value, not from how easy a plan is to write.
+
 ### 2. Discover findings through specialist skills
 
 Use the narrow skill that matches the discovery job:
@@ -107,11 +109,15 @@ Every plan must include:
 - exact commands and expected results
 - small ordered steps
 - test plan
+- dependencies, priority, and execution order when the backlog has more than one plan
+- rollback path, revert command, or restore plan for risky changes
 - machine-checkable done criteria
 - STOP conditions specific to the plan
 - maintenance notes for the reviewer
+- execution notes section for the executor or reviewer to append results, deviations, skipped checks, and final status
 
 Write for the weakest plausible executor. If a step depends on context from this chat, inline the context in the plan.
+Do not paste entire files into plans. Use small excerpts with file and line references, and link to the source path where the executor should read the full context.
 
 ### 5. Reconcile instead of duplicating
 
@@ -159,6 +165,7 @@ A plan is not ready until:
 - every STOP condition names a real risk
 - no secret values are copied into the plan
 - the drift check uses the planned-at commit and in-scope paths
+- dependencies, priority, rollback, and execution notes are present when relevant
 - a reviewer can understand the intent from the purpose and done criteria alone
 
 ## Related skills

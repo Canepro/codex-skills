@@ -89,7 +89,7 @@ python3 "$SENTRY_API" \
 
 ## API requirements
 
-Always use these endpoints (GET only):
+Always use these endpoints (GET only). Do not use write or mutation methods from this read-only skill.
 
 - List issues: `/api/0/projects/{org_slug}/{project_slug}/issues/`
 - Issue detail: `/api/0/issues/{issue_id}/`

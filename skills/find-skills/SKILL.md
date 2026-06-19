@@ -20,9 +20,11 @@ Use this skill when the user is really asking whether a skill already exists for
 
 1. Check the current session skill catalog first, starting with the library routing table below.
 2. If a relevant local skill already exists, recommend or use that instead of installing more drift.
-3. If no local skill fits, search the broader ecosystem with the Skills CLI.
-4. Verify quality before recommending anything.
-5. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
+3. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing.
+4. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and list close matches.
+5. If no local skill fits, search the broader ecosystem with the Skills CLI or `tool_search` when available.
+6. Verify quality before recommending anything, and do this before installing.
+7. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
 
 ## Library routing
 
@@ -96,6 +98,8 @@ Plain-language trigger aliases:
 
 If a historical usage scan mentions a skill that is not installed, first check the source repo and any SkillForge retired record. Treat source-path-missing records as obsolete unless a current source directory or explicit user request says to revive them. Route to the current replacement rather than reinstalling a dead name.
 
+When reporting discovery work, say what you checked: session catalog, installed skill directories, source repo, SkillForge retired records, active tools, connectors, plugins, and external search surfaces that were actually used. If a route was missed or unavailable, say so directly.
+
 ## Safety and authority boundaries
 
 Skill discovery, metadata review, local catalog checks, source inspection, and redacted proof are inside normal routing. Pause for explicit approval before secret-value handling, credential movement, token reads, private key access, cookie or session import, consent-changing action, final submission, destructive cleanup, live infra mutation, billing, public posting, or tool installation that changes authority.
@@ -139,6 +143,7 @@ When you find a relevant skill, tell the user:
 - where it comes from
 - why it looks trustworthy
 - how to install it
+- what you checked and any relevant misses
 
 If the user wants it to become part of their durable agent environment, add it to the configured `codex-skills` library workflow instead of stopping at a local one-off install.
 

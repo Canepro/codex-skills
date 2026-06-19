@@ -21,7 +21,7 @@ Create a self-contained browser-native report: lightweight, visually pleasing, e
 
 The report should feel like a polished internal product, not a decorative dashboard. Preserve a rich but restrained editorial feel: a strong title, clear surface layering (page, panel, inset), restrained color, useful tables, timelines, proof blocks, and honest status over ornamental visuals. Keep the editorial polish without flattening into a plain admin page.
 
-Default to dark mode/dark-first styling for read-mostly reports. Do not create a light-mode report unless the user asks for it, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
+Default to dark mode/dark-first styling for read-mostly reports. A light mode override is allowed only when light mode is requested by the user, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
 ## Coordination
 
@@ -77,7 +77,7 @@ Every substantial report must answer:
 - What changed or was discovered?
 - How was it verified?
 - What evidence supports the claim?
-- If outcome is partial, risky, or blocked, include open risk items with a named owner or next action, and a due date when one is known.
+- If outcome is partial, risky, or blocked, include open risk items with a named risk owner or next action, and a due date when one is known.
 - What remains uncertain?
 - What should the user do next?
 
@@ -119,11 +119,13 @@ Build reports with accessibility defaults that reduce rework:
   - verify the browser print flow
   - ensure the report exports cleanly to PDF when needed
   - use page-break control to avoid breaking tables and code blocks across pages
+  - include `@media print` CSS controls for margins, background behavior, link visibility, and page breaks when the report may be printed or exported
 
 ## Evidence Rules
 
 Prefer concrete proof:
 - commands run and pass/fail result
+- command evidence should include the exit code when available
 - exact local file paths
 - short log/output excerpts
 - screenshots with absolute local paths when available

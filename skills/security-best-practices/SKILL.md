@@ -83,7 +83,7 @@ When assigning an ID for some resource, which will then be used by exposed to th
 
 ### A note on TLS
 
-While TLS is important for production deployments, most development work will be with TLS disabled or provided by some out-of-scope TLS proxy. Due to this, be very careful about not reporting lack of TLS as a security issue. Also be very careful around use of "secure" cookies. They should only be set if the application will actually be over TLS. If they are set on non-TLS applications (such as when deployed for local dev or testing), it will break the application. You can provide a env or other flag to override setting secure as a way to keep it off until on a TLS production deployment. Additionally avoid recommending HSTS. It is dangerous to use without full understanding of the lasting impacts (can cause major outages and user lockout) and it is not generally recommended for the scope of projects being reviewed by codex.
+While TLS is important for production deployments, most development work will be with TLS disabled or provided by some out-of-scope TLS proxy. Due to this, be very careful about not reporting lack of TLS as a security issue. Also be very careful around use of secure cookies. Secure cookies should only be set if the application will actually be over TLS. If they are set on non-TLS applications (such as when deployed for local dev or testing), it will break the application. You can provide an env or other flag to override setting secure as a way to keep it off until on a TLS production deployment. Additionally avoid recommending HSTS. It is dangerous to use without full understanding of the lasting impacts (can cause major outages and user lockout) and it is not generally recommended for the scope of projects being reviewed by codex.
 
 ## Related skills
 
@@ -92,10 +92,6 @@ While TLS is important for production deployments, most development work will be
 ## Workflow Coordination
 
 This skill owns security best-practice review and secure-coding guidance. It
-does not own general workflow state.
-
-Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known
-issues, commit/push/cleanup obligations, and project-local follow-up state. Use
-`codex-closeout` for final chat delivery. Use `codex-html-report` for durable
-reader-facing proof. Use `second-brain-context` only when the lesson should
-survive across repos, agents, or future local-brain retrieval.
+does not own general workflow state. Use the current repository's normal
+workflow, review, report, and closeout instructions for durable decisions,
+follow-up state, final delivery, and reader-facing proof.
