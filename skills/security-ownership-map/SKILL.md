@@ -23,7 +23,7 @@ pip install networkx
 ## Workflow
 
 1. Scope the repo and time window (optional `--since/--until`).
-2. Decide sensitivity rules (use defaults or provide a CSV config).
+2. Normalize contributor aliases first by applying identity normalization with `.mailmap` so one person is not split across alternate emails or names, then decide sensitivity rules (use defaults or provide a CSV config).
 3. Build the ownership map with `scripts/run_ownership_map.py` (co-change graph is on by default; use `--cochange-max-files` to ignore supernode commits).
 4. Communities are computed by default; graphml output is optional (`--graphml`).
 5. Query the outputs with `scripts/query_ownership.py` for bounded JSON slices.
@@ -203,7 +203,8 @@ Use `references/neo4j-import.md` when you need to load the CSVs into Neo4j. It i
 
 - `bus_factor_hotspots` in `summary.json` lists sensitive files with low bus factor; `orphaned_sensitive_code` is the stale subset.
 - If `git log` is too large, narrow with `--since` or `--until`.
-- Compare `summary.json` against CODEOWNERS to highlight ownership drift.
+- Build a concrete codeowners report path by writing `ownership-map-out/codeowners_report.json` for the baseline coverage and `ownership-map-out/codeowners_drift_report.json` as the `codeowners drift` diff artifact.
+- Track `unowned codeowners` in `ownership-map-out/unowned_codeowners.txt` for review, and tie each entry back to `summary.json` before making ownership changes.
 
 ## Workflow Coordination
 
