@@ -11,14 +11,14 @@ description: Implement features or fixes with a red-green-refactor loop and beha
 
 **Good tests** are integration-style: they exercise real code paths through public APIs. They describe _what_ the system does, not _how_ it does it. A good test reads like a specification - "user can checkout with valid cart" tells you exactly what capability exists. These tests survive refactors because they don't care about internal structure.
 
-**Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify through external means (like querying a database directly instead of using the interface). The warning sign: your test breaks when you refactor, but behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not behavior.
+**Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify through external means (like querying a database directly instead of using the interface). Keep mocks to **mock system boundaries** such as external services, queues, storage, or network adapters; avoid mocking internal collaborators by default. The warning sign: your test breaks when you refactor, but behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not behavior.
 
 See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
 
 ## Consent, actor ownership, and finality gates
 
 - **Name the actor** for each behavior, and record who approved and who executes each change.
-- Require **consent** before behavior-changing edits, external API calls, migrations, or user-visible data changes.
+- Require **consent** before behavior-changing edits, live infra changes, secret-handling changes, external API calls, migrations, or user-visible data changes.
 - Gather **concrete evidence** from each cycle with command output, file paths, and changed-file context.
 - Require a **pause before final submission** for merge, deploy, release, or handoff events until explicit approval is confirmed.
 
@@ -72,11 +72,11 @@ Ask: "Name the actor. What should the public interface look like? Which behavior
 Write ONE test that confirms ONE thing about the system:
 
 ```
-RED:   Write test for first behavior → test fails
+RED:   Write test for first behavior and confirm it fails for the expected reason
 GREEN: Write minimal code to pass → test passes
 ```
 
-This is your tracer bullet - proves the path works end-to-end.
+If the RED test fails because of setup, syntax, or fixture mistakes, fix those first and re-run before changing behavior code. This is your tracer bullet - proves the path works end-to-end.
 
 ### 3. Incremental Loop
 
@@ -119,6 +119,7 @@ Before handoff or deployment:
 ```
 [ ] Test describes behavior, not implementation
 [ ] Test uses public interface only
+[ ] Test fails for the expected reason and not setup, syntax, or fixture errors
 [ ] Test would survive internal refactor
 [ ] Code is minimal for this test
 [ ] No speculative features added
