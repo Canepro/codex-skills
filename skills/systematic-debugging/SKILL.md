@@ -185,7 +185,8 @@ You MUST complete each phase before proceeding to the next.
    - Simplest possible reproduction
    - Automated test if possible
    - One-off test script if no framework
-   - MUST have before fixing
+   - Prove the test fails before the fix, and record this red baseline before any changes.
+   - After implementation, rerun to verify the test is green.
    - Use the `tdd` skill for writing proper failing tests when it is installed and fits the codebase
 
 2. **Implement Single Fix**
