@@ -19,12 +19,13 @@ Use this skill when the user is really asking whether a skill already exists for
 ## Workflow
 
 1. Check the current session skill catalog first, starting with the library routing table below.
-2. If a relevant local skill already exists, recommend or use that instead of installing more drift.
-3. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing.
-4. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and list close matches.
-5. If no local skill fits, search the broader ecosystem with the Skills CLI or `tool_search` when available.
-6. Verify quality before recommending anything, and do this before installing.
-7. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
+2. Run the essential-skill gate below before deciding the task is ordinary. This catches reviews, proof reports, closeouts, secrets, workflow continuity, and self-improvement work that should not depend on memory or habit.
+3. If a relevant local skill already exists, recommend or use that instead of installing more drift.
+4. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing.
+5. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and list close matches.
+6. If no local skill fits, search the broader ecosystem with the Skills CLI or `tool_search` when available.
+7. Verify quality before recommending anything, and do this before installing.
+8. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
 
 ## Library routing
 
@@ -48,6 +49,7 @@ Common routes:
 | CI, GitHub Actions, Jenkins, or pipeline failures | `ci-pipeline-triage` |
 | PR review threads | `gh-address-comments` |
 | Commit hooks | `setup-pre-commit` |
+| Pre-merge, risky-change, architecture, or local-tooling review gate | `mira-review-gate` |
 | Delivery summary | `codex-closeout` |
 | Durable task state, decisions, blockers, handoffs | `vincent-workflow` |
 | Browser-native proof report | `codex-html-report` |
@@ -87,11 +89,35 @@ Common routes:
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
 
+## Essential-skill gate
+
+Use this gate whenever the task is non-trivial, durable, risky, user-facing, or
+about Mira's own workflow. It is a quick routing check, not a new process layer.
+
+| Tier | Trigger | Required skill route |
+|------|---------|----------------------|
+| T0 authority and safety | Secrets, credentials, tokens, private keys, consent, final submission, destructive cleanup, live infra, billing, public posting, production deploy, global hooks | Use the exact domain skill first when one exists, such as `infisical-secrets-management` for secrets, then keep the approval gate explicit. |
+| T0 review | Review before merge, risky local tooling change, architecture critique, shared behavior, runtime authority, user-facing workflow, or "check this properly" | Use `mira-review-gate` before repair or closeout. |
+| T0 continuity | Broad self-improvement, multi-step repo work, implementation with verification, "do not stop", repeated "set a goal", durable decisions, blockers, handoffs, commit/push/cleanup state | Use `vincent-workflow` for the workflow contract and goal/cleanup obligation. |
+| T1 reader artifact | Completed-work report, proof report, infra report, research brief, architecture plan, support/ops case, or anything that should outlive chat | Use `codex-html-report` and start from `templates/report.html`. |
+| T1 final delivery | Finishing implementation, reporting verification, or summarizing changed repo state | Use `codex-closeout` after the work is genuinely done. |
+| T1 user-visible prose | Chat reply, docs, report text, PR body, commit message, support reply, email, or handoff text | Use `anti-ai-writing` as the final pass. |
+| T2 discovery and self-improvement | Missing, stale, underused, redundant, or over-broad skills; repeated Mira failure; SkillForge eval work | Use `find-skills` for routing and `mira-loop-engineering` plus SkillForge for the durable fix. |
+| T3 domain owner | Rocket.Chat, Velora/OpenClaw, Azure, GitOps, browser forms, support tickets, observability, or vendor-specific surfaces | Use the domain-specific skill before a generic helper. |
+
+If more than one route applies, use the owner skill for the domain work, then the
+cross-cutting gate that changes the outcome: review gate before risky acceptance,
+HTML report for durable reader proof, closeout for final chat, and
+`vincent-workflow` for durable task state.
+
 Plain-language trigger aliases:
 
 - Use `last30days` for "what are people saying now", "latest community signal", "recent chatter", "last month research", "current agent research", "trend scan", or "what changed recently".
 - Use `agent-plan-backlog` for "make this a queue for other agents", "turn these findings into plans", "split this into autonomous passes", "reconcile stale plans", or "write improve-style executor plans".
 - Use the installed local loop-engineering skill for "improve how the agent works", "self-improving loop", "loop engineering", "underused or overused skills", "skill routing drift", "SkillForge evals", or "why did the agent miss this".
+- Use `mira-review-gate` for "review this properly", "check this diff", "pre-merge confidence", "gate this change", "architecture critique", "local tooling review", or "make sure this is safe before accepting it".
+- Use `codex-html-report` for "make a durable report", "proof report", "infra report", "architecture report", "HTML report", "browser-native artifact", or "something I can read later".
+- Use `codex-closeout` for "close this out", "what changed", "what passed", "commit/push status", "dirty state", or any final delivery after repo, config, automation, skill, or report work.
 - Use `frontend-anti-slop` for "this UI feels AI-generated", "frontend slop", "make the dashboard less generic", "UI audit", or "polish this screen".
 - Use `design-an-interface` for "design the API", "module boundary", "interface options", "design it twice", or "compare API shapes".
 - Use `assistant-mcp` for "MCP server setup", "agent tools", "Grafana MCP", "connect coding agents to Grafana", or "agent observability tools".

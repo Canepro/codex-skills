@@ -35,6 +35,12 @@ when it needs to survive beyond the artifact.
 Use `codex-closeout` for the final chat reply after the report is created.
 Keep the reply short and link the report path.
 
+Use `mira-review-gate` before treating a report as acceptance evidence when the
+report covers a risky change, architecture decision, pre-merge review, shared
+behavior, local tooling change, runtime authority, secrets surface, or
+user-facing workflow. The report can present the review, but it should not
+replace the review gate.
+
 Do not let a report become a substitute for finishing the task. If the work
 also requires installs, runtime sync, tests, commit/push, or cleanup, complete
 those steps or name the real blocker before treating the report as done.
@@ -160,14 +166,16 @@ Every substantial report should include a metadata strip in the visible header o
 ## Workflow
 
 1. Decide whether HTML is warranted. If the artifact is small, answer in chat.
-2. Copy `templates/report.html` to the destination report path.
-3. Replace the template content with the task-specific report. Keep only useful sections, but preserve the canonical template shell unless an explicit exception applies.
-4. Verify the HTML is self-contained and opens locally.
-5. Run the checks in `references/report-qa.md` when the report is substantial,
+2. Check whether a review, workflow, domain, or authority skill must run first.
+   Reports do not approve risky work by themselves.
+3. Copy `templates/report.html` to the destination report path.
+4. Replace the template content with the task-specific report. Keep only useful sections, but preserve the canonical template shell unless an explicit exception applies.
+5. Verify the HTML is self-contained and opens locally.
+6. Run the checks in `references/report-qa.md` when the report is substantial,
    risky, reader-facing, or the template changed.
-6. If the report summarizes code, config, infra, automation, or skill changes,
+7. If the report summarizes code, config, infra, automation, or skill changes,
    verify the underlying work separately and record skipped checks explicitly.
-7. In the final chat reply, give the report path and a compact summary of what it contains.
+8. In the final chat reply, give the report path and a compact summary of what it contains.
 
 ## Final Reply
 

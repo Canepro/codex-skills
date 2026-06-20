@@ -38,6 +38,10 @@ Ask:
 - If an active goal exists, has it been completed or blocked with evidence?
 - Did every promised edit, review, sync, test, install, commit, push, cleanup,
   or report step either run or get named as a real blocker?
+- Did any essential skill gate apply, such as `mira-review-gate`,
+  `codex-html-report`, `vincent-workflow`, `infisical-secrets-management`, a
+  domain-specific owner skill, or `anti-ai-writing`, and did that owner skill
+  actually run before closeout?
 - Are repo changes committed and pushed when the current task granted that
   authority, or is the exact reason for skipping named?
 - Are installed/runtime mirrors aligned when skills, hooks, or local toolkit
