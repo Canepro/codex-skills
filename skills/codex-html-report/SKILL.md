@@ -52,6 +52,19 @@ Do not write to the home directory unless the user asks.
 
 Use `templates/report.html` as the canonical starting point. Copy it into the destination report and replace the sample content with task-specific content.
 
+Do not hand-build a parallel report shell when this skill applies. Preserve the
+canonical template signature unless the user explicitly asks for a different
+design or the target platform requires a different structure:
+- the `Codex HTML Report Template v...` version comment
+- `html lang="en" data-theme="dark"`
+- topbar tools for theme and print when keeping browser-native behavior
+- the standard section anchors: outcome, next action, gates, changes,
+  verification, timeline, risks, and evidence
+- reusable status pills, table wrappers, evidence `<pre>` blocks, and print CSS
+
+If you intentionally do not use `templates/report.html`, state the exception in
+the report or closeout and explain why the canonical template was not suitable.
+
 Keep the report single-file by default:
 - embedded CSS
 - minimal embedded JavaScript only for useful interactions such as collapsible evidence, copy buttons, or filtering
@@ -148,7 +161,7 @@ Every substantial report should include a metadata strip in the visible header o
 
 1. Decide whether HTML is warranted. If the artifact is small, answer in chat.
 2. Copy `templates/report.html` to the destination report path.
-3. Replace the template content with the task-specific report. Keep only useful sections.
+3. Replace the template content with the task-specific report. Keep only useful sections, but preserve the canonical template shell unless an explicit exception applies.
 4. Verify the HTML is self-contained and opens locally.
 5. Run the checks in `references/report-qa.md` when the report is substantial,
    risky, reader-facing, or the template changed.
