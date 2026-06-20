@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Codex HTML Report Template v0.7.1: dark-first editorial report. Layered surfaces, gated status, timestamped, evidence-first. Adds reusable patterns (stat tiles, callouts, spec lists, meters, media figures with lightbox, heading anchors) and polish (scroll progress, scrollspy nav, back-to-top, persisted theme toggle, skip link). All JS is feature-detected and reduced-motion-aware, so any section can be deleted and the report still works with JS off. -->
+<!-- Codex HTML Report Template v0.7.2: dark-first editorial report. Layered surfaces, gated status, timestamped, evidence-first. Adds reusable patterns (stat tiles, callouts, spec lists, meters, media figures with lightbox, heading anchors) and polish (scroll progress, scrollspy nav, back-to-top, persisted theme toggle, skip link). All JS is feature-detected and reduced-motion-aware, so any section can be deleted and the report still works with JS off. -->
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
@@ -751,9 +751,10 @@
   </style>
   <noscript>
     <style>
-      .tabs { display: none; }
+      /* Scripting off: reveal every tab panel and hide controls that only work with JS.
+         (.reveal is already opaque in the base CSS, so content stays visible regardless.) */
       .tabpanel[hidden] { display: block; }
-      .reveal { opacity: 1; transform: none; }
+      .tabs, .btn, .totop, .progress { display: none; }
     </style>
   </noscript>
 </head>

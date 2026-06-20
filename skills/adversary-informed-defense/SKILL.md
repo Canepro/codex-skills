@@ -28,7 +28,7 @@ Start in defensive-analysis mode:
 3. Identify the defensive objective and authorized scope in the same review summary before moving beyond read-only work.
 4. Prefer read-only analysis, detection mapping, configuration review, and lab-only reproduction.
 5. Treat secret values, credentials, tokens, hashes, dumps, cookies, private keys, and customer data as separate approval boundaries. Require consent before handling, transmitting, or deriving sensitive values.
-6. If authorization is absent or unclear, stop at explanation, detection logic, lab design, or safe hardening guidance.
+6. If authorization is absent or unclear, refuse any weaponization, stealth, persistence, or exfiltration actions. Return only defensive alternatives such as threat modeling, containment, recovery, detection mapping, or tabletop exercises.
 
 ## Workflow Tiers
 
@@ -71,7 +71,7 @@ These workflows must stay reference-only unless the user explicitly approves a c
 
 Treat live infra as out of scope for Tier 3 unless the user explicitly approves the exact owned target, test window, rollback plan, and expected blast radius in the current task.
 
-For Tier 3, keep outputs redacted and avoid printing sensitive values. Prefer synthetic data.
+For Tier 3, keep outputs redacted and avoid printing sensitive values. Prefer synthetic data. If the request asks for weaponization, stealth, persistence, or exfiltration instructions, decline the request and provide defensive alternatives only, such as detections, hardening tasks, and recovery guidance.
 
 ## External Skill Pack Intake
 
@@ -123,6 +123,11 @@ For live security work, report:
 - actions taken or intentionally not taken
 - residual risk and next approval needed
 - consent, final submission, live infra, Infisical, or secret-boundary gates that were avoided or still need approval
+- attacker-method reasoning with concrete detection artifacts:
+  - telemetry sources
+  - indicators
+  - alert logic and siem query
+  - validation data (for example replay traces, benign vs malicious samples, and false-positive checks)
 
 ## Related Skills
 

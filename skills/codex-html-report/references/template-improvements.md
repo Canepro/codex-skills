@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.7.1`
+`v0.7.2`
 
 ## Version Rules
 
@@ -25,6 +25,28 @@ Use this file when changing the canonical `templates/report.html` or the report 
 | P3 | Add callout/admonition pattern | Plans and reports need note/warn/danger emphasis blocks. | Done in v0.7.0 (note/tip/success/warn/danger) |
 
 ## Decision Log
+
+### 2026-06-20 - v0.7.2 - No-JS control cleanup
+
+Extended the v0.7.1 `<noscript>` fallback to hide controls that only work with
+JavaScript: the theme toggle and Save-PDF buttons, the back-to-top button, and
+the scroll progress bar. With scripting off these rendered but did nothing, the
+same defect class v0.7.1 fixed for the tab bar. The "Generated" date stays in the
+topbar, and all content (hero, sections, every tab panel) stays visible. Also
+dropped the redundant `.reveal` rule from the noscript block because the base CSS
+already keeps `.reveal` opaque.
+
+Reason: a no-JS reader should not see buttons that cannot act. Hiding them matches
+how the tab bar is already handled and keeps the no-JS view honest.
+
+Verification:
+- faithful no-JS render (script block removed, noscript styles promoted to active)
+  served over a local static server
+- with scripting off: theme/Save-PDF buttons, back-to-top, progress bar, and tab
+  bar all compute `display: none`; the Generated date, hero, and all three tab
+  panels stay visible; `document.body.scrollWidth` within client width (no overflow)
+- with scripting on: both tool buttons, the tab bar, the injected copy button, and
+  all 11 heading anchors present; no console warnings or errors
 
 ### 2026-06-20 - v0.7.1 - No-JS tabs and always-visible sections
 
