@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.6.0`
+`v0.7.1`
 
 ## Version Rules
 
@@ -19,10 +19,81 @@ Use this file when changing the canonical `templates/report.html` or the report 
 | P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Proposed |
 | P1 | Add print/export polish | Durable reports may be shared or printed later. | Done in v0.5.0 (light panels, dark-on-light code, nav hidden) |
 | P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Done in v0.6.0 (topbar toggle, dark default, light palette) |
-| P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Proposed |
+| P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Done in v0.7.0 (figure with caption, local path, click-to-zoom lightbox) |
 | P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Proposed |
+| P2 | Add numeric KPI tiles | Infra and review reports benefit from a scannable metrics row with honest figures. | Done in v0.7.0 (stat tiles, meter bars) |
+| P3 | Add callout/admonition pattern | Plans and reports need note/warn/danger emphasis blocks. | Done in v0.7.0 (note/tip/success/warn/danger) |
 
 ## Decision Log
+
+### 2026-06-20 - v0.7.1 - No-JS tabs and always-visible sections
+
+Added a `<noscript>` fallback so optional tab panels are visible when JavaScript
+is disabled. This keeps the v0.7.0 claim that the report still works with JS
+off. Also removed content-hiding reveal-on-scroll behavior because it caused
+blank regions in full-page mobile screenshots before below-fold sections had
+intersected the viewport. Kept safe motion: soft landing on initial render,
+hover lift, progress bar, scrollspy, lightbox, theme transitions, and
+back-to-top remain.
+
+Reason: browser QA showed the new template rendered well with JS enabled, but
+two tab panels stayed hidden with JavaScript disabled. Visual screenshot review
+also showed large blank regions from reveal-on-scroll. Reports are evidence
+surfaces, so content must be visible by default. Motion is welcome when it does
+not hide evidence.
+
+Verification:
+- no-JS browser render at 375px shows all tab panels visible
+- desktop and mobile browser render still have no console errors or horizontal
+  overflow
+- full-page mobile screenshot shows sections without reveal-induced blank gaps
+
+### 2026-06-20 - v0.7.0 - Richer reusable patterns and reading polish
+
+Expanded the canonical template so it carries more of the polish a strong live
+report needs (plans, closeouts, detailed infra reports) without specializing it
+to one topic and without drifting into AI-dashboard gloss. Kept the graphite and
+amber editorial identity, dark-first default, single-file output, and every
+contract section.
+
+New reusable patterns (each commented "Delete if unused"):
+- stat tiles (`.stats`/`.stat`) for honest numeric KPIs, with up/down/flat trend text
+- meter bars (`.meter`, `.meter.good/.warn/.bad`) for coverage and rollout progress
+- callouts (`.callout` note/tip/success/warn/danger) for emphasis blocks
+- spec key-value grid (`.specs`) for environment, config, and infra facts
+- media figure (`.figure`) with caption, local path, and click-to-zoom lightbox; ships with a self-contained inline-SVG placeholder to swap for a real screenshot
+- a new optional `Metrics` section and an `Environment` section, added to the nav
+
+Reading and accessibility polish (all feature-detected, reduced-motion-aware):
+- scroll progress bar at the top of the page
+- scrollspy that highlights the nav link for the section in view (IntersectionObserver)
+- back-to-top button that appears after scrolling
+- reveal-on-scroll for sections, gated behind a JS-added `js-reveal` class so JS-off shows everything and `prefers-reduced-motion` skips it
+- skip-to-content link, a global `:focus-visible` ring, `scope="col"` on table headers, and arrow-key navigation across the Options tabs
+- theme toggle now persists the manual choice in `localStorage` (best-effort, wrapped in try/catch for `file://`)
+
+Provenance: the hero now has a metadata row (generated-at with timezone, author or
+lane, source revision or ticket) and the footer repeats it, satisfying the skill's
+provenance-and-dating rule directly in the template instead of leaving it implied.
+
+Hero and surface refinements: deeper page background, faint dot-grid texture (hidden
+in print), a soft accent glow on the hero, larger radii, and card hover lift.
+
+Print: hides the progress bar, back-to-top, anchors, and lightbox; forces revealed
+sections visible; adds `break-inside: avoid` for stat tiles, callouts, figures, and
+specs so new blocks do not split across pages.
+
+Reason: a faithfully filled v0.6.0 report still read as light on structure for
+metric-heavy and infra-heavy work. These patterns give the model honest,
+restrained building blocks for those reports while keeping the canonical shell.
+
+Verification:
+- rendered via a local static server at 1280px and 375px; confirmed hero, facts, nav, 7/5 grid, metrics tiles, meters, gate table, environment specs, and media figure
+- exercised behaviors in-page: theme toggle flips light/dark and persists; scrollspy marks the active nav pill; reveal added `.in` to all 11 sections; lightbox opens and closes; back-to-top appears after scroll
+- mobile 375px: `document.body.scrollWidth` equals client width, so no horizontal overflow; nav wraps; tiles stack to one column
+- console: no warnings or errors at warn level
+- self-contained: no external `http(s)`, `cdn`, or `@import`; one intentional inline favicon; single `<script>`; real tags balanced; no duplicate IDs (live DOM audit returned none)
+- light-theme amber (`#a9711f`) and ink (`#1b1f26`) kept for AA contrast on cream surfaces
 
 ### 2026-06-19 - v0.6.1 - Report completion guardrail
 

@@ -17,6 +17,9 @@ Use this checklist before finishing a substantial report or any canonical templa
 - Residual risk is either real and stated, or omitted/marked low without theater.
 - Local file paths are absolute when they need to be clickable or inspectable.
 - Mobile layout does not clip text, tables, nav, or status labels.
+- Full-page screenshots, print/PDF paths, and normal scrolling show report
+  sections by default. Do not hide evidence or major sections behind
+  scroll-triggered reveal animation.
 - Reports are dark-first by default unless the user or target platform explicitly requires light mode.
 - Dark-first contrast remains readable for body text, muted text, code, tables, and links.
 - The report does not create a jarring light-mode switch after dark-mode work surfaces.
