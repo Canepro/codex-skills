@@ -9,10 +9,10 @@ description: "Inspect Sentry issues, recent events, and basic project health thr
 ## Quick start
 
 - If not already authenticated, ask the user to provide a valid `SENTRY_AUTH_TOKEN` (read-only scopes such as `project:read`, `event:read`) or to log in and create one before running commands.
-- Set `SENTRY_AUTH_TOKEN` as an env var.
-- Optional defaults: `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_BASE_URL`.
+- Set `SENTRY_AUTH_TOKEN` and `SENTRY_BASE_URL` as env vars.
+- Optional defaults: `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_BASE_URL` (required for custom base url and self-hosted sentry).
 - Defaults: org/project `{your-org}`/`{your-project}`, time range `24h`, environment `prod`, limit 20 (max 50).
-- Always call the Sentry API (no heuristics, no caching).
+- Always call the Sentry API (no heuristics, no caching). Never assume `sentry.io`; pass `--base-url "$SENTRY_BASE_URL"` on every request for the provided base url.
 
 If the token is missing, give the user these steps:
 1. Create a Sentry auth token: https://sentry.io/settings/account/api/auth-tokens/
@@ -95,6 +95,13 @@ Always use these endpoints (GET only). Do not use write or mutation methods from
 - Issue detail: `/api/0/issues/{issue_id}/`
 - Events for issue: `/api/0/issues/{issue_id}/events/`
 - Event detail: `/api/0/projects/{org_slug}/{project_slug}/events/{event_id}/`
+
+## Authentication and authorization diagnostics
+
+- Report `401` and `403` responses with endpoint and status only. The terms `unauthorized` and `forbidden` are common text signals.
+- `401` usually means unauthorized due to missing, invalid, or expired token.
+- `403` usually means forbidden due to missing scope for `project:read`, `event:read`, or `org:read`.
+- Do not print raw credentials or tokens. Ask for a fresh read-only token path when needed.
 
 ## Inputs and defaults
 
