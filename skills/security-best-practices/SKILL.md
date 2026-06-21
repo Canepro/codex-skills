@@ -13,7 +13,7 @@ This information, if present, can be used to write new secure by default code, o
 
 ## Workflow
 
-The initial step for this skill is to identify ALL languages and ALL frameworks which you are being asked to use or already exist in the scope of the project you are working in. Focus on the primary core frameworks. Often you will want to identify both frontend and backend languages and frameworks.
+The initial step for this skill is to identify ALL languages and ALL frameworks which you are being asked to use or already exist in the scope of the project you are working in, based on concrete repository evidence. Focus on the primary core frameworks. Often you will want to identify both frontend and backend languages and frameworks by checking dependency manifest files and lockfiles.
 
 Then check this skill's references directory to see if there are any relevant documentation for the language and or frameworks. Make sure you read ALL reference files which relate to the specific framework or language. The format of the filenames is `<language>-<framework>-<stack>-security.md`. You should also check if there is a `<language>-general-<stack>-security.md` which is agnostic to the framework you may be using.
 
@@ -47,8 +47,9 @@ When producing a report, you should write the report as a markdown file in `secu
 
 The report should have a short executive summary at the top.
 
-The report should be clearly delineated into multiple sections based on severity of the vulnerability. The report should focus on the most critical findings as these have the highest impact for the user. All findings should be noted with an numeric ID to make them easier to reference.
+The report should be clearly delineated into multiple sections based on severity of the vulnerability. The report should focus on the most critical findings as these have the highest impact for the user. All findings should be noted with a numeric ID to make them easier to reference.
 
+For each finding, include severity, impact, remediation, and verification. Add a clear "how to verify" step with concrete commands, checks, or tests so the user can confirm each finding is addressed.
 For critical findings include a one sentence impact statement.
 
 Once the report is written, also report it to the user directly, although you may be less verbose. You can offer to explain any of the findings or the reasons behind the security best practices guidance if the user wants more info on any findings.
