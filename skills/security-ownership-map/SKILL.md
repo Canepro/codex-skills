@@ -9,6 +9,8 @@ description: "Build a security ownership topology from git history: people-to-fi
 
 Build a bipartite graph of people and files from git history, then compute ownership risk and export graph artifacts for Neo4j/Gephi. Also build a file co-change graph (Jaccard similarity on shared commits) to cluster files by how they move together while ignoring large, noisy commits.
 
+This skill owns security ownership analysis and graph data export. If the main task is interactive graph rendering, node-link layout critique, web visualization implementation, or chart/report export design, use the installed `build-web-data-visualization:data-visualization` vendor plugin after this skill produces the bounded data.
+
 ## Requirements
 
 - Python 3

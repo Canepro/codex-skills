@@ -48,6 +48,32 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Expected: `design-system-maintenance`
 - Should not be first choice: `frontend-anti-slop`
 
+## Web data visualization vs local report and UI overlays
+
+### 7b. Analytical dashboard build
+
+- Prompt: `build a web dashboard that compares revenue by segment over time, with chart choice, mobile behavior, and export checks`
+- Expected: installed vendor plugin `build-web-data-visualization:data-visualization`
+- Should not be first choice: `frontend-anti-slop`, `codex-html-report`
+
+### 7c. Durable proof report
+
+- Prompt: `create a browser-readable proof report for this migration with summary, verification, risks, evidence, and a small supporting chart`
+- Expected: `codex-html-report`
+- Should not be first choice: `build-web-data-visualization:data-visualization`
+
+### 7d. Ownership graph analysis
+
+- Prompt: `build a security ownership graph from git history and export CSV/JSON so we can inspect orphaned auth code`
+- Expected: `security-ownership-map`
+- Should not be first choice: `build-web-data-visualization:data-visualization`
+
+### 7e. Ownership graph visualization
+
+- Prompt: `turn this ownership graph export into an interactive node-link web visualization with layout, filtering, and visual regression checks`
+- Expected: installed vendor plugin `build-web-data-visualization:data-visualization`
+- Should not be first choice: `security-ownership-map`
+
 ## GitOps and Kubernetes
 
 ### 8. Live GitOps incident

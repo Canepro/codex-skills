@@ -1,8 +1,8 @@
 ---
 name: frontend-anti-slop
-description: Review or polish an existing frontend UI so it feels intentional, product-specific, accessible, and less generic. Use as a local anti-slop overlay for frontend PR review, severity-ranked findings, dashboard cleanup, visual hierarchy correction, and implementation polish. Do not use as the first route for new app builds, prototypes, product-design audits, browser UI testing, responsive-only fixes, React/Next performance, or shadcn work when the installed vendor plugin covers the task.
+description: Review or polish an existing frontend UI so it feels intentional, product-specific, accessible, and less generic. Use as a local anti-slop overlay for frontend PR review, severity-ranked findings, dashboard chrome cleanup, visual hierarchy correction, and implementation polish. Do not use as the first route for new app builds, prototypes, product-design audits, web data visualization design/build/testing/export, browser UI testing, responsive-only fixes, React/Next performance, or shadcn work when the installed vendor plugin covers the task.
 metadata:
-  short-description: Frontend review and anti-slop redesign
+  short-description: Frontend review and anti-slop polish
 ---
 
 # Frontend Anti-Slop
@@ -20,10 +20,10 @@ Use this skill when:
 - a screen feels off and the failure mode is not yet clear
 - the user needs a severity-ranked list of findings before implementation
 - the user asks for polish, cleanup, less templated UI, or less AI-generated UI on an existing screen
-- an app has dashboard filler, weak hierarchy, overdecorated cards, awkward spacing, or generic SaaS styling
+- an app has weak hierarchy, overdecorated cards, awkward spacing, generic SaaS styling, or dashboard chrome filler that is not about chart choice or analytical encoding
 - a page needs implementation changes, not only a critique
 
-Prefer installed vendor plugin skills first when the task is a new frontend app, coded prototype, product-design audit, visual-target implementation, browser UI debugging, responsive-only repair, React/Next performance pass, or shadcn work.
+Prefer installed vendor plugin skills first when the task is a new frontend app, coded prototype, product-design audit, visual-target implementation, web data visualization, browser UI debugging, responsive-only repair, React/Next performance pass, or shadcn work.
 
 Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
 
@@ -31,7 +31,8 @@ Do not use it to fight a coherent design system. If the app already has a visual
 
 Hand off before you start when one of these is the real task:
 - copy or microcopy in the change set: also run `anti-ai-writing`
-- new app, dashboard, game, website, hero, redesign, or modernization from scratch: use the installed `build-web-apps:frontend-app-builder` vendor plugin skill when available
+- new app, non-analytical dashboard, game, website, hero, redesign, or modernization from scratch: use the installed `build-web-apps:frontend-app-builder` vendor plugin skill when available
+- analytical dashboard, chart choice, data visualization implementation, map, Gantt, UML/software diagram, D3/Canvas/WebGL visualization, visualization accessibility/testing, or chart export work: use the installed `build-web-data-visualization:data-visualization` vendor plugin skill when available
 - rendered frontend testing, UI regression, interaction bug, console error, responsive behavior, or visual QA loop: use the installed `build-web-apps:frontend-testing-debugging` vendor plugin skill when available
 - React/Next performance, rendering, hydration, data fetching, or bundle guidance: use the installed `build-web-apps:react-best-practices` vendor plugin skill when available
 - shadcn component, registry, preset, or `components.json` work: use the installed `build-web-apps:shadcn` vendor plugin skill when available

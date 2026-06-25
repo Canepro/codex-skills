@@ -42,8 +42,9 @@ Common routes:
 | Task | Skill |
 |------|-------|
 | Copy polish; remove AI tone | `anti-ai-writing` |
-| New frontend app, dashboard, website, hero, redesign, or modernization | installed vendor plugin: `build-web-apps:frontend-app-builder` |
+| New frontend app, non-analytical dashboard, website, hero, redesign, or modernization | installed vendor plugin: `build-web-apps:frontend-app-builder` |
 | Product flow audit, prototype, image-to-code, URL-to-code, or design QA | installed vendor plugin: Product Design skills |
+| Web data visualization, analytical dashboard, chart choice, maps, Gantt, UML/software diagrams, D3/Canvas/WebGL visualization, visualization accessibility/testing, or report/slide exports with charts | installed vendor plugin: `build-web-data-visualization:data-visualization` |
 | UI review, PR audit, or anti-slop polish on an existing screen | `frontend-anti-slop` |
 | Mobile/responsive layout or rendered UI debugging | installed vendor plugin: `build-web-apps:frontend-testing-debugging` |
 | Browser verification | installed vendor plugin: `build-web-apps:frontend-testing-debugging`, or `playwright` for browser driving only |
@@ -122,7 +123,7 @@ Plain-language trigger aliases:
 - Use `mira-review-gate` for "review this properly", "check this diff", "pre-merge confidence", "gate this change", "architecture critique", "local tooling review", or "make sure this is safe before accepting it".
 - Use `codex-html-report` for "make a durable report", "proof report", "infra report", "architecture report", "HTML report", "browser-native artifact", or "something I can read later".
 - Use `codex-closeout` for "close this out", "what changed", "what passed", "commit/push status", "dirty state", or any final delivery after repo, config, automation, skill, or report work.
-- Use installed vendor plugin skills first for new frontend apps, prototypes, product-design audits, visual-target builds, responsive-only UI debugging, browser UI testing, React/Next performance, and shadcn work.
+- Use installed vendor plugin skills first for new frontend apps, prototypes, product-design audits, visual-target builds, responsive-only UI debugging, browser UI testing, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
 - Use `frontend-anti-slop` for "this UI feels AI-generated", "frontend slop", "make the dashboard less generic", "UI audit", or "polish this screen" when the task is an existing screen review or anti-slop cleanup.
 - Use `design-an-interface` for "design the API", "module boundary", "interface options", "design it twice", or "compare API shapes".
 - Use `assistant-mcp` for "MCP server setup", "agent tools", "Grafana MCP", "connect coding agents to Grafana", or "agent observability tools".

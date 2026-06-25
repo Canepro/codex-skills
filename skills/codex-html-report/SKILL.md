@@ -15,6 +15,8 @@ Use this skill when the output should live beyond the chat as a readable artifac
 
 Do not use this skill for tiny answers, paste-ready support replies, one-command outputs, or when the user explicitly asks for Markdown/plain text.
 
+Prefer the installed `build-web-data-visualization:data-visualization` vendor plugin when the main task is chart choice, analytical dashboard design, maps, Gantt timelines, UML/software diagrams, D3/Canvas/WebGL visualization, visualization accessibility/testing, or report/slide/PDF exports centered on data graphics. Use this skill for Codex work artifacts and proof reports; embed charts only when they support the report rather than being the product.
+
 ## Goal
 
 Create a self-contained browser-native report: lightweight, visually pleasing, evidence-first, dark-first by default, and readable from `file://` with no build step.
