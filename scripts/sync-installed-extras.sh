@@ -45,8 +45,9 @@ Compares non-repo skill directories between:
 
 This script is for installed entries that are not managed by this repo's skills/
 directory. Shared entries with content drift are synced from ~/.codex/skills into
-~/.agents/skills, because Codex's local install is the authoritative source for
-platform-provided system skills.
+~/.agents/skills, because the Codex tree is the usual source for private local
+extras. Hidden system directories such as .system are handled by
+system-skills.lock and check-drift.sh, not by this mirror script.
 
 Codex-tree externals are also mirrored one way into ~/.claude/skills so private
 skills stay discoverable by Claude Code. Claude-only externals are left
