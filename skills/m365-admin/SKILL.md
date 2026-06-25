@@ -89,11 +89,11 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 
 ## Integration with Other Skills
 
-- azure-infra-engineer: Identity/hybrid alignment and Azure AD integration
+- installed Azure plugin skills: Identity/hybrid alignment and Entra/Azure integration
 - l2-l3-support-platform: Customer-facing Microsoft 365, Entra, or support-case triage and escalation.
-- azure-infra-engineer: Azure-side identity, RBAC, and infrastructure alignment.
-- security-best-practices: Security compliance, least-privilege review, and access-review hardening.
-- systematic-debugging: Root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear.
+- installed Azure plugin skills: Azure-side identity, RBAC, and infrastructure alignment.
+- installed Codex Security plugin skills: Security compliance, least-privilege review, and access-review hardening.
+- installed Superpowers `systematic-debugging`: Root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear and prior attempts are thrashing.
 - ci-pipeline-triage: CI or automation pipeline failures around M365 scripts.
 
 ## Example Interactions

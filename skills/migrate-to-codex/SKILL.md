@@ -89,9 +89,9 @@ Before changing Codex hooks:
    merge correctly.
 
 If the first hook smoke is silent or contradicts the docs, stop guessing and use
-`systematic-debugging`: name the actor, collect the exact hook input/output/log,
-separate event emission from matcher behavior and trust behavior, then test one
-hypothesis at a time.
+the installed Superpowers `systematic-debugging` skill when available: name the
+actor, collect the exact hook input/output/log, separate event emission from
+matcher behavior and trust behavior, then test one hypothesis at a time.
 
 ## Self-Healing Loop
 

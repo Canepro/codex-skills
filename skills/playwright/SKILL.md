@@ -1,12 +1,13 @@
 ---
 name: "playwright"
-description: "Automate a real browser from the terminal for navigation, form filling, screenshots, snapshots, scraping, and UI-flow debugging using `playwright-cli` or the bundled wrapper. Use when the user wants to navigate websites, click through flows, fill forms, extract rendered web data, or automate browser workflows in a stateful session, and has not explicitly asked for `@playwright/test` files."
+description: "Fallback terminal browser automation using `playwright-cli` or the bundled wrapper. Use when Browser/Chrome plugin control is unavailable or the task needs CLI-friendly navigation, form filling, screenshots, snapshots, scraping, or stateful browser workflows. Do not use as the first route for frontend testing/debugging, visual QA, data visualization QA, or in-app/browser plugin control when those vendor tools are available."
 ---
 
 
 # Playwright CLI Skill
 
-Drive a real browser from the terminal using `playwright-cli`. Prefer the bundled wrapper script so the CLI works even when it is not globally installed.
+Drive a real browser from the terminal using `playwright-cli`. Prefer Browser/Chrome plugin control when the current Codex surface provides it, and prefer vendor frontend or data visualization testing skills for UI QA. Use this skill when a terminal-controlled browser is the right fallback or the repo needs CLI-reproducible browser steps.
+Prefer the bundled wrapper script so the CLI works even when it is not globally installed.
 Treat this skill as CLI-first automation. Do not pivot to `@playwright/test` unless the user explicitly asks for test files.
 
 ## Prerequisite check (required)

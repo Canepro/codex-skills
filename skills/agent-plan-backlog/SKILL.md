@@ -69,7 +69,7 @@ Use the narrow skill that matches the discovery job:
 - `improve-codebase-architecture` for boundary, coupling, and architecture opportunities
 - `request-refactor-plan` for one risky refactor that needs sequencing
 - `triage-issue` for one bug or regression
-- `security-best-practices`, `adversary-informed-defense`, or platform skills for domain-specific risks
+- installed Codex Security plugin skills, `adversary-informed-defense`, or platform skills for domain-specific risks
 - `prd-to-plan` for product phase slicing before executor-grade technical plans
 
 This skill takes the selected finding or goal and turns it into executor-grade plan files.

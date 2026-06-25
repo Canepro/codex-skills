@@ -40,7 +40,7 @@ Already aligned: what-plus-when descriptions, "Do not use when" routing, `refere
 
 Adopted from this review:
 
-- Persona-style descriptions are banned; `azure-infra-engineer` was rewritten as the last offender.
+- Persona-style descriptions are banned; prefer capability and routing boundaries over roleplay labels.
 - The trigger matrix now states the 3-to-5-trial expectation.
 - Retirement rule: when touching a skill, ask whether the bare model now handles its core case; if yes, propose retiring it instead of polishing it.
 

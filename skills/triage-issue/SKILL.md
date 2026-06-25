@@ -9,7 +9,7 @@ metadata:
 
 Investigate the problem with minimal back-and-forth, separate symptoms from causes, and leave the user with either a fix in progress or a durable issue-quality diagnosis.
 
-This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), switch to `systematic-debugging` for its phased method, then come back here to write up the result. If the fix should be handed to another agent as a commit-stamped plan file, use `agent-plan-backlog` after diagnosis.
+This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), use the installed Superpowers `systematic-debugging` skill for its phased method, then come back here to write up the result. If the fix should be handed to another agent as a commit-stamped plan file, use `agent-plan-backlog` after diagnosis.
 
 ## Workflow
 

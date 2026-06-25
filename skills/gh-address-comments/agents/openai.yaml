@@ -1,4 +1,0 @@
-interface:
-  display_name: "Address GitHub Comments"
-  short_description: "Address GitHub PR review comments"
-  default_prompt: "Use $gh-address-comments to fetch the open PR comments on this branch and help me address the important ones."

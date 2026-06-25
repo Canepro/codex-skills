@@ -52,7 +52,7 @@ Common routes:
 | shadcn component or registry work | installed vendor plugin: `build-web-apps:shadcn` |
 | Design tokens / UI drift | `design-system-maintenance` |
 | CI, GitHub Actions, Jenkins, or pipeline failures | `ci-pipeline-triage` |
-| PR review threads | `gh-address-comments` |
+| PR review threads or GitHub-native work | installed vendor plugin: GitHub skills |
 | Commit hooks | `setup-pre-commit` |
 | Pre-merge, risky-change, architecture, or local-tooling review gate | `mira-review-gate` |
 | Delivery summary | `codex-closeout` |
@@ -70,14 +70,14 @@ Common routes:
 | Codebase architecture improvement ideas | `improve-codebase-architecture` |
 | Risky refactor sequencing | `request-refactor-plan` |
 | Customer-safe prose | `written-communication` |
-| Word documents | `doc` |
-| PDFs | `pdf` |
+| Word documents | installed OpenAI primary runtime Documents skill |
+| PDFs | installed OpenAI primary runtime PDF skill |
 | Audio transcription | `transcribe` |
 | Desktop screenshots | `screenshot` |
 | Kubernetes incidents | `k8s-sre-triage` |
 | Kubernetes platform or cluster design | `kubernetes-platform-architecture` |
 | GitOps sync issues | `gitops-reconcile` |
-| Azure infrastructure | `azure-infra-engineer` |
+| Azure infrastructure, identity, or deployment | installed Azure plugin skills |
 | Prometheus/Grafana alert or scrape triage | `prometheus-grafana-triage` |
 | PromQL query writing or optimization | `promql` |
 | Loki or LogQL work | `loki` |
@@ -86,9 +86,12 @@ Common routes:
 | Prometheus label strategy | `prometheus-label-strategy` |
 | Loki label strategy | `loki-label-analyzer` |
 | Grafana MCP setup for agents | `assistant-mcp` |
-| Security best-practice review | `security-best-practices` |
+| Sentry issues, events, or project health | installed Sentry plugin |
+| Security scan, finding triage, validation, or framework security review | installed Codex Security plugin |
 | Security ownership or bus-factor map | `security-ownership-map` |
 | Adversary-informed defensive planning | `adversary-informed-defense` |
+| Explicit TDD or red-green-refactor workflow | installed Superpowers `test-driven-development` skill |
+| Unclear root cause, repeated failed fixes, or systematic debugging | installed Superpowers `systematic-debugging` skill |
 | CLI creation from API docs or curls | `cli-creator` |
 | Migrate Claude-style artifacts into Codex | `migrate-to-codex` |
 
@@ -123,7 +126,7 @@ Plain-language trigger aliases:
 - Use `mira-review-gate` for "review this properly", "check this diff", "pre-merge confidence", "gate this change", "architecture critique", "local tooling review", or "make sure this is safe before accepting it".
 - Use `codex-html-report` for "make a durable report", "proof report", "infra report", "architecture report", "HTML report", "browser-native artifact", or "something I can read later".
 - Use `codex-closeout` for "close this out", "what changed", "what passed", "commit/push status", "dirty state", or any final delivery after repo, config, automation, skill, or report work.
-- Use installed vendor plugin skills first for new frontend apps, prototypes, product-design audits, visual-target builds, responsive-only UI debugging, browser UI testing, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
+- Use installed vendor plugin skills first for GitHub-native work, Azure, Sentry, Codex Security, document/PDF runtime work, TDD, systematic debugging, new frontend apps, prototypes, product-design audits, visual-target builds, responsive-only UI debugging, browser UI testing, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
 - Use `frontend-anti-slop` for "this UI feels AI-generated", "frontend slop", "make the dashboard less generic", "UI audit", or "polish this screen" when the task is an existing screen review or anti-slop cleanup.
 - Use `design-an-interface` for "design the API", "module boundary", "interface options", "design it twice", or "compare API shapes".
 - Use `assistant-mcp` for "MCP server setup", "agent tools", "Grafana MCP", "connect coding agents to Grafana", or "agent observability tools".

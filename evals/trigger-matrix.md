@@ -110,7 +110,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `this PR has two red GitHub Actions checks; pull the logs and tell me what is actually failing`
 - Expected: `ci-pipeline-triage`
-- Should not be first choice: `jenkins-sre`, `gh-address-comments`
+- Should not be first choice: `jenkins-sre`, installed GitHub PR-comment routes
 
 ## Observability and reliability
 
@@ -135,7 +135,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 16. Sentry issue inspection
 
 - Prompt: `summarize the top recent production errors in Sentry for prod and tell me the likely clusters of failure`
-- Expected: `sentry`
+- Expected: installed Sentry plugin
 - Should not be first choice: `prometheus-grafana-triage`
 
 ## Planning and engineering workflow
@@ -144,12 +144,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `users say checkout is broken after yesterday's release; diagnose the likely root cause before changing code`
 - Expected: `triage-issue`
-- Should not be first choice: `tdd`
+- Should not be first choice: installed Superpowers `test-driven-development`
 
 ### 18. TDD
 
 - Prompt: `implement this feature with a red-green-refactor loop and integration-style tests`
-- Expected: `tdd`
+- Expected: installed Superpowers `test-driven-development`
 - Should not be first choice: `triage-issue`
 
 ### 19. PRD writing
@@ -259,7 +259,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `this refactor is risky; turn it into tiny safe steps with a verification plan and clear out-of-scope boundaries`
 - Expected: `request-refactor-plan`
-- Should not be first choice: `improve-codebase-architecture`, `agent-plan-backlog`, `tdd`
+- Should not be first choice: `improve-codebase-architecture`, `agent-plan-backlog`, installed Superpowers `test-driven-development`
 
 ### 34b. Executor-grade plan backlog
 
@@ -296,14 +296,14 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 39. Word document work
 
 - Prompt: `edit this docx template and verify the table layout and pagination still render correctly`
-- Expected: `doc`
-- Should not be first choice: `pdf`, `written-communication`
+- Expected: installed OpenAI primary runtime Documents skill
+- Should not be first choice: installed OpenAI primary runtime PDF skill, `written-communication`
 
 ### 40. PDF layout work
 
 - Prompt: `inspect this PDF visually, extract the important fields, and tell me whether the rendered layout is intact`
-- Expected: `pdf`
-- Should not be first choice: `doc`, `screenshot`
+- Expected: installed OpenAI primary runtime PDF skill
+- Should not be first choice: installed OpenAI primary runtime Documents skill, `screenshot`
 
 ### 41. Desktop screenshot
 
@@ -315,7 +315,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `transcribe this meeting recording and label speakers where possible`
 - Expected: `transcribe`
-- Should not be first choice: `doc`, `written-communication`
+- Should not be first choice: installed OpenAI primary runtime Documents skill, `written-communication`
 
 ### 43. Hatch Codex pet
 
@@ -328,25 +328,25 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 44. Security best-practices review
 
 - Prompt: `review this TypeScript API for security best practices and point out framework-specific risks`
-- Expected: `security-best-practices`
+- Expected: installed Codex Security plugin
 - Should not be first choice: `adversary-informed-defense`, `triage-issue`
 
 ### 45. Security ownership map
 
 - Prompt: `build a file ownership and bus-factor map from git history so we know who owns sensitive code`
 - Expected: `security-ownership-map`
-- Should not be first choice: `security-best-practices`
+- Should not be first choice: installed Codex Security plugin
 
 ### 46. Adversary-informed defensive plan
 
 - Prompt: `use attacker methods to help us design detections and harden this exposed service defensively`
 - Expected: `adversary-informed-defense`
-- Should not be first choice: `security-best-practices`
+- Should not be first choice: installed Codex Security plugin
 
 ### 47. Azure infrastructure design
 
 - Prompt: `design the Azure landing zone, networking, RBAC, and cost controls for this workload`
-- Expected: `azure-infra-engineer`
+- Expected: installed Azure plugin skills
 - Should not be first choice: `kubernetes-platform-architecture`
 
 ### 48. Grafana MCP setup
@@ -390,14 +390,14 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 54. GitHub review comments
 
 - Prompt: `fetch the unresolved review comments on this PR and apply the smallest fixes for each thread`
-- Expected: `gh-address-comments`
+- Expected: installed GitHub plugin `gh-address-comments`
 - Should not be first choice: `ci-pipeline-triage`
 
 ### 55. Systematic debugging
 
 - Prompt: `this test failure makes no sense; trace the root cause before suggesting fixes`
-- Expected: `systematic-debugging`
-- Should not be first choice: `triage-issue`, `tdd`
+- Expected: installed Superpowers `systematic-debugging`
+- Should not be first choice: `triage-issue`, installed Superpowers `test-driven-development`
 
 ### 56. Alert routing and IRM
 
