@@ -24,6 +24,9 @@ Use this skill when the problem is system coherence over time, not just one scre
 - the main issue is responsive behavior on one screen. Use the installed vendor frontend testing/debugging skill when available.
 - the request is shadcn-specific component, registry, preset, CLI, or `components.json` work. Use the installed `build-web-apps:shadcn` vendor plugin when available.
 - the request is product-design prototyping, image-to-code, URL-to-code, or design-vs-implementation QA. Use the installed Product Design vendor plugin when available.
+- if the request mixes one-off screen polish and systemic design drift, split
+  the work and prioritize the systemic design-system pattern here after the
+  screen-review route handles the isolated defect.
 
 ## Workflow
 
@@ -46,6 +49,10 @@ Look for:
 - missing primitives that force reinvention
 - component APIs that expose too much internal complexity
 
+Forbid local styling or behavior overrides that bypass the design system. Any
+approved exception must route through tokens, documented variants, or a named
+extension point so the exception can be audited and removed later.
+
 ### 3. Choose the right level to fix
 
 Decide whether the fix belongs in:
@@ -63,7 +70,11 @@ When changing the system:
 - define migration strategy
 - avoid needless breaking changes
 - document deprecations clearly
+- set a deprecation window with explicit sunset criteria
+- keep a rollback plan for consumers that cannot migrate in time
 - provide examples of the preferred pattern
+- provide consumer migration aids for breaking API changes, such as a codemod,
+  compatibility shim, or before/after examples for the affected component API
 
 ## Guidance
 
@@ -81,6 +92,11 @@ CLI checks worth running:
 - `npx @google/design.md lint DESIGN.md` validates against the spec, catches broken token references, and checks WCAG contrast ratios. Output is structured JSON.
 - `npx @google/design.md diff DESIGN.md DESIGN-v2.md` detects token-level and prose regressions between two versions. Useful before publishing a system change.
 - `npx @google/design.md export --format json-tailwind|css-tailwind|dtcg DESIGN.md` exports tokens to a Tailwind v3 config object, a Tailwind v4 `@theme` CSS block, or W3C DTCG `tokens.json`, keeping code-side tokens generated rather than hand-maintained.
+
+For repositories with CI, make token, primitive, or shared-component changes pass
+an automated gate before merge. A useful pre-merge CI gate runs the lint/diff or
+project-equivalent checks and fails when generated tokens, docs, or examples are
+out of sync.
 
 ## References
 
