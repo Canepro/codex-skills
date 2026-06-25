@@ -4,42 +4,42 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 
 Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribution, not a single pass. A prompt that routes wrong even once in five runs usually means two descriptions overlap; fix the descriptions, not the prompt. See `docs/skill-authoring-best-practices.md` for the full authoring guidance.
 
-## Frontend review vs redesign vs responsive vs testing
+## Frontend review overlay vs vendor frontend plugins
 
 ### 1. Frontend review
 
 - Prompt: `review this settings page PR and tell me the highest-severity frontend issues before we merge`
 - Expected: `frontend-anti-slop` (audit mode)
-- Should not be first choice: `responsive-design`, `webapp-testing`, `react-performance-review`
+- Should not be first choice: `build-web-apps:frontend-app-builder`
 
 ### 2. Frontend redesign
 
 - Prompt: `this dashboard works but looks like generic AI slop; redesign it so it feels more intentional`
-- Expected: `frontend-anti-slop`
-- Should not be first choice: `responsive-design`, `design-system-maintenance`
+- Expected: installed vendor plugin `build-web-apps:frontend-app-builder` for the redesign, with `frontend-anti-slop` only as an anti-slop review overlay
+- Should not be first choice: `design-system-maintenance`
 
 ### 3. Responsive layout
 
 - Prompt: `this page is fine on desktop but collapses badly on mobile and the filter bar wraps awkwardly`
-- Expected: `responsive-design`
-- Should not be first choice: `frontend-anti-slop`, `webapp-testing`
+- Expected: installed vendor plugin `build-web-apps:frontend-testing-debugging`
+- Should not be first choice: `frontend-anti-slop`
 
 ### 4. Webapp testing
 
 - Prompt: `I changed the signup flow; define the highest-value browser checks and verify the flow still works`
-- Expected: `webapp-testing`
+- Expected: installed vendor plugin `build-web-apps:frontend-testing-debugging`
 - Should not be first choice: `playwright`, `frontend-anti-slop`
 
 ### 5. Browser driving only
 
 - Prompt: `open this site in a real browser, click through the modal flow, and capture screenshots`
 - Expected: `playwright`
-- Should not be first choice: `webapp-testing`
+- Should not be first choice: `build-web-apps:frontend-testing-debugging`
 
 ### 6. React performance
 
 - Prompt: `this React table gets janky when filtering and typing; give me the biggest performance problems first`
-- Expected: `react-performance-review`
+- Expected: installed vendor plugin `build-web-apps:react-best-practices`
 - Should not be first choice: `frontend-anti-slop`
 
 ### 7. Design system maintenance

@@ -62,9 +62,7 @@ Library-managed skills as of this commit:
 - `prometheus-grafana-triage`
 - `prometheus-label-strategy`
 - `promql`
-- `react-performance-review`
 - `request-refactor-plan`
-- `responsive-design`
 - `sentry`
 - `screenshot`
 - `security-best-practices`
@@ -75,7 +73,6 @@ Library-managed skills as of this commit:
 - `tdd`
 - `triage-issue`
 - `transcribe`
-- `webapp-testing`
 - `write-a-prd`
 - `written-communication`
 

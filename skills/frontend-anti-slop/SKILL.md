@@ -1,13 +1,13 @@
 ---
 name: frontend-anti-slop
-description: Review, redesign, or polish frontend UI so it feels intentional, product-specific, accessible, responsive, and less generic. Use when the user wants a frontend review, UI audit, UX critique, frontend PR review, severity-ranked findings, a UI anti-slop pass, dashboard cleanup, layout refinement, visual hierarchy correction, or implementation polish that avoids templated AI-generated patterns.
+description: Review or polish an existing frontend UI so it feels intentional, product-specific, accessible, and less generic. Use as a local anti-slop overlay for frontend PR review, severity-ranked findings, dashboard cleanup, visual hierarchy correction, and implementation polish. Do not use as the first route for new app builds, prototypes, product-design audits, browser UI testing, responsive-only fixes, React/Next performance, or shadcn work when the installed vendor plugin covers the task.
 metadata:
   short-description: Frontend review and anti-slop redesign
 ---
 
 # Frontend Anti-Slop
 
-Use this skill for frontend diagnosis, design correction, and implementation polish. It audits screens for evidence-backed findings, turns those findings into a better interface, removes generic AI UI habits, and preserves useful product intent.
+Use this skill for frontend diagnosis, design correction, and implementation polish on an existing UI. It audits screens for evidence-backed findings, removes generic AI UI habits, and preserves useful product intent.
 
 ## Why This Skill Exists
 
@@ -19,9 +19,11 @@ Use this skill when:
 - the user asks for a frontend review, UI audit, UX critique, or frontend PR review
 - a screen feels off and the failure mode is not yet clear
 - the user needs a severity-ranked list of findings before implementation
-- the user asks for redesign, polish, cleanup, less templated UI, or less AI-generated UI
+- the user asks for polish, cleanup, less templated UI, or less AI-generated UI on an existing screen
 - an app has dashboard filler, weak hierarchy, overdecorated cards, awkward spacing, or generic SaaS styling
 - a page needs implementation changes, not only a critique
+
+Prefer installed vendor plugin skills first when the task is a new frontend app, coded prototype, product-design audit, visual-target implementation, browser UI debugging, responsive-only repair, React/Next performance pass, or shadcn work.
 
 Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
 
@@ -29,10 +31,14 @@ Do not use it to fight a coherent design system. If the app already has a visual
 
 Hand off before you start when one of these is the real task:
 - copy or microcopy in the change set: also run `anti-ai-writing`
-- breakpoint repair only: `responsive-design`
-- end-to-end browser proof of flows: `webapp-testing`
-- render, hydration, or bundle performance: `react-performance-review`
+- new app, dashboard, game, website, hero, redesign, or modernization from scratch: use the installed `build-web-apps:frontend-app-builder` vendor plugin skill when available
+- rendered frontend testing, UI regression, interaction bug, console error, responsive behavior, or visual QA loop: use the installed `build-web-apps:frontend-testing-debugging` vendor plugin skill when available
+- React/Next performance, rendering, hydration, data fetching, or bundle guidance: use the installed `build-web-apps:react-best-practices` vendor plugin skill when available
+- shadcn component, registry, preset, or `components.json` work: use the installed `build-web-apps:shadcn` vendor plugin skill when available
+- broad product-flow audit, coded prototype from a visual target, source design comparison, URL-to-code, or image-to-code: use the installed Product Design plugin skill when available
 - component library governance: `design-system-maintenance`
+
+If the relevant vendor plugin is unavailable, continue with this skill only for anti-slop review and polish. Use `playwright` for browser driving when no vendor testing/debugging skill is available.
 
 ## Audit First, Then Fix
 
@@ -201,7 +207,7 @@ When editing code:
 7. Define stable dimensions for fixed-format UI like boards, charts, cards, counters, and toolbars.
 8. Verify at the viewports listed below.
 9. Check accessibility basics after changes.
-10. If interaction feels slow or heavy, route to `react-performance-review` or `webapp-testing`.
+10. If interaction feels slow or heavy, route to the installed vendor frontend testing/debugging or React best-practices skill when available.
 
 ## Verification Protocol
 

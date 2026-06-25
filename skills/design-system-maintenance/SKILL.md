@@ -21,7 +21,9 @@ Use this skill when the problem is system coherence over time, not just one scre
 
 - the request is a one-off screen review. Use `frontend-anti-slop` in audit mode.
 - the request is a visual redesign of a specific page. Use `frontend-anti-slop`.
-- the main issue is responsive behavior on one screen. Use `responsive-design`.
+- the main issue is responsive behavior on one screen. Use the installed vendor frontend testing/debugging skill when available.
+- the request is shadcn-specific component, registry, preset, CLI, or `components.json` work. Use the installed `build-web-apps:shadcn` vendor plugin when available.
+- the request is product-design prototyping, image-to-code, URL-to-code, or design-vs-implementation QA. Use the installed Product Design vendor plugin when available.
 
 ## Workflow
 

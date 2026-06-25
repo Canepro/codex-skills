@@ -1,4 +1,0 @@
-interface:
-  display_name: "Webapp Testing"
-  short_description: "Verify real web app behavior"
-  default_prompt: "Use $webapp-testing to define and run the highest-value browser checks for this frontend change."
