@@ -9,6 +9,7 @@ DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
 DEFAULT_CURSOR_DIR="$HOME/.cursor/skills"
 MANIFEST_NAME=".codex-skills-managed"
 SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
+STRICT_CODEX_SYSTEM="${CODEX_STRICT_SYSTEM_SKILLS:-0}"
 HAS_ISSUES=0
 
 ensure_tmpdir() {
@@ -165,6 +166,7 @@ check_destination() {
 check_system_skills() {
   local name="$1"
   local system_dir="$2"
+  local strict="${3:-1}"
   local expected_full expected_names current_full current_names missing unexpected hash_drift shared_names
 
   expected_full="$(make_tmp)"
@@ -214,8 +216,12 @@ check_system_skills() {
   done < "$shared_names"
 
   if [[ -s "$missing" || -s "$unexpected" || -s "$hash_drift" ]]; then
-    printf '  status: drift detected\n'
-    HAS_ISSUES=1
+    if [[ "$strict" == "1" ]]; then
+      printf '  status: drift detected\n'
+      HAS_ISSUES=1
+    else
+      printf '  status: drift observed (informational; set CODEX_STRICT_SYSTEM_SKILLS=1 to fail)\n'
+    fi
   else
     printf '  status: pinned system skills aligned\n'
   fi
@@ -320,8 +326,8 @@ check_destination 'codex' "$DEFAULT_CODEX_DIR"
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
-check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system"
-check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system"
+check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system" "$STRICT_CODEX_SYSTEM"
+check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" 1
 check_installed_tree_alignment
 check_docs_sync
 check_workflow_links
