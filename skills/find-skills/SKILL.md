@@ -100,7 +100,7 @@ Read the target skill's full `SKILL.md` before acting. Product-specific private 
 ## Essential-skill gate
 
 Use this gate whenever the task is non-trivial, durable, risky, user-facing, or
-about Mira's own workflow. It is a quick routing check, not a new process layer.
+about the agent's own workflow. It is a quick routing check, not a new process layer.
 
 | Tier | Trigger | Required skill route |
 |------|---------|----------------------|
@@ -110,8 +110,8 @@ about Mira's own workflow. It is a quick routing check, not a new process layer.
 | T1 reader artifact | Completed-work report, proof report, infra report, research brief, architecture plan, support/ops case, or anything that should outlive chat | Use `codex-html-report` and start from `templates/report.html`. |
 | T1 final delivery | Finishing implementation, reporting verification, or summarizing changed repo state | Use `codex-closeout` after the work is genuinely done. |
 | T1 user-visible prose | Chat reply, docs, report text, PR body, commit message, support reply, email, or handoff text | Use `anti-ai-writing` as the final pass. |
-| T2 discovery and self-improvement | Missing, stale, underused, redundant, or over-broad skills; repeated Mira failure; SkillForge eval work | Use `find-skills` for routing and `mira-loop-engineering` plus SkillForge for the durable fix. |
-| T3 domain owner | Rocket.Chat, Velora/OpenClaw, Azure, GitOps, browser forms, support tickets, observability, or vendor-specific surfaces | Use the domain-specific skill before a generic helper. |
+| T2 discovery and self-improvement | Missing, stale, underused, redundant, or over-broad skills; repeated agent failure; SkillForge eval work | Use `find-skills` for routing and `mira-loop-engineering` plus SkillForge for the durable fix. |
+| T3 domain owner | Rocket.Chat, platform/runtime-specific work, Azure, GitOps, browser forms, support tickets, observability, or vendor-specific surfaces | Use the domain-specific skill before a generic helper. |
 
 If more than one route applies, use the owner skill for the domain work, then the
 cross-cutting gate that changes the outcome: review gate before risky acceptance,
