@@ -66,6 +66,7 @@ Library-managed skills as of this commit:
 - `triage-issue`
 - `transcribe`
 - `write-a-prd`
+- `writing-great-skills`
 - `written-communication`
 
 Pinned system skills expected from Codex as of this commit:

@@ -34,7 +34,7 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 - Support and operations: `l2-l3-support-platform`, `m365-admin`, `log-analyzer`, `written-communication`, `anti-ai-writing`. Prefer the installed Azure plugin for Azure infrastructure and identity work.
 - Documents, media, and reports: `codex-html-report`, `screenshot`, `transcribe`, `hatch-pet`. Prefer OpenAI primary runtime document/PDF skills for DOCX and PDF work.
 - Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `triage-issue`. Prefer installed Superpowers skills for TDD and systematic debugging.
-- Naming, discovery, and handoff: `naming-quality`, `find-skills`, `codex-closeout`
+- Naming, discovery, and handoff: `naming-quality`, `find-skills`, `writing-great-skills`, `codex-closeout`
 
 ## Workflow Coordination References
 
