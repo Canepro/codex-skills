@@ -10,6 +10,9 @@ Use this skill when:
 - summarizing work completed in the Codex app
 - reporting verification results after changes
 - giving a checkpoint, handoff, or commit summary
+- writing a final reply for non-trivial repo work, live-ops work, local-brain
+  work, PR cleanup, branch/git cleanup, or any change with verification,
+  commit/push state, cleanup state, and residual risk
 
 Do not use this skill for:
 - code reviews where findings should dominate
@@ -51,6 +54,12 @@ Ask:
 
 If the answer is no, keep working. Use a short progress update instead of a
 final closeout.
+
+Mandatory trigger: before the final answer for non-trivial repo or live-ops work, local-brain work that used `second-brain-context`, PR or branch cleanup,
+implementation with verification, or any task involving commit/push and
+residual-risk state, load this skill and apply the completion gate. If another
+owner skill routed final delivery here, treat that as an essential skill gate,
+not an optional formatting preference.
 
 ## Coordination
 
