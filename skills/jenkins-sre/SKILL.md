@@ -14,7 +14,7 @@ Use this skill for Jenkins runtime and control-plane issues, not for generic bui
 - Jenkins agents are offline, flapping, or rejected
 - inbound/WebSocket agents fail handshake or reconnect
 - credentials or secrets appear wrong at runtime
-- jobs are queued but never scheduled
+- jobs are queued but never scheduled, including cases where label expression, node labels, or executor mismatch block assignment
 - the controller is unhealthy, overloaded, or plugin/runtime behavior is suspect
 - the user asks about Jenkins nodes, executors, secrets, or controller state
 
@@ -38,8 +38,8 @@ Capture:
 
 Look at:
 - controller health and recent logs
-- executor availability
-- queue backlog
+- executor availability and executor mismatch
+- queue backlog with waiting item label expression and target node labels
 - node list and connection status
 
 Separate:
@@ -54,6 +54,7 @@ Check:
 - launch command/secret matches current node definition
 - Kubernetes secret or runtime env matches the expected Jenkins secret
 - transport mode matches the node definition
+- for suspected regressions, collect jenkins core version, plugin versions, and recent upgrades to confirm whether controller or agent behavior changed
 
 Common failure patterns:
 - stale or regenerated node secret
@@ -78,7 +79,7 @@ After the fix:
 - Jenkins shows the node online
 - agent pod stays healthy
 - WebSocket or inbound connection remains established
-- queued jobs can schedule
+- queued jobs can schedule on nodes where label expression and node labels match and executor mismatch is resolved
 
 ### 6. Summarize
 
