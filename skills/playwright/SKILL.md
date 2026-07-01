@@ -141,12 +141,12 @@ Open only what you need:
 
 ## Stateful sessions
 
-The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages. Redact `secret` and `credential` values before sharing outputs, screenshots, traces, or logs.
+The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages. Redact `secret` and `credential` values before sharing outputs, screenshots, traces, or logs. Do not echo `secret` or `credential` values in command output.
 
 ## Guardrails
 
 - Do not invent credentials. Reuse the existing session or the user's normal login flow when auth is required.
-- Do not store or share raw `secret` or `credential` values. Redact sensitive fields in logs, screenshots, traces, and pasted snippets.
+- Do not store or share raw `secret` or `credential` values. Redact sensitive fields in logs, screenshots, traces, and pasted snippets. Do not echo `secret` or `credential` values in command output.
 - Before final submission or any irreversible action (publish, payment, account changes), pause before final submission and request explicit user confirmation.
 - Always snapshot before referencing element ids like `e12`.
 - Re-snapshot when refs seem stale.
