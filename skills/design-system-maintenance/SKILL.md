@@ -69,12 +69,21 @@ Do not patch every consumer individually when the problem is systemic.
 When changing the system:
 - define migration strategy
 - avoid needless breaking changes
+- define release/versioning intent (major/minor/patch) before merge
+- add consumer-facing release notes and a changelog entry at the project changelog path, commonly `CHANGELOG.md`
 - document deprecations clearly
 - set a deprecation window with explicit sunset criteria
 - keep a rollback plan for consumers that cannot migrate in time
 - provide examples of the preferred pattern
 - provide consumer migration aids for breaking API changes, such as a codemod,
   compatibility shim, or before/after examples for the affected component API
+
+### 5. Validate shared component publishing
+
+Before publishing shared tokens, primitives, or component changes:
+- run visual regression checks with Storybook
+- capture or update snapshot baselines for key interaction state variants (hover, focus, active, disabled, loading, error)
+- require approval of visual diffs before merge when snapshots or interaction states change
 
 ## Guidance
 
@@ -94,9 +103,10 @@ CLI checks worth running:
 - `npx @google/design.md export --format json-tailwind|css-tailwind|dtcg DESIGN.md` exports tokens to a Tailwind v3 config object, a Tailwind v4 `@theme` CSS block, or W3C DTCG `tokens.json`, keeping code-side tokens generated rather than hand-maintained.
 
 For repositories with CI, make token, primitive, or shared-component changes pass
-an automated gate before merge. A useful pre-merge CI gate runs the lint/diff or
-project-equivalent checks and fails when generated tokens, docs, or examples are
-out of sync.
+an automated gate before merge. A useful pre-merge CI gate runs the lint/diff,
+visual regression checks (Storybook snapshot + interaction-state suites), and
+project-equivalent checks, and fails when generated tokens, docs, examples,
+release notes, or changelog entries are out of sync.
 
 ## References
 
