@@ -116,4 +116,4 @@ Good:
 
 ## Workflow Coordination
 
-This skill owns plan interrogation, terminology sharpening, and warranted `CONTEXT.md` or ADR updates. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+This skill owns plan interrogation, terminology sharpening, and warranted `CONTEXT.md` or ADR updates. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state; a grill verdict that kills or reshapes a plan is a durable decision worth recording there. Use a review-gate skill (such as `mira-review-gate`) when the concern is completed work rather than a plan: this skill is the pre-decision pass, the gate is the post-work pass. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
