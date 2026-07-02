@@ -27,7 +27,7 @@ The trap is that none of this errors at config time. The pipeline keeps running;
 **The right tools, in order:**
 
 1. **Don't emit the bad label in the first place** - fix the application code. This is the only place a label can be *removed* without consequence, because the series was never unique on it to begin with.
-2. **For series already flowing into Grafana Cloud that you can't fix at the source, route the user to the `adaptive-metrics` skill.** This is exactly what it is for: it aggregates series correctly with counter-reset awareness, audit trails, and reversibility; it avoids destructive label-removal on already-ingested series. Use a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` for Grafana Cloud investigation and document the Adaptive Metrics rule intent.
+2. **For series already flowing into Grafana Cloud that you can't fix at the source, use Adaptive Metrics** (post-ingest, counter-reset-aware, auditable, reversible). Route through a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` for Grafana Cloud investigation and document the Adaptive Metrics rule intent. This routing statement is canonical; later sections just point here.
 
 `metric_relabel_configs` has a couple of narrow, safe uses (dropping an *entire* unwanted metric; removing a label that *exactly duplicates* a target label) - covered in [Source-Side Prevention](#4-metric_relabel_configs-narrow-safe-uses-only) - but **reducing cardinality by dropping a distinguishing label is never one of them.**
 
@@ -191,7 +191,7 @@ These should **NOT** be re-emitted by the application. If the app emits a `clust
 Instead:
 - **Add `workload`** (`{controller_kind}/{controller_name}`) as a *target* label via `relabel_configs`, so dashboards and alerts can aggregate on the stable workload identity (`sum by (workload)`) without touching `pod`. This is additive - it removes nothing.
 - **Don't emit `pod` from application code** - let it come from Kubernetes service discovery, so there is exactly one source of truth (see below).
-- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, reduce them with **Adaptive Metrics**, which aggregates `pod` away *correctly* (post-ingest, counter-reset-aware, reversible) rather than corrupting the raw data at scrape. Use a dedicated `adaptive-metrics` skill only when installed; otherwise route Grafana Cloud evidence gathering through `prometheus-grafana-triage`.
+- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, reduce them with Adaptive Metrics (see [lever 3](#3-adaptive-metrics-grafana-cloud--post-ingest-the-safe-way-to-reduce-cardinality)), never by dropping `pod` at scrape.
 
 ### Don't Map Ephemeral Fields into Labels in the First Place
 
@@ -258,13 +258,13 @@ It works *after* ingest, as aggregation rules applied in Grafana Cloud. Cruciall
 - It records what was aggregated, so there's an audit trail - you can answer "why did this change?" later.
 - It's reversible: drop a rule and the full-resolution series come back.
 
-This is the difference between "the data is now cheaper" with Adaptive Metrics and "the data is now wrong" with scrape-time label-removal. Use a dedicated `adaptive-metrics` skill for rule design only when installed; otherwise use `prometheus-grafana-triage` and document the Adaptive Metrics rule intent.
+This is the difference between "the data is now cheaper" with Adaptive Metrics and "the data is now wrong" with scrape-time label-removal. Routing for rule design follows [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique) tool list.
 
 ### 4. `metric_relabel_configs` (narrow, safe uses only)
 
 Runs *after* the scrape, *before* storage.
 
-> ⚠️ **Do not use `metric_relabel_configs` (or Alloy `prometheus.relabel`) to drop a label that distinguishes series - `pod`, `instance`, `user_id`, `path`, anything.** See [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique). It looks like a cardinality fix and silently breaks `rate()`, inflates DPM, and corrupts aggregations. Use the application code (lever 1) or Adaptive Metrics (lever 3) instead. The same caution applies to *normalizing* a label value (e.g. collapsing `status_code` to `2xx`) at scrape - it merges distinct series and produces duplicate-sample errors; do that in code or via Adaptive Metrics, never here.
+> ⚠️ **Do not use `metric_relabel_configs` (or Alloy `prometheus.relabel`) to drop a distinguishing label**; see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique). Use lever 1 (application code) or lever 3 (Adaptive Metrics) instead. The same caution applies to *normalizing* a label value (e.g. collapsing `status_code` to `2xx`) at scrape: it merges distinct series and produces duplicate-sample errors; do that in code or via Adaptive Metrics, never here.
 
 The genuinely safe uses are:
 
@@ -293,7 +293,7 @@ groups:
         expr: sum by (service, env, cluster, status_code) (rate(http_requests_total[5m]))
 ```
 
-Queries that target the rollup are dramatically cheaper. The raw series still exist - recording rules don't reduce ingest cost (use **Adaptive Metrics** for that - *not* a scrape-time `labeldrop`). They reduce query cost.
+Queries that target the rollup are dramatically cheaper. The raw series still exist - recording rules reduce query cost, not ingest cost (lever 3 handles that).
 
 ---
 
@@ -347,7 +347,7 @@ The most impactful improvements almost always come from these five changes:
 
 1. **Drop unbounded labels at the app layer** - `path` (untemplated), `user_id`, `error_message`. Single biggest win.
 2. **Trim histogram label cardinality before anything else** - 14× amplification on every histogram.
-3. **Don't emit `pod`/`instance`/`node` from application code** - let them come from scrape targets, and add a stable `workload` target label to aggregate on. (Never *drop* the real `pod` at scrape to cut cardinality - if `pod`-level series are too expensive, use Adaptive Metrics.)
+3. **Don't emit `pod`/`instance`/`node` from application code** - let them come from scrape targets, and add a stable `workload` target label to aggregate on.
 4. **Use info metrics for `version` / `git_sha` / `image_tag`** - eliminates deploy-driven churn.
 5. **Set target labels via `relabel_configs`, not app code** - `env`, `cluster`, `team`, `service` should never be emitted by the application.
 

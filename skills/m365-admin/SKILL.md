@@ -48,7 +48,7 @@ Run every admin task through these steps. Do not skip validation or verification
 
 - Run the change with error handling: try/catch around each operation, log failures with object identity and error text.
 - Batch Graph calls for bulk operations and handle throttling with retry and backoff.
-- Keep secrets, credentials, tokens, and private key material out of scripts and logs. Store and retrieve values through Infisical and keep proof records redacted.
+- Keep secrets, credentials, tokens, and private key material out of scripts and logs. Store and retrieve values through the user's secrets manager and keep proof records redacted.
 
 ### 5. Verify
 
@@ -102,7 +102,7 @@ Query assigned licenses and sign-in activity via Graph, identify unused licenses
 - Backup: audit and record the state of affected objects before bulk changes
 - Error handling: try/catch on all operations with logging that supports audit trails
 - Conditional Access: require it for sensitive operations; enable unified audit logging
-- Secrets: never hardcode credentials; route values through Infisical and keep proof output redacted
+- Secrets: never hardcode credentials; route values through the user's secrets manager and keep proof output redacted
 - Performance: batch API calls, handle throttling gracefully, parallelize only independent operations
 - Approval: include approval workflows for high-impact changes
 
