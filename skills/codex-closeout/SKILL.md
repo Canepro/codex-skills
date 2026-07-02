@@ -1,6 +1,6 @@
 ---
 name: codex-closeout
-description: Use when finishing implementation work, summarizing progress, or giving a Codex app closeout after code, config, infra, automation, script, doc, or test changes. Helps produce concise, high-signal delivery notes with outcome first, compact verification, minimal file inventory, and only real risks.
+description: Use when finishing implementation work, summarizing progress, or giving a Codex app closeout after code, config, infra, automation, script, doc, or test changes. Helps produce concise, high-signal delivery notes with outcome first, compact verification, minimal file inventory, and only real risks. For durable browser artifacts use codex-html-report.
 ---
 
 # Codex Closeout
@@ -10,9 +10,9 @@ Use this skill when:
 - summarizing work completed in the Codex app
 - reporting verification results after changes
 - giving a checkpoint, handoff, or commit summary
-- writing a final reply for non-trivial repo work, live-ops work, local-brain
-  work, PR cleanup, branch/git cleanup, or any change with verification,
-  commit/push state, cleanup state, and residual risk
+- writing a final reply for non-trivial repo work, live-ops work, shared local
+  memory writeback, PR cleanup, branch/git cleanup, or any change with
+  verification, commit/push state, cleanup state, and residual risk
 
 Do not use this skill for:
 - code reviews where findings should dominate
@@ -45,6 +45,10 @@ Ask:
   `codex-html-report`, `vincent-workflow`, `infisical-secrets-management`, a
   domain-specific owner skill, or `anti-ai-writing`, and did that owner skill
   actually run before closeout?
+- Does the closeout answer every fact line of the `vincent-workflow` closeout
+  checklist (outcome, verification, changed, durable state, cleanup,
+  remaining, risk), and does it hold up under the `fable-operating-style`
+  self-check: would every sentence survive the user verifying it themselves?
 - Are repo changes committed and pushed when the current task granted that
   authority, or is the exact reason for skipping named?
 - Are installed/runtime mirrors aligned when skills, hooks, or local toolkit
@@ -55,16 +59,8 @@ Ask:
 If the answer is no, keep working. Use a short progress update instead of a
 final closeout.
 
-Mandatory trigger moments:
-
-- Before final replies for non-trivial repo or live-ops work.
-- When finishing repo implementation work with verification and git state.
-- When finishing non-trivial repo cleanup with PR, branch, verification, and residual-risk state.
-- When finishing local-brain work that used second-brain-context and needs final chat closeout.
-
-That covers implementation with verification, PR or branch cleanup, and
-local-brain work that used `second-brain-context`. Load this skill and apply
-the completion gate before the final answer.
+The trigger moments are the "Use this skill when" list at the top of this
+file; apply the completion gate before the final answer for any of them.
 If another owner skill routed final delivery here, treat that as an essential
 skill gate, not an optional formatting preference.
 
@@ -82,7 +78,9 @@ the workflow facts the user cares about:
 - remaining blocker or decision, only when real
 
 Do not create separate blocker, decision, or handoff formats here. Use
-`vincent-workflow` for those records and summarize them in the closeout.
+`vincent-workflow` for those records and summarize them in the closeout. For
+shared local memory writeback, use `second-brain-context` and report only the
+writeback status here.
 
 If the work is destructive or could be destructive, include a dedicated destructive action status note: list each action and mark it as avoided, run, or blocked pending approval, then state outcome.
 
