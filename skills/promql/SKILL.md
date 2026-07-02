@@ -1,13 +1,7 @@
 ---
 name: promql
 license: Apache-2.0
-description:
-  Write, validate, and optimise PromQL queries for Prometheus and Grafana Cloud Metrics. Use when
-  the user asks to query metrics, write a PromQL expression, calculate rates, aggregate across
-  labels, build histogram quantiles, create recording rules, debug query performance, or
-  understand metric cardinality. Triggers on phrases like "PromQL", "Prometheus query", "write a
-  metric query", "calculate rate", "histogram_quantile", "recording rule", "metric cardinality",
-  "sum by", "rate vs irate", "absent()", or "query is slow".
+description: "Write, validate, and optimise PromQL for Prometheus and Grafana Cloud Metrics: rates, aggregation, histogram quantiles, recording rules, SLO expressions. Use for 'write a Prometheus query', 'rate vs irate', 'histogram_quantile', 'recording rule', 'sum by'. For slow or expensive Prometheus itself, use prometheus-cardinality-troubleshooter."
 ---
 
 # PromQL Query Patterns
@@ -33,7 +27,8 @@ rate(http_requests_total[5m])
 sum(rate(http_requests_total{job="api"}[5m])) by (status_code)
 
 # WRONG: sum first destroys the counter monotonicity
-sum(http_requests_total) by (status_code)   -- do NOT then rate() this
+# (do NOT then rate() the result of this)
+sum(http_requests_total) by (status_code)
 ```
 
 **Increase (total count over a window, not per-second):**
@@ -236,7 +231,7 @@ groups:
   sum(rate(http_requests_total[1h]))
 )
 /
-(1 - 0.999)   -- replace 0.999 with your SLO target
+(1 - 0.999)   # replace 0.999 with your SLO target
 ```
 
 ---

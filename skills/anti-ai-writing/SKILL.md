@@ -1,6 +1,6 @@
 ---
 name: anti-ai-writing
-description: ALWAYS use as the final pass before returning user-visible prose in any agent session (Cursor, Codex, Claude). Direct, human, specific copy for docs, README, site content, commits, PRs, comments, handoffs, and chat replies. Supports rewrite, detect-only, and edit-in-place modes.
+description: "Mandatory final pass before returning any user-visible prose in any agent session (Cursor, Codex, Claude): docs, README, site copy, commits, PRs, comments, handoffs, chat replies. Rewrites copy to be direct, human, and specific. Triggers on 'less AI', 'humanize', 'more natural', 'less corporate'. Supports rewrite, detect-only, and edit-in-place modes."
 ---
 
 # Anti-AI Writing

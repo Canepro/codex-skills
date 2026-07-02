@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Explore a codebase for architectural refactors that deepen modules and reduce coupling. Use when the user wants refactoring ideas, architecture review, maintainability improvements, clearer boundaries, or a codebase that is easier for humans and agents to navigate.
+description: Explore a codebase for architectural refactors that deepen modules and reduce coupling. Use when the user wants refactoring ideas, architecture review, maintainability improvements, clearer boundaries, or a codebase that is easier for humans and agents to navigate. Not for sequencing one already-chosen refactor (request-refactor-plan).
 metadata:
   short-description: Find and frame architectural improvement opportunities
 ---
@@ -27,7 +27,7 @@ The friction you experience is the signal.
 Give the user a numbered list of architectural opportunities. For each candidate include:
 - cluster: the modules or concepts involved
 - why they are coupled
-- dependency category: see [REFERENCE.md](REFERENCE.md)
+- dependency category: load [REFERENCE.md](REFERENCE.md) when assigning a dependency category
 - testing impact: which boundary tests would become possible
 
 Do not jump straight to a final design for every candidate. Help the user choose where to go deeper.
@@ -42,14 +42,7 @@ Once the user picks a candidate, explain:
 
 ### 4. Design alternatives
 
-Generate multiple distinct interface directions yourself. If the user explicitly asks for parallel agent work and the environment permits it, you may widen the exploration with sub-agents. Otherwise keep the work local.
-
-For each design show:
-- interface shape
-- example usage
-- what complexity it hides
-- dependency strategy
-- trade-offs
+For the chosen module boundary, run the `design-an-interface` skill to generate and compare multiple interface directions. If it is not installed, sketch 2-3 alternatives inline with usage examples and trade-offs.
 
 ### 5. Recommend a direction
 
@@ -73,11 +66,7 @@ If the user explicitly wants a GitHub issue:
 
 ## Safety boundaries
 
-- If recommendations may touch secret handling, credential handling, token flows, private key paths, or Infisical-backed secret usage, do not echo values, do not expose secret or credential artifacts, and keep all outputs redacted.
-- Require user consent and explicit approval before moving toward executor-grade steps that include destructive actions.
-- Never proceed with destructive updates to live infra without explicit consent and a rollback-safe plan.
-- If architecture work intersects identity or operations contexts involving multiple agents, services, or handoff owners, preserve those boundaries and call out any final submission conditions clearly.
-- For any final submission path, restate risk, consent status, and destructive/live infra implications before proceeding.
+If recommendations may touch secret handling, credential handling, token flows, private key paths, or Infisical-backed secret usage, do not echo values, do not expose secret or credential artifacts, and keep all outputs redacted.
 
 ## Workflow Coordination
 

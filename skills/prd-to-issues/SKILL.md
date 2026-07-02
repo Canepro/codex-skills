@@ -1,6 +1,6 @@
 ---
 name: prd-to-issues
-description: Break a PRD into small, independently shippable implementation issues using vertical slices. Use when the user wants a backlog, milestone breakdown, delivery phases, issue drafts, or actionable tickets from a product spec.
+description: Break a PRD into small, independently shippable issue drafts using vertical slices, with acceptance criteria and PRD traceability. Use when the user wants tickets, issue drafts, or a milestone breakdown from a product spec. Not for a single phased plan file (prd-to-plan).
 metadata:
   short-description: Convert a PRD into shippable issues
 ---
@@ -8,6 +8,8 @@ metadata:
 # PRD to Issues
 
 Turn a PRD into a backlog of small, independently valuable slices. Default to Markdown issue drafts unless the user explicitly asks for GitHub issue creation.
+
+Do not use this skill when the user wants one phased plan file rather than tickets; that is `prd-to-plan`.
 
 ## Workflow
 
@@ -81,3 +83,12 @@ If the user explicitly asks for GitHub issue creation:
 - Prefer too many small slices over a few oversized ones.
 - Preserve architectural flexibility in early slices.
 - If one issue exists only to support another and has no standalone value, merge it unless there is a strong reason not to.
+
+## Workflow Coordination
+
+This skill owns turning a PRD into issue drafts. It does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.

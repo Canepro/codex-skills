@@ -1,6 +1,6 @@
 ---
 name: triage-issue
-description: Investigate a bug or regression, identify the likely root cause, and produce a durable fix plan or issue-quality diagnosis. Use when behavior is broken, a regression needs reproducing, the root cause is unclear, or the user wants diagnosis before implementation.
+description: Investigate a code bug or regression in a repo, identify the likely root cause, and produce a fix plan or issue-quality diagnosis. Use when app behavior is broken and the cause is unclear, or the user wants diagnosis before implementation. Not for CI, Kubernetes, or observability incidents; use the matching domain triage skill.
 metadata:
   short-description: Diagnose a bug and produce a fix plan
 ---
@@ -9,7 +9,7 @@ metadata:
 
 Investigate the problem with minimal back-and-forth, separate symptoms from causes, and leave the user with either a fix in progress or a durable issue-quality diagnosis.
 
-This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), use the installed Superpowers `systematic-debugging` skill for its phased method, then come back here to write up the result. If the fix should be handed to another agent as a commit-stamped plan file, use `agent-plan-backlog` after diagnosis.
+This skill owns the output shape: a diagnosis or fix plan for one stated problem. When the investigation itself keeps thrashing (multiple failed fix attempts, unclear reproduction, pressure to guess), use the Superpowers `systematic-debugging` skill for its phased method if it is installed, then come back here to write up the result; otherwise continue with this skill's workflow. If the fix should be handed to another agent as a commit-stamped plan file, use `agent-plan-backlog` after diagnosis.
 
 ## Workflow
 

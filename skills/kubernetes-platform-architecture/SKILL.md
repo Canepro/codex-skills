@@ -1,6 +1,6 @@
 ---
 name: kubernetes-platform-architecture
-description: Design Kubernetes platform architecture for production workloads, including cluster topology, tenancy, networking, delivery strategy, security boundaries, upgrades, and operational ownership. Use when planning a Kubernetes platform, multi-cluster model, namespace strategy, GitOps operating model, Helm or operator strategy, cluster upgrades, resource and cost optimization, or long-term platform direction on EKS, AKS, GKE, or on-prem, rather than debugging a live incident.
+description: "Design Kubernetes platform architecture: cluster topology, tenancy, namespace strategy, networking, security boundaries, upgrades, and operational ownership on EKS, AKS, GKE, or on-prem. Use for platform planning, multi-cluster models, Helm or operator adoption, and cost or upgrade direction. Not for live incidents (k8s-sre-triage) or GitOps delivery-model design (gitops-workflow)."
 metadata:
   short-description: Design Kubernetes platform architecture
 ---
@@ -24,6 +24,7 @@ Use this skill for platform design and durable operating-model decisions.
 - the main problem is a live cluster incident. Use `k8s-sre-triage`.
 - the main problem is GitOps convergence on a specific app. Use `gitops-reconcile`.
 - the request is only about alert noise or scrape failures. Use `prometheus-grafana-triage`.
+- the request is about the GitOps operating model: repo layout, promotion flow, secrets handling, rollback. Use `gitops-workflow`.
 
 ## Workflow
 
@@ -85,9 +86,10 @@ A good answer includes:
 
 ## References
 
-- Read `references/platform-decisions.md` for the decision matrix.
-- Read `references/production-readiness.md` for deployment-strategy selection, resource and node-pool starting points, escalation red flags, and the production quality checklist.
-- Read `references/kubernetes-reference.md` and `references/kubernetes-examples.md` for detailed technical reference and code examples.
+- Read `references/platform-decisions.md` when choosing between topology, tenancy, or delivery options; it holds the decision matrix.
+- Read `references/production-readiness.md` when deciding deployment strategy, resource and node-pool starting points, or reviewing a platform for production readiness.
+- Read `references/kubernetes-reference.md` when a recommendation needs exact Kubernetes API or feature details.
+- Read `references/kubernetes-examples.md` when the output should include concrete manifests or code examples.
 
 ## Workflow Coordination
 

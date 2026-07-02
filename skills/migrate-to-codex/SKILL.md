@@ -1,6 +1,6 @@
 ---
 name: migrate-to-codex
-description: Migrate supported instruction files, skills, agents, and MCP config into Codex project and global files.
+description: "Migrate a Claude Code setup into Codex: CLAUDE.md instructions, slash commands and skills, subagents, hooks, and .mcp.json MCP servers become AGENTS.md, .agents/skills/, .codex/agents/, .codex/hooks.json, and .codex/config.toml. Use when the user asks to migrate, convert, or port Claude Code config, commands, agents, or MCP setup to Codex."
 ---
 
 # Migrate to Codex
@@ -77,8 +77,8 @@ Before changing Codex hooks:
 1. Inventory the active hook files, feature flag, and any existing hook trust or
    state records available on the machine.
 2. Preserve an already-trusted hook command when possible. If a trusted command
-   such as TokenJuice is already active, prefer composing inside that trusted
-   adapter over replacing the command string.
+   is already active, prefer composing inside that trusted adapter over
+   replacing the command string.
 3. If you patch a global package or trusted adapter, create a backup, save a
    reapply patch, and document the reinstall/update recovery check before final
    smoke testing.
@@ -102,7 +102,7 @@ Keep looping until the selected migration is complete:
 3. Run the migration for real.
 4. Fix every generated `## MANUAL MIGRATION REQUIRED` block and every `manual_fix_required` or `skipped` report row that can be resolved inside Codex artifacts.
 5. Run `--validate-target`.
-6. Re-run the migrator and validator until the report and validator have no actionable generated-artifact fixes left.
+6. Re-run the migrator and validator until the report and validator have no remaining generated-artifact fixes you can make.
 
 Do not edit source Claude Code files, unrelated project code, secrets, or another repository during this loop. If a report row requires source-provider changes or product judgment, leave the generated Codex artifact with clear manual guidance instead of changing the source.
 

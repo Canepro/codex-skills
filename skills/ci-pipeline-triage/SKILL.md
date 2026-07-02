@@ -1,6 +1,6 @@
 ---
 name: ci-pipeline-triage
-description: Investigate and fix failing CI/CD pipelines, Jenkins jobs, GitHub Actions PR checks, Terraform validate or plan runs, deployment pipelines, and stale or misleading pipeline diagnoses. Use when builds are red, GitHub checks are stuck, workflow logs need summarizing, deploy stages fail, or the reported root cause looks wrong; identify the exact failing run, stage, and command before fixing the right layer.
+description: "Investigate failing CI/CD pipelines: GitHub Actions PR checks, Jenkins job failures, Terraform validate or plan in CI, and deploy stages. Use when builds are red, checks are stuck, or an auto-generated diagnosis looks wrong; find the exact failing run, stage, and command before fixing. For Jenkins controller or agent runtime health, use jenkins-sre."
 metadata:
   short-description: Triage CI, Jenkins, and deployment pipeline failures
 ---
@@ -23,6 +23,7 @@ Treat pipeline incidents as evidence problems first. Identify the exact failing 
 - The primary problem is already inside the running cluster. Use `k8s-sre-triage`.
 - The main problem is alert logic, scrape health, or Grafana/Prometheus behavior. Use `prometheus-grafana-triage`.
 - The user only wants a code review without an active failing run.
+- The problem is Jenkins controller or agent runtime health (offline nodes, executors, credentials). Use `jenkins-sre`.
 
 ## Workflow
 

@@ -1,13 +1,7 @@
 ---
 name: assistant-mcp
 license: Apache-2.0
-description:
-  Connect AI coding agents (Claude Code, Cursor, VS Code, OpenAI Codex) to Grafana Cloud via
-  the Model Context Protocol (MCP) server. Use when the user asks to connect Claude Code to
-  Grafana, set up MCP for Grafana, use Grafana tools in Cursor, query Grafana from an AI agent,
-  configure the Grafana MCP server, or make AI agents interact with Grafana Cloud APIs. Triggers
-  on phrases like "MCP server", "connect Claude Code to Grafana", "Grafana MCP", "AI agent
-  Grafana", "Claude Grafana tools", "Cursor Grafana", or "agent observability".
+description: "Connect AI coding agents (Claude Code, Cursor, VS Code, Codex) to Grafana Cloud through the Grafana MCP server: credentials, install, per-agent config, tool inventory, verification. Use for 'connect Claude Code to Grafana', 'Grafana MCP', 'query Grafana from an agent'. For broken local MCP setups unrelated to Grafana, use codex-mcp-repair."
 ---
 
 # Grafana Cloud MCP Server Setup
@@ -54,8 +48,16 @@ Alternatively, download a pre-built binary from the [releases page](https://gith
 
 ## Step 3: Configure Claude Code
 
-Add the server to Claude Code's MCP configuration. The config file is at:
-- macOS/Linux: `~/.claude/settings.json` or the project's `.claude/settings.json`
+Add the server with the CLI:
+
+```bash
+claude mcp add grafana \
+  --env GRAFANA_URL=https://myorg.grafana.net \
+  --env GRAFANA_API_KEY=glsa_xxxx \
+  -- mcp-grafana
+```
+
+Or edit the project's `.mcp.json` (checked into the repo for team sharing) directly. Note: MCP servers do not live in `~/.claude/settings.json`.
 
 ```json
 {
@@ -89,7 +91,7 @@ Add the server to Claude Code's MCP configuration. The config file is at:
 }
 ```
 
-Restart Claude Code after editing settings. Run `/mcp` in Claude Code to verify the server appears and its tools are listed.
+Restart Claude Code after editing `.mcp.json`. Run `/mcp` in Claude Code to verify the server appears and its tools are listed.
 
 ---
 
@@ -114,7 +116,9 @@ In Cursor: **Settings > Features > MCP Servers** (or edit `~/.cursor/mcp.json`):
 
 ---
 
-## Step 5: Run as SSE server (for team sharing or VS Code)
+## Step 5: Run as SSE server (legacy transport)
+
+Current MCP servers use streamable HTTP as the remote transport; SSE applies only to older server versions that have not adopted it. Kept here for those setups.
 
 Run the server as a long-lived SSE process instead of per-session stdio:
 
@@ -195,10 +199,7 @@ If the tool call fails:
 
 ## Step 8: Use with the Grafana Skills
 
-If you have the `grafana-core` skills installed, the agent already knows:
-- PromQL query patterns (from `grafana-core/promql`)
-- Dashboard structure (from `grafana-core/dashboarding`)
-- Fleet Management concepts (from `grafana-cloud/fleet-management`)
+Pair the MCP tools with the local `promql` skill for query patterns, plus `loki` for LogQL and `alerting-irm` for alert rule work.
 
 Combined with the MCP tools, the agent can answer questions like:
 - "What is the p95 latency of the payments service over the last hour?"

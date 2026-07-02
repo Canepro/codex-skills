@@ -1,84 +1,64 @@
 ---
 name: m365-admin
-description: Use when user needs Microsoft 365 administration, automation, and management for Exchange Online, Teams, SharePoint, licensing, and Graph API operations. Handles secure identity and workload automation.
+description: "Administer and automate Microsoft 365: Exchange Online mailboxes, Teams lifecycle, SharePoint sites and sharing, license auditing, and Graph API or PowerShell automation. Use for admin scripting, onboarding/offboarding workflows, and tenant configuration. Customer-ticket investigation routes to l2-l3-support-platform."
 ---
 
 # Microsoft 365 Administrator
 
 ## Purpose
 
-Provides Microsoft 365 administration and automation expertise specializing in Exchange Online, Teams, SharePoint, and Graph API operations. Manages secure identity, workload automation, licensing optimization, and compliance configuration across the Microsoft 365 ecosystem.
+Administer and automate Microsoft 365 workloads through PowerShell and the Graph API: Exchange Online, Teams, SharePoint, licensing, and identity. The skill designs, builds, and reviews admin scripts and workflows with least-privilege access and verified results.
 
 ## When to Use
 
 - Exchange Online mailbox management and lifecycle
 - Microsoft Teams team lifecycle automation
-- SharePoint site management and security
-- License assignment and optimization
+- SharePoint site management, permissions, and sharing settings
+- License assignment, auditing, and optimization
 - Microsoft Graph PowerShell automation
-- User provisioning and onboarding workflows
-- Compliance and security configuration
-
-This skill provides expert Microsoft 365 administration and automation capabilities. It designs, builds, and reviews scripts and workflows across Exchange Online, Teams, SharePoint, and other Microsoft cloud workloads with focus on automation, licensing optimization, and Graph API operations.
-
-## When to Use
-
-User needs:
-- Exchange Online mailbox management and lifecycle
-- Microsoft Teams team lifecycle automation
-- SharePoint site management and security
-- License assignment and optimization
-- Microsoft Graph PowerShell automation
-- User provisioning and onboarding workflows
+- User provisioning, onboarding, and offboarding workflows
 - Compliance and security configuration
 - Guest access and external sharing management
 
-## What This Skill Does
+Customer-reported tickets and support-case triage belong to `l2-l3-support-platform`; use this skill for the admin and automation work that investigation surfaces.
 
-This skill automates and manages Microsoft 365 workloads through PowerShell and Graph API. It handles mailbox operations, team lifecycle management, SharePoint administration, license auditing and optimization, and ensures secure identity and compliance across the Microsoft 365 platform.
+## Procedure
 
-### M365 Workloads Covered
+Run every admin task through these steps. Do not skip validation or verification.
 
-- Exchange Online (mailboxes, distribution groups, transport rules)
-- Microsoft Teams (team creation, membership, channel management)
-- SharePoint Online (sites, permissions, sharing settings)
-- Microsoft Graph API (identity, users, groups, app registrations)
-- Licensing and subscription management
-- Security and compliance configuration
+### 1. Connect
 
-## Core Capabilities
+- Pick the right surface: `Connect-MgGraph` for identity, licensing, Teams, and SharePoint via Graph; `Connect-ExchangeOnline` for mailbox and transport work.
+- Read `references/m365_quickstart.md` before the first Graph connection in a session; it covers app registration, authentication, and common connection failures.
+- Request only the scopes the task needs (for example `Connect-MgGraph -Scopes "User.Read.All"`), not broad admin scopes by habit.
 
-### Exchange Online Management
-- Mailbox provisioning and lifecycle management
-- Distribution groups and mail-enabled security groups
-- Transport rules and compliance policies
-- Message trace and audit workflows
-- Calendar and resource management
-- Email flow configuration and routing
+### 2. Validate permissions and consent
 
-### Teams + SharePoint Administration
-- Team lifecycle automation (create, archive, delete)
-- SharePoint site provisioning and permissions
-- Guest access and external sharing validation
-- Collaboration security workflows
-- Channel and tab management
-- Document library and folder structure
+- Confirm the connected account or app registration holds the required roles or Graph permissions before proposing changes.
+- Choose delegated, application, resource-specific consent, or workload-specific controls by scenario. Prefer the narrowest permission that can prove the task. App-only permissions are tenant-wide grants unless constrained by the workload and admin consent.
+- If consent for a new permission is needed, name the exact permission and let the user grant it; do not widen an existing grant silently.
 
-### Licensing + Graph API
-- License assignment, auditing, and optimization
-- Microsoft Graph PowerShell for identity automation
-- Service principal and app registration management
-- Role-based access control (RBAC) configuration
-- User and group synchronization
-- Conditional access policies
+### 3. Dry-run first
 
-### Automation Patterns
-- User onboarding and offboarding workflows
-- Bulk operations across departments
-- Scheduled maintenance and cleanup tasks
-- Compliance and security audit automation
-- Reporting and analytics generation
-- Self-healing and remediation scripts
+- Use `-WhatIf` on every cmdlet that supports it before the real run.
+- For Graph calls without a dry-run mode, run the read query first and show the affected object list for confirmation.
+- For bulk changes, run against one test object or a small batch before the full set, and capture the current state of affected objects so the change can be reversed.
+
+### 4. Execute
+
+- Run the change with error handling: try/catch around each operation, log failures with object identity and error text.
+- Batch Graph calls for bulk operations and handle throttling with retry and backoff.
+- Keep secrets, credentials, tokens, and private key material out of scripts and logs. Store and retrieve values through Infisical and keep proof records redacted.
+
+### 5. Verify
+
+- Re-read the changed objects and confirm the intended state, not just a zero exit code.
+- For mail flow or policy changes, run the narrowest live check available (message trace, test user sign-in, policy readback).
+
+### 6. Report
+
+- Summarize what changed, the evidence commands run, objects affected, and any failures or skipped objects.
+- Include rollback steps for bulk or destructive changes.
 
 ## Tool Restrictions
 
@@ -89,239 +69,69 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 
 ## Integration with Other Skills
 
-- installed Azure plugin skills: Identity/hybrid alignment and Entra/Azure integration
-- l2-l3-support-platform: Customer-facing Microsoft 365, Entra, or support-case triage and escalation.
-- installed Azure plugin skills: Azure-side identity, RBAC, and infrastructure alignment.
-- installed Codex Security plugin skills: Security compliance, least-privilege review, and access-review hardening.
-- installed Superpowers `systematic-debugging`: Root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear and prior attempts are thrashing.
-- ci-pipeline-triage: CI or automation pipeline failures around M365 scripts.
+- `l2-l3-support-platform`: customer-facing Microsoft 365, Entra, or support-case triage and escalation
+- installed Azure plugin skills: Entra identity, RBAC, hybrid alignment, and Azure-side infrastructure
+- installed Codex Security plugin skills: security compliance, least-privilege review, and access-review hardening
+- installed Superpowers `systematic-debugging`: root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear and prior attempts are thrashing
+- `ci-pipeline-triage`: CI or automation pipeline failures around M365 scripts
 
-## Example Interactions
+## Scenario Walkthroughs
 
-### Scenario 1: User Onboarding Automation
+### Onboarding automation
 
-**User:** "Automate new employee onboarding with mailbox, Teams, and license assignment"
+"Automate new employee onboarding with mailbox, Teams, and license assignment."
 
-**Interaction:**
-1. Skill designs onboarding workflow with required information
-2. Creates PowerShell script using Microsoft Graph:
-   - Creates user account in Azure AD
-   - Assigns appropriate M365 licenses
-   - Provisions Exchange Online mailbox
-   - Creates user's departmental Team with default channels
-   - Adds user to relevant distribution groups and SharePoint sites
-   - Sends welcome email with resources
-3. Implements error handling and logging
-4. Tests workflow with test accounts
+Apply the procedure: connect to Graph with directory and license scopes, validate the app grant, then build a script that creates the user, assigns licenses by role, provisions the mailbox, adds the user to the departmental Team, distribution groups, and SharePoint sites, and sends a welcome message. Dry-run against a test account, execute, verify each provisioned object, and report the workflow with error handling and logging included.
 
-### Scenario 2: SharePoint External Sharing Audit
+### SharePoint external sharing audit
 
-**User:** "Audit all SharePoint sites for external sharing and fix misconfigured sites"
+"Audit all SharePoint sites for external sharing and fix misconfigured sites."
 
-**Interaction:**
-1. Skill audits all SharePoint site sharing settings via Graph API
-2. Identifies misconfigured sites with external sharing enabled
-3. Generates report showing:
-   - Site owners and administrators
-   - Current sharing settings and external users
-   - Business justification for external access
-4. Implements remediation script to:
-   - Disable external sharing on non-compliant sites
-   - Set appropriate sharing policies
-   - Add compliance notifications
-5. Provides ongoing monitoring solution
+Read all site sharing settings via Graph, classify sites against policy, and report owners, current settings, and external users per site. Remediate with a script that disables external sharing on non-compliant sites, dry-running the change list with the user first, then verify the new settings and set up recurring monitoring.
 
-### Scenario 3: License Optimization
+### License optimization
 
-**User:** "Audit and optimize M365 licenses across the organization"
+"Audit and optimize M365 licenses across the organization."
 
-**Interaction:**
-1. Skill queries all assigned licenses via Microsoft Graph
-2. Analyzes usage data and last activity timestamps
-3. Identifies:
-   - Unused licenses for reclamation
-   - Over-licensed users for downgrade
-   - Underutilized premium features
-4. Generates optimization plan:
-   - Reclaims X unused licenses saving $Y/month
-   - Recommends license package changes
-   - Suggests automation for license assignment
-5. Implements automated license provisioning workflow
+Query assigned licenses and sign-in activity via Graph, identify unused licenses and over-licensed users, and produce a reclamation plan for the user to approve. Execute reassignment in batches with verification per batch, then add an automated assignment workflow so drift does not return.
 
 ## Best Practices
 
-- Validation: Always validate connections and permissions before modifications
-- Least Privilege: Apply RBAC principles for all automation accounts
-- Testing: Test scripts in non-production environments first
-- Backup: Audit and backup affected objects before bulk changes
-- Documentation: Document all automation scripts with comments and examples
-- Error Handling: Implement robust error handling and logging
-- Monitoring: Add monitoring and alerting for critical workflows
-- Approval: Include approval workflows for high-impact changes
-
-## Examples
-
-### Example 1: Enterprise User Onboarding Automation
-
-**Scenario:** A company with 500+ employees needs automated onboarding across M365 workloads.
-
-**Implementation Approach:**
-1. **Graph API Integration**: Created PowerShell scripts using Microsoft Graph API
-2. **Workflow Design**: Sequential provisioning with dependency handling
-3. **Error Handling**: Retry logic and notification system
-4. **Testing**: Validated with test accounts before production
-
-**Onboarding Workflow:**
-1. Create Azure AD user account with proper attributes
-2. Assign M365 licenses based on job role
-3. Provision Exchange Online mailbox
-4. Create Teams team with department channels
-5. Add to SharePoint sites and distribution groups
-6. Send welcome email with credentials
-
-**Results:**
-- Onboarding time: 4 hours → 15 minutes
-- 100% consistency across all users
-- Zero manual errors in 6 months
-
-### Example 2: SharePoint Security Audit and Remediation
-
-**Scenario:** Need to audit all SharePoint sites for external sharing compliance.
-
-**Audit Process:**
-1. **Data Collection**: Retrieved all site collections via Graph API
-2. **Analysis**: Identified sharing settings and external users
-3. **Risk Assessment**: Categorized sites by sensitivity level
-4. **Remediation**: Applied policies based on risk level
-
-**Findings:**
-| Category | Sites | External Users | Risk Level |
-|----------|-------|----------------|------------|
-| High | 23 | 156 | Critical |
-| Medium | 45 | 34 | Medium |
-| Low | 120 | 8 | Low |
-
-**Actions Taken:**
-- Disabled external sharing on high-risk sites
-- Implemented approval workflow for external access
-- Added monitoring and alerting for policy violations
-
-### Example 3: M365 License Optimization Project
-
-**Scenario:** Optimize M365 license usage and reduce costs by identifying unused licenses.
-
-**Optimization Approach:**
-1. **License Audit**: Queried all assigned licenses via Graph API
-2. **Usage Analysis**: Analyzed sign-in activity and service usage
-3. **Optimization Plan**: Identified reclamation opportunities
-4. **Implementation**: Automated license reassignment process
-
-**Results:**
-- 127 unused licenses reclaimed
-- $45,000 annual savings
-- 15% reduction in license costs
-- Automated monitoring for license utilization
-
-## Best Practices
-
-### PowerShell Automation
-
-- **Use Microsoft Graph API**: Modern approach for M365 management
-- **Module Best Practices**: Use latest ExchangeOnlineManagement module
-- **Error Handling**: Implement try/catch blocks for all operations
-- **Logging**: Comprehensive logging for audit trails
-- **Testing**: Always test scripts in non-production first
-
-### Security and Compliance
-
-- **Least Privilege**: Choose delegated, application, resource-specific consent, or workload-specific controls by scenario. Prefer the narrowest permission that can prove the task. App-only permissions are powerful tenant-wide grants unless constrained by the workload and admin consent.
-- **Conditional Access**: Implement for sensitive operations
-- **Audit Logging**: Enable unified audit logging
-- **Data Protection**: Encrypt sensitive data at rest and in transit
-- **Token, credential, secret, and private key handling**: Keep secrets, credentials, tokens, and private key material out of scripts and logs. Store and retrieve values through Infisical and keep proof records redacted.
-- **Compliance**: Follow organizational compliance requirements
-
-### User Lifecycle Management
-
-- **Onboarding**: Automated provisioning with approval workflows
-- **Changes**: Handle role changes with proper access updates
-- **Offboarding**: Complete deprovisioning with data retention
-- **Licensing**: Regular audits and optimization
-- **Self-Service**: Enable user self-service where appropriate
-
-### Performance Optimization
-
-- **Batch Operations**: Use batch API calls for bulk operations
-- **Rate Limiting**: Handle throttling gracefully
-- **Caching**: Cache frequently accessed data
-- **Parallel Processing**: Use parallel execution for independent tasks
-- **Monitoring**: Track script performance and duration
+- Least privilege: apply RBAC principles for all automation accounts; conduct regular access reviews to prevent permission creep
+- Testing: always test scripts in non-production or against test accounts first
+- Backup: audit and record the state of affected objects before bulk changes
+- Error handling: try/catch on all operations with logging that supports audit trails
+- Conditional Access: require it for sensitive operations; enable unified audit logging
+- Secrets: never hardcode credentials; route values through Infisical and keep proof output redacted
+- Performance: batch API calls, handle throttling gracefully, parallelize only independent operations
+- Approval: include approval workflows for high-impact changes
 
 ## Anti-Patterns
 
-### PowerShell Automation Anti-Patterns
+- No error handling: scripts that fail silently; wrap operations in try/catch/finally
+- Hardcoded values: usernames, URLs, or credentials embedded in scripts; use parameters and secure storage
+- Chatty API calls: excessive per-object requests; batch operations and use delta queries
+- Over-privileged accounts: admin accounts for routine tasks; apply least privilege
+- Manual provisioning: creating users by hand when the lifecycle should be automated
+- Orphaned accounts: no deprovisioning after departure; automate offboarding
+- License waste: assigning licenses without usage tracking
+- Configuration drift and policy overlap: environments diverging or conflicting policies accumulating; consolidate and manage configuration as code
 
-- **Sequential Everything**: Not leveraging parallel processing - use parallel execution for independent operations
-- **No Error Handling**: Scripts that fail silently - implement comprehensive try/catch/finally
-- **Hardcoded Values**: Embedding usernames, URLs in scripts - use parameters and configuration
-- **Chatty API Calls**: Making excessive API calls - batch operations and use delta queries
+## Scripts and References
 
-### Security Anti-Patterns
+Load these on condition, not all upfront:
 
-- **Over-Privileged Accounts**: Using admin accounts for routine tasks - apply least privilege principles
-- **Credential Hardcoding**: Storing passwords in scripts - use secure credential storage
-- **Audit Neglect**: Not enabling unified audit logging - enable and monitor audit logs
-- **Permission Creep**: Accumulating permissions without review - conduct regular access reviews
-
-### User Management Anti-Patterns
-
-- **Manual Provisioning**: Creating users manually instead of automation - automate user lifecycle
-- **License Waste**: Assigning licenses without tracking usage - monitor and optimize license usage
-- **Orphaned Accounts**: Leaving accounts after user departure - implement deprovisioning automation
-- **Inconsistent Naming**: No naming convention enforcement - implement and enforce naming standards
-
-### Configuration Anti-Patterns
-
-- **Configuration Drift**: Environments diverging over time - use configuration management
-- **Setting Shadow IT**: Users creating unauthorized configurations - monitor and govern settings
-- **Over-Sharing**: Excessive external sharing permissions - audit and restrict sharing settings
-- **Policy Overlap**: Multiple conflicting policies - consolidate and prioritize policies
-
-## Automation Scripts and References
-
-The M365 admin skill includes comprehensive automation scripts and reference documentation located in:
-
-### Scripts (`scripts/` directory)
-- **create_m365_users.ts**: TypeScript classes and functions for user lifecycle management, license assignment, password validation, and bulk operations
-- **configure_teams.ts**: Microsoft Teams management including team creation, channel management, member management, team settings, and archiving
-- **setup_exchange.ts**: Exchange Online administration with mailbox management, auto-reply configuration, distribution groups, calendar events, and email automation
-
-### References (`references/` directory)
-- **m365_quickstart.md**: Quick start guide with app registration, authentication, common patterns, and troubleshooting
-- **admin_patterns.md**: Comprehensive patterns for user lifecycle, Teams templates, email automation, license management, security and compliance, and backup/recovery
-
-## Output Format
-
-This skill delivers:
-- PowerShell automation scripts for M365 workloads
-- Graph API integration code and examples
-- Configuration templates and manifests
-- Audit reports and compliance summaries
-- Onboarding/offboarding workflow scripts
-- License optimization recommendations and implementations
-
-All outputs include:
-- Detailed script documentation and comments
-- Error handling and logging patterns
-- Testing instructions and validation steps
-- RBAC configuration guidance
-- Troubleshooting procedures and common issues
-- Security best practices and compliance considerations
+- `references/m365_quickstart.md`: read before the first Graph or Exchange connection in a session (app registration, authentication, troubleshooting)
+- `references/admin_patterns.md`: read when designing a multi-step workflow (user lifecycle, Teams templates, email automation, license management, backup and recovery patterns)
+- `scripts/create_m365_users.ts`: read before user lifecycle or bulk user work (user creation, license assignment, password validation, bulk operations)
+- `scripts/configure_teams.ts`: read before Teams automation (team creation, channels, membership, settings, archiving)
+- `scripts/setup_exchange.ts`: read before Exchange automation (mailboxes, auto-reply, distribution groups, calendar, mail automation)
 
 ## Workflow Coordination
 
-This skill owns its domain work while keeping actor, service, and escalation boundaries explicit. In live operations, route execution decisions and security or live infra escalation signals to the approved owner before destructive changes proceed.
+This skill owns Microsoft 365 administration and automation work. It does not own general workflow state.
 
-Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, and explicit consent records, including final submission control gates for high-impact actions.
-
-Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof with command and file references, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.

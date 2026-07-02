@@ -44,6 +44,15 @@ Safe action:
 - keep the cluster-specific manifest set accurate
 - do not force unsupported resources into a cluster
 
+## Flux command equivalents
+
+The bundled `argocd_health.sh` script is Argo CD only. For Flux, use:
+
+- status snapshot: `flux get kustomizations` (add `flux get helmreleases` and `flux get sources git` as needed)
+- force a reconcile including the source: `flux reconcile kustomization <name> --with-source`
+- pause reconciliation before a manual intervention: `flux suspend kustomization <name>`
+- resume it afterward: `flux resume kustomization <name>`
+
 ## Drift after emergency action
 
 Symptoms:

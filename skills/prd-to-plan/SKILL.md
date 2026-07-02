@@ -1,11 +1,11 @@
 ---
 name: prd-to-plan
-description: Turn a PRD into a phased implementation plan with tracer-bullet vertical slices saved to `./plans/`. Use when the user wants a build plan, phased delivery approach, architecture-aware sequence, or mentions tracer bullets, implementation phases, or plan-from-PRD.
+description: Turn a PRD into a phased implementation plan of tracer-bullet vertical slices, saved as one Markdown file in ./plans/. Use for a build plan, implementation phases, or plan-from-PRD. Not for issue or ticket drafts (prd-to-issues) or executor-grade agent plans (agent-plan-backlog).
 ---
 
 # PRD to Plan
 
-Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./plans/`. Use `agent-plan-backlog` when approved phases need to become executor-grade technical plans for another model or later session.
+Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./plans/`. Use `agent-plan-backlog` when approved phases need to become executor-grade technical plans for another model or later session. Use `prd-to-issues` when the user wants tickets or issue drafts instead of a single plan file.
 
 ## Process
 

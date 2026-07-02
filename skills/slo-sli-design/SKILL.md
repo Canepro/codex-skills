@@ -1,6 +1,6 @@
 ---
 name: slo-sli-design
-description: Define service level indicators, service level objectives, and error budgets that reflect real user outcomes. Use when the user wants SLIs or SLOs for APIs, background jobs, platforms, or user journeys, needs alerts tied to reliability targets, or wants to replace vague uptime goals with measurable service health.
+description: Define service level indicators, service level objectives, and error budgets that reflect real user outcomes. Use when the user wants SLIs or SLOs for APIs, background jobs, platforms, or user journeys, needs alerts tied to reliability targets, or wants to replace vague uptime goals with measurable service health. For Grafana SLO provisioning and burn-rate alert configuration, use alerting-irm.
 metadata:
   short-description: Define SLIs, SLOs, and error budgets
 ---
@@ -90,7 +90,7 @@ Include:
 ## Related specialist skills
 
 - Use `promql` to write or validate SLI queries, error ratios, latency percentiles, recording rules, and burn-rate expressions.
-- Use `alerting-irm` to turn SLOs into Grafana-managed alerts, notification policies, silences, and IRM workflows.
+- Use `alerting-irm` to turn SLOs into Grafana-managed alerts, notification policies, silences, and IRM workflows. Grafana SLO provisioning and burn-rate alert configuration belong there, not here.
 - Use `observability-architecture` when the measurement source, ownership model, or retention strategy is not settled.
 
 ## References

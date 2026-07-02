@@ -1,6 +1,6 @@
 ---
 name: written-communication
-description: Help users communicate more effectively in writing. Use when someone is drafting memos, emails, strategy docs, announcements, or any written communication that needs to be clear, concise, and persuasive.
+description: Coach structure and persuasion while drafting memos, emails, strategy docs, and announcements. Conclusion first, cut preamble, test for simplicity. Use when composing or restructuring a document. Not for final wording polish of finished prose; that is anti-ai-writing.
 ---
 
 # Written Communication
@@ -81,11 +81,8 @@ For all 61 insights from 38 guests, see `references/guest-insights.md`
 
 ## Related Skills
 
-- anti-ai-writing
-- Stakeholder Alignment
-- Giving Presentations
-- Running Effective Meetings
-- Writing PRDs
+- Final wording pass on a finished draft: `anti-ai-writing`
+- Turning a feature idea into a spec: `write-a-prd`
 
 ## Workflow Coordination
 

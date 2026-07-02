@@ -20,6 +20,7 @@ Transcribe audio using OpenAI, with optional speaker diarization when requested.
 - If the user wants speaker labels or diarization, use `--model gpt-4o-transcribe-diarize --response-format diarized_json`.
 - If audio is longer than ~30 seconds, keep `--chunking-strategy auto`.
 - Prompting is not supported for `gpt-4o-transcribe-diarize`.
+- If a named model errors or is deprecated, check `references/api.md` and the provider's current model list rather than failing.
 
 ## Output conventions
 - Use `output/transcribe/<job-id>/` for evaluation runs.
@@ -78,7 +79,7 @@ python3 "$TRANSCRIBE_CLI" \
 ```
 
 ## Reference map
-- `references/api.md`: supported formats, limits, response formats, and known-speaker notes.
+- `references/api.md`: supported formats, limits, response formats, and known-speaker notes. Read it when hitting format, size-limit, or response-format errors.
 
 ## Workflow Coordination
 

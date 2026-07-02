@@ -1,6 +1,6 @@
 ---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", express interest in extending capabilities, or ask why a skill is underused, stale, missing, obsolete, or superseded. Also routes to the portable codex-skills library, including choosing the right installed skill, refreshing installs, and checking drift. Use this when the user is looking for functionality that might already exist as a skill.
+description: 'Helps users discover, choose, and install agent skills when they ask "how do I do X", "find a skill for X", "is there a skill that can...", or why a skill is underused, stale, missing, obsolete, or superseded. Routes to the portable codex-skills library: picking the right installed skill, refreshing installs, and checking drift.'
 ---
 
 # Find Skills
@@ -23,7 +23,7 @@ Use this skill when the user is really asking whether a skill already exists for
 3. If a relevant local skill already exists, recommend or use that instead of installing more drift.
 4. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing. Absence from the session catalog is not proof a skill is unavailable; catalogs can truncate, so check the installed directories and source repo first.
 5. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and rank close matches by best fit instead of listing unsorted results.
-6. If no local skill fits, search the broader ecosystem with the Skills CLI or `tool_search` when available.
+6. If no local skill fits, search the wider skill catalog with the Skills CLI or `tool_search` when available.
 7. Verify quality before recommending anything, and do this before installing.
 8. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
 
@@ -62,7 +62,7 @@ Common routes:
 | Shared local-brain query or writeback | `second-brain-context` |
 | Repo queue orchestration | `maintainer-orchestrator` |
 | Latest research, last-30-days trends, recent community signals, improvement techniques | `last30days` |
-| Agent self-improvement, skill routing, underused-skill review, loop engineering | use the installed local loop-engineering skill with the workflow conductor |
+| Agent self-improvement, skill routing, underused-skill review, loop engineering | `mira-loop-engineering` |
 | Naming, renaming, terminology drift | `naming-quality` |
 | Pressure-test a plan or decision | `grill-with-docs` |
 | Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
@@ -97,6 +97,8 @@ Common routes:
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
 
+Maintenance rule: when a skill is retired, quarantined, or renamed, verify its row in this table in the same change.
+
 ## Essential-skill gate
 
 Use this gate whenever the task is non-trivial, durable, risky, user-facing, or
@@ -122,7 +124,7 @@ Plain-language trigger aliases:
 
 - Use `last30days` for "what are people saying now", "latest community signal", "recent chatter", "last month research", "current agent research", "trend scan", or "what changed recently".
 - Use `agent-plan-backlog` for "make this a queue for other agents", "turn these findings into plans", "split this into autonomous passes", "reconcile stale plans", or "write improve-style executor plans".
-- Use the installed local loop-engineering skill for "improve how the agent works", "self-improving loop", "loop engineering", "underused or overused skills", "skill routing drift", "SkillForge evals", or "why did the agent miss this".
+- Use `mira-loop-engineering` for "improve how the agent works", "self-improving loop", "loop engineering", "underused or overused skills", "skill routing drift", "SkillForge evals", or "why did the agent miss this".
 - Use `mira-review-gate` for "review this properly", "check this diff", "pre-merge confidence", "gate this change", "architecture critique", "local tooling review", or "make sure this is safe before accepting it".
 - Use `codex-html-report` for "make a durable report", "proof report", "infra report", "architecture report", "HTML report", "browser-native artifact", or "something I can read later".
 - Use `codex-closeout` for "close this out", "what changed", "what passed", "commit/push status", "dirty state", or any final delivery after repo, config, automation, skill, or report work.
@@ -152,7 +154,7 @@ skill as the discovery and routing layer.
 
 ## Skills CLI
 
-The Skills CLI is the package manager for the broader skill ecosystem.
+The Skills CLI is the package manager for the wider skill catalog.
 
 Useful commands:
 

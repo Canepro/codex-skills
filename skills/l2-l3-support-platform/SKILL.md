@@ -1,6 +1,6 @@
 ---
 name: l2-l3-support-platform
-description: Pragmatic L2/L3 support workflow for Microsoft 365, Entra, and Rocket.Chat tickets. Use when Codex needs to investigate customer-reported issues, platform faults, admin policy questions, identity problems, mail flow or licensing issues, Rocket.Chat operational incidents, or support-case communication that requires evidence, supported guidance, verification, and customer-ready updates.
+description: Pragmatic L2/L3 support workflow for Microsoft 365, Entra, and Rocket.Chat tickets. Use when investigating customer-reported issues, platform faults, admin policy questions, identity problems, mail flow or licensing issues, Rocket.Chat operational incidents, or support-case communication that requires evidence, supported guidance, verification, and customer-ready updates.
 ---
 
 # L2/L3 Support Platform

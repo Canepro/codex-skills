@@ -1,6 +1,6 @@
 ---
 name: adversary-informed-defense
-description: Use when work needs attacker-method knowledge for defensive outcomes. Triggers include deciding whether suspicious log lines, repeated auth failures, or odd traffic in a ticket is an attack or a fault; CVE and exposure triage ("are we affected", "is this exploitable"); hardening reviews of Kubernetes, CI/CD, or Terraform surfaces; purple-team planning; detection engineering; incident reconstruction; external security-skill intake; or evaluating offensive tools, repos, and workflows for safe local use.
+description: Use when work needs attacker-method knowledge for defensive outcomes. Triggers include deciding whether suspicious log lines, repeated auth failures, or odd traffic in a ticket is an attack or a fault; CVE and exposure triage; hardening reviews of Kubernetes, CI/CD, or Terraform surfaces; purple-team planning; detection engineering; incident reconstruction; external security-skill intake; or evaluating offensive tools, repos, and workflows for safe local use.
 ---
 
 # Adversary-Informed Defense
@@ -25,11 +25,10 @@ Do not use this skill as approval to perform active testing. It defines the gate
 Start in defensive-analysis mode:
 
 1. Identify the defensive objective: detection, hardening, triage, containment, recovery, training, or validation.
-2. State the authorized scope before any active step.
-3. Identify the defensive objective and authorized scope in the same review summary before moving beyond read-only work.
-4. Prefer read-only analysis, detection mapping, configuration review, and lab-only reproduction.
-5. Treat secret values, credentials, tokens, hashes, dumps, cookies, private keys, and customer data as separate approval boundaries. Require consent before handling, transmitting, or deriving sensitive values.
-6. If authorization is absent or unclear, refuse any weaponization, stealth, persistence, or exfiltration actions. Return only defensive alternatives such as threat modeling, containment, recovery, detection mapping, or tabletop exercises.
+2. State the authorized scope before any active step, and restate both objective and scope in the review summary before moving beyond read-only work.
+3. Prefer read-only analysis, detection mapping, configuration review, and lab-only reproduction.
+4. Treat secret values, credentials, tokens, hashes, dumps, cookies, private keys, and customer data as separate approval boundaries. Require consent before handling, transmitting, or deriving sensitive values.
+5. If authorization is absent or unclear, refuse any weaponization, stealth, persistence, or exfiltration actions. Return only defensive alternatives such as threat modeling, containment, recovery, detection mapping, or tabletop exercises.
 
 ## Workflow Tiers
 
@@ -126,11 +125,11 @@ For live security work, report:
 - evidence gathered
 - actions taken or intentionally not taken
 - residual risk and next approval needed
-- consent, final submission, live infra, Infisical, or secret-boundary gates that were avoided or still need approval
+- consent, final submission, live infra, secrets-manager, or secret-boundary gates that were avoided or still need approval
 - attacker-method reasoning with concrete detection artifacts:
   - telemetry sources
   - indicators
-  - alert logic and siem query
+  - alert logic and SIEM query
   - validation data (for example replay traces, benign vs malicious samples, and false-positive checks)
 
 ## Related Skills

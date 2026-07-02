@@ -1,17 +1,12 @@
 ---
 name: loki-label-analyzer
 license: Apache-2.0
-description: >
-  Expert evaluator for Grafana Loki label strategy. Audits, designs, and improves
-  label schemas using cardinality scoring, access-pattern alignment, static vs.
-  dynamic label rules, and consistency checks. Use when the user asks to evaluate,
-  audit, design, or improve a Loki label strategy - or asks why their Loki queries
-  are slow.
+description: "Audit, design, or improve a Grafana Loki label schema: cardinality scoring, static vs dynamic label rules, structured metadata placement, and stream-level query performance diagnosis. Use when Loki queries are slow, stream counts or costs are growing, or the user asks to evaluate or redesign Loki labels. For LogQL syntax and ingestion, use loki."
 ---
 
 # Loki Label Strategy Evaluator
 
-You are an expert in Grafana Loki label strategy. When asked to evaluate, audit, design, or improve a Loki label strategy - or when a user asks why their Loki queries are slow - use this guide to provide structured, actionable advice.
+This skill audits, designs, and improves Grafana Loki label schemas. When asked to evaluate or redesign a label strategy, or when a user asks why their Loki queries are slow, use this guide to produce a structured assessment with concrete fixes.
 
 For LogQL syntax, ingestion configuration, or general Loki questions outside label strategy, use the `loki` skill instead.
 
@@ -88,11 +83,11 @@ When auditing a label set, produce a report in this structure:
 [Final recommended labels]
 
 ### Migration Notes
-Treat every label schema change as a `label allowlist` change-control event, not a routine config tweak.
-- Apply review-first `change control` before changing allowed label names.
-- If you are `renaming labels`, do not cut over instantly. Keep old and new keys active for a `rollout` `query and dashboard compatibility window`.
-- Use `dual-write` for renamed keys during migration, and validate impacted saved queries and dashboards for both key names to prevent query and dashboard compatibility gaps.
-- Add explicit `rollback` notes: how to revert the allowlist, collector stages, and query/dashboard references quickly if regressions appear.
+Treat every label schema change as a change-control event on the label allowlist, not a routine config tweak.
+- Review changes to the allowed label names before applying them.
+- When renaming labels, do not cut over instantly. Emit both the old and new keys for a compatibility window so saved queries and dashboards keep working.
+- During that window, validate the affected queries and dashboards against both key names before removing the old one.
+- Write down the rollback path: how to revert the allowlist, the collector stages, and any updated query or dashboard references if regressions appear.
 ```
 
 ---
@@ -388,74 +383,7 @@ stage.labels { values = { team = "" } }
 
 ## Log Line Optimization
 
-These reduce storage costs. Establish a cost-per-GB baseline before implementing.
-
-### Remove Timestamps from Log Lines
-
-Each log entry already has a metadata timestamp - the inline timestamp is redundant (~30-34 bytes each, ~6% of a typical log line).
-
-```alloy
-loki.process "drop_timestamp" {
- forward_to = [...]
- // logfmt timestamps
- stage.replace {
- expression = "(?i)((?:time_?(?:stamp)?|ts|logdate|start_?time)=[^ \\n]+(?: |$))"
- replace = " "
- }
- // JSON timestamps
- stage.replace {
- expression = "(\"@?(?:time_?(?:stamp)?|ts|logdate|start_?time)\"\\s*:\\s*\"[^\"]+\",?)"
- replace = " "
- }
- // ISO-8601 at start of line
- stage.replace {
- expression = "^(\\d{4}-\\d{2}-\\d{2})T\\d{2}:\\d{2}(?::\\d{2}(?:\\.\\d{1,9})?Z?)?"
- replace = ""
- }
-}
-```
-
-The original timestamp is still accessible at query time: `| line_format '{{ __timestamp__ | date "2006-01-02T15:04:05Z" }}'`
-
-### Remove ANSI Color Codes
-
-```alloy
-loki.process "decolorize" {
- forward_to = [...]
- stage.decolorize {}
-}
-```
-
-### Remove Duplicate Level Field (when `level` is already a label)
-
-```alloy
-stage.replace { expression = "(level=[^ ]+ )"; replace = "" }
-```
-
-### JSON Optimizations
-
-```alloy
-// Remove null values
-stage.replace {
- expression = "(\\s*(\"[^\"]+\"\\s*:\\s*null)(?:\\s*,)?\\s*)"
- replace = ""
-}
-
-// Remove placeholder values ("-", "undefined", "null" strings)
-stage.replace {
- expression = "(\\s*(\"[^\"]+\"\\s*:\\s*\"(?:-|null|undefined)\")(?:\\s*,)?\\s*)"
- replace = ""
-}
-
-// Remove empty values ("", [], {})
-stage.replace {
- expression = "(\\s*,\\s*(\"[^\"]+\"\\s*:\\s*(\\[\\s*\\]|\\{\\s*\\}|\"\\s*\"))|(\"[^\"]+\"\\s*:\\s*(\\[\\s*\\]|\\{\\s*\\}|\"\\s*\"))\\s*,\\s*)"
- replace = ""
-}
-```
-
-**Practical savings** (Istio access log example):
-Starting at 753 bytes (minified) → after removing nulls, placeholders, unused fields, normalizing keys: **464 bytes - 38% reduction**.
+Read `references/log-line-optimization.md` when reducing log storage cost or line size. It covers removing inline timestamps, ANSI color codes, duplicate level fields, and JSON null/placeholder values, with Alloy stages and measured savings.
 
 ---
 

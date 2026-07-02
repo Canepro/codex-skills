@@ -24,9 +24,12 @@ Use this skill when the problem is system coherence over time, not just one scre
 - the main issue is responsive behavior on one screen. Use the installed vendor frontend testing/debugging skill when available.
 - the request is shadcn-specific component, registry, preset, CLI, or `components.json` work. Use the installed `build-web-apps:shadcn` vendor plugin when available.
 - the request is product-design prototyping, image-to-code, URL-to-code, or design-vs-implementation QA. Use the installed Product Design vendor plugin when available.
-- if the request mixes one-off screen polish and systemic design drift, split
-  the work and prioritize the systemic design-system pattern here after the
-  screen-review route handles the isolated defect.
+
+## Routing
+
+If the request mixes one-off screen polish and systemic design drift, split
+the work: let the screen-review route (`frontend-anti-slop`) handle the
+isolated defect, then prioritize the systemic design-system pattern here.
 
 ## Workflow
 
@@ -80,10 +83,12 @@ When changing the system:
 
 ### 5. Validate shared component publishing
 
-Before publishing shared tokens, primitives, or component changes:
+Before publishing shared tokens, primitives, or component changes, when Storybook or an equivalent visual regression setup exists in the repo:
 - run visual regression checks with Storybook
 - capture or update snapshot baselines for key interaction state variants (hover, focus, active, disabled, loading, error)
 - require approval of visual diffs before merge when snapshots or interaction states change
+
+If the repo has no Storybook or equivalent visual regression setup, do not block the publish on this step; tell the user the gap exists and recommend adding coverage.
 
 ## Guidance
 
@@ -112,3 +117,12 @@ release notes, or changelog entries are out of sync.
 
 - Read `references/maintenance-checklist.md` for a working maintenance checklist.
 - [DESIGN.md spec and CLI](https://github.com/google-labs-code/design.md) (Google Labs): format for describing a design system to coding agents.
+
+## Workflow Coordination
+
+This skill owns design-system token, component, and deprecation work. It does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.

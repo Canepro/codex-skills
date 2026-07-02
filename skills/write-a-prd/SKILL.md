@@ -84,3 +84,14 @@ If the user explicitly asks for issue creation:
 - Prefer a usable document over a maximal one.
 - If the user already supplied a draft, rewrite and tighten it rather than starting over.
 - If there is major product uncertainty, make that uncertainty explicit instead of hiding it in vague language.
+
+When the PRD is done, hand it to `prd-to-plan` for a phased implementation plan or `prd-to-issues` for issue drafts and tickets.
+
+## Workflow Coordination
+
+This skill owns producing the PRD document. It does not own general workflow state.
+
+Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
+Use `codex-closeout` for final chat delivery.
+Use `codex-html-report` for durable reader-facing proof.
+Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.

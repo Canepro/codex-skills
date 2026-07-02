@@ -96,9 +96,12 @@ Report:
 
 ## Guidance
 
-- Separate “repo is wrong” from “controller is stuck”.
+- Separate "repo is wrong" from "controller is stuck".
 - Treat stale failed operations as controller state, not manifest truth.
 - If one invalid resource is cluster-specific, prefer removing or conditionally excluding it in Git instead of forcing it live.
+
+## Gotchas
+
 - If a GitOps app points at an optional, parked, or on-demand cluster, verify expected state from docs or automation before treating `Unknown` health or sync state as an incident.
 
 ## Related specialist skills
@@ -126,6 +129,10 @@ Usage:
 bash "${CODEX_HOME:-$HOME/.codex}/skills/gitops-reconcile/scripts/argocd_health.sh"
 bash "${CODEX_HOME:-$HOME/.codex}/skills/gitops-reconcile/scripts/argocd_health.sh" <app-name>
 ```
+
+### Flux equivalents
+
+There is no bundled Flux script; use the `flux` CLI directly. The command equivalents (status snapshot, reconcile with source, suspend/resume) are listed in `references/reconcile-patterns.md`.
 
 ## Workflow Coordination
 

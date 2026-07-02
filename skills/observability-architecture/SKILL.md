@@ -43,6 +43,8 @@ Specify:
 - correlation identifiers
 - environment and ownership labels
 
+Default: OpenTelemetry semantic conventions for all new instrumentation; deviate only where an existing schema is already enforced.
+
 ### 3. Design the architecture
 
 Cover:
@@ -61,6 +63,8 @@ Do not leave these implicit:
 - log retention tiers
 - long-term metrics retention
 - query performance constraints
+
+Default retention tiers: 13 months for metrics, 30 days for logs, 7 days for traces, unless cost or compliance forces otherwise.
 
 ### 5. Define ownership
 

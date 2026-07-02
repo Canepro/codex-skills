@@ -1,22 +1,12 @@
 ---
 name: prometheus-label-strategy
 license: Apache-2.0
-description: >
-  Expert evaluator for Prometheus label strategy on Grafana Cloud. Audits, designs, and
-  improves label schemas using cardinality scoring, access-pattern alignment, static vs.
-  dynamic label rules, histogram bucket discipline, and instrumentation hygiene. Prevents
-  high cardinality at the source - in application code and scrape target labels - without
-  dropping labels that make series unique (which breaks the data). For reducing the cost of
-  series already in Grafana Cloud, use Adaptive Metrics when that specialist exists;
-  otherwise route evidence gathering through prometheus-grafana-triage. Use when the user
-  asks to evaluate, audit, design, or improve Prometheus labels - or asks how to prevent
-  high cardinality at the source. For "why is my Prometheus slow / expensive right now"
-  triage, see prometheus-cardinality-troubleshooter.
+description: Design and audit Prometheus label schemas to prevent high cardinality at the source. Covers instrumentation hygiene, target vs application labels, histogram label discipline, info metrics, and exemplars. Use when designing or reviewing metric labels or asked how to stop cardinality growth before ingest. For a live cardinality fire, use prometheus-cardinality-troubleshooter.
 ---
 
 # Prometheus Label Strategy Evaluator
 
-You are an expert in Prometheus label strategy. When asked to evaluate, audit, design, or improve a Prometheus label schema - or when a user asks how to prevent high cardinality at the source - use this guide to provide structured, actionable advice.
+This skill evaluates, audits, designs, and improves Prometheus label schemas, and answers how to prevent high cardinality at the source. Use this guide to give structured, specific advice.
 
 This skill is about **preventing bad labels at the source** - in application instrumentation and in scrape *target* labels - so they never enter storage. It is **not** about stripping labels off metrics after they've been emitted: removing a label that makes a series unique at scrape time silently breaks the data (see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique) below). For reducing the cost of series that already exist in Grafana Cloud, use a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` and keep the Adaptive Metrics recommendation explicit. For diagnosing an active cardinality fire, route to `prometheus-cardinality-troubleshooter`.
 
@@ -137,16 +127,16 @@ When auditing a label set, produce a report in this structure:
 ## Prometheus Label Strategy Audit
 
 ### Summary
-[1-2 sentence overall assessment — total estimated active series, biggest risks]
+[1-2 sentence overall assessment, total estimated active series, biggest risks]
 
 ### Per-Label Analysis
 | Metric Family | Label | Cardinality | Used in Queries? | Verdict | Action |
 |---|---|---|---|---|---|
 | http_requests_total | path | Unbounded (raw URLs) | Sometimes | ❌ Remove | Template in code: `/users/:id` not `/users/12345` |
-| http_requests_total | pod | High + churn | Rarely | ⚠️ Keep — makes the series unique | If too expensive, aggregate away with Adaptive Metrics; query by `workload` for the common case |
+| http_requests_total | pod | High + churn | Rarely | ⚠️ Keep, makes the series unique | If too expensive, aggregate away with Adaptive Metrics; query by `workload` for the common case |
 
 ### Histogram-Specific Findings
-[Highlight any histograms with high label cardinality — these are 14×+ amplified]
+[Highlight any histograms with high label cardinality, these are 14×+ amplified]
 
 ### Estimated Impact
 - Active series reduction: [X series → Y series]
@@ -157,9 +147,9 @@ When auditing a label set, produce a report in this structure:
 [Final recommended labels per metric family]
 
 ### Implementation Plan
-1. [Code changes — instrumentation hygiene: stop emitting bad labels at the source]
-2. [Scrape target labels — relabel_configs (additive: env, cluster, team, workload)]
-3. [Post-ingest cost reduction on series you can't fix at the source — Adaptive Metrics]
+1. [Code changes, instrumentation hygiene: stop emitting bad labels at the source]
+2. [Scrape target labels, relabel_configs (additive: env, cluster, team, workload)]
+3. [Post-ingest cost reduction on series you can't fix at the source, Adaptive Metrics]
 4. [Recording rules to materialize useful aggregates]
 ```
 

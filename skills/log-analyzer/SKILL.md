@@ -1,6 +1,6 @@
 ---
 name: log-analyzer
-description: Analyze logs, stack traces, HAR excerpts, and timestamped incident evidence. Use when the user provides log files, pasted log snippets, exported ticket attachments, or error timelines and needs concise findings, correlation, root-cause clues, or support-safe next steps.
+description: Analyze provided log artifacts. Files, pasted snippets, stack traces, HAR excerpts, ticket attachments, and error timelines become bounded findings, correlation, and support-safe next steps. Not for live-system triage (k8s-sre-triage, prometheus-grafana-triage, ci-pipeline-triage own those) or LogQL and Loki work (loki).
 metadata:
   short-description: Support-safe log analysis
 ---
@@ -26,7 +26,7 @@ Use this skill to turn raw logs into evidence-backed findings. Keep the output b
 
 2. **Identify format and scope.**
    - Detect format: JSON, syslog, journalctl, Kubernetes logs, web server logs, browser console, HAR, stack trace, or custom application logs.
-   - Identify component: Rocket.Chat app, MongoDB, reverse proxy, Kubernetes, client app, identity provider, API, job worker, or unknown.
+   - Identify the component of the application under investigation: application server (for example a Rocket.Chat app), database, reverse proxy, Kubernetes, client app, identity provider, API, job worker, or unknown.
 
 3. **Extract signals.**
    - Errors, warnings, exceptions, failed requests, status codes, retry loops, restarts, timeouts, auth failures, database errors, and config warnings.
@@ -69,6 +69,7 @@ Customer-safe summary:
 - Writing LogQL or configuring Loki rather than reading pasted logs: `loki`
 - Loki label strategy and slow-query diagnosis: `loki-label-analyzer`
 - Suspicious patterns that may be an attack rather than a fault (repeated auth failures, scanning, odd traffic, possible intrusion): `adversary-informed-defense`
+- Live incident on a running system: hand to the matching triage skill (`k8s-sre-triage`, `prometheus-grafana-triage`, `ci-pipeline-triage`) once artifact analysis points there.
 
 ## Support handoff guidance
 

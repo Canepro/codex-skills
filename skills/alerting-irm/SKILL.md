@@ -1,12 +1,7 @@
 ---
 name: alerting-irm
 license: Apache-2.0
-description: >
-  Grafana Alerting, Incident Response Management (IRM), and SLOs. Covers Grafana-managed and data source-managed
-  alert rules, notification policies, contact points (Slack/PagerDuty/email/webhook), silences, muting,
-  on-call scheduling, incident management workflows, and SLO configuration with burn-rate alerts.
-  Use when configuring alerts, debugging notification routing, setting up on-call rotations,
-  managing incidents, defining SLOs, or provisioning alerting via YAML/API.
+description: "Grafana Alerting, Incident Response Management (IRM), and SLOs. Covers Grafana-managed and data source-managed alert rules, notification policies, contact points (Slack/PagerDuty/email/webhook), silences, muting, on-call scheduling, incident management workflows, and SLO configuration with burn-rate alerts. Use when configuring alerts, debugging notification routing, setting up on-call rotations, managing incidents, defining SLOs, or provisioning alerting via YAML/API. For diagnosing why an alert fired or did not fire, use prometheus-grafana-triage."
 ---
 
 # Grafana Alerting & IRM
@@ -16,10 +11,6 @@ description: >
 ## Alert Rules
 
 ### Grafana-Managed Alert Rule (YAML provisioning)
-
-```yaml
-uid: high-error-rate
-```
 
 ```yaml
 # provisioning/alerting/rules.yaml
@@ -128,18 +119,9 @@ groups:
 
 ## Sensitive handling and governance
 
-Use this section for sensitive runs, incident edits, and secret-aware workflows.
-- Ask for consent before touching a `secret`, `private key`, or `destructive` change path.
-- Ask for consent and approval before making changes that impact `live infra`; always `pause before` `final submission`.
-- Do not echo `secret` or `private key` values in logs, shell output, or chat.
-- Redact, mask, or hide sensitive values when sharing examples or debug output.
-- Use `infisical` for credentials and avoid `no hardcoded` secrets in configs, alert templates, and repos.
-- Use a `live test first` posture in non-production, then promote to production only after safety checks.
-- In this runtime, follow the approved handoff conventions for sensitive operational actions and keep owner boundaries explicit.
-
-## Workflow Coordination
-
-This skill owns Grafana alerting, IRM, SLO, silence, and notification-routing work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, incident handoffs, approval state, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+- Ask for approval before changing anything that touches secrets, private keys, or live infrastructure, and pause before the final submission of such a change.
+- Never echo secret or key values in logs, shell output, or chat; redact them in shared examples and debug output.
+- Store credentials in your secrets manager, keep them out of configs, alert templates, and repos, and test changes in non-production before promoting.
 
 ## Contact Points (YAML provisioning)
 
@@ -370,3 +352,7 @@ curl -X POST https://grafana.example.com/api/v1/provisioning/alert-rules \
 - [Grafana alerting](https://grafana.com/docs/grafana/latest/alerting/)
 - [Grafana Cloud IRM](https://grafana.com/docs/grafana-cloud/alerting-and-irm/irm/)
 - [Grafana SLOs](https://grafana.com/docs/grafana-cloud/alerting-and-irm/slo/)
+
+## Workflow Coordination
+
+This skill owns Grafana alerting, IRM, SLO, silence, and notification-routing work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, incident handoffs, approval state, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

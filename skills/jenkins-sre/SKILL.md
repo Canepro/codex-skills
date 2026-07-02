@@ -16,7 +16,7 @@ Use this skill for Jenkins runtime and control-plane issues, not for generic bui
 - credentials or secrets appear wrong at runtime
 - jobs are queued but never scheduled, including cases where label expression, node labels, or executor mismatch block assignment
 - the controller is unhealthy, overloaded, or plugin/runtime behavior is suspect
-- the user asks about Jenkins nodes, executors, secrets, or controller state
+- the user asks about Jenkins nodes, executors, agent secrets, or controller state
 
 ## Do not use when
 
@@ -114,6 +114,6 @@ This skill owns its domain work. Use `vincent-workflow` for durable decisions, b
 
 For live infra work, require explicit approval and explicit consent gates before destructive actions. Pause before destructive changes such as node recreation, pod deletion, secret rotation, or controller plugin updates. In these flows:
 - Handle token and private key material as secrets, keep outputs redacted, and do not echo token or private key values.
-- Separate secret metadata review from secret-value handling, and prefer Infisical for approved token and credential paths.
-- Keep authority boundaries explicit for agent, service, and operator handoffs; if this lane affects a final submission or external artifact, route it only after explicit consent and workflow approval.
+- Separate secret metadata review from secret-value handling, and use the user's secrets manager for approved token and credential paths.
+- Keep authority boundaries explicit for agent, service, and operator handoffs; before changing controller state that affects production builds (node definitions, credentials, plugins), get explicit consent from the user first.
 - Route evidence updates and proof to `codex-html-report` so recovery state stays durable and reviewable.

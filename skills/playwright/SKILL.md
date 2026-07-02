@@ -1,6 +1,6 @@
 ---
 name: "playwright"
-description: "Fallback terminal browser automation using `playwright-cli` or the bundled wrapper. Use when Browser/Chrome plugin control is unavailable or the task needs CLI-friendly navigation, form filling, screenshots, snapshots, scraping, or stateful browser workflows. Do not use as the first route for frontend testing/debugging, visual QA, data visualization QA, or in-app/browser plugin control when those vendor tools are available."
+description: "Fallback terminal browser automation using `playwright-cli` or the bundled wrapper. Use when Browser/Chrome plugin control is unavailable or the task needs CLI-friendly navigation, form filling, screenshots, snapshots, scraping, or stateful browser workflows. Do not use as the first route when vendor frontend testing, visual QA, or browser plugin tools are available; use those first."
 ---
 
 
@@ -54,22 +54,16 @@ Use the wrapper script:
 "$PWCLI" screenshot
 ```
 
-If the user prefers a global install, this is also valid:
-
-```bash
-npm install -g @playwright/mcp@latest
-playwright-cli --help
-```
+If the user prefers a global install, use the install commands from the prerequisite check above; a global install stays optional.
 
 ## Core workflow
 
-1. Name the actor / who is doing the action (user, operator, agent).
-2. Open the page.
-3. Snapshot to get stable element refs.
-4. Interact using refs from the latest snapshot.
-5. Re-snapshot after navigation or significant DOM changes.
-6. Collect concrete evidence with command output and file path references before and after critical steps.
-7. Capture artifacts (screenshot, pdf, traces) when useful.
+1. Open the page (or attach to the existing session).
+2. Snapshot to get stable element refs.
+3. Interact using refs from the latest snapshot.
+4. Re-snapshot after navigation or significant DOM changes.
+5. Collect concrete evidence with command output and file path references before and after critical steps.
+6. Capture artifacts (screenshot, pdf, traces) when useful.
 
 Minimal loop:
 
@@ -141,17 +135,18 @@ Open only what you need:
 
 ## Stateful sessions
 
-The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages. Redact `secret` and `credential` values before sharing outputs, screenshots, traces, or logs. Do not echo `secret` or `credential` values in command output.
+The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages, and apply the redaction guardrail below to everything you share.
 
 ## Guardrails
 
+- Name the actor behind each action (user, operator, agent) so authority boundaries stay explicit.
 - Do not invent credentials. Reuse the existing session or the user's normal login flow when auth is required.
-- Do not store or share raw `secret` or `credential` values. Redact sensitive fields in logs, screenshots, traces, and pasted snippets. Do not echo `secret` or `credential` values in command output.
+- Do not store, share, or echo raw `secret` or `credential` values. Redact sensitive fields in command output, logs, screenshots, traces, and pasted snippets.
 - Before final submission or any irreversible action (publish, payment, account changes), pause before final submission and request explicit user confirmation.
 - Always snapshot before referencing element ids like `e12`.
 - Re-snapshot when refs seem stale.
 - Prefer explicit commands over `eval` and `run-code` unless needed.
-- When you do not have a fresh snapshot, use placeholder refs like `eX` and say why; do not bypass refs with `run-code`.
+- When you do not have a fresh snapshot, stop, take a new snapshot, and use the real refs from it. Never guess refs and never bypass refs with `run-code`.
 - Use `--headed` when a visual check will help.
 - When capturing artifacts in this repo, use `output/playwright/` and avoid introducing new top-level artifact folders.
 - Default to CLI commands and workflows, not Playwright test specs.

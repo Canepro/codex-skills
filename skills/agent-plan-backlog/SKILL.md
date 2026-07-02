@@ -1,6 +1,6 @@
 ---
 name: agent-plan-backlog
-description: Create, review, execute, or reconcile executor-grade implementation plans for other agents. Use when the user asks to adopt /improve-style planning, audit a repo and write self-contained plans, create a plans/ backlog, hand work to a weaker or cheaper model, review stale plans, reconcile drift, split advisor planning from executor implementation, build an agent work queue, or turn review findings into autonomous follow-up plans.
+description: Create, review, execute, or reconcile executor-grade implementation plans another agent can run without this chat. Use for /improve-style planning, a plans/ work queue for a weaker or cheaper model, stale-plan review, or drift reconciliation. Not for PRD phase slicing (prd-to-plan) or issue drafts (prd-to-issues).
 metadata:
   short-description: Build executor-grade plan backlogs
 ---
@@ -9,20 +9,11 @@ metadata:
 
 Use this skill when the plan is the product: the advisor agent writes self-contained implementation plans and leaves execution to a separate agent, a later session, or a human.
 
-This adopts the useful mechanics from `shadcn/improve` without creating a parallel workflow system. Specialist skills still own discovery and diagnosis. This skill owns the executor-grade backlog.
-
-Plain-English triggers that should route here:
-
-- "turn this into plans another agent can execute"
-- "make a backlog from these findings"
-- "split this into safe autonomous agent passes"
-- "write the next work queue, not just a chat plan"
-- "review these stale plans and reconcile them"
-- "use improve-style planning, but do not implement yet"
+This adopts the useful mechanics from `shadcn/improve` without creating a parallel workflow system. Specialist skills still own discovery and diagnosis. This skill owns the executor-grade backlog. Read [references/upstream-notes.md](references/upstream-notes.md) when adapting the upstream `/improve` conventions.
 
 ## Use when
 
-- the user asks for `/improve`-style planning, borrowed-intelligence planning, or a backlog of plans
+- the user asks for `/improve`-style planning, plans written by a stronger model for a weaker executor, or a backlog of plans
 - an audit should produce implementation plans for a different model or future session
 - a plan must be executable with no access to the advisor conversation
 - a review or self-improvement pass produces multiple independent fixes that should become an agent-driven work queue
@@ -98,6 +89,8 @@ plans/
 ```
 
 If `plans/` already exists for unrelated planning, use `advisor-plans/` and say why.
+
+Read [references/plan-template.md](references/plan-template.md) when writing a plan file.
 
 Every plan must include:
 

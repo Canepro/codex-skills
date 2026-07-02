@@ -1,6 +1,6 @@
 ---
 name: frontend-anti-slop
-description: Review or polish an existing frontend UI so it feels intentional, product-specific, accessible, and less generic. Use as a local anti-slop overlay for frontend PR review, severity-ranked findings, dashboard chrome cleanup, visual hierarchy correction, and implementation polish. Do not use as the first route for new app builds, prototypes, product-design audits, web data visualization design/build/testing/export, browser UI testing, responsive-only fixes, React/Next performance, or shadcn work when the installed vendor plugin covers the task.
+description: Review or polish an existing frontend UI so it feels intentional, product-specific, and accessible. Use for frontend PR review, severity-ranked UI findings, dashboard chrome cleanup, hierarchy fixes, and anti-slop polish. Not the first route for new app builds, data visualization, browser testing, React performance, or shadcn work; vendor plugins own those.
 metadata:
   short-description: Frontend review and anti-slop polish
 ---
@@ -16,14 +16,9 @@ Coding agents default to templated SaaS UI: hero blocks on dashboards, metric gr
 ## When To Use
 
 Use this skill when:
-- the user asks for a frontend review, UI audit, UX critique, or frontend PR review
 - a screen feels off and the failure mode is not yet clear
-- the user needs a severity-ranked list of findings before implementation
-- the user asks for polish, cleanup, less templated UI, or less AI-generated UI on an existing screen
 - an app has weak hierarchy, overdecorated cards, awkward spacing, generic SaaS styling, or dashboard chrome filler that is not about chart choice or analytical encoding
 - a page needs implementation changes, not only a critique
-
-Prefer installed vendor plugin skills first when the task is a new frontend app, coded prototype, product-design audit, visual-target implementation, web data visualization, browser UI debugging, responsive-only repair, React/Next performance pass, or shadcn work.
 
 Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
 
@@ -104,7 +99,7 @@ Required before any edit. Write these down. If any are unknown, ask the user or 
 
 Skipping this step is the most common cause of slop: parallel tokens, reinvented primitives, off-system spacing.
 
-If the repo has a `DESIGN.md` file per the [DESIGN.md spec](https://github.com/google-labs-code/design.md), treat it as the authority for tokens, palette, and type ramp. Read it before inventing values, and validate edits against it with `npx @google/design.md lint DESIGN.md`.
+If the repo has a `DESIGN.md` file per the DESIGN.md spec (https://github.com/google-labs-code/design.md, optional external reference), treat it as the authority for tokens, palette, and type ramp. Read it before inventing values. When network access and the tool are available, validate edits with `npx @google/design.md lint DESIGN.md`; skip the lint without blocking when offline or the package is unavailable.
 
 ## Design Ladder
 

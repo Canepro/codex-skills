@@ -1,6 +1,6 @@
 ---
 name: naming-quality
-description: Improve or review names for files, modules, exported identifiers, routes, API fields, fixtures, environment labels, and user-facing copy. Use when the user asks what something should be called, wants to name or rename something important, asks for better terminology, notices confusing vocabulary, or needs durable names across code, docs, product surfaces, logs, and operator workflows.
+description: Improve or review names for files, modules, identifiers, routes, API fields, env labels, and user-facing copy. Use when the user asks what to call something, wants to rename something important, or needs durable vocabulary across code, docs, logs, and operator workflows. Not when the name is fixed by an external standard.
 metadata:
   short-description: Choose clearer, more durable names
 ---
@@ -16,9 +16,7 @@ Choose names that survive contact with real usage, not just the current patch.
 - tightening API field names, CLI flags, env vars, or fixture names
 - cleaning up environment terminology across docs and code
 - reviewing whether an existing name is misleading, temporary, too local, or too implementation-shaped
-- naming or reviewing consent, approval, and final submission checkpoints where explicit user consent and final-submission naming is required
-- naming destructive and live infra actions where a mistaken name can increase operational **risk** or trigger the wrong action
-- reviewing names for fields or variables that represent a secret, a credential, a token, or a private key
+- naming consent, approval, or final-submission checkpoints, destructive or live infra actions, or fields that hold a secret, credential, token, or private key, where a mistaken name raises operational risk
 - deciding whether to keep a deployed resource identifier while changing the product or documentation vocabulary
 
 ## Do not use when
@@ -36,8 +34,7 @@ Be explicit about:
 - what is being named
 - who reads or types the name
 - whether it is internal, user-facing, or part of a public contract
-- whether this name implies consent or final submission and which approval gate it represents
-- what level of risk it carries for destructive live infra actions
+- whether the name marks a consent, approval, or final-submission gate, a destructive live infra action, or secret handling, and what risk a wrong name carries
 - how expensive a future rename would be
 
 ### 2. Verify the real behavior first
@@ -54,9 +51,7 @@ Good names usually prefer:
 - user meaning over implementation detail
 - stable behavior over current hosting or machine specifics
 - scenario-based language over local workstation names
-- explicit scope for names tied to secret, credential, token, or private key handling
-- explicit **approval** and consent language for final submission paths
-- explicit **risk** language for destructive and live infra actions
+- explicit scope, approval, and risk language for names tied to secret handling, final-submission paths, and destructive or live infra actions
 
 Examples:
 

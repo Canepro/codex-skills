@@ -162,6 +162,15 @@ After the change:
 - `container_memory_working_set_bytes` is supporting evidence, not definitive proof of an exact cgroup kill threshold or kill timestamp. Use it to support an OOM diagnosis, not to overstate one.
 - When the evidence proves a real event but not the precise trigger, say so. Distinguish “real incident” from “fully explained incident.”
 
+## DPM and usage analysis
+
+DPM is data points per minute per series: at a 60s scrape interval a series produces 1 DPM, at 15s it produces 4. A DPM spike with flat Active Series usually means a shortened scrape interval or duplicate remote_write senders, not new series. To find what drives it:
+- Grafana Cloud billing and usage dashboards break usage down per metric and per source
+- `count_over_time(metric[1m])` or `rate()` on suspect metrics shows samples-per-minute directly
+- the tsdb status endpoints (see `prometheus-cardinality-troubleshooter`) show which metrics carry the most series
+
+Hand off to `prometheus-cardinality-troubleshooter` when the driver is an active series explosion, and to `prometheus-label-strategy` when the ask is preventing it in instrumentation or scrape config.
+
 ## Related specialist skills
 
 Use these for deeper Grafana-specific work after the incident shape is clear:

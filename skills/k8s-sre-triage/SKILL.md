@@ -23,6 +23,7 @@ Investigate Kubernetes and container incidents with a repeatable workflow. Start
 - The problem is primarily a CI log or PR check failure before deployment. Use `ci-pipeline-triage`.
 - The problem is primarily Prometheus, Alertmanager, scrape health, or Grafana alert logic. Use `prometheus-grafana-triage`.
 - The user wants cluster provisioning, architecture design, or migration planning rather than incident response.
+- The blocker is Argo CD or Flux sync/convergence state itself: use `gitops-reconcile`.
 
 ## Workflow
 
@@ -105,7 +106,7 @@ Report:
 - verification evidence
 - residual risk or follow-up work
 
-## Guidance
+## Gotchas
 
 - Separate symptom, root cause, and remediation. Do not blur them.
 - Prefer a single evidence-backed diagnosis over several weak guesses.

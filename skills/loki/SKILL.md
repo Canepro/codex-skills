@@ -1,11 +1,7 @@
 ---
 name: loki
 license: Apache-2.0
-description: >
-  Grafana Loki log aggregation and LogQL query language. Covers LogQL syntax (log queries, metric queries,
-  label matchers, line filters, parsers: json/logfmt/pattern/regexp/unpack, label filters, line_format),
-  Loki architecture, log ingestion via Alloy/Promtail/Fluent Bit, structured metadata, and Logs Drilldown.
-  Use when writing LogQL queries, configuring Loki, troubleshooting log pipelines, or analyzing logs.
+description: "Grafana Loki and the LogQL query language: stream selectors, line filters, parsers (json/logfmt/pattern/regexp/unpack), metric queries, ingestion via Alloy/Promtail/Fluent Bit, structured metadata, and Loki architecture. Use when writing or fixing LogQL or configuring Loki ingestion. For slow queries or label schema audits use loki-label-analyzer; for pasted log files use log-analyzer."
 ---
 
 # Grafana Loki - Log Aggregation
@@ -14,11 +10,9 @@ description: >
 
 Indexes only metadata (labels), not full log content, which is dramatically cheaper than full-text search systems.
 
-Use specific examples, commands, and file paths when documenting Loki troubleshooting.
-
 ## Safety for credentials and secrets
 
-- Never print, do not echo, or expose credential values in chat, tickets, or command logs.
+- Never print, echo, or expose credential values in chat, tickets, or command logs.
 - Redact secrets before sharing copied log lines, traces, payloads, or screenshots.
 - Prefer secret-backed config injection (for example via `/var/run/secrets/loki/token` and environment variables) and avoid hard-coded inline credentials in Alloy and Loki config.
 

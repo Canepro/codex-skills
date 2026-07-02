@@ -31,12 +31,12 @@ pip install networkx
 5. Query the outputs with `scripts/query_ownership.py` for bounded JSON slices.
 6. Persist and visualize (see `references/neo4j-import.md`).
 
-By default, the co-change graph ignores common “glue” files (lockfiles, `.github/*`, editor config) so clusters reflect actual code movement instead of shared infra edits. Override with `--cochange-exclude` or `--no-default-cochange-excludes`. Dependabot commits are excluded by default; override with `--no-default-author-excludes` or add patterns via `--author-exclude-regex`.
+By default, the co-change graph ignores common "glue" files (lockfiles, `.github/*`, editor config) so clusters reflect actual code movement instead of shared infra edits. Override with `--cochange-exclude` or `--no-default-cochange-excludes`. Dependabot commits are excluded by default; override with `--no-default-author-excludes` or add patterns via `--author-exclude-regex`.
 
 If you want to exclude Linux build glue like `Kbuild` from co-change clustering, pass:
 
 ```bash
-python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
+python3 scripts/run_ownership_map.py \
   --repo /path/to/linux \
   --out ownership-map-out \
   --cochange-exclude "**/Kbuild"
@@ -44,10 +44,10 @@ python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
 
 ## Quick start
 
-Run from the repo root:
+Script paths are relative to this skill's directory; run them from there, or prefix with the skill's absolute path when working from another repo.
 
 ```bash
-python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
+python3 scripts/run_ownership_map.py \
   --repo . \
   --out ownership-map-out \
   --since "12 months ago" \
@@ -59,7 +59,7 @@ Defaults: author identity, author date, and merge commits excluded. Use `--ident
 Example (override co-change excludes):
 
 ```bash
-python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
+python3 scripts/run_ownership_map.py \
   --repo . \
   --out ownership-map-out \
   --cochange-exclude "**/Cargo.lock" \
@@ -70,7 +70,7 @@ python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
 Communities are computed by default. To disable:
 
 ```bash
-python skills/skills/security-ownership-map/scripts/run_ownership_map.py \
+python3 scripts/run_ownership_map.py \
   --repo . \
   --out ownership-map-out \
   --no-communities
@@ -112,13 +112,13 @@ Use `scripts/query_ownership.py` to return small, JSON-bounded slices without lo
 Examples:
 
 ```bash
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out people --limit 10
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out files --tag auth --bus-factor-max 1
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out person --person alice@corp --limit 10
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out file --file crypto/tls
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out cochange --file crypto/tls --limit 10
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out summary --section orphaned_sensitive_code
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out community --id 3
+python3 scripts/query_ownership.py --data-dir ownership-map-out people --limit 10
+python3 scripts/query_ownership.py --data-dir ownership-map-out files --tag auth --bus-factor-max 1
+python3 scripts/query_ownership.py --data-dir ownership-map-out person --person alice@corp --limit 10
+python3 scripts/query_ownership.py --data-dir ownership-map-out file --file crypto/tls
+python3 scripts/query_ownership.py --data-dir ownership-map-out cochange --file crypto/tls --limit 10
+python3 scripts/query_ownership.py --data-dir ownership-map-out summary --section orphaned_sensitive_code
+python3 scripts/query_ownership.py --data-dir ownership-map-out community --id 3
 ```
 
 Use `--community-top-owners 5` (default) to control how many maintainers are stored per community.
@@ -129,36 +129,36 @@ Run these to answer common security ownership questions with bounded output:
 
 ```bash
 # Orphaned sensitive code (stale + low bus factor)
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out summary --section orphaned_sensitive_code
+python3 scripts/query_ownership.py --data-dir ownership-map-out summary --section orphaned_sensitive_code
 
 # Hidden owners for sensitive tags
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out summary --section hidden_owners
+python3 scripts/query_ownership.py --data-dir ownership-map-out summary --section hidden_owners
 
 # Sensitive hotspots with low bus factor
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out summary --section bus_factor_hotspots
+python3 scripts/query_ownership.py --data-dir ownership-map-out summary --section bus_factor_hotspots
 
 # Auth/crypto files with bus factor <= 1
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out files --tag auth --bus-factor-max 1
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out files --tag crypto --bus-factor-max 1
+python3 scripts/query_ownership.py --data-dir ownership-map-out files --tag auth --bus-factor-max 1
+python3 scripts/query_ownership.py --data-dir ownership-map-out files --tag crypto --bus-factor-max 1
 
 # Who is touching sensitive code the most
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out people --sort sensitive_touches --limit 10
+python3 scripts/query_ownership.py --data-dir ownership-map-out people --sort sensitive_touches --limit 10
 
 # Co-change neighbors (cluster hints for ownership drift)
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out cochange --file path/to/file --min-jaccard 0.05 --limit 20
+python3 scripts/query_ownership.py --data-dir ownership-map-out cochange --file path/to/file --min-jaccard 0.05 --limit 20
 
 # Community maintainers (for a cluster)
-python skills/skills/security-ownership-map/scripts/query_ownership.py --data-dir ownership-map-out community --id 3
+python3 scripts/query_ownership.py --data-dir ownership-map-out community --id 3
 
 # Monthly maintainers for the community containing a file
-python skills/skills/security-ownership-map/scripts/community_maintainers.py \
+python3 scripts/community_maintainers.py \
   --data-dir ownership-map-out \
   --file network/card.c \
   --since 2025-01-01 \
   --top 5
 
 # Quarterly buckets instead of monthly
-python skills/skills/security-ownership-map/scripts/community_maintainers.py \
+python3 scripts/community_maintainers.py \
   --data-dir ownership-map-out \
   --file network/card.c \
   --since 2025-01-01 \
@@ -205,8 +205,7 @@ Use `references/neo4j-import.md` when you need to load the CSVs into Neo4j. It i
 
 - `bus_factor_hotspots` in `summary.json` lists sensitive files with low bus factor; `orphaned_sensitive_code` is the stale subset.
 - If `git log` is too large, narrow with `--since` or `--until`.
-- Build a concrete codeowners report path by writing `ownership-map-out/codeowners_report.json` for the baseline coverage and `ownership-map-out/codeowners_drift_report.json` as the `codeowners drift` diff artifact.
-- Track `unowned codeowners` in `ownership-map-out/unowned_codeowners.txt` for review, and tie each entry back to `summary.json` before making ownership changes.
+- No script emits CODEOWNERS reports. For a CODEOWNERS reality check, build them by hand: join `files.csv` against the repo's CODEOWNERS patterns and compare declared owners with the top committers per file, then tie any unowned or drifted entries back to `summary.json` before making ownership changes.
 
 ## Workflow Coordination
 

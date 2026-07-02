@@ -1,6 +1,6 @@
 ---
 name: setup-pre-commit
-description: Set up Husky-based pre-commit automation with lint-staged, Prettier, type checks, and tests. Use when adding commit-time formatting or validation, configuring Husky, wiring lint-staged, or tightening local guardrails before code reaches CI.
+description: Set up Husky-based pre-commit automation with lint-staged, Prettier, type checks, and tests. Use when adding commit-time formatting or validation, configuring Husky, wiring lint-staged, or tightening local guardrails before code reaches CI. JavaScript/TypeScript repos with Husky; not the Python pre-commit framework.
 ---
 
 # Setup Pre-Commit Hooks
