@@ -16,6 +16,7 @@ Use this skill for:
 - turning attack procedures into detections, hardening tasks, tabletop exercises, or incident reconstruction steps
 - purple-team planning in owned, authorized, or lab environments
 - reviewing exploit, phishing, cracking, credential-access, malware, or C2-related material for defensive value
+- deciding what to do when a vendor security email, CVE, GHSA, or advisory asks whether a running self-hosted version is affected and urgent to patch
 
 Do not use this skill as approval to perform active testing. It defines the gates before active testing can happen.
 
@@ -71,6 +72,8 @@ These workflows must stay reference-only unless the user explicitly approves a c
 
 Treat live infra as out of scope for Tier 3 unless the user explicitly approves the exact owned target, test window, rollback plan, and expected blast radius in the current task.
 
+Treat exploit or proof-of-concept material as evidence first. Default to static review, and do not execute a proof-of-concept until the tier gates above are satisfied and an isolated sandbox lab is confirmed for it.
+
 For Tier 3, keep outputs redacted and avoid printing sensitive values. Prefer synthetic data. If the request asks for weaponization, stealth, persistence, or exfiltration instructions, decline the request and provide defensive alternatives only, such as detections, hardening tasks, and recovery guidance.
 
 ## External Skill Pack Intake
@@ -83,8 +86,9 @@ Before recommending, importing, or installing an external security skill pack:
 4. Run any provided validator if it is safe and local.
 5. Inspect representative skills from each risky category, not only the README.
 6. Check scripts for subprocess calls, network calls, credential handling, destructive actions, and dependency assumptions.
-7. Classify candidate skills into Tier 1, Tier 2, and Tier 3 before local adoption.
-8. Prefer curated import over bulk installation when the pack mixes defensive, offensive, and high-risk workflows.
+7. Review package manager install hooks such as preinstall and postinstall scripts, pin and diff the dependency lockfile, and weigh supply-chain risk before any install.
+8. Classify candidate skills into Tier 1, Tier 2, and Tier 3 before local adoption.
+9. Prefer curated import over bulk installation when the pack mixes defensive, offensive, and high-risk workflows.
 
 ## Naming Rules
 

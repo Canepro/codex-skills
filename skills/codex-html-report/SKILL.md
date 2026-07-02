@@ -12,6 +12,8 @@ Use this skill when the output should live beyond the chat as a readable artifac
 - ops incidents, support cases, or deployment verification
 - code reviews, architecture plans, research briefs, or complex explanations
 - any durable report where layout, navigation, tables, screenshots, or collapsible evidence would improve comprehension
+- when refreshing or creating durable browser-native proof reports.
+- before calling a PR implementation ready when the user expects durable proof.
 
 Do not use this skill for tiny answers, paste-ready support replies, one-command outputs, or when the user explicitly asks for Markdown/plain text.
 
@@ -25,9 +27,11 @@ The report should feel like a polished internal product, not a decorative dashbo
 
 Default to dark mode/dark-first styling for read-mostly reports. A light mode override is allowed only when light mode is requested by the user, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
-## Coordination
+## Workflow Coordination
 
 This skill owns reader-facing proof artifacts. It does not own task state.
+When another owner skill governs the underlying work, run that gate first and
+let the report present its outcome.
 
 Use `vincent-workflow` when the report creates or captures a durable decision,
 blocker, known issue, handoff, or closeout obligation. The report can show those
@@ -115,7 +119,7 @@ Use a reusable visual system:
 - tables for files, tests, risks, and decisions
 - timestamped timeline for event order when it matters; use actual observed times, not generic "Step 1" labels alone
 - collapsible appendix for raw evidence
-- sticky or top navigation for longer reports, with explicit in-document anchors on major sections (for example `#summary`, `#verification`, `#risks`) and a matching table of contents that links to them
+- sticky or top navigation for longer reports, with explicit internal anchors on major sections (for example `#summary`, `#verification`, `#risks`) and a matching table of contents that links to them
 
 Avoid:
 - huge decorative gradients
@@ -153,6 +157,7 @@ Prefer concrete proof:
 - source URLs or ticket IDs when used
 - redacted proof for any sensitive material, including credentials and tokens
 - explicit "not verified" entries for skipped or unavailable checks
+- keep an asset budget: compress screenshots, avoid large embedded assets, and watch the file size; a report hiding megabytes of base64 is not lightweight
 
 For redacted proof, include enough detail to confirm intent without exposing secret values, for example `credentials` purpose and owner, token type and short suffix, and the command or context where it was used.
 Do not imply review of logs, attachments, code, or screenshots unless they were actually opened.
@@ -172,12 +177,14 @@ Every substantial report should include a metadata strip in the visible header o
    Reports do not approve risky work by themselves.
 3. Copy `templates/report.html` to the destination report path.
 4. Replace the template content with the task-specific report. Keep only useful sections, but preserve the canonical template shell unless an explicit exception applies.
-5. Verify the HTML is self-contained and opens locally.
-6. Run the checks in `references/report-qa.md` when the report is substantial,
+5. Verify the HTML is self-contained and opens locally. For substantial reports, also validate the HTML with an HTML validator or lint pass; opening it locally does not catch malformed markup or broken anchors.
+6. Run a link integrity pass before closeout: every internal anchor resolves with no missing targets, and local evidence links point at files that exist.
+7. Check the layout at mobile and desktop viewport widths for overflow and clipped text.
+8. Run the checks in `references/report-qa.md` when the report is substantial,
    risky, reader-facing, or the template changed.
-7. If the report summarizes code, config, infra, automation, or skill changes,
+9. If the report summarizes code, config, infra, automation, or skill changes,
    verify the underlying work separately and record skipped checks explicitly.
-8. In the final chat reply, give the report path and a compact summary of what it contains.
+10. In the final chat reply, give the report path and a compact summary of what it contains.
 
 ## Final Reply
 

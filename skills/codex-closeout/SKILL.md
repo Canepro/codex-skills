@@ -55,13 +55,20 @@ Ask:
 If the answer is no, keep working. Use a short progress update instead of a
 final closeout.
 
-Mandatory trigger: before the final answer for non-trivial repo or live-ops work, local-brain work that used `second-brain-context`, PR or branch cleanup,
-implementation with verification, or any task involving commit/push and
-residual-risk state, load this skill and apply the completion gate. If another
-owner skill routed final delivery here, treat that as an essential skill gate,
-not an optional formatting preference.
+Mandatory trigger moments:
 
-## Coordination
+- Before final replies for non-trivial repo or live-ops work.
+- When finishing repo implementation work with verification and git state.
+- When finishing non-trivial repo cleanup with PR, branch, verification, and residual-risk state.
+- When finishing local-brain work that used second-brain-context and needs final chat closeout.
+
+That covers implementation with verification, PR or branch cleanup, and
+local-brain work that used `second-brain-context`. Load this skill and apply
+the completion gate before the final answer.
+If another owner skill routed final delivery here, treat that as an essential
+skill gate, not an optional formatting preference.
+
+## Workflow Coordination
 
 This skill owns the final chat shape, not durable workflow state.
 When multiple agents, personas, services, or handoff owners are involved, preserve their identity and handoff boundaries and do not blur who owns the action in the thread.
@@ -113,7 +120,8 @@ Do:
 - lead with the result
 - summarize behavior, not edit inventory
 - include exact validation commands
-- mention commit and push status when repo files changed
+- mention commit and push status when repo files changed, including the commit hash and remote branch when a commit or push actually happened
+- separate completed work from skipped or deferred work when the closeout is partial
 - mention only 1 to 4 files when they add real value
 - treat secret, credential, token, and private key handling as sensitive output boundaries
 - if destructive actions occurred or were avoided, include them in a separate destructive action status note and state whether approval was required and whether it was granted
@@ -155,7 +163,11 @@ Always include:
 - what you ran
 - what passed
 - what failed
+- any expected verification that was not run, and why
 - any important limitation
+
+Separate the commands you actually ran from commands you only recommended for
+later; never present a suggested command as executed proof.
 
 Prefer:
 - one compact block

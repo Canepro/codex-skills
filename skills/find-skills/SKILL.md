@@ -21,8 +21,8 @@ Use this skill when the user is really asking whether a skill already exists for
 1. Check the current session skill catalog first, starting with the library routing table below.
 2. Run the essential-skill gate below before deciding the task is ordinary. This catches reviews, proof reports, closeouts, secrets, workflow continuity, and self-improvement work that should not depend on memory or habit.
 3. If a relevant local skill already exists, recommend or use that instead of installing more drift.
-4. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing.
-5. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and list close matches.
+4. Inventory active tools, connectors, plugins, installed skills, local source directories, and relevant repo scripts before saying a capability is missing. Absence from the session catalog is not proof a skill is unavailable; catalogs can truncate, so check the installed directories and source repo first.
+5. If the user names an exact skill name, check that exact skill name first; if the user describes a capability, search by capability and rank close matches by best fit instead of listing unsorted results.
 6. If no local skill fits, search the broader ecosystem with the Skills CLI or `tool_search` when available.
 7. Verify quality before recommending anything, and do this before installing.
 8. If the user wants the capability to persist across machines, promote it into the configured `codex-skills` library checkout instead of leaving it as an unmanaged local extra.
@@ -141,11 +141,14 @@ Skill discovery, metadata review, local catalog checks, source inspection, and r
 
 When a route touches project-specific local lanes, keep private persona, customer, runtime, and secret-manager boundaries explicit. Do not move or reveal private context, credentials, or secret values while recommending a skill. Name the safer owner skill and use redacted proof instead.
 
+## Workflow Coordination
+
 When the user asks to improve the skill system itself, check for an existing
 coordination surface before adding a new skill. Shared workflow concerns belong
 in `vincent-workflow`; final chat delivery belongs in `codex-closeout`; durable
 reader artifacts belong in `codex-html-report`; cross-context memory belongs in
-`second-brain-context`.
+`second-brain-context`. Route domain work to its owner skill and keep this
+skill as the discovery and routing layer.
 
 ## Skills CLI
 
@@ -167,6 +170,8 @@ Browse catalog listings at `https://skills.sh/`.
 - Prefer well-known sources over unknown publishers.
 - Prefer skills with meaningful adoption over barely used packages.
 - Check the source repository when trust or maintenance quality is unclear.
+- Inspect the skill's metadata: description, source, version, and maintenance signals.
+- Check whether the candidate duplicates an existing skill; meaningful overlap means improving the incumbent, not installing a duplicate.
 - Do not recommend a skill based only on a search result title.
 
 ## Response pattern

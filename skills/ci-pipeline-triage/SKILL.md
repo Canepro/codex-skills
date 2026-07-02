@@ -56,6 +56,11 @@ Be skeptical of:
 - issue comments without console evidence
 - stale failures from older SHAs
 
+Do not implement any fix until the exact failing command and the first real
+failing stderr are reproducibly captured. Reproduce the failure first;
+a fix built on the summary banner fixes the wrong layer, so gather the
+evidence before implementing a change.
+
 ### 3. Classify the failure
 
 Choose the primary category:
@@ -101,7 +106,7 @@ Summarize:
 
 When the failing run is a GitHub Actions check on a PR, use `gh` to capture the evidence for steps 1 and 2:
 
-1. Verify auth with `gh auth status` (repo and workflow scopes). If unauthenticated, ask the user to run `gh auth login` first.
+1. Verify auth with `gh auth status` (repo and workflow scopes). If unauthenticated, ask the user to run gh auth login first. If the token has insufficient scopes, treat that as a hard stop: pause evidence collection and ask the user to run gh auth refresh with the missing scopes before continuing.
 2. Resolve the PR: `gh pr view --json number,url` for the current branch, or use the number or URL the user gave.
 3. Preferred: run the bundled script, which handles `gh` field drift and job-log fallbacks:
    - `python3 "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "<number-or-url>"`
@@ -111,11 +116,13 @@ When the failing run is a GitHub Actions check on a PR, use `gh` to capture the 
    - For each failing check, extract the run id from `detailsUrl` or `link`, then `gh run view <run_id> --log`.
    - If the run is still in progress, fetch job logs directly: `gh api "/repos/<owner>/<repo>/actions/jobs/<job_id>/logs"`.
 5. If the details URL or link is not a GitHub Actions run, label the check as external and report only the URL. Do not drive Buildkite or other providers from here.
+6. If the failing run is branch-triggered or push-triggered and no pull request exists, skip the PR resolution step and inspect the run directly by branch or merge commit: `gh run list --branch <branch>` then `gh run view <run_id> --log`. Do not force PR-only triage.
 
 ## Guidance
 
 - Distinguish "failing now" from "old red check still visible".
 - If the failure comes from an external provider, say so explicitly.
+- If the cause is an upstream external service outage, there is usually no code or config fix on our side: name the provider that owns the outage, link its status evidence, and escalate through the provider's path instead of editing the pipeline.
 - Never copy, print, or share raw token or private key values in logs, notes, or tickets. If a live unblock was required, note the resulting drift and how it will be reconciled.
 - For recurring failures, prefer a durable config fix over re-running blindly.
 
