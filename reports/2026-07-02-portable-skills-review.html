@@ -781,7 +781,7 @@
     <section class="hero" aria-labelledby="report-title">
       <p class="kicker">Code review</p>
       <h1 id="report-title">Portable skills library review</h1>
-      <p class="lede">All 44 non-vendored skills in codex-skills were reviewed for trigger quality, wording, and compliance with the repo's own authoring standard. The library is healthy at the body level but the catalog metadata is at twice its advertising budget, six P0 defects need fixes, and three skills are retirement candidates.</p>
+      <p class="lede">All 44 non-vendored skills in codex-skills were reviewed for trigger quality, wording, and compliance with the repo's own authoring standard, and the approved fixes were then implemented, committed (0d7adc6), pushed, and synced to the installed mirrors. The 37 local-only skills were also reviewed; they needed only three small fixes. Retire and merge proposals remain open pending bare-model evals.</p>
       <div class="hero-meta">
         <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Generated <strong>2026-07-02 18:28 BST</strong></span>
         <span class="dot-sep" aria-hidden="true"></span>
@@ -794,7 +794,7 @@
     <section class="facts" aria-label="Report summary">
       <div class="fact">
         <div class="label">Status</div>
-        <div class="value"><span class="status done">Review complete</span></div>
+        <div class="value"><span class="status done">Implemented and pushed</span></div>
       </div>
       <div class="fact">
         <div class="label">Skills reviewed</div>
@@ -806,7 +806,7 @@
       </div>
       <div class="fact">
         <div class="label">Next step</div>
-        <div class="value">Fix the six P0s, then shrink descriptions</div>
+        <div class="value">Run SkillForge bare-model evals on the retire candidates</div>
       </div>
     </section>
 
@@ -832,8 +832,9 @@
             <span class="eyebrow">Outcome</span>
             <h2>Plain-English verdict</h2>
           </div>
-          <span class="status partial">Fixes queued</span>
+          <span class="status done">Fixes applied</span>
         </div>
+        <p><strong>Implementation update (same day):</strong> everything below was fixed, verified (workflow-links checker passes all skills, zero em dashes or stock-vocabulary hits outside teaching content, all frontmatter parses, catalog metadata down from 16,804 to 15,706 chars), committed as <code class="hash">0d7adc6</code>, pushed to main, and installed to the Codex, Claude, and agents mirrors. The description budget is still above the roughly 8,000-char target, so the deferred retirements are the remaining lever. The original findings follow.</p>
         <p>The skill bodies are mostly in good shape: procedures, negative triggers, and Workflow Coordination sections are the norm, and no skill except one exceeds the 500-line cap. The problems concentrate in two places. First, the catalog metadata is 16,804 characters against the roughly 8,000-character budget the repo's own best-practices doc sets, and the damage is already visible: the <code>promql</code> description rendered empty in this live session, so that skill currently cannot trigger. Second, a handful of imported or benchmark-patched skills carry real defects: fabricated case-study metrics, broken script paths, and one instruction that fails when followed.</p>
         <div class="callout warn">
           <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18h.01"/></svg></span>
