@@ -27,7 +27,7 @@ The trap is that none of this errors at config time. The pipeline keeps running;
 **The right tools, in order:**
 
 1. **Don't emit the bad label in the first place** - fix the application code. This is the only place a label can be *removed* without consequence, because the series was never unique on it to begin with.
-2. **For series already flowing into Grafana Cloud that you can't fix at the source, use Adaptive Metrics** (post-ingest, counter-reset-aware, auditable, reversible). Route through a dedicated `adaptive-metrics` skill only when installed; otherwise use `prometheus-grafana-triage` for Grafana Cloud investigation and document the Adaptive Metrics rule intent. This routing statement is canonical; later sections just point here.
+2. **For series already flowing into Grafana Cloud that you can't fix at the source, use Adaptive Metrics** (post-ingest, counter-reset-aware, auditable, reversible). Route the user to the `adaptive-metrics` skill only when it is installed; otherwise use `prometheus-grafana-triage` for Grafana Cloud investigation and document the Adaptive Metrics rule intent. This routing statement is canonical; later sections just point here.
 
 `metric_relabel_configs` has a couple of narrow, safe uses (dropping an *entire* unwanted metric; removing a label that *exactly duplicates* a target label) - covered in [Source-Side Prevention](#4-metric_relabel_configs-narrow-safe-uses-only) - but **reducing cardinality by dropping a distinguishing label is never one of them.**
 
@@ -63,7 +63,7 @@ When auditing a label set, assess each label against these criteria.
 | `namespace` (K8s) | Tens-low hundreds | ✅ Acceptable |
 | `service`, `workload`, `container` | Tens-hundreds | ✅ Acceptable |
 | `instance` (host:port) | Hundreds-low thousands | ⚠️ Evaluate - fine on per-instance metrics, risky on aggregated ones |
-| `pod` (K8s) | Thousands + transient = high churn | ⚠️ Required for K8s monitoring and series uniqueness - keep it. If `pod`-level series are too expensive, reduce them with Adaptive Metrics; **never** drop at scrape |
+| `pod` (K8s) | Thousands + transient = high churn | ⚠️ Required for K8s monitoring and series uniqueness - keep it. If `pod`-level series are too expensive, reduce them post-ingest with Adaptive Metrics; **never** remove the label at scrape |
 | `path` / `route` (HTTP) | Bounded if templated; unbounded if raw URLs | ⚠️ Only with templated values (`/users/:id`) |
 | `version`, `image_tag`, `git_sha` | Grows on every deploy → churn | ⚠️ Use sparingly; consider info-metric pattern |
 | `user_id`, `request_id`, `trace_id` | Unbounded | ❌ Never as label - use exemplars |
@@ -191,11 +191,11 @@ These should **NOT** be re-emitted by the application. If the app emits a `clust
 Instead:
 - **Add `workload`** (`{controller_kind}/{controller_name}`) as a *target* label via `relabel_configs`, so dashboards and alerts can aggregate on the stable workload identity (`sum by (workload)`) without touching `pod`. This is additive - it removes nothing.
 - **Don't emit `pod` from application code** - let it come from Kubernetes service discovery, so there is exactly one source of truth (see below).
-- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, reduce them with Adaptive Metrics (see [lever 3](#3-adaptive-metrics-grafana-cloud--post-ingest-the-safe-way-to-reduce-cardinality)), never by dropping `pod` at scrape.
+- **If `pod`-level series are genuinely too expensive in Grafana Cloud**, do not drop `pod` at scrape time; reduce them post-ingest with Adaptive Metrics (see [lever 3](#3-adaptive-metrics-grafana-cloud--post-ingest-the-safe-way-to-reduce-cardinality)).
 
 ### Don't Map Ephemeral Fields into Labels in the First Place
 
-**`uid`** regenerates on every pod recreation and has no legitimate query use. The fix is to **never map it into a label** - leave it out of your `relabel_configs`. (It isn't in default `kubernetes_sd_configs` output unless you explicitly target it.) Don't try to `labeldrop` it after the fact - by then it's already distinguishing series, and removing it breaks the data exactly like dropping any other unique label.
+`uid` regenerates on every pod recreation and has no legitimate query use. The fix is to **never map it into a label** - leave it out of your `relabel_configs`. (It isn't in default `kubernetes_sd_configs` output unless you explicitly target it.) Don't try to `labeldrop` it after the fact - by then it's already distinguishing series, and removing it breaks the data exactly like dropping any other unique label.
 
 ### One Source of Truth for Target Identity
 
@@ -264,7 +264,7 @@ This is the difference between "the data is now cheaper" with Adaptive Metrics a
 
 Runs *after* the scrape, *before* storage.
 
-> ⚠️ **Do not use `metric_relabel_configs` (or Alloy `prometheus.relabel`) to drop a distinguishing label**; see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique). Use lever 1 (application code) or lever 3 (Adaptive Metrics) instead. The same caution applies to *normalizing* a label value (e.g. collapsing `status_code` to `2xx`) at scrape: it merges distinct series and produces duplicate-sample errors; do that in code or via Adaptive Metrics, never here.
+> ⚠️ **Do not use `metric_relabel_configs` (or Alloy `prometheus.relabel`) to drop a label that distinguishes series**; see [The One Rule](#the-one-rule-never-drop-a-label-that-makes-a-series-unique). Use lever 1 (application code) or lever 3 (Adaptive Metrics) instead. The same caution applies to *normalizing* a label value (e.g. collapsing `status_code` to `2xx`) at scrape: it merges distinct series and produces duplicate-sample errors; do that in code or via Adaptive Metrics, never here.
 
 The genuinely safe uses are:
 

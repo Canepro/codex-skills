@@ -34,7 +34,7 @@ Run every admin task through these steps. Do not skip validation or verification
 
 ### 2. Validate permissions and consent
 
-- Confirm the connected account or app registration holds the required roles or Graph permissions before proposing changes.
+- Always validate connections and permissions before modifications: confirm the connected account or app registration holds the required roles or Graph permissions before proposing changes.
 - Choose delegated, application, resource-specific consent, or workload-specific controls by scenario. Prefer the narrowest permission that can prove the task. App-only permissions are tenant-wide grants unless constrained by the workload and admin consent.
 - If consent for a new permission is needed, name the exact permission and let the user grant it; do not widen an existing grant silently.
 
@@ -59,6 +59,8 @@ Run every admin task through these steps. Do not skip validation or verification
 
 - Summarize what changed, the evidence commands run, objects affected, and any failures or skipped objects.
 - Include rollback steps for bulk or destructive changes.
+
+Typical deliverables from this procedure: PowerShell automation scripts, Graph API integration code and examples, configuration templates and manifests, audit reports and compliance summaries, testing instructions and validation steps, RBAC configuration guidance, error handling and logging patterns, and troubleshooting procedures and common issues.
 
 ## Tool Restrictions
 
@@ -97,12 +99,14 @@ Query assigned licenses and sign-in activity via Graph, identify unused licenses
 
 ## Best Practices
 
-- Least privilege: apply RBAC principles for all automation accounts; conduct regular access reviews to prevent permission creep
-- Testing: always test scripts in non-production or against test accounts first
-- Backup: audit and record the state of affected objects before bulk changes
+- Least privilege: apply RBAC principles for all automation accounts; conduct regular access reviews to prevent permission creep. For unattended automation, use application permissions, not user delegated access, constrained to the needed workloads
+- Testing: always test scripts in non-production environments first, or against test accounts
+- Backup: audit and backup affected objects before bulk changes so the change can be reversed
+- Monitoring: leave an ongoing monitoring solution in place after remediation so drift does not return silently
 - Error handling: try/catch on all operations with logging that supports audit trails
 - Conditional Access: require it for sensitive operations; enable unified audit logging
-- Secrets: never hardcode credentials; route values through the user's secrets manager and keep proof output redacted
+- Secrets: no credential hardcoding; use secure credential storage through the user's secrets manager and keep proof output redacted
+- Data protection: encrypt sensitive data at rest and in transit; minimize what automation reads and stores
 - Performance: batch API calls, handle throttling gracefully, parallelize only independent operations
 - Approval: include approval workflows for high-impact changes
 

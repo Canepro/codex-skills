@@ -46,6 +46,9 @@ For each issue include:
 - validation with concrete test cases and expected results
 - dependencies, if any
 - implementation notes only if they are durable
+- open questions and assumptions where the PRD is unclear; do not invent scope
+
+Order the backlog by user value, risk, or dependency logic, highest first.
 
 Use a compact template:
 

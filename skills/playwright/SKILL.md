@@ -141,7 +141,8 @@ The browser session keeps page state across commands, so multi-step flows (login
 
 - Name the actor behind each action (user, operator, agent) so authority boundaries stay explicit.
 - Do not invent credentials. Reuse the existing session or the user's normal login flow when auth is required.
-- Do not store, share, or echo raw `secret` or `credential` values. Redact sensitive fields in command output, logs, screenshots, traces, and pasted snippets.
+- Do not echo, store, or share raw `secret` or `credential` values. Redact sensitive fields in command output, logs, screenshots, traces, and pasted snippets.
+- Use this skill when verifying a browser-native HTML report render or screenshot. When verifying browser-native HTML templates or report interactions, load the installed Playwright skill before falling back to manual checks.
 - Before final submission or any irreversible action (publish, payment, account changes), pause before final submission and request explicit user confirmation.
 - Always snapshot before referencing element ids like `e12`.
 - Re-snapshot when refs seem stale.

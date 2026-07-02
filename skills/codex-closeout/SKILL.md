@@ -5,14 +5,14 @@ description: Use when finishing implementation work, summarizing progress, or gi
 
 # Codex Closeout
 
-Use this skill when:
+Use this skill when (these are mandatory trigger moments):
 - finishing a meaningful implementation step
 - summarizing work completed in the Codex app
 - reporting verification results after changes
 - giving a checkpoint, handoff, or commit summary
-- writing a final reply for non-trivial repo work, live-ops work, shared local
-  memory writeback, PR cleanup, branch/git cleanup, or any change with
-  verification, commit/push state, cleanup state, and residual risk
+- writing a final reply for non-trivial repo or live-ops work, shared local
+  memory writeback, PR or branch cleanup, or implementation with verification,
+  commit/push state, cleanup state, and residual risk to report
 
 Do not use this skill for:
 - code reviews where findings should dominate
