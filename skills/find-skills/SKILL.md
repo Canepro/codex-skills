@@ -53,7 +53,6 @@ Common routes:
 | Design tokens / UI drift | `design-system-maintenance` |
 | CI, GitHub Actions, Jenkins, or pipeline failures | `ci-pipeline-triage` |
 | PR review threads or GitHub-native work | installed vendor plugin: GitHub skills |
-| Commit hooks | `setup-pre-commit` |
 | Pre-merge, risky-change, architecture, or local-tooling review gate | `mira-review-gate` |
 | Delivery summary | `codex-closeout` |
 | Durable task state, decisions, blockers, handoffs | `vincent-workflow` |

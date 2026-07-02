@@ -21,7 +21,7 @@ Use this skill for durable telemetry-system design, not incident response.
 
 - the main problem is a live alert or broken scrape. Use `prometheus-grafana-triage`.
 - the main problem is an app or cluster incident. Use the appropriate triage skill.
-- the user only wants SLIs and error budgets. Use `slo-sli-design`.
+- the user only wants SLIs, SLOs, and error budgets: design them directly (ratio SLIs over rolling windows, error budgets, multi-window burn-rate alerts); for Grafana SLO provisioning use `alerting-irm`.
 - the main task is visual dashboard implementation, chart selection, or data visualization QA. Use the installed `build-web-data-visualization:data-visualization` vendor plugin when available.
 
 ## Workflow

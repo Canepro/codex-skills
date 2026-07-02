@@ -61,8 +61,6 @@ Library-managed skills as of this commit:
 - `request-refactor-plan`
 - `screenshot`
 - `security-ownership-map`
-- `setup-pre-commit`
-- `slo-sli-design`
 - `triage-issue`
 - `transcribe`
 - `write-a-prd`

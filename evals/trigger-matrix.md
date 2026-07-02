@@ -118,7 +118,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `Grafana is firing OOM alerts but the dashboards and cluster state do not agree`
 - Expected: `prometheus-grafana-triage`
-- Should not be first choice: `observability-architecture`, `slo-sli-design`
+- Should not be first choice: `observability-architecture`
 
 ### 14. Observability architecture
 
@@ -129,7 +129,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 15. SLO design
 
 - Prompt: `define meaningful SLIs, SLOs, and burn-rate alerts for our background job platform`
-- Expected: `slo-sli-design`
+- Expected: no skill (retired 2026-07-03: bare model passes SLI/SLO design; Grafana SLO provisioning is `alerting-irm`)
 - Should not be first choice: `observability-architecture`
 
 ### 16. Sentry issue inspection
@@ -384,7 +384,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 53. Setup pre-commit
 
 - Prompt: `add Husky and lint-staged so formatting and type checks run before commit`
-- Expected: `setup-pre-commit`
+- Expected: no skill (retired 2026-07-03: bare model passes Husky/lint-staged setup)
 - Should not be first choice: `ci-pipeline-triage`
 
 ### 54. GitHub review comments
@@ -403,4 +403,4 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `configure Grafana alert contact points, notification policies, silences, and incident routing`
 - Expected: `alerting-irm`
-- Should not be first choice: `prometheus-grafana-triage`, `slo-sli-design`
+- Should not be first choice: `prometheus-grafana-triage`

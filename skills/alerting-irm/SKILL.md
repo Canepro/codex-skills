@@ -343,7 +343,7 @@ curl -X POST https://grafana.example.com/api/v1/provisioning/alert-rules \
 
 ## Related skills
 
-- Deciding what the SLI/SLO should be before provisioning it: `slo-sli-design`
+- Deciding what the SLI/SLO should be before provisioning it: design directly (ratio SLIs, error budgets, burn-rate windows); `observability-architecture` owns the wider strategy
 - Where alert routing fits the wider telemetry strategy: `observability-architecture`
 - Diagnosing why an alert fired or a scrape target is down: `prometheus-grafana-triage`
 

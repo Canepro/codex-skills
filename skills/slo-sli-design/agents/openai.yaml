@@ -1,4 +1,0 @@
-interface:
-  display_name: "SLO SLI Design"
-  short_description: "Define SLIs, SLOs, and budgets"
-  default_prompt: "Use $slo-sli-design to define meaningful SLIs, SLOs, and burn-rate alerts for this service."
