@@ -20,15 +20,22 @@ Inspect the codebase broadly enough to notice:
 - code that is hard to test except through fragile internals
 - repeated orchestration logic that should probably live behind one boundary
 
+Track where these patterns show up in concrete symbol-level evidence. Note runtime behavior at boundary crossings such as request flow, scheduling, retries, state transitions, startup/shutdown, and error propagation, so the pain is measurable and grounded.
 The friction you experience is the signal.
 
 ### 2. Present candidates
 
 Give the user a numbered list of architectural opportunities. For each candidate include:
 - cluster: the modules or concepts involved
+- concrete evidence: cite concrete files and symbol-level evidence such as entrypoints, classes, functions, handlers, interfaces, and call sites
+- runtime behavior: what runtime behavior currently crosses the boundary and how a redesign changes latency, failure handling, consistency, or observability
 - why they are coupled
 - dependency category: load [REFERENCE.md](REFERENCE.md) when assigning a dependency category
 - testing impact: which boundary tests would become possible
+- prioritization signals:
+  - expected payoff: estimated improvement in coupling, reliability, readability, and change speed
+  - blast radius: scope of modules, environments, and deployment paths impacted
+  - implementation risk: migration complexity, compatibility hazards, and rollback cost
 
 Do not jump straight to a final design for every candidate. Help the user choose where to go deeper.
 
