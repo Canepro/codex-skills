@@ -58,8 +58,8 @@ If the user prefers a global install, use the install commands from the prerequi
 
 ## Core workflow
 
-1. Open the page (or attach to the existing session).
-2. Snapshot to get stable element refs.
+1. Start with a clean session when prior page state or cookies could change the result. Use the existing session only when that state is intentionally required.
+2. Wait for dynamic content to settle, then snapshot to get stable element refs.
 3. Interact using refs from the latest snapshot.
 4. Re-snapshot after navigation or significant DOM changes.
 5. Collect concrete evidence with command output and file path references before and after critical steps.
@@ -79,11 +79,12 @@ Minimal loop:
 Snapshot again after:
 
 - navigation
+- dynamic content updates that are still settling
 - clicking elements that change the UI substantially
 - opening/closing modals or menus
 - tab switches
 
-Refs can go stale. When a command fails due to a missing ref, snapshot again.
+Refs can go stale. When a command fails due to a missing ref, wait for dynamic content to settle, then snapshot again.
 
 ## Recommended patterns
 
@@ -135,7 +136,7 @@ Open only what you need:
 
 ## Stateful sessions
 
-The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. Keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages, and apply the redaction guardrail below to everything you share.
+The browser session keeps page state across commands, so multi-step flows (login, wizards, data that appears only after interaction) work without re-driving earlier steps. If previous cookies or prior state could bias the result, start from a clean session first. If state is required, keep the same session alive while navigating, clicking, filling, and capturing evidence. Collect concrete evidence by recording command outputs and artifact paths with timestamps. Extract only the data the user asked for instead of dumping whole pages, and apply the redaction guardrail below to everything you share.
 
 ## Guardrails
 
