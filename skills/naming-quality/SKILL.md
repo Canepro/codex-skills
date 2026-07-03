@@ -16,7 +16,7 @@ Choose names that survive contact with real usage, not just the current patch.
 - tightening API field names, CLI flags, env vars, or fixture names
 - cleaning up environment terminology across docs and code
 - reviewing whether an existing name is misleading, temporary, too local, or too implementation-shaped
-- naming consent, approval, or final-submission checkpoints, destructive or live infra actions, or fields that hold a secret, credential, token, or private key, where a mistaken name raises operational risk
+- naming consent, approval, or final submission checkpoints (for final submission actions), destructive or live infra actions, or fields that hold a secret, credential, token, or private key, where a mistaken name raises operational risk
 - deciding whether to keep a deployed resource identifier while changing the product or documentation vocabulary
 
 ## Do not use when
