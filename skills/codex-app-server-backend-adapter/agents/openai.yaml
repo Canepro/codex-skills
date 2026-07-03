@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex App Server Backend"
+  short_description: "Design and operate Codex app-server backed services."
+  default_prompt: "Use codex-app-server-backend-adapter to design or debug this Codex app-server provider lane."

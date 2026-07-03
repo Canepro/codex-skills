@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex MCP Repair"
+  short_description: "Local MCP auth and transport repair"
+  default_prompt: "Use $codex-mcp-repair to inspect and fix this local Codex MCP setup without changing working upstream endpoints."

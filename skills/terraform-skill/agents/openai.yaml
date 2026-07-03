@@ -1,0 +1,3 @@
+name: Terraform Skill
+description: Diagnose-first Terraform and OpenTofu workflow for modules, state, CI, tests, scans, and cross-cloud provider work.
+prompt: Use the terraform-skill workflow. Capture runtime, version, providers, backend, execution path, and environment criticality before generating changes. Classify the risk category, load only relevant references, validate with exact commands, and never recommend production apply without a reviewed plan artifact and approval.

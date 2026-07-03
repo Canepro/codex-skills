@@ -1,0 +1,4 @@
+interface:
+  display_name: "n8n Workflow Deploy"
+  short_description: "Deploy and verify n8n workflows through API readback."
+  default_prompt: "Use n8n-workflow-api-deploy to deploy or verify this n8n workflow."

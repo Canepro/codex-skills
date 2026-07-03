@@ -24,14 +24,19 @@ Library-managed skills as of this commit:
 - `anti-ai-writing`
 - `agent-plan-backlog`
 - `adversary-informed-defense`
+- `aks-gitops-pvc-rightsize`
 - `alerting-irm`
 - `assistant-mcp`
 - `ci-pipeline-triage`
 - `cli-creator`
+- `codex-app-server-backend-adapter`
 - `codex-html-report`
 - `codex-closeout`
+- `codex-mcp-repair`
 - `design-an-interface`
 - `design-system-maintenance`
+- `entra-oidc-app-integration`
+- `fable-operating-style`
 - `find-skills`
 - `frontend-anti-slop`
 - `gitops-reconcile`
@@ -43,12 +48,14 @@ Library-managed skills as of this commit:
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
 - `last30days`
+- `learning-mode`
 - `l2-l3-support-platform`
 - `log-analyzer`
 - `loki`
 - `loki-label-analyzer`
 - `m365-admin`
 - `migrate-to-codex`
+- `n8n-workflow-api-deploy`
 - `naming-quality`
 - `observability-architecture`
 - `playwright`
@@ -61,11 +68,14 @@ Library-managed skills as of this commit:
 - `request-refactor-plan`
 - `screenshot`
 - `security-ownership-map`
+- `terraform-skill`
 - `triage-issue`
 - `transcribe`
+- `vendor-security-gitops-patch`
 - `write-a-prd`
 - `writing-great-skills`
 - `written-communication`
+- `zoho-desk-api-notes`
 
 Pinned system skills expected from Codex as of this commit:
 

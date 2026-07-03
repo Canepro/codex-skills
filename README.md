@@ -27,13 +27,13 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 
 - Planning and product: `write-a-prd`, `prd-to-plan`, `prd-to-issues`, `agent-plan-backlog`, `request-refactor-plan`, `design-an-interface`, `improve-codebase-architecture`, `grill-with-docs`, `last30days`
 - Frontend review overlays: `frontend-anti-slop`, `design-system-maintenance`, `playwright`. Prefer installed vendor plugins for new frontend builds, product-design audits, rendered UI testing/debugging, responsive-only repair, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
-- CI workflow: `ci-pipeline-triage`. Prefer the installed GitHub plugin for PR comments and GitHub-native work.
+- CI workflow: `ci-pipeline-triage`, `codex-mcp-repair`, `codex-app-server-backend-adapter`. Prefer the installed GitHub plugin for PR comments and GitHub-native work.
 - Security and adversary-informed defense: `adversary-informed-defense`, `security-ownership-map`. Prefer the installed Codex Security plugin for scans, findings, validation, and framework security review.
-- Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`
+- Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `gitops-workflow`, `jenkins-sre`, `aks-gitops-pvc-rightsize`, `vendor-security-gitops-patch`
 - Observability and reliability: `prometheus-grafana-triage`, `promql`, `loki`, `alerting-irm`, `prometheus-cardinality-troubleshooter`, `prometheus-label-strategy`, `loki-label-analyzer`, `assistant-mcp`, `observability-architecture`. Prefer the installed Sentry plugin for Sentry issues and events.
-- Support and operations: `l2-l3-support-platform`, `m365-admin`, `log-analyzer`, `written-communication`, `anti-ai-writing`. Prefer the installed Azure plugin for Azure infrastructure and identity work.
+- Support and operations: `l2-l3-support-platform`, `m365-admin`, `log-analyzer`, `written-communication`, `anti-ai-writing`, `fable-operating-style`, `learning-mode`, `n8n-workflow-api-deploy`, `zoho-desk-api-notes`. Prefer the installed Azure plugin for Azure infrastructure and identity work.
 - Documents, media, and reports: `codex-html-report`, `screenshot`, `transcribe`, `hatch-pet`. Prefer OpenAI primary runtime document/PDF skills for DOCX and PDF work.
-- Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `triage-issue`. Prefer installed Superpowers skills for TDD and systematic debugging.
+- Tooling, migration, and testing: `cli-creator`, `migrate-to-codex`, `triage-issue`, `terraform-skill`, `entra-oidc-app-integration`. Prefer installed Superpowers skills for TDD and systematic debugging.
 - Naming, discovery, and handoff: `naming-quality`, `find-skills`, `writing-great-skills`, `codex-closeout`
 
 ## Workflow Coordination References

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zoho Desk API Notes"
+  short_description: "Post and debug Zoho Desk private ticket notes safely."
+  default_prompt: "Use zoho-desk-api-notes to configure or debug this Zoho Desk private note workflow."
