@@ -13,13 +13,14 @@ This adopts the useful mechanics from `shadcn/improve` without creating a parall
 
 ## Use when
 
-- the user asks for `/improve`-style planning, plans written by a stronger model for a weaker executor, or a backlog of plans
+- Plain-English trigger examples: "turn this into plans another agent can execute", "make a backlog from these findings", "split this into safe autonomous agent passes", "review these stale plans and reconcile them", or "use improve-style planning, but do not implement yet". Use this route for `/improve`-style planning.
+- when a thread review produces executor-grade skill, runbook, or AWS follow-up work
 - an audit should produce implementation plans for a different model or future session
 - a plan must be executable with no access to the advisor conversation
 - a review or self-improvement pass produces multiple independent fixes that should become an agent-driven work queue
 - the user wants automation-first follow-up but the work needs STOP conditions, proof gates, and scoped handoffs
 - the work needs `plans/README.md`, numbered plan files, commit stamps, drift checks, STOP conditions, and done criteria
-- an existing plan needs review, refresh, execution dispatch, or reconciliation
+- an existing plan needs review, refresh, execution dispatch, or stale-plan reconciliation
 
 ## Do not use when
 
@@ -88,6 +89,11 @@ plans/
   002-short-slug.md
 ```
 
+In `plans/README.md`, keep a practical status table as the plan index so the backlog is machine and human readable:
+| plan id | status | last verified | next action |
+| --- | --- | --- | --- |
+| 001-short-slug | TODO | 2026-01-01T00:00:00Z | reconcile scope, run drift check, then requeue |
+
 If `plans/` already exists for unrelated planning, use `advisor-plans/` and say why.
 
 Read [references/plan-template.md](references/plan-template.md) when writing a plan file.
@@ -115,6 +121,7 @@ Do not paste entire files into plans. Use small excerpts with file and line refe
 ### 5. Reconcile instead of duplicating
 
 When a backlog exists, read `plans/README.md` first.
+Before assigning TODO work, detect overlapping in-scope files across queued plans. If two plans touch the same file, flag conflicting plans and either merge them or serialize execution so they do not run in parallel.
 
 - `DONE`: spot-check cheap done criteria and mark verified when useful.
 - `BLOCKED`: investigate the blocker, then refresh, replace, or reject the plan.
@@ -137,7 +144,8 @@ If isolated execution is not available, say so and hand over the plan for manual
 
 ### 7. GitHub issues are distribution, not the source of truth
 
-Only create issues when the user explicitly asks or uses an issue-publishing flag.
+Only create issues when the user explicitly asks or uses an issue-publishing flag, and only as distribution copies.
+Any published issue should link back to the plan and include a `Canonical plan` reference to the canonical plan file so issue readers can return to the source of truth.
 
 Before publishing security, credential, or sensitive findings to a public repo, confirm visibility and get explicit approval.
 
