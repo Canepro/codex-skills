@@ -66,10 +66,12 @@ Use a structure like:
 
 ## Rollout / migration
 
-## Open questions
+## Risks and dependencies
+
+## Open questions and assumptions
 ```
 
-Keep requirements testable and user-facing. Avoid premature implementation detail unless it is a hard constraint.
+Keep requirements testable and user-facing. Give each functional requirement acceptance criteria concrete enough to test (given/when/then works well for behavior). State assumptions explicitly instead of silently baking them into requirements, and note how each will be validated or confirmed. Avoid premature implementation detail unless it is a hard constraint.
 
 ### 5. Optional GitHub output
 

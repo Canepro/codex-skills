@@ -36,7 +36,8 @@ Look for:
 ### 3. Identify the root cause
 
 Write down:
-- the triggering conditions
+- the triggering conditions, with reproduction evidence gathered before fixing (a failing test, command output, or log excerpt that shows the bad behavior)
+- for regressions, the regression range: the last known good version or commit, and the first known bad one
 - the broken invariant or assumption
 - the narrowest plausible change that would fix it
 - the behaviors that need test coverage
@@ -49,6 +50,7 @@ If the user wants a fix now:
 - switch into implementation mode
 - add or update tests first when practical
 - keep the change minimal and verify the affected behavior
+- re-run the reproduction and confirm the original failure is gone, not just that new tests pass
 
 If the user wants planning only:
 - produce a concise issue-ready draft with:
