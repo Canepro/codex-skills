@@ -146,10 +146,36 @@ sum(rate(errors_total[5m]))
 
 ---
 
+## Vector matching for joins and division
+
+Use matching modifiers when combining vectors with different label sets.
+
+- `on(...)` keeps only the listed labels for matching.
+- `ignoring(...)` drops the listed labels from matching.
+- `group_left` enables many-to-one or one-to-many joins when one side has fewer matching series.
+- A `many-to-many` match is usually a data model issue; aggregate or narrow labels so one side is unique before joining.
+
+```promql
+# Many request series per node divided by one node-level limit
+sum(rate(http_requests_total{job="api"}[5m])) by (service, node)
+/
+on(node) group_left(job)
+sum(rate(requests_total{job="api"}[5m])) by (node)
+
+# Ignore pod churn and match on stable dimensions
+sum(rate(memory_bytes{cluster="prod"}[5m])) by (cluster, service, pod)
+/
+ignoring(pod) on(cluster, service) group_left()
+sum(rate(memory_limit_bytes{cluster="prod"}[5m])) by (cluster, service)
+```
+
 ## Absence and staleness
 
 ```promql
-# Alert when a metric disappears (e.g. a job stops reporting)
+# Alert only after sustained absence, to avoid one-scrape noise
+absent_over_time(up{job="api"}[5m]) == 1
+
+# Instant absence check is useful for manual debugging
 absent(up{job="api"})
 
 # Alert when a metric value hasn't changed (potential stale exporter)
