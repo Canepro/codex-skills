@@ -33,15 +33,28 @@ These go in the plan header so every phase can reference them.
 
 Break the PRD into **tracer bullet** phases. Each phase is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
+Before naming a sequence, define the intended **phase order** explicitly so dependencies are clear. Each phase should be independently verifiable, but only after its prerequisite work is complete.
+
 <vertical-slice-rules>
 - Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
 - A completed slice is demoable or verifiable on its own
 - Prefer many thin slices over few thick ones
 - Do NOT include specific file names, function names, or implementation details that are likely to change as later phases are built
 - DO include durable decisions: route paths, schema shapes, data model names
+- Document **dependencies** per slice: what must be done before this slice starts and what this slice **unblocks** for later work
 </vertical-slice-rules>
 
-### 5. Quiz the user
+### 5. Capture assumptions and unresolved questions
+
+Before final phase sequencing, write a short set of assumptions and unresolved PRD items. These must be cleared or explicitly accepted before implementation phases are finalized.
+
+- **Assumptions**: what you are treating as fixed for planning (environments, integrations, constraints)
+- **Open questions**: unresolved user intent or product decisions
+- **Unresolved** items: known unknowns that can still block safe sequencing
+
+Do not finalize the phase order while unresolved items remain unacknowledged.
+
+### 6. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each phase show:
 
@@ -52,10 +65,11 @@ Ask the user:
 
 - Does the granularity feel right? (too coarse / too fine)
 - Should any phases be merged or split further?
+- Which assumptions, open questions, or unresolved items need resolution before implementation starts?
 
 Iterate until the user approves the breakdown.
 
-### 6. Write the plan file
+### 7. Write the plan file
 
 Create `./plans/` if it doesn't exist. Write the plan as a Markdown file named after the feature (e.g. `./plans/user-onboarding.md`). Use the template below.
 
@@ -73,11 +87,25 @@ Durable decisions that apply across all phases:
 - **Key models**: ...
 - (add/remove sections as appropriate)
 
+## Assumptions and unresolved open questions
+
+- **Assumptions**: ...
+- **Open questions (unresolved)**: ...
+
+## Phase order and dependencies
+
+State the explicit **phase order** and **dependencies** up front, and note what each phase **unblocks** next. Keep every slice independently verifiable once its prerequisites are satisfied.
+
 ---
 
 ## Phase 1: <Title>
 
 **User stories**: <list from PRD>
+
+### Dependency and unblock notes
+
+- **Dependencies**: ...
+- **Unblocks**: ...
 
 ### What to build
 
