@@ -73,13 +73,35 @@ Clarify:
 - who owns alert rules
 - who owns shared dashboards
 - who can add or change telemetry schemas
+- who owns runbooks for each alert and dashboard family
+
+### 6. Plan phased rollout and migration
+
+Define a phased rollout and migration plan before changing production telemetry paths:
+- inventory existing signals, dependencies, and schema consumers
+- migrate in waves (pilot, then broader domains, then full fleet)
+- publish migration plan owners, timelines, and rollback windows before each phase starts
+- enforce validation gates at phase boundaries for:
+  - telemetry completeness and accuracy
+  - query performance and cardinality controls
+  - alert routing accuracy and noise behavior
+  - dashboard quality and ownership alignment
+- require rollback execution and evidence capture if any validation gate fails
+
+### 7. Tie alerts and dashboards to runbooks with review cadence
+
+- link every alert and major dashboard to an owning runbook
+- publish a recurring review cadence for alert review and dashboard review
+- include false-positive tuning, on-call contact path checks, stale dashboard cleanup, and runbook freshness in each cycle
 
 ## Output expectations
 
 - Recommend an architecture, not just a tool list.
+- Include a phased rollout migration plan with explicit validation gates, rollback criteria, and phase acceptance requirements.
 - Explain operational trade-offs.
 - Separate mandatory baseline telemetry from optional nice-to-haves.
 - Make cost and governance visible.
+- Include review cadence outcomes for alert review and dashboard review tied to runbook ownership.
 
 ## Related specialist skills
 
