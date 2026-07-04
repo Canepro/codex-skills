@@ -9,6 +9,7 @@ description: "Use when the user explicitly asks for a desktop or system screensh
 Follow these save-location rules every time:
 
 1) If the user specifies a path, save there.
+   - If a provided path exists and that path already points to an existing file, do not overwrite it by default. Ask for consent and only overwrite when the user explicitly allows it, typically by using the overwrite option.
 2) If the user asks for a screenshot without a path, save to the OS default screenshot location.
 3) If Codex needs a screenshot for its own inspection, save to the temp directory.
 
@@ -76,6 +77,12 @@ python3 <path-to-skill>/scripts/take_screenshot.py --mode temp
 python3 <path-to-skill>/scripts/take_screenshot.py --path output/screen.png
 ```
 
+If overwrite is explicitly requested by the user, use the overwrite flag so an existing file is replaced intentionally:
+
+```bash
+python3 <path-to-skill>/scripts/take_screenshot.py --path output/screen.png --overwrite
+```
+
 - App/window capture by app name (macOS only; substring match is OK; captures all matching windows):
 
 ```bash
@@ -138,7 +145,7 @@ The helper automatically selects the first available tool:
 2) `gnome-screenshot`
 3) ImageMagick `import`
 
-If none are available, ask the user to install one of them and retry.
+If none are available, ask the user to install one of them and retry. If the environment is headless and has no desktop session or display, state that screenshot capture is unavailable until a graphical session is started and request running in a headful desktop context before retrying.
 
 Coordinate regions require `scrot` or ImageMagick `import`.
 
