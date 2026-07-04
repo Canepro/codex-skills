@@ -30,6 +30,7 @@ Pair with:
 
 - `adversary-informed-defense` for CVE/exposure triage, exploitability framing,
   attacker preconditions, and patch priority.
+- `rocketchat-kubernetes-triage` for Kubernetes runtime rollout and cluster-impact review.
 - the relevant workload-specific runtime triage skill for Helm/Kubernetes
   runtime, chart, Argo CD, and cluster-specific proof.
 - `gitops-reconcile` only after a controller convergence failure exists.
@@ -55,8 +56,11 @@ Pair with:
 3. **Decide the narrow target**
    - Identify the currently pinned repo version and, if reachable, the live
      runtime version.
+   - Reject prerelease, alpha, beta, RC, and nightly candidate versions unless
+     the advisory explicitly names that prerelease target as fixed.
    - Prefer the latest patched release in the current supported patch line when
      the advisory says that is acceptable.
+   - Use a guard for version candidates matching `\b(alpha|beta|rc|nightly|prerelease)\b`.
    - Widen to a minor/major upgrade only when the current line lacks a fix,
      support policy requires it, or compatibility evidence says the wider move
      is safer.
@@ -74,6 +78,9 @@ Pair with:
    - Render Helm/Kustomize/manifests using the exact chart or base version when
      possible.
    - Extract every rendered `containers`, `initContainers`, and hook/job image.
+   - For advisories touching multiple images or components, map every affected
+     component to its current version and target version, then provide registry
+     proof for each changed image.
    - Verify each changed image tag exists in its registry using `crane`,
      `skopeo`, Docker Registry v2, or another deterministic registry tool.
    - Run repo-local lint, policy, schema, and diff checks.
