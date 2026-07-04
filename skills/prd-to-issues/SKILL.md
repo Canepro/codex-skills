@@ -40,9 +40,11 @@ Avoid horizontal issues like "build DB layer", "build API layer", "build UI laye
 For each issue include:
 - title
 - traceability reference (PRD section, requirement, or user story)
+- short PRD source excerpt or quote that directly supports this slice
 - why this slice exists
 - scope
 - acceptance criteria
+- non-functional acceptance criteria and validation when the PRD states them
 - validation with concrete test cases and expected results
 - dependencies, if any
 - implementation notes only if they are durable
@@ -61,10 +63,16 @@ Use a compact template:
 - Section:
 - Requirement / User Story:
 
+### PRD Source Excerpt (quote)
+- "..."
+
 ### Scope
 
 ### Acceptance Criteria
-- [ ] ...
+- [ ] Functional:
+- [ ] Non-functional:
+- [ ] Performance:
+- [ ] Accessibility:
 
 ### Validation & Test
 - [ ] Test: ...
