@@ -9,9 +9,12 @@ Use this skill when an automation writes or debugs Zoho Desk ticket comments. Th
 
 ## Private note contract
 
-Use the Zoho Desk API hostname for the account data center, not always `desk.zoho.com`.
-Common hosts include `desk.zoho.com`, `desk.zoho.eu`, `desk.zoho.in`, and
-`desk.zoho.com.au`.
+Use the Zoho Accounts OAuth domain and Zoho Desk API domain from the same data center. The OAuth and API hosts must match.
+Use matching pairs such as:
+`accounts.zoho.com` with `desk.zoho.com`,
+`accounts.zoho.eu` with `desk.zoho.eu`,
+`accounts.zoho.in` with `desk.zoho.in`,
+and `accounts.zoho.com.au` with `desk.zoho.com.au`.
 
 Use the internal ticket id in the endpoint:
 
@@ -68,6 +71,8 @@ Reconnect the OAuth credential after changing scopes. Existing access tokens wil
 `403 SCOPE_MISMATCH`: OAuth credential lacks the required Desk scope. Update scopes, reconnect, and rerun the workflow.
 
 `401`: OAuth credential expired or the wrong credential is bound to the HTTP node.
+
+`429`: Zoho API rate limit hit. Do not blind rerun; read `Retry-After`, wait, and retry with backoff (for example exponential backoff with jitter) so you honor the rate limit.
 
 Empty or wrong department/org: check the `orgId` header and the Zoho data center domain.
 
