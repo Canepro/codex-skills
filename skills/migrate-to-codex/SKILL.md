@@ -34,8 +34,8 @@ Run the migration in this order for each selected global or project source:
    - instructions: `CLAUDE.md` / `AGENTS.md` to `AGENTS.md`
    - plugins: report Claude plugin trees and marketplaces as manual migration work
    - hooks: rewrite supported Claude hooks into `.codex/hooks.json` and enable `[features].codex_hooks = true`
-   - skills and commands: write Codex skills under `.agents/skills/`
-   - config: write `.codex/config.toml` from Claude model/sandbox settings and MCP servers, including `personality = "friendly"` when config is generated
+   - skills and commands: migrate slash commands into Codex skills under `.agents/skills/`, preserving slash command argument placeholders, frontmatter, and any `allowed_tools` mappings in the generated skill metadata.
+   - config: write `.codex/config.toml` from Claude model/sandbox settings and MCP servers, including `personality = "friendly"` when config is generated, using a toml parser and structured toml merge so unrelated sections stay intact.
    - subagents: write Codex custom agents under `.codex/agents/`
 
 5. Dry-run, then write the selected target. Use `--replace` only when orphan generated skills or agents should be deleted.
