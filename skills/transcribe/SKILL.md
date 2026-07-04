@@ -12,7 +12,7 @@ Transcribe audio using OpenAI, with optional speaker diarization when requested.
 1. Collect inputs: audio file path(s), desired response format (text/json/diarized_json), optional language hint, and any known speaker references.
 2. Verify `OPENAI_API_KEY` is set. If missing, ask the user to set it locally (do not ask them to paste the key).
 3. Run the bundled `transcribe_diarize.py` CLI with sensible defaults (fast text transcription).
-4. Validate the output: transcription quality, speaker labels, and segment boundaries; iterate with a single targeted change if needed.
+4. Parse the `diarized_json` output (or other JSON output) with `json.loads` and validate expected fields before trusting transcription quality, speaker labels, and segment boundaries. If parsing or validation fails, stop and retry with one targeted parameter change.
 5. Save outputs under `output/transcribe/` when working in this repo.
 
 ## Decision rules
@@ -24,6 +24,7 @@ Transcribe audio using OpenAI, with optional speaker diarization when requested.
 
 ## Output conventions
 - Use `output/transcribe/<job-id>/` for evaluation runs.
+- Avoid overwriting existing output files. If the selected `--out` or `--out-dir` already exists with content, do not overwrite; ask for an explicit overwrite confirmation or a new target before writing.
 - Use `--out-dir` for multiple files to avoid overwriting.
 
 ## Dependencies (install if missing)
