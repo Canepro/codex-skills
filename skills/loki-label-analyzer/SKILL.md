@@ -6,7 +6,7 @@ description: "Audit, design, or improve a Grafana Loki label schema: cardinality
 
 # Loki Label Strategy Evaluator
 
-This skill audits, designs, and improves Grafana Loki label schemas. When asked to evaluate or redesign a label strategy, or when a user asks why their Loki queries are slow, use this guide to produce a structured assessment with concrete fixes.
+This skill owns Grafana Loki label strategy work and is used to evaluate, audit, design, or improve a Loki label strategy. When asked to evaluate or redesign a label strategy, or when a user asks why their Loki queries are slow, use this guide to produce structured, actionable advice and concrete fixes.
 
 For LogQL syntax, ingestion configuration, or general Loki questions outside label strategy, use the `loki` skill instead.
 
@@ -83,10 +83,10 @@ When auditing a label set, produce a report in this structure:
 [Final recommended labels]
 
 ### Migration Notes
-Treat every label schema change as a change-control event on the label allowlist, not a routine config tweak.
-- Review changes to the allowed label names before applying them.
-- When renaming labels, do not cut over instantly. Emit both the old and new keys for a compatibility window so saved queries and dashboards keep working.
-- During that window, validate the affected queries and dashboards against both key names before removing the old one.
+Treat every label schema change as a change control event on the label allowlist, not a routine config tweak.
+- Review and document changes to the allowed label names before applying them, including rollout and rollback notes.
+- When renaming labels, do not cut over instantly. Dual-write both the old and new keys for a dashboard compatibility window so saved queries and dashboards keep working.
+- During that window, validate the affected queries and dashboards against both keys before removing the old one.
 - Write down the rollback path: how to revert the allowlist, the collector stages, and any updated query or dashboard references if regressions appear.
 ```
 
