@@ -30,6 +30,7 @@ Treat pipeline incidents as evidence problems first. Identify the exact failing 
 ### 0. Consent and pause before final actions
 
 Before any final fix, merge push, rerun, or destructive action, require explicit approval from the user.
+Before rerun or cancellation, save logs and artifacts from the current run so evidence is preserved before expiration, replacement, or rerun.
 Pause before final submission to confirm intent and blast radius.
 
 ### 1. Capture the exact run
@@ -65,6 +66,7 @@ evidence before implementing a change.
 ### 3. Classify the failure
 
 Choose the primary category:
+- skipped, cancelled, neutral, and required check statuses that are not true failures
 - pipeline logic or job configuration
 - credential, secret, token, private key, or identity failure
 - environment mismatch between local and CI
