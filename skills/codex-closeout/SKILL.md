@@ -94,6 +94,16 @@ and any real limitation.
 
 ## Default Shape
 
+For non-trivial tasks, include one task disposition when it helps task or
+thread hygiene:
+
+- `active`: approved work remains.
+- `done and archive-safe`: the requested outcome and proof are complete.
+- `gated`: only a named authority or external gate remains.
+- `superseded`: a newer instruction or task replaced this work.
+
+Do not mark a task archive-safe merely because the last sub-step passed.
+
 For normal implementation work, prefer this order:
 
 1. Outcome
