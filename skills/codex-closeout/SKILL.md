@@ -1,6 +1,6 @@
 ---
 name: codex-closeout
-description: Use when finishing implementation work, summarizing progress, or giving a Codex app closeout after code, config, infra, automation, script, doc, or test changes. Helps produce concise, high-signal delivery notes with outcome first, compact verification, minimal file inventory, and only real risks. For durable browser artifacts use codex-html-report.
+description: "Use when finishing implementation work, summarizing progress, or closing out a session in any agent (Codex, Claude, Cursor) after code, config, infra, automation, script, doc, or test changes. Helps produce concise, high-signal delivery notes with outcome first, compact verification, minimal file inventory, and only real risks. For durable browser artifacts use codex-html-report."
 ---
 
 # Codex Closeout

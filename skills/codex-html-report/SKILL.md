@@ -1,6 +1,6 @@
 ---
 name: codex-html-report
-description: "Create durable, self-contained HTML reports for Codex work: proof and completed-work reports, deployment verification, code reviews, ops or support case summaries, research briefs, and architecture plans meant to be read in a browser. Includes evidence, verification, risks, next steps. Not for quick answers or when the user asks for Markdown or plain text."
+description: "Create durable, self-contained HTML reports from any agent session: proof and completed-work reports, implementation closeouts, deployment verification, code reviews, ops or support case summaries, research briefs, and architecture plans meant to be read in a browser. Includes evidence, verification, risks, next steps. Not for quick answers or when the user wants Markdown or plain text."
 metadata:
   short-description: Create polished self-contained HTML reports
 ---
