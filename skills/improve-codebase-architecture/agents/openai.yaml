@@ -1,4 +1,0 @@
-interface:
-  display_name: "Improve Codebase Architecture"
-  short_description: "Find architectural refactor opportunities"
-  default_prompt: "Use $improve-codebase-architecture to find the best architectural deepening opportunities in this codebase."

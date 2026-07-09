@@ -8,7 +8,7 @@ description: "Diagnose an active Prometheus cardinality problem: OOMing Promethe
 
 This skill diagnoses live Prometheus cardinality problems. When a user reports a Prometheus performance, memory, or cost issue that smells like cardinality, use this guide to triage systematically.
 
-This skill is **diagnostic and operational**. For schema design and prevention, route to `prometheus-label-strategy`.
+This skill is **diagnostic and operational**. For schema design and prevention, route to `prometheus-label-strategy`. For general PromQL authoring (rates, aggregation, histogram quantiles, recording rules), answer directly from model knowledge; there is no separate promql skill.
 
 ---
 

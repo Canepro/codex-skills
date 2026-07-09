@@ -1,7 +1,7 @@
 ---
 name: prometheus-label-strategy
 license: Apache-2.0
-description: Design and audit Prometheus label schemas to prevent high cardinality at the source. Covers instrumentation hygiene, target vs application labels, histogram label discipline, info metrics, and exemplars. Use when designing or reviewing metric labels or asked how to stop cardinality growth before ingest. For a live cardinality fire, use prometheus-cardinality-troubleshooter.
+description: "Design and audit Prometheus label schemas to prevent high cardinality at the source: instrumentation hygiene, target vs application labels, histogram label discipline, info metrics, exemplars. Use when designing or reviewing metric labels. For a live cardinality fire, use prometheus-cardinality-troubleshooter."
 ---
 
 # Prometheus Label Strategy Evaluator

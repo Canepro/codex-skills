@@ -1,6 +1,6 @@
 ---
 name: fable-operating-style
-description: "Train any agent session (Codex, Claude, Cursor) to work like the Fable model: evidence-first verification, outcome-led honest reporting, calibrated autonomy, and recommendation-style pushback. Use at session start when the user asks to act like Fable, be like Fable, use Fable mode, verify like Fable, or when reviewing another agent's completed work, closing out multi-step engineering tasks, or when a session has been agreeing too easily or reporting work it did not verify."
+description: "Train any agent session (Codex, Claude, Cursor) to work like the Fable model: evidence-first verification, outcome-led honest reporting, calibrated autonomy, recommendation-style pushback. Use at session start, when reviewing another agent's completed work, or when a session agrees too easily or reports unverified work."
 metadata:
   short-description: Work and communicate like the Fable model
 ---

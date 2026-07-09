@@ -108,8 +108,8 @@ Report:
 
 - Use `prometheus-grafana-triage` when Argo CD or Flux symptoms come from alerting, scrape failures, or dashboard state.
 - Use `k8s-sre-triage` when desired state has landed but the workload fails at runtime.
-- Use `alerting-irm` when GitOps manages Grafana alert rules, notification policies, contact points, or silences.
-- Use `promql` or `loki` when convergence proof depends on Grafana Metrics or Logs queries.
+- When GitOps manages Grafana alert rules or notification policies, edit the provisioning YAML directly from Grafana Alerting knowledge.
+- Use `loki` when convergence proof depends on Grafana Logs queries; write PromQL proof queries directly.
 
 ## References
 

@@ -1,6 +1,6 @@
 ---
 name: kubernetes-platform-architecture
-description: "Design Kubernetes platform architecture: cluster topology, tenancy, namespace strategy, networking, security boundaries, upgrades, and operational ownership on EKS, AKS, GKE, or on-prem. Use for platform planning, multi-cluster models, Helm or operator adoption, and cost or upgrade direction. Not for live incidents (k8s-sre-triage) or GitOps delivery-model design (gitops-workflow)."
+description: "Design Kubernetes platform architecture: cluster topology, tenancy, namespaces, networking, security boundaries, upgrades, and operational ownership on EKS, AKS, GKE, or on-prem. Use for platform planning, multi-cluster models, and cost or upgrade direction. Not for live incidents (k8s-sre-triage) or sync failures (gitops-reconcile)."
 metadata:
   short-description: Design Kubernetes platform architecture
 ---
@@ -24,7 +24,7 @@ Use this skill for platform design and durable operating-model decisions.
 - the main problem is a live cluster incident. Use `k8s-sre-triage`.
 - the main problem is GitOps convergence on a specific app. Use `gitops-reconcile`.
 - the request is only about alert noise or scrape failures. Use `prometheus-grafana-triage`.
-- the request is about the GitOps operating model: repo layout, promotion flow, secrets handling, rollback. Use `gitops-workflow`.
+- the request is about GitOps sync failures or stuck reconciliation. Use `gitops-reconcile`. Design the GitOps operating model (repo layout, promotion flow, rollback) directly within this skill.
 
 ## Workflow
 

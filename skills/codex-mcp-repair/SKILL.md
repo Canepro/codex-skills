@@ -1,6 +1,6 @@
 ---
 name: codex-mcp-repair
-description: "Use when local Codex MCP or connector setup fails, including Zoho MCP, streamable_http auth, stdio wrappers, mcp-remote, malformed local state, startup warnings, missing features, or add/fix this MCP in Codex tasks. Preserve endpoints the user says work elsewhere; troubleshoot local Codex auth, transport, wrapper, and state first. Not for connecting agents to Grafana Cloud MCP (assistant-mcp)."
+description: "Use when local Codex MCP or connector setup fails, including Zoho MCP, streamable_http auth, stdio wrappers, mcp-remote, malformed local state, startup warnings, missing features, or add/fix this MCP in Codex tasks. Preserve endpoints the user says work elsewhere; troubleshoot local Codex auth, transport, wrapper, and state first."
 ---
 
 # Codex MCP Repair

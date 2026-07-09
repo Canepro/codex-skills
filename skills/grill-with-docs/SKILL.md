@@ -1,6 +1,6 @@
 ---
 name: grill-with-docs
-description: Stress-test a plan, design, product idea, architecture, workflow, or technical decision while grounding the critique in code, domain language, CONTEXT.md, and ADRs. Use when the user says grill me, push back, challenge this, pressure-test this, what am I missing, is this a good idea, argue against this, or asks for a first-principles senior-engineer critique before committing.
+description: "Stress-test a plan, design, architecture, or decision, grounding the critique in code, domain language, CONTEXT.md, and ADRs. Use for grill me, push back, challenge this, pressure-test this, what am I missing, is this a good idea, or a first-principles senior-engineer critique before committing."
 metadata:
   short-description: Stress-test a plan against code and docs
   upstream: https://github.com/mattpocock/skills/tree/main/skills/engineering/grill-with-docs

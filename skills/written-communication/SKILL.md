@@ -82,7 +82,7 @@ For all 61 insights from 38 guests, see `references/guest-insights.md`
 ## Related Skills
 
 - Final wording pass on a finished draft: `anti-ai-writing`
-- Turning a feature idea into a spec: `write-a-prd`
+- Turning a feature idea into phased delivery: `prd-to-plan`
 
 ## Workflow Coordination
 

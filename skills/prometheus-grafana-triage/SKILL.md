@@ -174,13 +174,13 @@ Hand off to `prometheus-cardinality-troubleshooter` when the driver is an active
 ## Related specialist skills
 
 Use these for deeper Grafana-specific work after the incident shape is clear:
-- `promql` for query correctness, histograms, recording rules, and slow PromQL.
+- Write and fix PromQL directly; use `prometheus-cardinality-troubleshooter` when slowness comes from cardinality.
 - `loki` for LogQL, parsers, log-pipeline behavior, and Loki-specific troubleshooting.
-- `alerting-irm` for Grafana alert rules, contact points, notification policies, silences, SLOs, and IRM.
+- Configure Grafana alert rules, contact points, notification policies, silences, and SLOs directly from Grafana Alerting knowledge.
 - `prometheus-cardinality-troubleshooter` for active series explosions, Prometheus OOM, slow queries, ingest limits, or DPM fires.
 - `prometheus-label-strategy` for preventing cardinality problems in instrumentation or scrape target labels.
 - `loki-label-analyzer` for Loki label strategy and slow log queries caused by bad labels.
-- `assistant-mcp` for Grafana MCP setup or agent-to-Grafana connection work.
+- For Grafana MCP setup, follow the upstream grafana/mcp-grafana README directly.
 
 ## References
 

@@ -62,12 +62,8 @@ Common routes:
 | Repo queue orchestration | `maintainer-orchestrator` |
 | Latest research, last-30-days trends, recent community signals, improvement techniques | `last30days` |
 | Agent self-improvement, skill routing, underused-skill review, loop engineering | `mira-loop-engineering` |
-| Naming, renaming, terminology drift | `naming-quality` |
 | Pressure-test a plan or decision | `grill-with-docs` |
-| Executor-grade plan backlog, /improve-style plans, or reconcile stale plans | `agent-plan-backlog` |
-| API or module interface design | `design-an-interface` |
-| Codebase architecture improvement ideas | `improve-codebase-architecture` |
-| Risky refactor sequencing | `request-refactor-plan` |
+| Executor-grade plan backlog, /improve-style plans, reconcile stale plans, or risky refactor sequencing | `agent-plan-backlog` |
 | Customer-safe prose | `written-communication` |
 | Word documents | installed OpenAI primary runtime Documents skill |
 | PDFs | installed OpenAI primary runtime PDF skill |
@@ -78,13 +74,10 @@ Common routes:
 | GitOps sync issues | `gitops-reconcile` |
 | Azure infrastructure, identity, or deployment | installed Azure plugin skills |
 | Prometheus/Grafana alert or scrape triage | `prometheus-grafana-triage` |
-| PromQL query writing or optimization | `promql` |
 | Loki or LogQL work | `loki` |
-| Grafana alert routing, silences, SLOs, IRM | `alerting-irm` |
 | Prometheus cardinality fire | `prometheus-cardinality-troubleshooter` |
 | Prometheus label strategy | `prometheus-label-strategy` |
 | Loki label strategy | `loki-label-analyzer` |
-| Grafana MCP setup for agents | `assistant-mcp` |
 | Sentry issues, events, or project health | installed Sentry plugin |
 | Security scan, finding triage, validation, or framework security review | installed Codex Security plugin |
 | Security ownership or bus-factor map | `security-ownership-map` |
@@ -92,7 +85,6 @@ Common routes:
 | Explicit TDD or red-green-refactor workflow | installed Superpowers `test-driven-development` skill |
 | Unclear root cause, repeated failed fixes, or systematic debugging | installed Superpowers `systematic-debugging` skill |
 | CLI creation from API docs or curls | `cli-creator` |
-| Migrate Claude-style artifacts into Codex | `migrate-to-codex` |
 
 Read the target skill's full `SKILL.md` before acting. Product-specific private workflows stay in their owning repos, not this library. Before shipping any user-visible prose, apply `anti-ai-writing`.
 
@@ -129,8 +121,6 @@ Plain-language trigger aliases:
 - Use `codex-closeout` for "close this out", "what changed", "what passed", "commit/push status", "dirty state", or any final delivery after repo, config, automation, skill, or report work.
 - Use installed vendor plugin skills first for GitHub-native work, Azure, Sentry, Codex Security, document/PDF runtime work, TDD, systematic debugging, new frontend apps, prototypes, product-design audits, visual-target builds, responsive-only UI debugging, browser UI testing, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
 - Use `frontend-anti-slop` for "this UI feels AI-generated", "frontend slop", "make the dashboard less generic", "UI audit", or "polish this screen" when the task is an existing screen review or anti-slop cleanup.
-- Use `design-an-interface` for "design the API", "module boundary", "interface options", "design it twice", or "compare API shapes".
-- Use `assistant-mcp` for "MCP server setup", "agent tools", "Grafana MCP", "connect coding agents to Grafana", or "agent observability tools".
 
 If a historical usage scan mentions a skill that is not installed, first check the source repo and any SkillForge retired record. Treat source-path-missing records as obsolete unless a current source directory or explicit user request says to revive them. Route to the current replacement rather than reinstalling a dead name.
 

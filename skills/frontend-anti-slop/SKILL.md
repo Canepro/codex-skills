@@ -1,6 +1,6 @@
 ---
 name: frontend-anti-slop
-description: Review or polish an existing frontend UI so it feels intentional, product-specific, and accessible. Use for frontend PR review, severity-ranked UI findings, dashboard chrome cleanup, hierarchy fixes, and anti-slop polish. Not the first route for new app builds, data visualization, browser testing, React performance, or shadcn work; vendor plugins own those.
+description: "Review or polish an existing frontend UI so it feels intentional, product-specific, and accessible: frontend PR review, severity-ranked findings, dashboard chrome cleanup, hierarchy fixes. Not for new app builds, data visualization, browser testing, React performance, or shadcn work; vendor plugins own those."
 metadata:
   short-description: Frontend review and anti-slop polish
 ---

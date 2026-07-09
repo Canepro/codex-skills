@@ -21,58 +21,47 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 
 Library-managed skills as of this commit:
 
-- `anti-ai-writing`
-- `agent-plan-backlog`
 - `adversary-informed-defense`
+- `agent-plan-backlog`
 - `aks-gitops-pvc-rightsize`
-- `alerting-irm`
-- `assistant-mcp`
+- `anti-ai-writing`
 - `ci-pipeline-triage`
 - `cli-creator`
 - `codex-app-server-backend-adapter`
-- `codex-html-report`
 - `codex-closeout`
+- `codex-html-report`
 - `codex-mcp-repair`
-- `design-an-interface`
 - `design-system-maintenance`
 - `entra-oidc-app-integration`
 - `fable-operating-style`
 - `find-skills`
 - `frontend-anti-slop`
 - `gitops-reconcile`
-- `gitops-workflow`
 - `grill-with-docs`
 - `hatch-pet`
-- `improve-codebase-architecture`
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
+- `l2-l3-support-platform`
 - `last30days`
 - `learning-mode`
-- `l2-l3-support-platform`
 - `log-analyzer`
 - `loki`
 - `loki-label-analyzer`
 - `m365-admin`
-- `migrate-to-codex`
 - `n8n-workflow-api-deploy`
-- `naming-quality`
-- `observability-architecture`
 - `playwright`
 - `prd-to-issues`
 - `prd-to-plan`
 - `prometheus-cardinality-troubleshooter`
 - `prometheus-grafana-triage`
 - `prometheus-label-strategy`
-- `promql`
-- `request-refactor-plan`
 - `screenshot`
 - `security-ownership-map`
 - `terraform-skill`
-- `triage-issue`
 - `transcribe`
+- `triage-issue`
 - `vendor-security-gitops-patch`
-- `write-a-prd`
 - `writing-great-skills`
 - `written-communication`
 - `zoho-desk-api-notes`
@@ -172,7 +161,7 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 3. Run `bash scripts/check-drift.sh`.
 4. Commit and push.
 
-This is how `find-skills` and `naming-quality` were normalized.
+This is how `find-skills` was normalized.
 
 Local, private, product-specific, or machine-specific skills can stay out of this repo on purpose. Keep them as plain skill directories in `~/.codex/skills/<skill-name>` and let `sync-installed-extras.sh --sync` mirror them to the Agents and Claude trees. Do NOT add private skills to any `.codex-skills-managed` manifest: the manifest is install bookkeeping for repo-managed skills only, and `install.sh` uninstalls manifest entries that left the repo. Discovery comes from the directory itself, so unmanaged directories are preserved and discoverable. To keep a private skill out of Claude Code, list its name in `~/.claude/skills/.codex-skills-claude-exclude`.
 

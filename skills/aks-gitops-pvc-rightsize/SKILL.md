@@ -1,6 +1,6 @@
 ---
 name: aks-gitops-pvc-rightsize
-description: Use when reducing or changing Azure AKS Kubernetes PVC disk size or storage class in a GitOps-managed workload, especially when ArgoCD or Flux is outside the AKS cluster. Covers backup, GitOps changes, PVC recreation, restore, verification, and cost cleanup without directly deleting Azure managed disks. Not for GitOps sync failures (gitops-reconcile) or live pod incidents (k8s-sre-triage).
+description: "Reduce or change an Azure AKS PVC disk size or storage class in a GitOps-managed workload, including when ArgoCD or Flux runs outside the cluster. Covers backup, PVC recreation, restore, verification, and cost cleanup. Not for GitOps sync failures (gitops-reconcile) or live pod incidents (k8s-sre-triage)."
 metadata:
   short-description: Safely right-size AKS GitOps PVC disks
 ---
@@ -94,4 +94,4 @@ Capture:
 
 ## Workflow Coordination
 
-This skill owns the AKS PVC right-size runbook and stateful-workload safety gates. Use `vincent-workflow` for durable blockers, decisions, handoffs, known issues, and commit/push/cleanup state. Use the relevant workload-specific runtime triage skill when the target system needs incident diagnosis rather than planned PVC maintenance. Use `gitops-workflow` when the change must reconcile through GitOps source of truth. Use `codex-html-report` for reader-facing maintenance proof and `codex-closeout` for final chat delivery.
+This skill owns the AKS PVC right-size runbook and stateful-workload safety gates. Use `vincent-workflow` for durable blockers, decisions, handoffs, known issues, and commit/push/cleanup state. Use the relevant workload-specific runtime triage skill when the target system needs incident diagnosis rather than planned PVC maintenance. Use `gitops-reconcile` when the change must converge through GitOps source of truth and the sync misbehaves. Use `codex-html-report` for reader-facing maintenance proof and `codex-closeout` for final chat delivery.

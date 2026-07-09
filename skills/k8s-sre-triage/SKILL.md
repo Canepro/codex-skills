@@ -121,10 +121,10 @@ Report:
 ## Related specialist skills
 
 - Use `prometheus-grafana-triage` when the incident starts from an alert, scrape failure, dashboard mismatch, or Prometheus/Grafana signal.
-- Use `promql` when Kubernetes health needs custom PromQL, ratios, histogram queries, or recording-rule checks.
+- Write custom PromQL, ratios, and histogram queries directly; use `prometheus-cardinality-troubleshooter` when a query is expensive because of label cardinality.
 - Use `loki` when the next step is LogQL, log parsers, Loki pipeline behavior, or log-derived metrics.
 - Use `gitops-reconcile` when the runtime issue is caused by Argo CD or Flux convergence rather than cluster mechanics.
-- Use `observability-architecture` when the result is a monitoring design gap, not a live runtime fix.
+- When the result is a monitoring design gap rather than a live runtime fix, design the telemetry change directly and record it as a durable decision.
 - Use `adversary-informed-defense` when the evidence suggests compromise rather than a fault: unexpected workloads, privilege changes, or credential misuse.
 
 ## References

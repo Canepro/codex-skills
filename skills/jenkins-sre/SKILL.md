@@ -101,7 +101,7 @@ Report:
 - Use `k8s-sre-triage` when the Jenkins controller or agent runs on Kubernetes and the evidence points to pods, services, storage, or ingress.
 - Use `prometheus-grafana-triage` when Jenkins health is being inferred from Grafana, Prometheus, Loki, or alert state.
 - Use `loki` for Jenkins log queries through Loki.
-- Use `alerting-irm` when the fix is alert routing, silencing, or scheduled maintenance notification rather than Jenkins runtime repair.
+- When the fix is alert routing, silencing, or maintenance notification rather than Jenkins runtime repair, configure it directly from Grafana Alerting knowledge.
 - Use `codex-html-report` for durable proof artifacts when handing off incident outcomes and recovery evidence.
 
 ## References

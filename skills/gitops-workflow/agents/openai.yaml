@@ -1,4 +1,0 @@
-interface:
-  display_name: "GitOps Workflow"
-  short_description: "Design a GitOps operating model"
-  default_prompt: "Use $gitops-workflow to design the repo, promotion, and rollback model for this GitOps setup."

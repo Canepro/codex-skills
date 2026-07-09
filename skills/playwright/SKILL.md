@@ -1,6 +1,6 @@
 ---
 name: "playwright"
-description: "Fallback terminal browser automation using `playwright-cli` or the bundled wrapper. Use when Browser/Chrome plugin control is unavailable or the task needs CLI-friendly navigation, form filling, screenshots, snapshots, scraping, or stateful browser workflows. Do not use as the first route when vendor frontend testing, visual QA, or browser plugin tools are available; use those first."
+description: "Fallback terminal browser automation via playwright-cli or the bundled wrapper. Use when Browser/Chrome plugin control is unavailable or the task needs CLI-friendly navigation, form filling, screenshots, scraping, or stateful browser sessions. Vendor frontend-testing and browser plugin tools route first."
 ---
 
 

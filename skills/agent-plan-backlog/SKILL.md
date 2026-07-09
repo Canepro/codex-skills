@@ -1,6 +1,6 @@
 ---
 name: agent-plan-backlog
-description: Create, review, execute, or reconcile executor-grade implementation plans another agent can run without this chat. Use for /improve-style planning, a plans/ work queue for a weaker or cheaper model, stale-plan review, or drift reconciliation. Not for PRD phase slicing (prd-to-plan) or issue drafts (prd-to-issues).
+description: Create, review, execute, or reconcile executor-grade implementation plans another agent can run without this chat. Use for /improve-style planning, a plans/ work queue for a weaker or cheaper model, stale-plan review, drift reconciliation, or sequencing one risky refactor into tiny safe steps. Not for PRD phase slicing (prd-to-plan) or issue drafts (prd-to-issues).
 metadata:
   short-description: Build executor-grade plan backlogs
 ---
@@ -58,8 +58,8 @@ Record dependencies and execution order when findings depend on one another. Ass
 
 Use the narrow skill that matches the discovery job:
 
-- `improve-codebase-architecture` for boundary, coupling, and architecture opportunities
-- `request-refactor-plan` for one risky refactor that needs sequencing
+- explore the codebase directly for boundary, coupling, and architecture opportunities
+- the single-refactor planning mode below for one risky refactor that needs sequencing
 - `triage-issue` for one bug or regression
 - installed Codex Security plugin skills, `adversary-informed-defense`, or platform skills for domain-specific risks
 - `prd-to-plan` for product phase slicing before executor-grade technical plans
@@ -169,10 +169,20 @@ A plan is not ready until:
 - dependencies, priority, rollback, and execution notes are present when relevant
 - a reviewer can understand the intent from the purpose and done criteria alone
 
+## Single-refactor planning mode
+
+When the job is planning one known refactor rather than a whole backlog, run this condensed sequence and default the deliverable to a Markdown plan or issue draft instead of numbered plan files:
+
+1. Verify the problem in the codebase before planning: confirm the pain is real, find where the coupling or complexity lives, and note what behavior must be preserved. Challenge weak problem statements early.
+2. Consider smaller alternatives first: a bug fix, an interface adjustment, or nothing. If the safest answer is "do less," say that clearly.
+3. Write the plan boundary: what changes, what does not, what risks must be managed, and what verification proves safety. If test coverage is weak, make adding it part of the plan.
+4. Break the work into tiny reviewable steps that each leave the codebase working. Prefer preparatory renames or moves, interface shims, additive transitions before deletions, and test additions near behavior boundaries.
+5. Include an explicit out-of-scope section and a decision record.
+
+Switch to the full backlog workflow above when the result must become numbered, commit-stamped plan files with STOP conditions for a separate executor.
+
 ## Related skills
 
-- Use `improve-codebase-architecture` to discover architecture opportunities.
-- Use `request-refactor-plan` to reason through a risky refactor before deciding it deserves a backlog plan.
 - Use `triage-issue` to diagnose one bug before writing an executor-grade fix plan.
 - Use `prd-to-plan` for product phase slicing; use this skill when each phase must become executor-grade technical work.
 - Use `grill-with-docs` to pressure-test a plan before it enters the backlog.

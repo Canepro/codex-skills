@@ -1,6 +1,6 @@
 ---
 name: adversary-informed-defense
-description: Use when work needs attacker-method knowledge for defensive outcomes. Triggers include deciding whether suspicious log lines, repeated auth failures, or odd traffic in a ticket is an attack or a fault; CVE and exposure triage; hardening reviews of Kubernetes, CI/CD, or Terraform surfaces; purple-team planning; detection engineering; incident reconstruction; external security-skill intake; or evaluating offensive tools, repos, and workflows for safe local use.
+description: "Use when work needs attacker-method knowledge for defensive outcomes: deciding whether suspicious log lines or odd traffic is an attack or a fault, CVE and exposure triage, hardening reviews of Kubernetes/CI/CD/Terraform, purple-team planning, detection engineering, incident reconstruction, or evaluating offensive tools for safe local use."
 ---
 
 # Adversary-Informed Defense

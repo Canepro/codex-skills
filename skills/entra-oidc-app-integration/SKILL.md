@@ -1,6 +1,6 @@
 ---
 name: entra-oidc-app-integration
-description: "Use for Microsoft Entra OIDC app integrations with Argo CD, Grafana, Kubernetes dashboards, CI/CD tools, or other apps that need Entra login, group claims, app registrations, redirect URIs, client secrets, and RBAC group mapping. Covers valid scopes vs group claims, secret-value handling, public-repo hygiene, and SSO cutover verification. Not for general Microsoft 365 tenant administration (m365-admin)."
+description: "Microsoft Entra OIDC app integrations with Argo CD, Grafana, Kubernetes dashboards, or CI/CD tools: app registrations, redirect URIs, client secrets, group claims, RBAC group mapping, and SSO cutover verification. Not for general Microsoft 365 tenant administration (m365-admin)."
 ---
 
 # Entra OIDC App Integration
