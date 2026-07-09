@@ -60,7 +60,7 @@ Use the narrow skill that matches the discovery job:
 
 - explore the codebase directly for boundary, coupling, and architecture opportunities
 - the single-refactor planning mode below for one risky refactor that needs sequencing
-- `triage-issue` for one bug or regression
+- diagnose one bug or regression directly: reproduce it first, then confirm the fix removes the original failure
 - installed Codex Security plugin skills, `adversary-informed-defense`, or platform skills for domain-specific risks
 - `prd-to-plan` for product phase slicing before executor-grade technical plans
 
@@ -183,7 +183,7 @@ Switch to the full backlog workflow above when the result must become numbered, 
 
 ## Related skills
 
-- Use `triage-issue` to diagnose one bug before writing an executor-grade fix plan.
+- Diagnose one bug directly (reproduction evidence first) before writing an executor-grade fix plan.
 - Use `prd-to-plan` for product phase slicing; use this skill when each phase must become executor-grade technical work.
 - Use `grill-with-docs` to pressure-test a plan before it enters the backlog.
 

@@ -32,7 +32,7 @@ Hand off before you start when one of these is the real task:
 - React/Next performance, rendering, hydration, data fetching, or bundle guidance: use the installed `build-web-apps:react-best-practices` vendor plugin skill when available
 - shadcn component, registry, preset, or `components.json` work: use the installed `build-web-apps:shadcn` vendor plugin skill when available
 - broad product-flow audit, coded prototype from a visual target, source design comparison, URL-to-code, or image-to-code: use the installed Product Design plugin skill when available
-- component library governance: `design-system-maintenance`
+- component library governance: handle directly, keeping tokens and primitives consistent with the existing system
 
 If the relevant vendor plugin is unavailable, continue with this skill only for anti-slop review and polish. Use `playwright` for browser driving when no vendor testing/debugging skill is available.
 

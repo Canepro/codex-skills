@@ -134,7 +134,7 @@ For live security work, report:
 
 ## Related Skills
 
-- Use `log-analyzer` or `rocketchat-log-analysis` first when the evidence is raw logs; come back here when the question becomes "is this an attack and what would the attacker do next".
+- Analyze raw logs directly first (or `rocketchat-log-analysis` for Rocket.Chat logs) when the evidence is raw logs; come back here when the question becomes "is this an attack and what would the attacker do next".
 - Use `k8s-sre-triage` for cluster faults; route here when compromise is a live hypothesis.
 - Use installed Codex Security plugin skills for language-level secure-coding review, scans, finding triage, and validation; this skill owns attacker-method reasoning, detection mapping, and exposure assessment.
 - Use `security-ownership-map` when the question is who owns the sensitive code rather than how it would be attacked.

@@ -1,7 +1,7 @@
 ---
 name: loki
 license: Apache-2.0
-description: "Grafana Loki and LogQL: stream selectors, line filters, parsers, metric queries, ingestion via Alloy/Promtail/Fluent Bit, and structured metadata. Use when writing or fixing LogQL or configuring Loki ingestion. For slow queries or label schema audits use loki-label-analyzer; for pasted log files use log-analyzer."
+description: "Grafana Loki and LogQL: stream selectors, line filters, parsers, metric queries, ingestion via Alloy/Promtail/Fluent Bit, and structured metadata. Use when writing or fixing LogQL or configuring Loki ingestion. For slow queries or label schema audits use loki-label-analyzer; analyze pasted log files directly."
 ---
 
 # Grafana Loki - Log Aggregation
@@ -262,7 +262,7 @@ Read path:  Query → Query Frontend → Querier → Ingester + Store (chunks)
 ## Related skills
 
 - Queries are slow or the label schema needs an audit: `loki-label-analyzer`
-- Ad-hoc forensic analysis of pasted or exported logs, outside Loki: `log-analyzer`
+- Ad-hoc forensic analysis of pasted or exported logs, outside Loki: analyze directly with a bounded, evidence-first pass
 - Alert rules on Loki data and notification routing: answer from Grafana Alerting knowledge; use `prometheus-grafana-triage` when an alert misfires
 
 ## References

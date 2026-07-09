@@ -50,7 +50,6 @@ Common routes:
 | Browser verification | installed vendor plugin: `build-web-apps:frontend-testing-debugging`, or `playwright` for browser driving only |
 | React/Next performance and rendering guidance | installed vendor plugin: `build-web-apps:react-best-practices` |
 | shadcn component or registry work | installed vendor plugin: `build-web-apps:shadcn` |
-| Design tokens / UI drift | `design-system-maintenance` |
 | CI, GitHub Actions, Jenkins, or pipeline failures | `ci-pipeline-triage` |
 | PR review threads or GitHub-native work | installed vendor plugin: GitHub skills |
 | Pre-merge, risky-change, architecture, or local-tooling review gate | `mira-review-gate` |

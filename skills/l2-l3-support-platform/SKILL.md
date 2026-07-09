@@ -28,7 +28,7 @@ If these skills are installed, call them explicitly when they materially improve
 - installed Azure plugin skills for Entra, Azure-backed identity context, RBAC, app registrations, Conditional Access context, and hybrid joins.
 - installed Superpowers `systematic-debugging` for structured root-cause analysis and verification discipline when the issue is truly unclear or previous fixes are thrashing.
 - `k8s-sre-triage` for Rocket.Chat running on Kubernetes or container platform incidents.
-- `log-analyzer` for application logs, stack traces, auth failures, noisy incidents, and event correlation.
+- Analyze application logs, stack traces, auth failures, noisy incidents, and event correlation directly, evidence first.
 - `written-communication` for customer emails, escalation notes, PIR updates, and concise support summaries.
 
 Use only the skills that fit the case. Do not load everything by default. If a supporting skill is unavailable, continue with this skill's built-in workflow and state the limitation only when it matters to the outcome.
