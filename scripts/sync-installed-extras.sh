@@ -30,7 +30,7 @@ list_top_level_dirs() {
     return 0
   fi
 
-  find "$dir" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -exec basename {} \; | sort
+  find -H "$dir" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -exec basename {} \; | sort
 }
 
 usage() {
@@ -48,6 +48,9 @@ directory. Shared entries with content drift are synced from ~/.codex/skills int
 ~/.agents/skills, because the Codex tree is the usual source for private local
 extras. Hidden system directories such as .system are handled by
 system-skills.lock and check-drift.sh, not by this mirror script.
+
+The Codex and Agents roots may be separate mirrors or symlink aliases to the
+same canonical tree. Symlinked roots are traversed and compared normally.
 
 Codex-tree externals are also mirrored one way into ~/.claude/skills so private
 skills stay discoverable by Claude Code. Claude-only externals are left
