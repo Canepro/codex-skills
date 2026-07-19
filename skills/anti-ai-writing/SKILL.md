@@ -1,23 +1,25 @@
 ---
 name: anti-ai-writing
-description: "Mandatory final pass before returning any user-visible prose in any agent session (Cursor, Codex, Claude): docs, README, site copy, commits, PRs, comments, handoffs, chat replies. Rewrites copy to be direct, human, and specific. Triggers on 'less AI', 'humanize', 'more natural', 'less corporate'. Supports rewrite, detect-only, and edit-in-place modes."
+description: "Final editing pass for prose that will be sent, committed, published, reused, or explicitly audited: docs, site copy, commits, PRs, support drafts, comments, and handoffs. Triggers on 'less AI', 'humanize', 'more natural', and 'less corporate'. Supports rewrite, detect-only, and edit-in-place modes."
 ---
 
 # Anti-AI Writing
 
-Use this as a mandatory finishing pass for prose. The goal is better writing: clear point, concrete evidence, plain language, accountable claims, and a useful ending. Do not optimize for detector evasion.
+Use this as a full finishing pass for consequential or reusable prose. The goal is better writing: clear point, concrete evidence, plain language, accountable claims, and a useful ending. Do not optimize for detector evasion.
 
 Keep useful voice and judgment, but remove generic assistant filler, corporate fog, and model-interface artifacts.
 
 ## When To Use
 
-Always, before the user sees user-visible text, including:
-- chat replies and status updates
-- README, docs, site copy, blog posts
-- commit messages, PR bodies, review comments
-- support replies, handoffs, emails
+Load this skill before prose is sent, committed, published, reused, or explicitly audited, including:
+- README, docs, site copy, and blog posts
+- commit messages, PR bodies, and review comments
+- support replies, handoffs, and emails
+- durable reports and reader-facing artifacts
 
 Also use when the user asks for anti-AI, less AI, human, natural, concise, less corporate, less generic, detect-only, audit-only, or edit a file in place.
+
+For ordinary chat replies and progress updates, apply the caller's compact house style directly without loading this full skill unless writing quality is the task.
 
 Do not use this skill to strip needed nuance, evidence, personality, or the user's voice. Direct does not mean flat.
 

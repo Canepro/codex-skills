@@ -41,14 +41,11 @@ Ask:
 - If an active goal exists, has it been completed or blocked with evidence?
 - Did every promised edit, review, sync, test, install, commit, push, cleanup,
   or report step either run or get named as a real blocker?
-- Did any essential skill gate apply, such as `mira-review-gate`,
-  `codex-html-report`, `vincent-workflow`, `infisical-secrets-management`, a
-  domain-specific owner skill, or `anti-ai-writing`, and did that owner skill
+- Did every applicable domain, review, report, security, and authority gate
   actually run before closeout?
-- Does the closeout answer every fact line of the `vincent-workflow` closeout
-  checklist (outcome, verification, changed, durable state, cleanup,
-  remaining, risk), and does it hold up under the `fable-operating-style`
-  self-check: would every sentence survive the user verifying it themselves?
+- Does the closeout state the outcome, verification, changed surfaces, durable
+  state, cleanup, remaining work, and real risk? Would every claim survive the
+  user verifying it themselves?
 - Are repo changes committed and pushed when the current task granted that
   authority, or is the exact reason for skipping named?
 - Are installed/runtime mirrors aligned when skills, hooks, or local toolkit

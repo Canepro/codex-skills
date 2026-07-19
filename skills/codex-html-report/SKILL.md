@@ -55,7 +55,9 @@ those steps or name the real blocker before treating the report as done.
 
 Write reports under the current working context:
 - preferred: `reports/YYYY-MM-DD-short-topic.html`
-- projectless sessions: use the active Codex workspace directory
+- the active environment's designated deliverable directory wins
+- projectless sessions: use the task's designated `outputs/` directory when
+  present, otherwise use the active Codex workspace directory
 - existing repo convention wins if there is already a `reports/`, `docs/reports/`, or similar artifact folder
 
 Do not write to the home directory unless the user asks.
