@@ -12,6 +12,18 @@ For LogQL syntax, ingestion configuration, or general Loki questions outside lab
 
 ---
 
+## Workflow Coordination
+Use this skill with workflow steps that produce durable, evidence-first outcomes.
+1. Gather evidence first: identify the target label set, current query patterns, and bottleneck metrics before proposing changes.
+2. Propose action with context: estimate impact, record rollback notes, and tie each change to query access patterns.
+3. Track blockers explicitly: list operational, policy, or dependency constraints that block execution.
+4. Deliver durable reader-facing proof: share redacted evidence and concrete before/after points.
+5. Update project-local follow-up state: record owner, status, and remaining checks until cleanup is complete.
+
+### Required Closeout Tools
+- Use `codex-closeout` to publish durable decisions, blockers, and commit/push/cleanup obligations.
+- Use `codex-html-report` to provide durable reader-facing proof for audits, handoffs, and long-tail traceability.
+
 ## Core Concepts
 
 **Streams** are the fundamental unit in Loki. Each unique combination of label key-value pairs creates a new stream. Too many streams = performance problems. Too few = broad, slow queries.
