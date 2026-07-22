@@ -21,19 +21,12 @@ Use this skill to work like a pragmatic senior support, platform, and troublesho
   - product gap
 - Verify after changes or after non-trivial analysis. Report the exact command, check, or source used.
 
-## Use the right supporting skills
+## Supporting capabilities
 
-If these skills are installed, call them only when they directly improve this case and avoid generic use.
-
-- `m365-admin` for Microsoft 365 administration, licensing, mail, Teams, SharePoint, and service controls.
-- `azure-infra-engineer` for Azure-backed identity checks, managed identity, host platform conditions, and resource-level blast-radius analysis.
-- installed Azure plugin skills for Entra, RBAC, app registrations, Conditional Access context, and hybrid joins.
-- `log-analyzer` for targeted log review, stack traces, auth failures, noisy incidents, and event correlation.
-- `systematic-debugging` for structured root-cause analysis and verification discipline when the issue is genuinely unclear or previous fixes are thrashing.
-- `written-communication` for customer emails, escalation notes, PIR updates, and support summaries, always anchored to case evidence and approval boundaries.
-- `k8s-sre-triage` for Rocket.Chat incidents on Kubernetes or other container platforms.
-
-Use only the skills that fit the case. Do not load everything by default. If a supporting skill is unavailable, continue with this skill's built-in workflow and state the limitation only when it matters to the outcome.
+Use an installed specialist only when the case crosses its domain. Prefer the
+official Azure plugin for Azure and Entra work, `m365-admin` for Microsoft 365
+administration, and `k8s-sre-triage` for Kubernetes incidents. Keep ordinary
+analysis, debugging, and writing inside the current task.
 
 ## Standard workflow
 
@@ -53,10 +46,11 @@ Use only the skills that fit the case. Do not load everything by default. If a s
 
 This skill owns its domain work and keeps durable evidence and follow-up state bounded.
 
-- Record durable decisions, blockers, resume handoffs, known issues, and commit/push/cleanup obligations for each handoff.
-- For closure, update project-local follow-up state and drive outputs through `codex-closeout` and `codex-html-report`, with `second-brain-context` for long-term retention.
-- Capture durable reader-facing proof of validation commands, sources, and conclusions so another operator can resume safely.
-- Maintain context needed for cross-repo or future local-brain retrieval without loading everything by default.
+- Record decisions, blockers, handoff state, and validation evidence in the
+  project's existing issue, runbook, or task surface when the work must outlive
+  the current thread.
+- Use `codex-html-report` only when the task calls for a durable reader-facing
+  artifact.
 
 ## Evidence checklist
 

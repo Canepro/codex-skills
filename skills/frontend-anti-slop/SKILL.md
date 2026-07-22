@@ -231,7 +231,8 @@ Stop polishing when all of these are true:
 - All tokens used exist in the design system, or new tokens were added on purpose.
 - Focus, contrast, and target size were checked.
 - You can name what was removed, not only what was added.
-- Workflow coordination is complete: decisions and risks are captured in `codex-closeout`, rendered proof is updated in `codex-html-report`, and reusable pointers are indexed in `second-brain-context`.
+- Decisions and risks are recorded in the project's existing task or review
+  surface when they must outlive the current thread.
 
 If you keep iterating past this list, you are adding slop back.
 
