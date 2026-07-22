@@ -3,12 +3,11 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_DIR="$REPO_DIR/skills"
-DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
-DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
-DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
-DEFAULT_CURSOR_DIR="$HOME/.cursor/skills"
+DEFAULT_AGENTS_DIR="${AGENTS_SKILLS_DIR:-$HOME/.agents/skills}"
+DEFAULT_CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+DEFAULT_CURSOR_DIR="${CURSOR_SKILLS_DIR:-$HOME/.cursor/skills}"
 
-declare -a DEST_DIRS=("$DEFAULT_CODEX_DIR" "$DEFAULT_AGENTS_DIR" "$DEFAULT_CURSOR_DIR")
+declare -a DEST_DIRS=("$DEFAULT_AGENTS_DIR" "$DEFAULT_CURSOR_DIR")
 
 if [ -z "${TMPDIR:-}" ] || [ ! -d "${TMPDIR:-}" ]; then
   if [ -n "${TMP:-}" ] && [ -d "$TMP" ]; then

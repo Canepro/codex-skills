@@ -67,8 +67,8 @@ bash ~/src/codex-skills/scripts/bootstrap.sh
 That will:
 
 1. pull the latest repo
-2. install library-managed skills into `~/.codex/skills`, `~/.agents/skills`, `~/.cursor/skills`, and `~/.claude/skills`
-3. sync non-repo installed entries between the two trees
+2. install library-managed skills into `~/.agents/skills`, `~/.cursor/skills`, and `~/.claude/skills`; Codex discovers the shared `~/.agents/skills` root directly
+3. sync non-repo installed entries from the canonical Agents tree to Claude
 4. verify library-managed drift and the pinned system-skill contract
 
 ## New machine bootstrap
@@ -79,9 +79,9 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-Codex materializes `~/.codex/skills/.system` lazily from the app/runtime, so the directory can be absent between runs or drift from the stable installed mirror right after an upgrade. The drift check reports Codex-tree `.system` drift as informational by default and enforces the pinned contract on `~/.agents/skills/.system`. Set `CODEX_STRICT_SYSTEM_SKILLS=1` when you intentionally want the Codex-tree `.system` check to fail the gate too. This repo currently pins the six system skills in `system-skills.lock`: `imagegen`, `openai-docs`, `plugin-creator`, `review-agent`, `skill-creator`, and `skill-installer`.
+The drift check enforces the pinned system-skill contract under `~/.agents/skills/.system`. This repo currently pins the six system skills in `system-skills.lock`: `imagegen`, `openai-docs`, `plugin-creator`, `review-agent`, `skill-creator`, and `skill-installer`.
 
-If `check-drift.sh` fails on the enforced `agents-system` section, or if `CODEX_STRICT_SYSTEM_SKILLS=1` fails on the Codex-tree system section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
+If `check-drift.sh` fails on the enforced `agents-system` section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
 
 ```bash
 cd ~/src/codex-skills
@@ -122,7 +122,7 @@ git push origin main
 
 ## Promoting a local extra into the repo
 
-If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skills`, do not leave it there if it is meant to be durable.
+If you notice a useful skill exists only in `~/.agents/skills`, do not leave it there if it is meant to be durable.
 
 1. Copy its contents into `skills/<skill-name>/` in this repo.
 2. Install from the repo.
@@ -131,7 +131,7 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 
 This is how a local portable candidate becomes library-managed.
 
-Local, private, product-specific, or machine-specific skills can stay out of this repo on purpose. Keep them as plain skill directories in `~/.codex/skills/<skill-name>` and let `sync-installed-extras.sh --sync` mirror them to the Agents and Claude trees. On machines where Codex scans both user roots, `~/.agents/skills` may instead be a symlink alias to `~/.codex/skills`; vendor-owned skill directories may also link to their canonical checkout. The sync check follows both forms and avoids advertising or validating incomplete duplicate inventories. Do NOT add private skills to any `.codex-skills-managed` manifest: the manifest is install bookkeeping for repo-managed skills only, and `install.sh` uninstalls manifest entries that left the repo. Discovery comes from the directory itself, so unmanaged directories are preserved and discoverable. To keep a private skill out of Claude Code, list its name in `~/.claude/skills/.codex-skills-claude-exclude`.
+Local, private, product-specific, or machine-specific skills can stay out of this repo on purpose. Keep them as plain skill directories in `~/.agents/skills/<skill-name>` and let `sync-installed-extras.sh --sync` mirror them to the Claude tree. Vendor-owned skill directories may link to their canonical checkout, and the sync check follows those links. Do NOT add private skills to any `.codex-skills-managed` manifest: the manifest is install bookkeeping for repo-managed skills only, and `install.sh` uninstalls manifest entries that left the repo. Discovery comes from the directory itself, so unmanaged directories are preserved and discoverable. To keep a private skill out of Claude Code, list its name in `~/.claude/skills/.codex-skills-claude-exclude`.
 
 ## Skillforge lifecycle convention
 
@@ -155,8 +155,8 @@ Interpretation:
 - `library-managed skills aligned`: repo content, manifests, and installs match
 - `manifest entries from local extras`: should normally be empty; private skills do not belong in manifests
 - `external or preserved installed skills`: entries not managed by this repo, including private skills
-- `pinned system skills aligned`: the enforced `.system` tree matches `system-skills.lock`; Codex-tree `.system` drift is informational unless `CODEX_STRICT_SYSTEM_SKILLS=1` is set
-- `installed-tree-alignment`: `~/.codex/skills` and `~/.agents/skills` expose the same top-level directories
+- `pinned system skills aligned`: the canonical `.agents/skills/.system` tree matches `system-skills.lock`
+- `agents`: `~/.agents/skills` is the canonical user-skill root for Codex and shared agent tooling
 
 If non-repo entries differ between the installed trees, run:
 
@@ -164,13 +164,13 @@ If non-repo entries differ between the installed trees, run:
 bash ~/src/codex-skills/scripts/sync-installed-extras.sh --sync
 ```
 
-Besides reconciling `~/.codex/skills` and `~/.agents/skills`, this mirrors Codex-tree private skills one way into `~/.claude/skills` so Claude Code discovers them too. Claude-only externals are left alone, and skills listed in `~/.claude/skills/.codex-skills-claude-exclude` are skipped and removed from the Claude tree if present.
+This mirrors private skills one way from `~/.agents/skills` into `~/.claude/skills` so Claude Code discovers them too. Claude-only externals are left alone, and skills listed in `~/.claude/skills/.codex-skills-claude-exclude` are skipped and removed from the Claude tree if present.
 
 ## Rules to avoid drift again
 
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
-- If a skill is intentionally local, keep the installed copies mirrored with `sync-installed-extras.sh --sync` and out of the manifests instead of promoting it by accident.
+- If a skill is intentionally local, keep its canonical copy under `~/.agents/skills`, mirror it with `sync-installed-extras.sh --sync`, and keep it out of the manifests instead of promoting it by accident.
 - If a skill is vendored from an upstream author, preserve its upstream
   `SKILL.md` wording and route around it in local docs or wrapper skills.
 - Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.

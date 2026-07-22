@@ -3,13 +3,11 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_DIR="$REPO_DIR/skills"
-DEFAULT_CODEX_DIR="${CODEX_HOME:-$HOME/.codex}/skills"
-DEFAULT_AGENTS_DIR="$HOME/.agents/skills"
-DEFAULT_CLAUDE_DIR="$HOME/.claude/skills"
-DEFAULT_CURSOR_DIR="$HOME/.cursor/skills"
+DEFAULT_AGENTS_DIR="${AGENTS_SKILLS_DIR:-$HOME/.agents/skills}"
+DEFAULT_CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+DEFAULT_CURSOR_DIR="${CURSOR_SKILLS_DIR:-$HOME/.cursor/skills}"
 MANIFEST_NAME=".codex-skills-managed"
 SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
-STRICT_CODEX_SYSTEM="${CODEX_STRICT_SYSTEM_SKILLS:-0}"
 HAS_ISSUES=0
 
 ensure_tmpdir() {
@@ -197,10 +195,8 @@ check_system_skills() {
   fi
 
   if [[ ! -d "$system_dir" ]]; then
-    # Codex materializes ~/.codex/skills/.system lazily, so the directory can
-    # be legitimately absent between runs or right after an upgrade. Only a
-    # present-but-drifted directory counts as drift.
-    printf '  status: no system skill directory (agent has not materialized one; not counted as drift)\n'
+    printf '  status: no system skill directory\n'
+    HAS_ISSUES=1
     return 0
   fi
 
@@ -227,7 +223,7 @@ check_system_skills() {
       printf '  status: drift detected\n'
       HAS_ISSUES=1
     else
-      printf '  status: drift observed (informational; set CODEX_STRICT_SYSTEM_SKILLS=1 to fail)\n'
+      printf '  status: drift observed (informational)\n'
     fi
   else
     printf '  status: pinned system skills aligned\n'
@@ -236,35 +232,6 @@ check_system_skills() {
   print_list 'locked system skills missing from install:' "$missing"
   print_list 'unexpected installed system skills:' "$unexpected"
   print_list 'system skills with hash drift:' "$hash_drift"
-}
-
-check_installed_tree_alignment() {
-  local codex_skills agents_skills codex_only agents_only
-
-  codex_skills="$(make_tmp)"
-  agents_skills="$(make_tmp)"
-  codex_only="$(make_tmp)"
-  agents_only="$(make_tmp)"
-
-  trap 'rm -f "$codex_skills" "$agents_skills" "$codex_only" "$agents_only"' RETURN
-
-  list_installed_skills "$DEFAULT_CODEX_DIR" > "$codex_skills"
-  list_installed_skills "$DEFAULT_AGENTS_DIR" > "$agents_skills"
-
-  comm -23 "$codex_skills" "$agents_skills" > "$codex_only"
-  comm -13 "$codex_skills" "$agents_skills" > "$agents_only"
-
-  printf '\n[installed-tree-alignment]\n'
-
-  if [[ -s "$codex_only" || -s "$agents_only" ]]; then
-    printf '  status: drift detected between installed skill trees\n'
-    HAS_ISSUES=1
-  else
-    printf '  status: installed skill trees aligned\n'
-  fi
-
-  print_list 'installed only in codex:' "$codex_only"
-  print_list 'installed only in agents:' "$agents_only"
 }
 
 check_docs_sync() {
@@ -322,13 +289,10 @@ printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
 
-check_destination 'codex' "$DEFAULT_CODEX_DIR"
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
-check_system_skills 'codex' "$DEFAULT_CODEX_DIR/.system" "$STRICT_CODEX_SYSTEM"
 check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" 1
-check_installed_tree_alignment
 check_docs_sync
 if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'
