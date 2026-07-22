@@ -4,31 +4,31 @@ Use these prompts in fresh chats after a skill-pack change. The goal is to verif
 
 Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribution, not a single pass. A prompt that routes wrong even once in five runs usually means two descriptions overlap; fix the descriptions, not the prompt. See `docs/skill-authoring-best-practices.md` for the full authoring guidance.
 
-## Frontend review overlay vs vendor frontend plugins
+## Native frontend review vs vendor frontend plugins
 
 ### 1. Frontend review
 
 - Prompt: `review this settings page PR and tell me the highest-severity frontend issues before we merge`
-- Expected: `frontend-anti-slop` (audit mode)
-- Should not be first choice: `build-web-apps:frontend-app-builder`
+- Expected: native Codex review grounded in the rendered page and repository design system; use `build-web-apps:frontend-testing-debugging` when browser proof is needed
+- Should not be first choice: adding a generic style-overlay skill
 
 ### 2. Frontend redesign
 
 - Prompt: `this dashboard works but looks like generic AI slop; redesign it so it feels more intentional`
-- Expected: installed vendor plugin `build-web-apps:frontend-app-builder` for the redesign, with `frontend-anti-slop` only as an anti-slop review overlay
-- Should not be first choice: `design-system-maintenance`
+- Expected: installed vendor plugin `build-web-apps:frontend-app-builder` for the redesign, followed by native rendered review
+- Should not be first choice: a generic style-overlay skill
 
 ### 3. Responsive layout
 
 - Prompt: `this page is fine on desktop but collapses badly on mobile and the filter bar wraps awkwardly`
 - Expected: installed vendor plugin `build-web-apps:frontend-testing-debugging`
-- Should not be first choice: `frontend-anti-slop`
+- Should not be first choice: a prose-only review without rendered evidence
 
 ### 4. Webapp testing
 
 - Prompt: `I changed the signup flow; define the highest-value browser checks and verify the flow still works`
 - Expected: installed vendor plugin `build-web-apps:frontend-testing-debugging`
-- Should not be first choice: `playwright`, `frontend-anti-slop`
+- Should not be first choice: `playwright` alone without the testing and debugging procedure
 
 ### 5. Browser driving only
 
@@ -40,13 +40,13 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `this React table gets janky when filtering and typing; give me the biggest performance problems first`
 - Expected: installed vendor plugin `build-web-apps:react-best-practices`
-- Should not be first choice: `frontend-anti-slop`
+- Should not be first choice: a generic UI-style review
 
 ### 7. Design system maintenance
 
 - Prompt: `our shared button and form components have too many variants and teams keep bypassing tokens; how should we clean this up`
-- Expected: `design-system-maintenance`
-- Should not be first choice: `frontend-anti-slop`
+- Expected: native Codex implementation grounded in the repository's design-system authority, with the installed shadcn or product-design plugin when applicable
+- Should not be first choice: inventing a parallel design system
 
 ## Web data visualization vs local report and UI overlays
 
@@ -54,7 +54,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `build a web dashboard that compares revenue by segment over time, with chart choice, mobile behavior, and export checks`
 - Expected: installed vendor plugin `build-web-data-visualization:data-visualization`
-- Should not be first choice: `frontend-anti-slop`, `codex-html-report`
+- Should not be first choice: `codex-html-report`
 
 ### 7c. Durable proof report
 
@@ -104,12 +104,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `our Jenkins inbound agents keep disconnecting and jobs queue forever even though the pipeline code is unchanged`
 - Expected: `jenkins-sre`
-- Should not be first choice: `ci-pipeline-triage`
+- Should not be first choice: generic pipeline debugging before establishing a Jenkins runtime fault
 
 ### 12b. GitHub Actions PR checks
 
 - Prompt: `this PR has two red GitHub Actions checks; pull the logs and tell me what is actually failing`
-- Expected: `ci-pipeline-triage`
+- Expected: installed GitHub `github:gh-fix-ci`
 - Should not be first choice: `jenkins-sre`, installed GitHub PR-comment routes
 
 ## Observability and reliability
@@ -215,8 +215,8 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 31. Pressure-test a plan
 
 - Prompt: `grill me on this architecture plan before I commit to it; what am I missing and what would bite us later`
-- Expected: native agent reasoning grounded in the repository and current docs
-- Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`
+- Expected: `grill-with-docs`, which delegates to the pinned upstream `grilling` and `domain-modeling` workflows
+- Should not be first choice: a generic critique detached from the current documents
 
 ### 32. API or module interface design
 
@@ -315,21 +315,21 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `create a Microsoft 365 admin automation plan for Exchange Online users and Teams policy setup`
 - Expected: `m365-admin`
-- Should not be first choice: `l2-l3-support-platform`
+- Should not be first choice: generic case orchestration when the request is an administration task
 
 ### 50. L2/L3 support case
 
 - Prompt: `investigate this customer support case and prepare an evidence-backed L2 to L3 escalation note`
-- Expected: `l2-l3-support-platform`
-- Should not be first choice: `log-analyzer`
+- Expected: the installed vendor support guidance for the affected product, or `m365-admin` for a Microsoft 365 case
+- Should not be first choice: a generic cross-product support wrapper
 
 ## Tooling and migration
 
 ### 51. CLI creation
 
 - Prompt: `build a CLI from these API docs and curl examples so agents can use the admin API safely`
-- Expected: `cli-creator`
-- Should not be first choice: `migrate-to-codex`
+- Expected: native Codex implementation grounded in the API's first-party documentation, with tests and a safe authentication contract
+- Should not be first choice: creating a generic CLI-building workflow layer
 
 ### 52. Migrate to Codex
 
@@ -341,13 +341,13 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `add Husky and lint-staged so formatting and type checks run before commit`
 - Expected: no skill (retired 2026-07-03: bare model passes Husky/lint-staged setup)
-- Should not be first choice: `ci-pipeline-triage`
+- Should not be first choice: a CI workflow unless a check actually fails
 
 ### 54. GitHub review comments
 
 - Prompt: `fetch the unresolved review comments on this PR and apply the smallest fixes for each thread`
-- Expected: installed GitHub plugin `gh-address-comments`
-- Should not be first choice: `ci-pipeline-triage`
+- Expected: installed GitHub plugin `github:gh-address-comments`
+- Should not be first choice: `github:gh-fix-ci`
 
 ### 55. Systematic debugging
 

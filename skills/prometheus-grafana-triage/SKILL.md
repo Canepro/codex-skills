@@ -20,7 +20,7 @@ Treat alerting problems as one of three classes: a real platform issue, a broken
 ## Do not use when
 
 - The primary problem is a generic Kubernetes runtime incident with no monitoring angle. Use `k8s-sre-triage`.
-- The primary problem is a failing CI job or deployment pipeline. Use `ci-pipeline-triage`.
+- The primary problem is a failing CI job or deployment pipeline. Use the installed GitHub `github:gh-fix-ci` skill for GitHub Actions, or investigate the owning pipeline natively.
 - The request is for dashboard design or long-term metrics architecture rather than incident triage.
 
 ## Workflow

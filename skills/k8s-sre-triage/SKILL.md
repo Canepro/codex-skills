@@ -20,7 +20,7 @@ Investigate Kubernetes and container incidents with a repeatable workflow. Start
 
 ## Do not use when
 
-- The problem is primarily a CI log or PR check failure before deployment. Use `ci-pipeline-triage`.
+- The problem is primarily a CI log or PR check failure before deployment. Use the installed GitHub `github:gh-fix-ci` skill for GitHub Actions, or investigate the owning pipeline natively.
 - The problem is primarily Prometheus, Alertmanager, scrape health, or Grafana alert logic. Use `prometheus-grafana-triage`.
 - The user wants cluster provisioning, architecture design, or migration planning rather than incident response.
 - The blocker is Argo CD or Flux sync/convergence state itself: use `gitops-reconcile`.

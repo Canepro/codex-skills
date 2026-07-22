@@ -1,7 +1,0 @@
-interface:
-  display_name: "L2/L3 Support Platform"
-  short_description: "Triages M365, Entra, and Rocket.Chat tickets."
-  default_prompt: "Use $l2-l3-support-platform to investigate and respond to an M365, Entra, or Rocket.Chat L2/L3 support issue with evidence, verification, and customer-ready wording."
-
-policy:
-  allow_implicit_invocation: true

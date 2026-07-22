@@ -1,4 +1,0 @@
-interface:
-  display_name: "Frontend Anti-Slop"
-  short_description: "Review and polish existing UI without generic frontend slop"
-  default_prompt: "Use $frontend-anti-slop to audit an existing UI for anti-slop issues, apply the smallest useful polish, and route vendor-owned builds, prototypes, and rendered testing to the installed plugin."

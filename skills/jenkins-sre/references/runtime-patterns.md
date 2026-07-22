@@ -51,5 +51,4 @@ If:
 - job runs
 - build step fails in script/test/plan
 
-Then this is not a Jenkins SRE problem. Hand off to `ci-pipeline-triage`.
-
+Then this is not a Jenkins SRE problem. Investigate the repository, failing command, and build logs natively.

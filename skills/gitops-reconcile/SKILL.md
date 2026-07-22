@@ -20,7 +20,7 @@ Treat GitOps incidents as convergence failures, not generic cluster failures. St
 
 ## Do not use when
 
-- The main problem is a CI build or PR check failure before deployment. Use `ci-pipeline-triage`.
+- The main problem is a CI build or PR check failure before deployment. Use the installed GitHub `github:gh-fix-ci` skill for GitHub Actions, or investigate the owning pipeline natively.
 - The main problem is a runtime app failure after the correct manifests have already landed. Use `k8s-sre-triage`.
 - The main problem is alert logic or scrape behavior. Use `prometheus-grafana-triage`.
 

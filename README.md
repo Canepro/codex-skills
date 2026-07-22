@@ -29,18 +29,19 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 ## What Is Included
 
 - Current research: `last30days`
-- Frontend review overlays: `frontend-anti-slop`, `playwright`. Prefer installed vendor plugins for new frontend builds, product-design audits, rendered UI testing/debugging, responsive-only repair, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
-- CI workflow: `ci-pipeline-triage`, `codex-mcp-repair`, `codex-app-server-backend-adapter`. Prefer the installed GitHub plugin for PR comments and GitHub-native work.
+- Frontend browser automation: `playwright`. Prefer installed vendor plugins for frontend builds, product-design audits, rendered UI testing/debugging, responsive repair, React/Next performance, shadcn work, and web data visualization design/build/testing/export.
+- CI and Codex runtime repair: `codex-mcp-repair`, `codex-app-server-backend-adapter`. Prefer the installed GitHub plugin for GitHub Actions and PR work, and use native Codex investigation for other pipeline logic.
 - Security ownership: `security-ownership-map`. Prefer the installed Codex
   Security plugin for scans, findings, validation, threat modeling, attack-path
   analysis, and framework security review.
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `jenkins-sre`, `aks-gitops-pvc-rightsize`, `vendor-security-gitops-patch`
 - Observability and reliability: `prometheus-grafana-triage`, `loki`, `prometheus-cardinality-troubleshooter`, `prometheus-label-strategy`, `loki-label-analyzer`. Prefer the installed Sentry plugin for Sentry issues and events.
-- Support and operations: `l2-l3-support-platform`, `m365-admin`,
-  `anti-ai-writing`, `n8n-workflow-api-deploy`, `zoho-desk-api-notes`. Prefer
-  the installed Azure plugin for Azure infrastructure and identity work.
+- Support and operations: `m365-admin`, `anti-ai-writing`,
+  `n8n-workflow-api-deploy`, `zoho-desk-api-notes`. Prefer the installed Azure
+  plugin for Azure infrastructure and identity work, and the owning vendor
+  guidance for product-specific support.
 - Documents, media, and reports: `codex-html-report`, `screenshot`, `transcribe`. Prefer OpenAI primary runtime document/PDF skills for DOCX and PDF work.
-- Tooling and testing: `cli-creator`, `terraform-skill`, `entra-oidc-app-integration`. Prefer installed Superpowers skills for TDD and systematic debugging.
+- Tooling and testing: `terraform-skill`, `entra-oidc-app-integration`. Prefer native Codex plus first-party API documentation for ordinary CLI work, and installed Superpowers skills for TDD and systematic debugging.
 
 ## Maintainers
 

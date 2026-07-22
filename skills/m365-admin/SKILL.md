@@ -1,6 +1,6 @@
 ---
 name: m365-admin
-description: "Administer and automate Microsoft 365: Exchange Online mailboxes, Teams lifecycle, SharePoint sites and sharing, license auditing, and Graph API or PowerShell automation. Use for admin scripting, onboarding/offboarding workflows, and tenant configuration. Customer-ticket investigation routes to l2-l3-support-platform."
+description: "Administer and automate Microsoft 365: Exchange Online mailboxes, Teams lifecycle, SharePoint sites and sharing, license auditing, and Graph API or PowerShell automation. Use for admin scripting, onboarding/offboarding workflows, tenant configuration, and evidence-backed Microsoft 365 support investigation."
 ---
 
 # Microsoft 365 Administrator
@@ -20,7 +20,7 @@ Administer and automate Microsoft 365 workloads through PowerShell and the Graph
 - Compliance and security configuration
 - Guest access and external sharing management
 
-Customer-reported tickets and support-case triage belong to `l2-l3-support-platform`; use this skill for the admin and automation work that investigation surfaces.
+Use the same evidence-first procedure for Microsoft 365 support cases. Product-specific support, including Rocket.Chat cases, belongs to that product's installed vendor guidance.
 
 ## Procedure
 
@@ -71,11 +71,11 @@ Typical deliverables from this procedure: PowerShell automation scripts, Graph A
 
 ## Integration with Other Skills
 
-- `l2-l3-support-platform`: customer-facing Microsoft 365, Entra, or support-case triage and escalation
+- native Codex investigation: case classification, evidence synthesis, escalation notes, and customer-safe drafts
 - installed Azure plugin skills: Entra identity, RBAC, hybrid alignment, and Azure-side infrastructure
 - installed Codex Security plugin skills: security compliance, least-privilege review, and access-review hardening
 - installed Superpowers `systematic-debugging`: root-cause discipline when Graph, Exchange, Teams, or SharePoint behavior is unclear and prior attempts are thrashing
-- `ci-pipeline-triage`: CI or automation pipeline failures around M365 scripts
+- installed GitHub `github:gh-fix-ci`: GitHub Actions failures around M365 scripts; use native Codex investigation for other pipeline systems
 
 ## Scenario Walkthroughs
 

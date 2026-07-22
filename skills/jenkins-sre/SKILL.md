@@ -20,7 +20,7 @@ Use this skill for Jenkins runtime and control-plane issues, not for generic bui
 
 ## Do not use when
 
-- The main problem is the content of a failing build step. Use `ci-pipeline-triage`.
+- The main problem is the content of a failing build step rather than Jenkins controller or agent health. Investigate the repository, step command, and logs natively.
 - The main problem is already in the deployed application or Kubernetes runtime. Use `k8s-sre-triage`.
 - The user only wants to update Jenkins documentation with no live operational issue.
 

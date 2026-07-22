@@ -56,7 +56,7 @@ Infer the context when the user does not name one.
 - `proposal` or `report`: lead with status, decision, evidence, risks, and next action.
 - `email` or `handoff`: name the ask, owner, deadline, and blocker.
 - `social`: short rhythm is acceptable, but avoid hooks that sell ordinary facts as revelations.
-- `ui`: button labels are verbs, headings name the object or state, empty states give the next action, errors name the field and what to do, no greetings, no mood headers, no "let's get started" filler. Pair this with `frontend-anti-slop` when reviewing a UI change.
+- `ui`: button labels are verbs, headings name the object or state, empty states give the next action, errors name the field and what to do, no greetings, no mood headers, no "let's get started" filler. Pair this with the installed product-design or frontend plugin when broader UI review is needed.
 
 If a rule conflicts with the context, choose the clearer version for the reader. Technical accuracy beats style cleanup.
 

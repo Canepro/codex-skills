@@ -1,4 +1,0 @@
-interface:
-  display_name: "CI Pipeline Triage"
-  short_description: "Triage failing CI and deploy pipelines"
-  default_prompt: "Use $ci-pipeline-triage to identify the exact failing run, stage, and command in this broken pipeline."

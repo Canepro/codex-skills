@@ -34,7 +34,7 @@ Pair with:
 - the relevant workload-specific runtime triage skill for Helm/Kubernetes
   runtime, chart, Argo CD, and cluster-specific proof.
 - `gitops-reconcile` only after a controller convergence failure exists.
-- `mira-review-gate` before merging or pushing to an auto-sync production line.
+- Native diff, test, rollback, and failure-path review before merging or pushing to an auto-sync production line; add the installed Codex Security diff scan when security-sensitive files change.
 
 ## Workflow
 
@@ -153,4 +153,4 @@ Safe by default:
 
 ## Workflow Coordination
 
-Use `mira-review-gate` before accepting a merge, deploy, or shared-behavior change.
+Run native diff, test, rollback, and failure-path review before accepting a merge, deploy, or shared-behavior change. Add the installed Codex Security diff scan when security-sensitive files change.

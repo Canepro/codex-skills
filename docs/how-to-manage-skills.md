@@ -23,18 +23,14 @@ Library-managed skills as of this commit:
 
 - `aks-gitops-pvc-rightsize`
 - `anti-ai-writing`
-- `ci-pipeline-triage`
-- `cli-creator`
 - `codex-app-server-backend-adapter`
 - `codex-html-report`
 - `codex-mcp-repair`
 - `entra-oidc-app-integration`
-- `frontend-anti-slop`
 - `gitops-reconcile`
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
-- `l2-l3-support-platform`
 - `last30days`
 - `loki`
 - `loki-label-analyzer`
@@ -56,6 +52,7 @@ Pinned system skills expected from Codex as of this commit:
 - `imagegen`
 - `openai-docs`
 - `plugin-creator`
+- `review-agent`
 - `skill-creator`
 - `skill-installer`
 
@@ -82,7 +79,7 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-Codex materializes `~/.codex/skills/.system` lazily from the app/runtime, so the directory can be absent between runs or drift from the stable installed mirror right after an upgrade. The drift check reports Codex-tree `.system` drift as informational by default and enforces the pinned contract on `~/.agents/skills/.system`. Set `CODEX_STRICT_SYSTEM_SKILLS=1` when you intentionally want the Codex-tree `.system` check to fail the gate too. This repo currently pins the five system skills in `system-skills.lock`: `imagegen`, `openai-docs`, `plugin-creator`, `skill-creator`, and `skill-installer`.
+Codex materializes `~/.codex/skills/.system` lazily from the app/runtime, so the directory can be absent between runs or drift from the stable installed mirror right after an upgrade. The drift check reports Codex-tree `.system` drift as informational by default and enforces the pinned contract on `~/.agents/skills/.system`. Set `CODEX_STRICT_SYSTEM_SKILLS=1` when you intentionally want the Codex-tree `.system` check to fail the gate too. This repo currently pins the six system skills in `system-skills.lock`: `imagegen`, `openai-docs`, `plugin-creator`, `review-agent`, `skill-creator`, and `skill-installer`.
 
 If `check-drift.sh` fails on the enforced `agents-system` section, or if `CODEX_STRICT_SYSTEM_SKILLS=1` fails on the Codex-tree system section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
 
