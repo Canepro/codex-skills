@@ -215,7 +215,8 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 ### 31. Pressure-test a plan
 
 - Prompt: `grill me on this architecture plan before I commit to it; what am I missing and what would bite us later`
-- Expected: `grill-with-docs`, which delegates to the pinned upstream `grilling` and `domain-modeling` workflows
+- Expected: the pinned upstream `grilling` workflow
+- Explicit variant: `$grill-with-docs` remains user-invoked only and delegates to upstream `grilling` plus `domain-modeling` when the pressure test should create ADR and glossary documents
 - Should not be first choice: a generic critique detached from the current documents
 
 ### 32. API or module interface design
