@@ -20,7 +20,7 @@ task explicitly includes writing quality.
 
 Do not load it automatically for ordinary chat, progress updates, commit
 messages, PR summaries, handoffs, support drafts, emails, documentation, or
-technical reports. Use the model's normal writing ability unless Vincent asks
+technical reports. Use the model's normal writing ability unless the user asks
 for this specialist pass.
 
 Do not use this skill to strip needed nuance, evidence, personality, or the user's voice. Direct does not mean flat.
