@@ -81,7 +81,3 @@ python3 "$TRANSCRIBE_CLI" \
 
 ## Reference map
 - `references/api.md`: supported formats, limits, response formats, and known-speaker notes. Read it when hitting format, size-limit, or response-format errors.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

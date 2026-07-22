@@ -8,7 +8,9 @@ External consensus on writing agent skills, checked against this library on 2026
 - `description`: max 1024 chars, third person, and it must cover both what the skill does and when to use it, with the concrete words a user would type. This is the only text the agent sees when routing, so specificity here beats anything in the body.
 - State negative triggers. Our "Do not use when" sections do this in the body; the description should carry the strongest exclusions too when collisions are likely.
 - Never write persona descriptions ("Expert in X"). They describe a character, not a trigger.
-- Vendored skills keep their upstream wording. Skills imported from a vendor or another author (for example `last30days`, `writing-great-skills`, anything carrying its own `repository` and `author` frontmatter) are not ours to trim or restyle; leave their descriptions and bodies intact and route around them instead. `scripts/check-workflow-links.py` skips those explicitly vendored upstream skills; local wrapper skills and docs own the routing.
+- Vendored skills keep their upstream wording. Skills imported from a vendor or
+  another author, such as `last30days`, are not ours to trim or restyle; leave
+  their descriptions and bodies intact and route around them instead.
 - The whole catalog is budgeted, not just each description: Codex advertises roughly 8,000 characters (about 2% of context) of skill metadata per session, shortens long descriptions first, and silently omits skills when still over budget. With a large installed set, every extra character raises some skill's omission risk, so keep descriptions tight and keep must-never-miss contracts (like the continuity layer) in always-loaded AGENTS.md guidance as the backstop, not only in a skill.
 
 ## Body
@@ -21,7 +23,9 @@ External consensus on writing agent skills, checked against this library on 2026
 - Favor procedures over declarations: teach how to approach the class of problems, not the answer to one instance.
 - Match prescriptiveness to fragility: high freedom for judgment tasks (reviews), exact commands for fragile sequences (migrations). Calibrate per section, not per skill.
 - For multi-step work, use checklists and validation loops (do, validate, fix, repeat). For batch or destructive operations, use plan-validate-execute with a machine-checkable intermediate file.
-- If a skill mentions decisions, blockers, handoffs, closeout, reports, or memory, add an explicit `Workflow Coordination` section that links to the existing owner: `vincent-workflow` for durable task state, `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` for shared local-brain writeback. `scripts/check-drift.sh` runs the all-skill workflow-link check, and `python3 scripts/check-workflow-links.py --template` prints the standard section.
+- Do not add generic planning, closeout, prose, continuity, or memory routing to
+  a domain skill. Link another skill only when it provides a required,
+  non-native capability for a real execution branch.
 - No time-sensitive content in the main body; park deprecated behavior in an "old patterns" block.
 - Bundle a script when agents keep reinventing the same logic across runs. Scripts should handle their own errors, document their constants, and the skill must say whether to execute the script or read it as reference.
 

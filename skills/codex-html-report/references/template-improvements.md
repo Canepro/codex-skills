@@ -135,7 +135,6 @@ Verification:
 - no template version bump required because `templates/report.html` was not
   changed
 - `bash scripts/check-drift.sh`
-- `python3 scripts/check-workflow-links.py --all`
 
 ### 2026-06-18 - v0.6.0 - Optional interactivity: theme toggle, copy, tabs
 

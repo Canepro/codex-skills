@@ -90,7 +90,3 @@ A good answer includes:
 - Read `references/production-readiness.md` when deciding deployment strategy, resource and node-pool starting points, or reviewing a platform for production readiness.
 - Read `references/kubernetes-reference.md` when a recommendation needs exact Kubernetes API or feature details.
 - Read `references/kubernetes-examples.md` when the output should include concrete manifests or code examples.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

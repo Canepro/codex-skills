@@ -87,4 +87,10 @@ Empty or wrong department/org: check the `orgId` header and the Zoho data center
 
 ## Workflow coordination
 
-Use `n8n-workflow-api-deploy` when the Zoho note is created by an n8n workflow. Use `infisical-secrets-management` for credential or token handling. Use repo-local skills such as `support-agent-ops` for project-specific note formatting and approval boundaries. Use `rocketchat-support-ticket` for the support-lane proof pack when Zoho notes are part of case-builder or support-agent work: design proof, local proof, runtime proof, workflow proof, safety proof, and approved live E2E proof. Use `vincent-workflow` when ticket-note behavior creates durable decisions, blockers, or commit/push obligations. Use `codex-html-report` for durable reader-facing integration proof and `codex-closeout` for final chat delivery.
+Use `n8n-workflow-api-deploy` when the Zoho note is created by an n8n workflow.
+Use `infisical-secrets-management` for credential or token handling. Use
+repo-local skills such as `support-agent-ops` for project-specific note
+formatting and approval boundaries. Use `rocketchat-support-ticket` for the
+support-lane proof pack when Zoho notes are part of case-builder or
+support-agent work: design proof, local proof, runtime proof, workflow proof,
+safety proof, and approved live E2E proof.

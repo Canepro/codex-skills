@@ -156,4 +156,7 @@ Before calling the work done:
 
 ## Workflow Coordination
 
-This skill owns Entra OIDC integration, app-registration checks, and SSO proof. Use `infisical-secrets-management` for secret inventory, staging, injection, rotation, and redacted proof. Use `vincent-workflow` for durable decisions, blockers, handoffs, known issues, and commit/push/cleanup state. Use `browser-form-privacy-flow` for browser login or admin-console actions with sensitive fields. Use `codex-html-report` for durable integration proof and `codex-closeout` for final chat delivery.
+This skill owns Entra OIDC integration, app-registration checks, and SSO proof.
+Use `infisical-secrets-management` for secret inventory, staging, injection,
+rotation, and redacted proof. Use `browser-form-privacy-flow` for browser login
+or admin-console actions with sensitive fields.

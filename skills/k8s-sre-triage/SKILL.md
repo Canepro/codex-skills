@@ -125,7 +125,9 @@ Report:
 - Use `loki` when the next step is LogQL, log parsers, Loki pipeline behavior, or log-derived metrics.
 - Use `gitops-reconcile` when the runtime issue is caused by Argo CD or Flux convergence rather than cluster mechanics.
 - When the result is a monitoring design gap rather than a live runtime fix, design the telemetry change directly and record it as a durable decision.
-- Use `adversary-informed-defense` when the evidence suggests compromise rather than a fault: unexpected workloads, privilege changes, or credential misuse.
+- Use installed Codex Security plugin skills when the evidence suggests
+  compromise rather than a fault: unexpected workloads, privilege changes, or
+  credential misuse.
 
 ## References
 
@@ -159,7 +161,3 @@ Usage:
 ```bash
 bash "${CODEX_HOME:-$HOME/.codex}/skills/k8s-sre-triage/scripts/pod_triage.sh" <namespace> <pod>
 ```
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

@@ -102,18 +102,13 @@ Report:
 - Use `prometheus-grafana-triage` when Jenkins health is being inferred from Grafana, Prometheus, Loki, or alert state.
 - Use `loki` for Jenkins log queries through Loki.
 - When the fix is alert routing, silencing, or maintenance notification rather than Jenkins runtime repair, configure it directly from Grafana Alerting knowledge.
-- Use `codex-html-report` for durable proof artifacts when handing off incident outcomes and recovery evidence.
-
 ## References
 
 - Read `references/runtime-patterns.md` when narrowing a Jenkins operational issue.
 
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
+## Safety boundaries
 
 For live infra work, require explicit approval and explicit consent gates before destructive actions. Pause before destructive changes such as node recreation, pod deletion, secret rotation, or controller plugin updates. In these flows:
 - Handle token and private key material as secrets, keep outputs redacted, and do not echo token or private key values.
 - Separate secret metadata review from secret-value handling, and use the user's secrets manager for approved token and credential paths.
 - Keep authority boundaries explicit for agent, service, and operator handoffs; before changing controller state that affects production builds (node definitions, credentials, plugins), get explicit consent from the user first.
-- Route evidence updates and proof to `codex-html-report` so recovery state stays durable and reviewable.

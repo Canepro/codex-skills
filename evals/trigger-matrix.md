@@ -152,24 +152,6 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Expected: installed Superpowers `test-driven-development`
 - Should not be first choice: `triage-issue`
 
-### 19. PRD writing
-
-- Prompt: `turn this rough feature idea into a concise PRD with success criteria and scope`
-- Expected: `write-a-prd`
-- Should not be first choice: `prd-to-plan`, `prd-to-issues`
-
-### 20. PRD to plan
-
-- Prompt: `take this PRD and turn it into a phased implementation plan with tracer bullets`
-- Expected: `prd-to-plan`
-- Should not be first choice: `write-a-prd`, `prd-to-issues`
-
-### 21. PRD to issues
-
-- Prompt: `break this PRD into small, independently shippable issue drafts`
-- Expected: `prd-to-issues`
-- Should not be first choice: `prd-to-plan`
-
 ## Logs and labels
 
 ### 22. LogQL query writing
@@ -208,26 +190,19 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Expected: `prometheus-label-strategy`
 - Should not be first choice: `prometheus-cardinality-troubleshooter`, `promql`
 
-## Discovery
+## Skill authoring
 
-### 28. Skill discovery
-
-- Prompt: `is there a skill that can help me work with Excel files, and how do I install it`
-- Expected: `find-skills`
-- Should not be first choice: `migrate-to-codex`
-
-### 29. New skill with workflow state
+### 28. New skill with workflow state
 
 - Prompt: `create a new skill for repo maintenance handoffs; it needs to record decisions, blockers, reports, and closeout proof`
 - Expected: `skill-creator`
-- Required repo gate: include a Workflow Coordination section and pass `scripts/check-workflow-links.py`
-- Should not be first choice: creating a standalone decision, blocker, or handoff format inside the new skill
+- Should not be first choice: adding generic workflow owners to every skill
 
-### 29b. Last 30 days research
+### 29. Last 30 days research
 
 - Prompt: `research the latest agent improvement techniques from the last 30 days across X, Reddit, YouTube, GitHub, and Hacker News`
 - Expected: `last30days`
-- Should not be first choice: `find-skills`, `agent-plan-backlog`
+- Should not be first choice: a generic web summary without source collection
 
 ## Underused utility and review skills
 
@@ -235,12 +210,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `what should we call this new module and the API field it exposes so the name still makes sense after we move providers`
 - Expected: `naming-quality`
-- Should not be first choice: `written-communication`, `design-an-interface`
+- Should not be first choice: `design-an-interface`
 
 ### 31. Pressure-test a plan
 
 - Prompt: `grill me on this architecture plan before I commit to it; what am I missing and what would bite us later`
-- Expected: `grill-with-docs`
+- Expected: native agent reasoning grounded in the repository and current docs
 - Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`
 
 ### 32. API or module interface design
@@ -259,37 +234,24 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `this refactor is risky; turn it into tiny safe steps with a verification plan and clear out-of-scope boundaries`
 - Expected: `request-refactor-plan`
-- Should not be first choice: `improve-codebase-architecture`, `agent-plan-backlog`, installed Superpowers `test-driven-development`
-
-### 34b. Executor-grade plan backlog
-
-- Prompt: `audit this repo and write /improve-style self-contained plans in plans/ that another cheaper agent can execute later, with drift checks and STOP conditions`
-- Expected: `agent-plan-backlog`
-- Should not be first choice: `request-refactor-plan`, `improve-codebase-architecture`, `prd-to-plan`
+- Should not be first choice: `improve-codebase-architecture`, installed Superpowers `test-driven-development`
 
 ### 35. Anti-AI writing pass
 
 - Prompt: `make this draft less AI-sounding, more direct, and keep the technical meaning intact`
 - Expected: `anti-ai-writing`
-- Should not be first choice: `written-communication`
-
-### 36. General writing improvement
-
-- Prompt: `tighten this stakeholder email so the ask, owner, and next step are clear`
-- Expected: `written-communication`
-- Should not be first choice: `anti-ai-writing`
+- Should not be first choice: ordinary drafting without an explicit prose pass
 
 ### 37. Implementation closeout
 
 - Prompt: `summarize what changed, what passed, what failed, and whether the repo was committed and pushed`
-- Expected: `codex-closeout`
+- Expected: native agent closeout
 - Should not be first choice: `codex-html-report`
 
 ### 38. Durable HTML report
 
 - Prompt: `create a browser-readable proof report for this migration with summary, verification, risks, and evidence`
 - Expected: `codex-html-report`
-- Should not be first choice: `codex-closeout`
 
 ## Documents, media, and local surfaces
 
@@ -297,7 +259,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `edit this docx template and verify the table layout and pagination still render correctly`
 - Expected: installed OpenAI primary runtime Documents skill
-- Should not be first choice: installed OpenAI primary runtime PDF skill, `written-communication`
+- Should not be first choice: installed OpenAI primary runtime PDF skill
 
 ### 40. PDF layout work
 
@@ -315,7 +277,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `transcribe this meeting recording and label speakers where possible`
 - Expected: `transcribe`
-- Should not be first choice: installed OpenAI primary runtime Documents skill, `written-communication`
+- Should not be first choice: installed OpenAI primary runtime Documents skill
 
 ### 43. Hatch Codex pet
 
@@ -329,18 +291,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `review this TypeScript API for security best practices and point out framework-specific risks`
 - Expected: installed Codex Security plugin
-- Should not be first choice: `adversary-informed-defense`, `triage-issue`
+- Should not be first choice: `triage-issue`
 
 ### 45. Security ownership map
 
 - Prompt: `build a file ownership and bus-factor map from git history so we know who owns sensitive code`
 - Expected: `security-ownership-map`
-- Should not be first choice: installed Codex Security plugin
-
-### 46. Adversary-informed defensive plan
-
-- Prompt: `use attacker methods to help us design detections and harden this exposed service defensively`
-- Expected: `adversary-informed-defense`
 - Should not be first choice: installed Codex Security plugin
 
 ### 47. Azure infrastructure design
@@ -365,7 +321,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `investigate this customer support case and prepare an evidence-backed L2 to L3 escalation note`
 - Expected: `l2-l3-support-platform`
-- Should not be first choice: `log-analyzer`, `written-communication`
+- Should not be first choice: `log-analyzer`
 
 ## Tooling and migration
 
@@ -379,7 +335,7 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 
 - Prompt: `migrate these Claude skills, agents, and MCP config into Codex-compatible artifacts and validate the target`
 - Expected: `migrate-to-codex`
-- Should not be first choice: `find-skills`
+- Should not be first choice: a manual migration without inspecting installed tools
 
 ### 53. Setup pre-commit
 

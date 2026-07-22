@@ -58,4 +58,4 @@ Static checks pass but live run fails: check live node URLs, active state, crede
 
 ## Workflow coordination
 
-Use `infisical-secrets-management` before consuming n8n API keys or service tokens. Use repo-local skills such as `support-agent-ops` for project-specific workflow contracts. Use `vincent-workflow` when the change creates durable decisions, blockers, handoffs, or commit/push obligations. Use `codex-closeout` for end-of-work proof hygiene. Use `codex-html-report` when the deployment proof should become a reader-facing artifact.
+Use `infisical-secrets-management` before consuming n8n API keys or service tokens. Use repo-local skills such as `support-agent-ops` for project-specific workflow contracts.

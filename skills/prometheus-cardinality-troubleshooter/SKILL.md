@@ -410,7 +410,3 @@ prometheus.relabel "drop_bad_metric" {
 - **"Why is my Loki slow?"** → `loki-label-analyzer` (different system, same family of problems)
 
 This skill's lane is **diagnosis under pressure**. Prevention, design, and post-ingest cost optimization live elsewhere.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

@@ -426,7 +426,3 @@ Focus on these before anything else.
 | `filename` (raw K8s path) | Contains pod UID | Normalize or drop |
 | Unnormalized `level` | `INFO`/`info`/`Info` = 3 streams | Normalize at collection time |
 | Any dynamically-named label key | Cannot be bounded | Use fixed keys with bounded values |
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery. Use `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

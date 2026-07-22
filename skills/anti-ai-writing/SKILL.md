@@ -1,25 +1,27 @@
 ---
 name: anti-ai-writing
-description: "Final editing pass for prose that will be sent, committed, published, reused, or explicitly audited: docs, site copy, commits, PRs, support drafts, comments, and handoffs. Triggers on 'less AI', 'humanize', 'more natural', and 'less corporate'. Supports rewrite, detect-only, and edit-in-place modes."
+description: "Rewrite, detect, or edit prose when the user explicitly asks for less AI, human, natural, less corporate, or an anti-AI audit, or names important public copy for a dedicated polish pass. Not for ordinary chat, commits, handoffs, or routine technical prose."
 ---
 
 # Anti-AI Writing
 
-Use this as a full finishing pass for consequential or reusable prose. The goal is better writing: clear point, concrete evidence, plain language, accountable claims, and a useful ending. Do not optimize for detector evasion.
+Use this when prose quality is the task. The goal is better writing: clear point,
+concrete evidence, plain language, accountable claims, and a useful ending. Do
+not optimize for detector evasion.
 
 Keep useful voice and judgment, but remove generic assistant filler, corporate fog, and model-interface artifacts.
 
 ## When To Use
 
-Load this skill before prose is sent, committed, published, reused, or explicitly audited, including:
-- README, docs, site copy, and blog posts
-- commit messages, PR bodies, and review comments
-- support replies, handoffs, and emails
-- durable reports and reader-facing artifacts
+Load this skill when the user asks for anti-AI, less AI, human, natural, less
+corporate, less generic, detect-only, audit-only, or editing a named file. It
+may also be used for a dedicated polish pass on important public copy when the
+task explicitly includes writing quality.
 
-Also use when the user asks for anti-AI, less AI, human, natural, concise, less corporate, less generic, detect-only, audit-only, or edit a file in place.
-
-For ordinary chat replies and progress updates, apply the caller's compact house style directly without loading this full skill unless writing quality is the task.
+Do not load it automatically for ordinary chat, progress updates, commit
+messages, PR summaries, handoffs, support drafts, emails, documentation, or
+technical reports. Use the model's normal writing ability unless Vincent asks
+for this specialist pass.
 
 Do not use this skill to strip needed nuance, evidence, personality, or the user's voice. Direct does not mean flat.
 
@@ -200,7 +202,3 @@ Before returning prose, ask:
 - Did the pass preserve necessary nuance and voice?
 - Are there any em dash or en dash characters? Remove them.
 - Are there any phrases this skill itself bans? Remove them unless quoted as examples.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

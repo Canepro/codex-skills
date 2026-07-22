@@ -21,22 +21,16 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 
 Library-managed skills as of this commit:
 
-- `adversary-informed-defense`
-- `agent-plan-backlog`
 - `aks-gitops-pvc-rightsize`
 - `anti-ai-writing`
 - `ci-pipeline-triage`
 - `cli-creator`
 - `codex-app-server-backend-adapter`
-- `codex-closeout`
 - `codex-html-report`
 - `codex-mcp-repair`
 - `entra-oidc-app-integration`
-- `fable-operating-style`
-- `find-skills`
 - `frontend-anti-slop`
 - `gitops-reconcile`
-- `grill-with-docs`
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
@@ -47,8 +41,6 @@ Library-managed skills as of this commit:
 - `m365-admin`
 - `n8n-workflow-api-deploy`
 - `playwright`
-- `prd-to-issues`
-- `prd-to-plan`
 - `prometheus-cardinality-troubleshooter`
 - `prometheus-grafana-triage`
 - `prometheus-label-strategy`
@@ -57,8 +49,6 @@ Library-managed skills as of this commit:
 - `terraform-skill`
 - `transcribe`
 - `vendor-security-gitops-patch`
-- `writing-great-skills`
-- `written-communication`
 - `zoho-desk-api-notes`
 
 Pinned system skills expected from Codex as of this commit:
@@ -111,22 +101,10 @@ Use this when the skill should be available across machines or compatible agent 
 1. Create `skills/<skill-name>/SKILL.md`.
 2. Add `agents/openai.yaml` if the skill should have a polished UI label or default prompt.
 3. Keep the skill concise; put detailed references in `references/` only when needed.
-4. If the skill mentions decisions, blockers, handoffs, closeout, reports, or memory, add a `Workflow Coordination` section that routes durable state to the existing owner instead of inventing another ledger. Print the standard section with:
-
-```bash
-python3 scripts/check-workflow-links.py --template
-```
-
-```markdown
-## Workflow Coordination
-
-This skill owns <domain-specific work>. It does not own general workflow state.
-
-Use `vincent-workflow` when this work creates durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
-Use `codex-closeout` for final chat delivery.
-Use `codex-html-report` for durable reader-facing proof.
-Use `second-brain-context` only when the lesson should survive across repos, agents, or future local-brain retrieval.
-```
+4. Keep the skill focused on its domain. Do not add generic planning, closeout,
+   prose, memory, or continuity routing that the agent runtime already owns.
+   Link another skill only when it supplies a required capability for a real
+   branch of this skill.
 
 5. Install and validate:
 
@@ -135,8 +113,6 @@ cd ~/src/codex-skills
 bash scripts/install.sh
 bash scripts/check-drift.sh
 ```
-
-`check-drift.sh` runs `scripts/check-workflow-links.py --all`, so this is part of the normal creation gate and also protects old skills from quietly drifting. You should not need to remember it manually.
 
 6. Commit and push:
 
@@ -156,7 +132,7 @@ If you notice a useful skill exists only in `~/.codex/skills` or `~/.agents/skil
 3. Run `bash scripts/check-drift.sh`.
 4. Commit and push.
 
-This is how `find-skills` was normalized.
+This is how a local portable candidate becomes library-managed.
 
 Local, private, product-specific, or machine-specific skills can stay out of this repo on purpose. Keep them as plain skill directories in `~/.codex/skills/<skill-name>` and let `sync-installed-extras.sh --sync` mirror them to the Agents and Claude trees. On machines where Codex scans both user roots, `~/.agents/skills` may instead be a symlink alias to `~/.codex/skills`; vendor-owned skill directories may also link to their canonical checkout. The sync check follows both forms and avoids advertising or validating incomplete duplicate inventories. Do NOT add private skills to any `.codex-skills-managed` manifest: the manifest is install bookkeeping for repo-managed skills only, and `install.sh` uninstalls manifest entries that left the repo. Discovery comes from the directory itself, so unmanaged directories are preserved and discoverable. To keep a private skill out of Claude Code, list its name in `~/.claude/skills/.codex-skills-claude-exclude`.
 
@@ -198,7 +174,8 @@ Besides reconciling `~/.codex/skills` and `~/.agents/skills`, this mirrors Codex
 - Edit skills in a real checkout of this repo, not directly in installed trees.
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
 - If a skill is intentionally local, keep the installed copies mirrored with `sync-installed-extras.sh --sync` and out of the manifests instead of promoting it by accident.
-- If a skill is vendored from an upstream author, preserve its upstream `SKILL.md` wording and route around it in local docs or wrapper skills. The workflow-link check skips skills with explicit upstream `repository` and `author` frontmatter.
+- If a skill is vendored from an upstream author, preserve its upstream
+  `SKILL.md` wording and route around it in local docs or wrapper skills.
 - Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.

@@ -207,7 +207,3 @@ Use `references/neo4j-import.md` when you need to load the CSVs into Neo4j. It i
 - If `git log` is too large, narrow with `--since` or `--until`.
 - No script emits CODEOWNERS reports. For a CODEOWNERS reality check, build them by hand: join `files.csv` against the repo's CODEOWNERS patterns and compare declared owners with the top committers per file, then tie any unowned or drifted entries back to `summary.json` before making ownership changes.
 - Rename handling: the scripts run `git log --no-renames`, so ownership attribution stays with exact pathnames and does not follow file history across a rename or `git mv`. A recently renamed file can look orphaned when its history lives under the old path; before flagging it, verify with `git log --follow <path>`.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use the current repository's normal workflow, review, report, and closeout instructions for durable decisions, blockers, resume handoffs, known issues, commit or cleanup obligations, project-local follow-up state, final delivery, reader-facing proof, and cross-repo retrieval.

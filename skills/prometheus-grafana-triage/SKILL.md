@@ -206,7 +206,3 @@ Usage:
 ```bash
 python3 "${CODEX_HOME:-$HOME/.codex}/skills/prometheus-grafana-triage/scripts/prom_target_failures.py" --prometheus-url http://127.0.0.1:9090
 ```
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

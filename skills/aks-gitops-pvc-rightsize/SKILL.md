@@ -94,4 +94,8 @@ Capture:
 
 ## Workflow Coordination
 
-This skill owns the AKS PVC right-size runbook and stateful-workload safety gates. Use `vincent-workflow` for durable blockers, decisions, handoffs, known issues, and commit/push/cleanup state. Use the relevant workload-specific runtime triage skill when the target system needs incident diagnosis rather than planned PVC maintenance. Use `gitops-reconcile` when the change must converge through GitOps source of truth and the sync misbehaves. Use `codex-html-report` for reader-facing maintenance proof and `codex-closeout` for final chat delivery.
+This skill owns the AKS PVC right-size runbook and stateful-workload safety
+gates. Use the relevant workload-specific runtime triage skill when the target
+system needs incident diagnosis rather than planned PVC maintenance. Use
+`gitops-reconcile` when the change must converge through GitOps source of truth
+and the sync misbehaves.

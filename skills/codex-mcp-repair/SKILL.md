@@ -76,4 +76,4 @@ Do not paste credentials, bearer tokens, OAuth state, or secret paths into chat 
 
 ## Workflow Coordination
 
-This skill owns Codex MCP repair diagnosis and local auth/config recovery. Use `vincent-workflow` for durable blockers, decisions, handoffs, known issues, and commit/push/cleanup state when a repo or local automation is changed. Use `codex-html-report` for durable incident proof when the repair spans multiple surfaces. Use `codex-closeout` for final chat delivery. Keep OAuth state, tokens, and secret paths out of workflow records.
+This skill owns Codex MCP repair diagnosis and local auth/config recovery. Keep OAuth state, tokens, and secret paths out of workflow records.

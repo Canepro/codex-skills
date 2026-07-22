@@ -27,27 +27,16 @@ The report should feel like a polished internal product, not a decorative dashbo
 
 Default to dark mode/dark-first styling for read-mostly reports. A light mode override is allowed only when light mode is requested by the user, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
-## Workflow Coordination
+## Boundaries
 
-This skill owns reader-facing proof artifacts. It does not own task state.
-When another owner skill governs the underlying work, run that gate first and
-let the report present its outcome.
+The report presents evidence. It does not replace the underlying work, review,
+or verification. Keep the chat reply short and link the report path.
 
-Use `vincent-workflow` when the report creates or captures a durable decision,
-blocker, known issue, handoff, or closeout obligation. The report can show those
-facts, but the project-local workflow record should live in the workflow surface
-when it needs to survive beyond the artifact.
+When the underlying task requires a specialist or formal review, complete that
+review independently. A report can present the evidence but cannot approve the
+change.
 
-Use `codex-closeout` for the final chat reply after the report is created.
-Keep the reply short and link the report path.
-
-Use `mira-review-gate` before treating a report as acceptance evidence when the
-report covers a risky change, architecture decision, pre-merge review, shared
-behavior, local tooling change, runtime authority, secrets surface, or
-user-facing workflow. The report can present the review, but it should not
-replace the review gate.
-
-Do not let a report become a substitute for finishing the task. If the work
+Do not let a report substitute for finishing the task. If the work
 also requires installs, runtime sync, tests, commit/push, or cleanup, complete
 those steps or name the real blocker before treating the report as done.
 

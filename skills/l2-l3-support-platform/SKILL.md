@@ -29,7 +29,8 @@ If these skills are installed, call them explicitly when they materially improve
 - installed Superpowers `systematic-debugging` for structured root-cause analysis and verification discipline when the issue is truly unclear or previous fixes are thrashing.
 - `k8s-sre-triage` for Rocket.Chat running on Kubernetes or container platform incidents.
 - Analyze application logs, stack traces, auth failures, noisy incidents, and event correlation directly, evidence first.
-- `written-communication` for customer emails, escalation notes, PIR updates, and concise support summaries.
+- Draft customer emails, escalation notes, PIR updates, and support summaries
+  directly under the case's evidence and approval boundaries.
 
 Use only the skills that fit the case. Do not load everything by default. If a supporting skill is unavailable, continue with this skill's built-in workflow and state the limitation only when it matters to the outcome.
 
@@ -121,7 +122,3 @@ Always run the narrowest meaningful validation available.
 - Separate customer-safe wording from internal diagnostic detail.
 
 Read [references/templates.md](references/templates.md) when you need concise case notes, customer emails, or escalation wording.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.

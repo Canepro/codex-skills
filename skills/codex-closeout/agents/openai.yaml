@@ -1,7 +1,0 @@
-interface:
-  display_name: "Codex Closeout"
-  short_description: "Terse, high-signal Codex app closeouts"
-  default_prompt: "Use $codex-closeout to write a concise Codex app closeout with outcome first, compact verification, minimal file inventory, and only real residual risks."
-
-policy:
-  allow_implicit_invocation: true

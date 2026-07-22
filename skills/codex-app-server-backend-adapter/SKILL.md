@@ -73,4 +73,4 @@ Timeouts look like bad model output: distinguish provider timeout, process failu
 
 ## Workflow coordination
 
-Use project-specific skills for the product contract. Use `infisical-secrets-management` before moving or injecting credentials. Use `vincent-workflow` when adapter decisions create durable architecture, blocker, or closeout obligations. Use `codex-html-report` for durable reader-facing comparison or integration reports. Use `codex-closeout` for end-of-work proof hygiene when provider behavior changes.
+Use project-specific skills for the product contract. Use `infisical-secrets-management` before moving or injecting credentials.

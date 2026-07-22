@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $anti-ai-writing to revise this draft so the point comes first, filler is removed, claims stay evidence-backed, and the next action is clear. Use detect mode when I ask for an audit only, and edit mode when I name a file."
 
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

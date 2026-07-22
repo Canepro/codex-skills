@@ -298,18 +298,6 @@ Progressive disclosure — essentials here, depth on demand:
 - [Code Intelligence](references/code-intelligence-lsp.md) - terraform-ls capabilities, position-anchored calls, manual rename, degradation gate
 - [Quick Reference](references/quick-reference.md) — command cheat sheets, flowcharts, troubleshooting
 
-## Workflow Coordination
-
-This skill owns Terraform/OpenTofu design, review, validation, and remediation
-patterns. It does not own general workflow state.
-
-Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known
-issues, commit/push/cleanup obligations, or project-local follow-up state. Use
-`codex-closeout` for final chat delivery. Use `codex-html-report` for durable
-reader-facing proof, plan, or review reports. Use `second-brain-context` only
-when a lesson should survive across repos, agents, or future local-brain
-retrieval.
-
 ## License
 
 Apache License 2.0. See LICENSE for full terms.

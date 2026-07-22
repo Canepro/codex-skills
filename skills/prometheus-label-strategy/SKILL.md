@@ -381,12 +381,3 @@ Focus on these before anything else.
 - **"How do I configure relabel rules in Alloy?"** → use Grafana Alloy docs or `prometheus-grafana-triage`; do not assume an `alloy` skill exists.
 
 This skill's lane is **strategy and design**. Other skills own **diagnosis** and **operational remediation**.
-
-## Workflow Coordination
-
-This skill owns Prometheus label strategy design. It does not own general workflow state.
-
-Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state.
-Use `codex-closeout` for final chat delivery.
-Use `codex-html-report` for durable proof artifacts.
-Use `second-brain-context` only for cross-repo or future local-brain retrieval.

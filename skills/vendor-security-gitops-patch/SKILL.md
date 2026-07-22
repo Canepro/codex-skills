@@ -28,15 +28,13 @@ Use this skill for:
 
 Pair with:
 
-- `adversary-informed-defense` for CVE/exposure triage, exploitability framing,
-  attacker preconditions, and patch priority.
+- installed Codex Security plugin skills for CVE/exposure triage,
+  exploitability framing, attacker preconditions, and patch priority.
 - `rocketchat-kubernetes-triage` for Kubernetes runtime rollout and cluster-impact review.
 - the relevant workload-specific runtime triage skill for Helm/Kubernetes
   runtime, chart, Argo CD, and cluster-specific proof.
 - `gitops-reconcile` only after a controller convergence failure exists.
 - `mira-review-gate` before merging or pushing to an auto-sync production line.
-- `vincent-workflow` for durable state, commit/push/cleanup, blockers, and
-  approval boundaries.
 
 ## Workflow
 
@@ -155,9 +153,4 @@ Safe by default:
 
 ## Workflow Coordination
 
-Use `vincent-workflow` for durable decisions, blockers, handoffs, commit/push
-status, and cleanup.
-
 Use `mira-review-gate` before accepting a merge, deploy, or shared-behavior change.
-Use `codex-html-report` when the advisory decision needs a durable reader-facing proof report.
-Use `codex-closeout` for final chat delivery.

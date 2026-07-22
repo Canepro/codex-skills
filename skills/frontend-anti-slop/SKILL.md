@@ -7,7 +7,7 @@ metadata:
 
 # Frontend Anti-Slop
 
-Use this skill for frontend diagnosis, design correction, and implementation polish on an existing UI. It audits screens for evidence-backed findings, removes generic AI UI habits, and preserves useful product intent.
+Use this skill for frontend diagnosis, UI audit, design correction, and implementation polish on an existing UI. It audits screens for evidence-backed findings, removes generic AI UI habits, and preserves useful product intent.
 
 ## Why This Skill Exists
 
@@ -18,6 +18,7 @@ Coding agents default to templated SaaS UI: hero blocks on dashboards, metric gr
 Use this skill when:
 - a screen feels off and the failure mode is not yet clear
 - an app has weak hierarchy, overdecorated cards, awkward spacing, generic SaaS styling, or dashboard chrome filler that is not about chart choice or analytical encoding
+- you need a focused UI audit before implementing redesign or polish changes
 - a page needs implementation changes, not only a critique
 
 Do not use it to fight a coherent design system. If the app already has a visual language, improve that language. Do not replace it with a personal taste layer.
@@ -25,7 +26,7 @@ Do not use it to fight a coherent design system. If the app already has a visual
 ## Routing
 
 Hand off before you start when one of these is the real task:
-- copy or microcopy in the change set: also run `anti-ai-writing`
+- copy or microcopy in the change set: keep it short, specific, and action-led
 - new app, non-analytical dashboard, game, website, hero, redesign, or modernization from scratch: use the installed `build-web-apps:frontend-app-builder` vendor plugin skill when available
 - analytical dashboard, chart choice, data visualization implementation, map, Gantt, UML/software diagram, D3/Canvas/WebGL visualization, visualization accessibility/testing, or chart export work: use the installed `build-web-data-visualization:data-visualization` vendor plugin skill when available
 - rendered frontend testing, UI regression, interaction bug, console error, responsive behavior, or visual QA loop: use the installed `build-web-apps:frontend-testing-debugging` vendor plugin skill when available
@@ -46,7 +47,7 @@ If the relevant vendor plugin is unavailable, continue with this skill only for 
 
 ## Modes
 
-- `audit`: produce severity-ranked, evidence-backed findings without editing. Use for review, UX critique, and pre-ship risk checks.
+- `audit`: produce severity-ranked, evidence-backed findings without editing. This is the UI audit mode and is used for review, UX critique, and pre-ship risk checks.
 - `redesign`: produce a concrete design direction or implementation plan.
 - `implement`: edit files and verify the rendered result when possible.
 - `verify`: inspect the result after changes and confirm whether the screen improved.
@@ -151,7 +152,8 @@ Severity is inline. P0 should always be fixed. P1 should be fixed unless there i
 - P1: empty-state copy that reassures instead of giving the next action
 - P2: button labels that are nouns or moods ("Continue your journey") instead of verbs ("Save changes")
 
-For any user-visible string you change, run `anti-ai-writing` over it before shipping.
+For any user-visible string you change, verify that it is specific, natural,
+and useful in context.
 
 ### Interaction
 
@@ -199,7 +201,7 @@ When editing code:
 3. Fix structure before color.
 4. Use existing components before adding new primitives.
 5. Add an abstraction only when repeated layout or visual logic needs one.
-6. Keep copy short and task-specific. Run `anti-ai-writing` over any strings you change.
+6. Keep copy short and task-specific.
 7. Define stable dimensions for fixed-format UI like boards, charts, cards, counters, and toolbars.
 8. Verify at the viewports listed below.
 9. Check accessibility basics after changes.
@@ -224,11 +226,12 @@ Stop polishing when all of these are true:
 
 - The primary user task is more obvious than before.
 - Layout works at 360 and 1440 widths.
-- Every copy string changed in this pass has run through `anti-ai-writing`.
+- Every changed copy string is specific, natural, and useful in context.
 - No fake data, no placeholder text, no decorative filler.
 - All tokens used exist in the design system, or new tokens were added on purpose.
 - Focus, contrast, and target size were checked.
 - You can name what was removed, not only what was added.
+- Workflow coordination is complete: decisions and risks are captured in `codex-closeout`, rendered proof is updated in `codex-html-report`, and reusable pointers are indexed in `second-brain-context`.
 
 If you keep iterating past this list, you are adding slop back.
 
@@ -252,7 +255,3 @@ For implementation mode:
 Use `references/anti-slop.md` as an anti-pattern catalogue, fuller defaults table, and bad-to-good design library.
 
 Read `references/review-checklist.md` when an audit needs a fuller checklist.
-
-## Workflow Coordination
-
-This skill owns its domain work. Use `vincent-workflow` for durable decisions, blockers, resume handoffs, known issues, commit/push/cleanup obligations, or project-local follow-up state. Use `codex-closeout` for final chat delivery, `codex-html-report` for durable reader-facing proof, and `second-brain-context` only for cross-repo or future local-brain retrieval.
