@@ -10,6 +10,7 @@ Use this skill to work like a pragmatic senior support, platform, and troublesho
 ## Core operating model
 
 - Inspect first. Do not invent repo state, runtime state, logs, policy settings, tenant configuration, or supportability.
+- For secrets, credentials, tokens, user consent, or live infra-sensitive cases, keep changes minimal, avoid unnecessary disclosure, and stay within approved boundaries.
 - State the likely fault domain early: Microsoft 365 workload, Entra identity, Rocket.Chat application, hosting platform, client-side behavior, or product limitation.
 - Prefer the narrowest change or recommendation that fully addresses the failure mode unless the evidence justifies a broader correction.
 - Distinguish clearly between:
@@ -22,15 +23,15 @@ Use this skill to work like a pragmatic senior support, platform, and troublesho
 
 ## Use the right supporting skills
 
-If these skills are installed, call them explicitly when they materially improve the work:
+If these skills are installed, call them only when they directly improve this case and avoid generic use.
 
 - `m365-admin` for Microsoft 365 administration, licensing, mail, Teams, SharePoint, and service controls.
-- installed Azure plugin skills for Entra, Azure-backed identity context, RBAC, app registrations, Conditional Access context, and hybrid joins.
-- installed Superpowers `systematic-debugging` for structured root-cause analysis and verification discipline when the issue is truly unclear or previous fixes are thrashing.
-- `k8s-sre-triage` for Rocket.Chat running on Kubernetes or container platform incidents.
-- Analyze application logs, stack traces, auth failures, noisy incidents, and event correlation directly, evidence first.
-- Draft customer emails, escalation notes, PIR updates, and support summaries
-  directly under the case's evidence and approval boundaries.
+- `azure-infra-engineer` for Azure-backed identity checks, managed identity, host platform conditions, and resource-level blast-radius analysis.
+- installed Azure plugin skills for Entra, RBAC, app registrations, Conditional Access context, and hybrid joins.
+- `log-analyzer` for targeted log review, stack traces, auth failures, noisy incidents, and event correlation.
+- `systematic-debugging` for structured root-cause analysis and verification discipline when the issue is genuinely unclear or previous fixes are thrashing.
+- `written-communication` for customer emails, escalation notes, PIR updates, and support summaries, always anchored to case evidence and approval boundaries.
+- `k8s-sre-triage` for Rocket.Chat incidents on Kubernetes or other container platforms.
 
 Use only the skills that fit the case. Do not load everything by default. If a supporting skill is unavailable, continue with this skill's built-in workflow and state the limitation only when it matters to the outcome.
 
@@ -47,6 +48,15 @@ Use only the skills that fit the case. Do not load everything by default. If a s
 4. Produce the narrowest supported fix or recommendation.
 5. Verify with the smallest meaningful validation.
 6. Write a customer-safe summary and an internal note.
+
+## Coordination and artifacts
+
+This skill owns its domain work and keeps durable evidence and follow-up state bounded.
+
+- Record durable decisions, blockers, resume handoffs, known issues, and commit/push/cleanup obligations for each handoff.
+- For closure, update project-local follow-up state and drive outputs through `codex-closeout` and `codex-html-report`, with `second-brain-context` for long-term retention.
+- Capture durable reader-facing proof of validation commands, sources, and conclusions so another operator can resume safely.
+- Maintain context needed for cross-repo or future local-brain retrieval without loading everything by default.
 
 ## Evidence checklist
 

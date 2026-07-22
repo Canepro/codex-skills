@@ -46,7 +46,14 @@ list_top_level_dirs() {
 }
 
 list_repo_skills() {
-  list_top_level_dirs "$SRC_DIR"
+  if [[ ! -d "$SRC_DIR" ]]; then
+    return 0
+  fi
+
+  for path in "$SRC_DIR"/*; do
+    [[ -f "$path/SKILL.md" ]] || continue
+    basename "$path"
+  done | sort
 }
 
 list_installed_skills() {
