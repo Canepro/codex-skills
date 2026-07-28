@@ -103,6 +103,7 @@ Report:
 ## Gotchas
 
 - If a GitOps app points at an optional, parked, or on-demand cluster, verify expected state from docs or automation before treating `Unknown` health or sync state as an incident.
+- For a self-managing app-of-apps, a temporary branch must pin both the root application's own `targetRevision` and each affected child application's revision in that branch before the live root is switched. Patching only the child or only the live root lets self-heal restore the original branch before the test converges. Verify the root, child, rendered workloads, and rollback revision separately.
 
 ## Related specialist skills
 
