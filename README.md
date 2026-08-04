@@ -41,6 +41,8 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
   plugin for Azure infrastructure and identity work, and the owning vendor
   guidance for product-specific support.
 - Documents, media, and reports: `codex-html-report`, `screenshot`, `transcribe`. Prefer OpenAI primary runtime document/PDF skills for DOCX and PDF work.
+- Planning and domain modeling: upstream-pinned `grill-with-docs`, `grilling`, and
+  `domain-modeling` from [mattpocock/skills](https://github.com/mattpocock/skills).
 - Tooling and testing: `terraform-skill`, `entra-oidc-app-integration`. Prefer native Codex plus first-party API documentation for ordinary CLI work, and installed Superpowers skills for TDD and systematic debugging.
 
 ## Maintainers

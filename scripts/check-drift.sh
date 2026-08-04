@@ -289,6 +289,10 @@ printf 'Checking codex-skills drift\n'
 printf '  repo: %s\n' "$REPO_DIR"
 printf '  source: %s\n' "$SRC_DIR"
 
+if ! bash "$REPO_DIR/scripts/check-vendor-skills.sh"; then
+  HAS_ISSUES=1
+fi
+
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"

@@ -26,8 +26,11 @@ Library-managed skills as of this commit:
 - `codex-app-server-backend-adapter`
 - `codex-html-report`
 - `codex-mcp-repair`
+- `domain-modeling`
 - `entra-oidc-app-integration`
 - `gitops-reconcile`
+- `grill-with-docs`
+- `grilling`
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
@@ -90,6 +93,26 @@ bash scripts/check-drift.sh
 ```
 
 Commit the updated lock if the new system contract is the one you want to standardize.
+
+## Vendored upstream skills
+
+`grill-with-docs`, `grilling`, and `domain-modeling` are vendor-owned skills from
+`mattpocock/skills`. The local package must preserve the upstream files exactly.
+Do not add local workflow rules, rewritten instructions, or compatibility text
+inside those three directories.
+
+`vendor-skills.lock` records the upstream repository, commit, source paths, and
+exact file hashes. `scripts/check-vendor-skills.sh` fails when a vendor file is
+changed, omitted, or added locally. Local policy should wrap or route around a
+vendor skill from repository instructions or a separately named local skill.
+
+To refresh these skills:
+
+1. Fetch the selected upstream commit.
+2. Replace all three package directories from their recorded upstream paths.
+3. Copy the upstream licence to `vendor/mattpocock-skills/LICENSE`.
+4. Review the upstream diff, then update `vendor-skills.lock`.
+5. Run `bash scripts/check-vendor-skills.sh`, install, and run the drift check.
 
 ## Adding a new durable skill
 
@@ -172,7 +195,8 @@ This mirrors private skills one way from `~/.agents/skills` into `~/.claude/skil
 - If a skill should survive machine rebuilds or be shared publicly, it belongs in this repo.
 - If a skill is intentionally local, keep its canonical copy under `~/.agents/skills`, mirror it with `sync-installed-extras.sh --sync`, and keep it out of the manifests instead of promoting it by accident.
 - If a skill is vendored from an upstream author, preserve its upstream
-  `SKILL.md` wording and route around it in local docs or wrapper skills.
+  package exactly, pin it in `vendor-skills.lock`, and route around it in local
+  docs or wrapper skills.
 - Treat local installed trees as outputs, not the source of truth. `~/.claude/skills/<skill-name>/` directories are installed from the repo just like the Codex, agents, and Cursor trees.
 - Do not refresh `system-skills.lock` casually; only do it after an intentional Codex upgrade review.
 - After meaningful changes: install, check drift, commit, push. Run the optional backup helper only when you maintain a local mirror.
