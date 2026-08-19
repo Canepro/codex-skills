@@ -237,11 +237,29 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Expected: `request-refactor-plan`
 - Should not be first choice: `improve-codebase-architecture`, installed Superpowers `test-driven-development`
 
-### 35. Anti-AI writing pass
+### 35. Automatic writing cleanup
 
 - Prompt: `make this draft less AI-sounding, more direct, and keep the technical meaning intact`
-- Expected: `anti-ai-writing`
-- Should not be first choice: ordinary drafting without an explicit prose pass
+- Expected: installed pstack `unslop`, which also applies automatically to ordinary prose
+- Should not be first choice: restoring the retired `anti-ai-writing` skill
+
+### 36. Create a real-app verification skill
+
+- Prompt: `this repo has no reliable way for agents to drive the real CLI and retain proof; create and prove a project-local verification skill`
+- Expected: `create-verification-skill`
+- Should not be first choice: a document-only test plan that is never executed
+
+### 36a. Maintain verification coverage
+
+- Prompt: `audit our verify skill against the current app and feature map, then repair only proven drift`
+- Expected: `maintain-verification-skill`
+- Should not be first choice: changing product behavior to make stale verification docs pass
+
+### 36b. Decision trail for unattended work
+
+- Prompt: `keep a reviewable decision trail while you complete this overnight migration, but do not mine private transcripts`
+- Expected: `show-me-your-work`
+- Should not be first choice: raw session-log or transcript ingestion
 
 ### 37. Implementation closeout
 

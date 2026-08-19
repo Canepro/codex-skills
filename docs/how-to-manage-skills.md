@@ -22,10 +22,10 @@ bash ~/src/codex-skills/scripts/list-skills.sh
 Library-managed skills as of this commit:
 
 - `aks-gitops-pvc-rightsize`
-- `anti-ai-writing`
 - `codex-app-server-backend-adapter`
 - `codex-html-report`
 - `codex-mcp-repair`
+- `create-verification-skill`
 - `domain-modeling`
 - `entra-oidc-app-integration`
 - `gitops-reconcile`
@@ -38,6 +38,7 @@ Library-managed skills as of this commit:
 - `loki`
 - `loki-label-analyzer`
 - `m365-admin`
+- `maintain-verification-skill`
 - `n8n-workflow-api-deploy`
 - `playwright`
 - `prometheus-cardinality-troubleshooter`
@@ -45,6 +46,7 @@ Library-managed skills as of this commit:
 - `prometheus-label-strategy`
 - `screenshot`
 - `security-ownership-map`
+- `show-me-your-work`
 - `terraform-skill`
 - `transcribe`
 - `vendor-security-gitops-patch`

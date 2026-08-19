@@ -36,14 +36,19 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
   analysis, and framework security review.
 - Kubernetes and platform: `k8s-sre-triage`, `kubernetes-platform-architecture`, `gitops-reconcile`, `jenkins-sre`, `aks-gitops-pvc-rightsize`, `vendor-security-gitops-patch`
 - Observability and reliability: `prometheus-grafana-triage`, `loki`, `prometheus-cardinality-troubleshooter`, `prometheus-label-strategy`, `loki-label-analyzer`. Prefer the installed Sentry plugin for Sentry issues and events.
-- Support and operations: `m365-admin`, `anti-ai-writing`,
-  `n8n-workflow-api-deploy`, `zoho-desk-api-notes`. Prefer the installed Azure
+- Support and operations: `m365-admin`, `n8n-workflow-api-deploy`,
+  `zoho-desk-api-notes`. Prefer the installed Azure
   plugin for Azure infrastructure and identity work, and the owning vendor
   guidance for product-specific support.
 - Documents, media, and reports: `codex-html-report`, `screenshot`, `transcribe`. Prefer OpenAI primary runtime document/PDF skills for DOCX and PDF work.
 - Planning and domain modeling: upstream-pinned `grill-with-docs`, `grilling`, and
   `domain-modeling` from [mattpocock/skills](https://github.com/mattpocock/skills).
-- Tooling and testing: `terraform-skill`, `entra-oidc-app-integration`. Prefer native Codex plus first-party API documentation for ordinary CLI work, and installed Superpowers skills for TDD and systematic debugging.
+- Tooling and testing: `terraform-skill`, `entra-oidc-app-integration`,
+  `create-verification-skill`, `maintain-verification-skill`, and
+  `show-me-your-work`. The three pstack-derived skills use harness-neutral,
+  transcript-free adapters. Prefer native Codex plus first-party API
+  documentation for ordinary CLI work, and installed Superpowers skills for
+  TDD and systematic debugging.
 
 ## Maintainers
 

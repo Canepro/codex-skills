@@ -1,0 +1,5 @@
+interface:
+  display_name: "Maintain Verification Skill"
+  short_description: "Audit and repair verification drift"
+  default_prompt: "Use $maintain-verification-skill to compare this repository's verification skill with source and live behavior, then repair only proven drift."
+

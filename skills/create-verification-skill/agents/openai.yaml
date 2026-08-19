@@ -1,0 +1,5 @@
+interface:
+  display_name: "Create Verification Skill"
+  short_description: "Create a real-app verification workflow"
+  default_prompt: "Use $create-verification-skill to create and prove a project-local skill that drives this application's real user surface."
+
