@@ -1,18 +1,4 @@
-# Exact upstream files for vendored skills.
-# Source: https://github.com/mattpocock/skills.git
-# Commit: ed37663cc5fbef691ddfecd080dff42f7e7e350d
-# Upstream trees:
-#   grill-with-docs  skills/engineering/grill-with-docs  5fdcdeedf2d0c73b3ecb1da0a464dd885590f8d6
-#   domain-modeling  skills/engineering/domain-modeling  959e63161ff78b4b1cd553b2c0e09e0c68418e5f
-#   grilling         skills/productivity/grilling        10b0db61f9b3869243db8a1a0ee84f862139b94e
+# No copied vendor skills are currently owned by this portable repository.
 #
-# Format: SHA256  repo-path  upstream-path
-f1f36cd3f8d3b6474ddd5855da4e233bfc4ae1a1c5024909ccf11871819a41b2  skills/domain-modeling/ADR-FORMAT.md  skills/engineering/domain-modeling/ADR-FORMAT.md
-f6bf2aa996c6e6f53fdd0708e18a0d16a56aed8322cca59fedbe3c0d2c75f06b  skills/domain-modeling/agents/openai.yaml  skills/engineering/domain-modeling/agents/openai.yaml
-b8cc318f2a4285b530e908b6bc43901c3c5cd11100362636bbc4216639bef597  skills/domain-modeling/CONTEXT-FORMAT.md  skills/engineering/domain-modeling/CONTEXT-FORMAT.md
-152e2c97239affb12a60c5f4a7e74ab546a49ae169688c81f4e2ccc42dafa579  skills/domain-modeling/SKILL.md  skills/engineering/domain-modeling/SKILL.md
-94cd0ab161fb468a836349f5ed482ba58ce8e709a05c57ce533d739dbd35cca9  skills/grill-with-docs/agents/openai.yaml  skills/engineering/grill-with-docs/agents/openai.yaml
-610d091047bcfb9db0f75c057d15538481a721111579fc5ec7f83ad9131a2165  skills/grill-with-docs/SKILL.md  skills/engineering/grill-with-docs/SKILL.md
-cf29b9a8dbf35a58a908a6ca4f64dcd86c2b2130291eee0a78b9f706b138825b  skills/grilling/agents/openai.yaml  skills/productivity/grilling/agents/openai.yaml
-44331dda57f461db4fec3f2efb6ddabe7aaaa0a57ae0f88a883bc61aed8a0587  skills/grilling/SKILL.md  skills/productivity/grilling/SKILL.md
-0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5  vendor/mattpocock-skills/LICENSE  LICENSE
+# The Matt Pocock bundle is governed by the private SkillForge lane and is
+# projected from its canonical upstream checkout instead of being copied here.

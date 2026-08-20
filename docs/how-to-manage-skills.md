@@ -26,11 +26,8 @@ Library-managed skills as of this commit:
 - `codex-html-report`
 - `codex-mcp-repair`
 - `create-verification-skill`
-- `domain-modeling`
 - `entra-oidc-app-integration`
 - `gitops-reconcile`
-- `grill-with-docs`
-- `grilling`
 - `jenkins-sre`
 - `k8s-sre-triage`
 - `kubernetes-platform-architecture`
@@ -98,23 +95,15 @@ Commit the updated lock if the new system contract is the one you want to standa
 
 ## Vendored upstream skills
 
-`grill-with-docs`, `grilling`, and `domain-modeling` are vendor-owned skills from
-`mattpocock/skills`. The local package must preserve the upstream files exactly.
-Do not add local workflow rules, rewritten instructions, or compatibility text
-inside those three directories.
+This portable repository currently owns no copied vendor skills. The installed
+Matt Pocock bundle is governed by the private SkillForge lane, which projects
+the approved upstream checkout directly into each agent runtime. Do not copy
+those skills into this repository because the portable installer and vendor
+projector would then compete for the same installed paths.
 
-`vendor-skills.lock` records the upstream repository, commit, source paths, and
-exact file hashes. `scripts/check-vendor-skills.sh` fails when a vendor file is
-changed, omitted, or added locally. Local policy should wrap or route around a
-vendor skill from repository instructions or a separately named local skill.
-
-To refresh these skills:
-
-1. Fetch the selected upstream commit.
-2. Replace all three package directories from their recorded upstream paths.
-3. Copy the upstream licence to `vendor/mattpocock-skills/LICENSE`.
-4. Review the upstream diff, then update `vendor-skills.lock`.
-5. Run `bash scripts/check-vendor-skills.sh`, install, and run the drift check.
+`vendor-skills.lock` remains as an explicit empty contract. If a future vendor
+skill must be copied here, add its exact source and hashes to the lock, update
+`scripts/check-vendor-skills.sh`, and review the ownership boundary first.
 
 ## Adding a new durable skill
 
