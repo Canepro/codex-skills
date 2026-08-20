@@ -19,5 +19,8 @@ jobs:
       - name: Install skills into runner surfaces
         run: bash scripts/install.sh
 
+      - name: Test portable-to-vendor ownership handoff
+        run: bash tests/test-install-vendor-handoff.sh
+
       - name: Run drift-safe repository checks
         run: bash scripts/check-drift.sh

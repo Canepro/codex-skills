@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOCK_FILE="$REPO_DIR/vendor-skills.lock"
-VENDOR_SKILLS=(domain-modeling grill-with-docs grilling)
+VENDOR_SKILLS=()
 
 if [[ ! -f "$LOCK_FILE" ]]; then
   printf '[vendor-skills]\n  status: missing %s\n' "$LOCK_FILE"
@@ -50,4 +50,4 @@ for skill_name in "${VENDOR_SKILLS[@]}"; do
   done
 done
 
-printf '  status: upstream files and package contents match vendor-skills.lock\n'
+printf '  status: configured portable vendor files match vendor-skills.lock\n'

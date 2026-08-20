@@ -36,6 +36,10 @@ install_to_dest() {
     while IFS= read -r old_skill; do
       [ -n "$old_skill" ] || continue
       [ -f "$SRC_DIR/$old_skill/SKILL.md" ] && continue
+      # A vendor projector may have replaced a formerly repo-managed skill
+      # with a link to its canonical checkout. Drop the stale manifest entry
+      # without deleting the externally owned projection.
+      [ -L "$dest_dir/$old_skill" ] && continue
       rm -rf "$dest_dir/$old_skill"
     done < "$manifest_path"
   fi
