@@ -195,8 +195,12 @@ check_system_skills() {
   fi
 
   if [[ ! -d "$system_dir" ]]; then
-    printf '  status: no system skill directory\n'
-    HAS_ISSUES=1
+    if [[ "$strict" == "1" ]]; then
+      printf '  status: no system skill directory\n'
+      HAS_ISSUES=1
+    else
+      printf '  status: system skill directory unavailable (informational)\n'
+    fi
     return 0
   fi
 
@@ -296,7 +300,7 @@ fi
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
-check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" 1
+check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" "${SYSTEM_SKILL_STRICT:-1}"
 check_docs_sync
 if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'

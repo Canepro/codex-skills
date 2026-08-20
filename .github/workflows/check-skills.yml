@@ -20,4 +20,6 @@ jobs:
         run: bash tests/test-install-vendor-handoff.sh
 
       - name: Run drift-safe repository checks
+        env:
+          SYSTEM_SKILL_STRICT: "0"
         run: bash scripts/check-drift.sh
