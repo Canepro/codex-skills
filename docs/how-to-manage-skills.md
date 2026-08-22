@@ -95,14 +95,19 @@ Commit the updated lock if the new system contract is the one you want to standa
 
 ## Vendored upstream skills
 
-This portable repository currently owns no copied vendor skills. The installed
-Matt Pocock bundle is governed by the private SkillForge lane, which projects
-the approved upstream checkout directly into each agent runtime. Do not copy
-those skills into this repository because the portable installer and vendor
-projector would then compete for the same installed paths.
+This portable repository owns the copied `last30days` skill. Its exact upstream
+commit and per-file SHA-256 hashes live in `vendor-skills.lock`; its MIT license
+is retained as `skills/last30days/LICENSE.txt`. Generate the lock from the
+canonical upstream Git index with automatic line-ending conversion disabled.
+The narrow `.gitattributes` whitespace rule lets us preserve upstream whitespace
+without weakening checks for files this repository owns.
 
-`vendor-skills.lock` remains as an explicit empty contract. If a future vendor
-skill must be copied here, add its exact source and hashes to the lock, update
+The installed Matt Pocock bundle remains governed by the private SkillForge
+lane, which projects the approved upstream checkout directly into each agent
+runtime. Do not copy those skills into this repository because the portable
+installer and vendor projector would then compete for the same installed paths.
+
+For any copied vendor skill, add its exact source and hashes to the lock, update
 `scripts/check-vendor-skills.sh`, and review the ownership boundary first.
 
 ## Adding a new durable skill
