@@ -41,6 +41,7 @@ Library-managed skills as of this commit:
 - `prometheus-cardinality-troubleshooter`
 - `prometheus-grafana-triage`
 - `prometheus-label-strategy`
+- `recall`
 - `screenshot`
 - `security-ownership-map`
 - `show-me-your-work`

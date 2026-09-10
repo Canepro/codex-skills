@@ -261,6 +261,12 @@ Routing is nondeterministic: run each prompt 3 to 5 times and judge the distribu
 - Expected: `show-me-your-work`
 - Should not be first choice: raw session-log or transcript ingestion
 
+### 36c. Recall working context before resuming
+
+- Prompt: `catch me up on where the vendor reconcile work stands before I pick it back up, without reading my old chats`
+- Expected: `recall`
+- Should not be first choice: mining agent transcripts or session logs; a one-session pickup from a handoff file
+
 ### 37. Implementation closeout
 
 - Prompt: `summarize what changed, what passed, what failed, and whether the repo was committed and pushed`

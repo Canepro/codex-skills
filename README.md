@@ -44,9 +44,9 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
 - Planning and domain modeling: the installed Matt Pocock bundle is governed by
   the private SkillForge lane, not duplicated in this portable repository.
 - Tooling and testing: `terraform-skill`, `entra-oidc-app-integration`,
-  `create-verification-skill`, `maintain-verification-skill`, and
-  `show-me-your-work`. The three pstack-derived skills use harness-neutral,
-  transcript-free adapters. Prefer native Codex plus first-party API
+  `create-verification-skill`, `maintain-verification-skill`,
+  `show-me-your-work`, and `recall`. The four pstack-derived skills use
+  harness-neutral, transcript-free adapters. Prefer native Codex plus first-party API
   documentation for ordinary CLI work, and installed Superpowers skills for
   TDD and systematic debugging.
 
