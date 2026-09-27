@@ -4,6 +4,7 @@ description: Create a project-local skill that drives a real application through
 metadata:
   upstream: https://github.com/cursor/plugins/tree/main/pstack/skills/create-verification-skill
   upstream-commit: 60c641e4fad674784b30abcf9f8915dea39df38d
+  maintenance-source: https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/create-verification-skill/SKILL.md
   adapted-for: Agent Skills multi-harness layout
 ---
 
@@ -57,8 +58,10 @@ Write `SKILL.md` with valid frontmatter and these concrete sections:
 - **Evidence:** Where proof is stored and what observable result makes each
   feature pass. Exercise the user path, capture the action and result, and
   verify material side effects. A dry-run label is not proof of no writes.
-- **Cleanup:** Remove only instances and scratch state created by the run.
-  Evidence must survive cleanup.
+- **Cleanup:** After a failed attempt, remove its drive-owned residue. Keep a
+  shared instance when the launch contract requires it. At final teardown,
+  remove only instances and scratch state created by the run. Evidence must
+  survive every cleanup.
 - **Feature map:** An index and one short file per important user-facing
   feature, initially the top three to five. Each feature states how a user
   reaches it, how the harness drives it, the observable success state, and
