@@ -29,8 +29,10 @@ Each cell stays on one line. Prefix spreadsheet-formula starters (`=`, `+`,
 `-`, or `@`) with a single quote when content is not fully controlled.
 
 - `ts`: ISO 8601 timestamp.
-- `phase`: Short workstream or phase name.
-- `decision`: The choice made.
+- `phase`: Short workstream or phase name, or the reserved value `start`
+  for a run-boundary row (below).
+- `decision`: The choice made. On a `start` row, the `ts` range of the
+  earlier rows this run did not write.
 - `why`: The constraint or tradeoff that led to it.
 - `evidence`: A compact pointer such as a file and line, command result, issue,
   check run, screenshot, or artifact path.
@@ -43,8 +45,9 @@ the repository only when the user asked for a durable decision trail or the
 repository's review contract requires it. Follow existing evidence-directory
 conventions when they exist.
 
-Log only decisions from the active task that you directly observed. Do not add
-routine commands, commentary updates, or reconstructed reasoning. Never place
+Log only decisions from the active task that you directly observed, plus the
+required `start` rows below. Do not add routine commands, commentary updates,
+or reconstructed reasoning. Never place
 secret values, customer data, raw prompts, private messages, or full tool output
 in the ledger.
 
@@ -60,18 +63,26 @@ range of the rows this run did not write, and its `evidence` names this run
 
 Before handing back:
 
-1. Compare this run's rows (from its `start` row, or the first row when this
-   run created the ledger, to the next `start` row of another run) with the
-   current task's explicit plan, changed files, command results, and proof
-   artifacts. Rows outside this run's stretch are not audited here.
-2. Never edit or delete a row. When a row records no real decision or action,
-   or its claim or evidence is wrong, add a row that supersedes it with what
-   happened and a pointer that resolves. If this run's own work shows a row
-   from another run is wrong, supersede it the same way.
-3. Add a missing consequential decision only when the current task still
+1. Find each of this run's stretches. A stretch starts at one of this run's
+   `start` rows, or at the first row when this run created the ledger, and
+   ends at the next `start` row written by another run. A run that created the
+   ledger and later returned after another run wrote has more than one
+   stretch. Compare the decision rows in every stretch with the current task's
+   explicit plan, changed files, command results, and proof artifacts. Rows
+   outside these stretches are not audited here.
+2. A `start` row is a run boundary, not a decision. Check only that its `ts`
+   range matches the earlier rows and its `evidence` names this run.
+3. Never edit or delete a row. When a decision row records no real decision or
+   action, or its claim or evidence is wrong, add a row that supersedes it with
+   what happened and a pointer that resolves. If this run's own work shows a
+   row from another run is wrong, supersede it the same way.
+4. Add a missing consequential decision only when the current task still
    contains direct evidence for it.
-4. Confirm every evidence pointer exists or is a stable external identifier.
-5. State whether the ledger is untracked, committed, or intentionally omitted.
+5. Confirm that every evidence pointer in this run's stretches exists or is a
+   stable external identifier. Pointers in another run's rows may live on that
+   run's scratch; do not supersede them only because they no longer resolve
+   here.
+6. State whether the ledger is untracked, committed, or intentionally omitted.
 
 The final report should summarize the outcome. The ledger is supporting proof,
 not a substitute for judgment.
