@@ -74,13 +74,18 @@ Before handing back:
    range matches the earlier rows and its `evidence` names this run.
 3. Never edit or delete a row. When a decision row records no real decision or
    action, or its evidence does not support the stated decision or result, add
-   a row that supersedes it with what happened and a pointer that resolves. If this run's own work shows a
+   a row that supersedes it with what happened and a pointer that resolves.
+   Start that row's `why` with `supersedes <ts> <phase>` of the row it
+   corrects, adding the first words of that row's `decision` when another row
+   shares the same `ts` and `phase`, so a reader can tell exactly which row is
+   replaced. If this run's own work shows a
    row from another run is wrong, supersede it the same way.
 4. Add a missing consequential decision only when the current task still
    contains direct evidence for it.
 5. Confirm that every evidence pointer in this run's current rows exists or is
-   a stable external identifier. A row that a later row supersedes is
-   resolved by its superseding row, so its old pointer may stay dead. Pointers
+   a stable external identifier. A current row is one that no later row
+   supersedes, in any of this run's stretches. A superseded row is resolved by
+   its superseding row, so its old pointer may stay dead. Pointers
    in another run's rows may live on that run's scratch; do not supersede them
    only because they no longer resolve here.
 6. State whether the ledger is untracked, committed, or intentionally omitted.
