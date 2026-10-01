@@ -3,7 +3,7 @@ name: show-me-your-work
 description: Keep a compact, reviewable decision ledger for long-running or unattended work. Use when a reviewer needs to reconstruct consequential choices and their evidence without reading private transcripts or replaying the entire task.
 metadata:
   upstream: https://github.com/cursor/plugins/tree/main/pstack/skills/show-me-your-work
-  upstream-commit: 60c641e4fad674784b30abcf9f8915dea39df38d
+  upstream-commit: 2eb7ed4613cfc8f098dfe464a23680ea44d84c5e
   adapted-for: transcript-free evidence logging
 ---
 
@@ -48,14 +48,26 @@ routine commands, commentary updates, or reconstructed reasoning. Never place
 secret values, customer data, raw prompts, private messages, or full tool output
 in the ledger.
 
+A run is one agent conversation, including its later turns. A pickup, a
+replacement agent, or a new chat is a new run. When a run adds to a ledger that
+already has rows, its first row uses phase `start`, and so does its first row
+after another run's `start` row. Before writing, read the ledger's last rows to
+see whether another run wrote since. A `start` row's `decision` names the `ts`
+range of the rows this run did not write, and its `evidence` names this run
+(for example its session or agent id). Use phase `start` for nothing else.
+
 ## Review
 
 Before handing back:
 
-1. Compare the ledger with the current task's explicit plan, changed files,
-   command results, and proof artifacts.
-2. Remove any row whose evidence does not support the stated decision or
-   result.
+1. Compare this run's rows (from its `start` row, or the first row when this
+   run created the ledger, to the next `start` row of another run) with the
+   current task's explicit plan, changed files, command results, and proof
+   artifacts. Rows outside this run's stretch are not audited here.
+2. Never edit or delete a row. When a row records no real decision or action,
+   or its claim or evidence is wrong, add a row that supersedes it with what
+   happened and a pointer that resolves. If this run's own work shows a row
+   from another run is wrong, supersede it the same way.
 3. Add a missing consequential decision only when the current task still
    contains direct evidence for it.
 4. Confirm every evidence pointer exists or is a stable external identifier.
