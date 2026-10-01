@@ -350,7 +350,7 @@ footer .meta { font-size: 12.5px; }
         <span class="hint">Plain-English verdict</span>
       </div>
       <p>The redesigned template is committed on a branch, validates cleanly, renders without overflow at phone, tablet, and desktop widths in both themes and with scripting disabled, and prints to a clean PDF. Vincent chose the direction in two rounds of questions and picked the single-accent candidate from side-by-side screenshots before the full build.</p>
-      <p>The skill text now names the Claude Code fallback for chart-heavy work, points report types at a per-type section-order reference, and closes the two backlog rows that had been open since June. Both external reviews required for a skill-steering change have returned and their blocking findings are fixed. The installed copies on this machine are refreshed and byte-identical to the branch. What remains is the pull request merge and the parity run on the other approved hosts.</p>
+      <p>The skill text now names the Claude Code fallback for chart-heavy work, points report types at a per-type section-order reference, and closes the two backlog rows that had been open since June. Both external reviews required for a skill-steering change have returned and their blocking findings are fixed. The installed copies on this machine are refreshed and byte-identical to the branch. Pull request #10 merged to main as e2f1ceb at 15:23 UTC. What remains is the parity run on the other approved hosts.</p>
     </section>
 
     <section id="next-action" aria-labelledby="next-action-h">
@@ -360,7 +360,7 @@ footer .meta { font-size: 12.5px; }
       </div>
       <div class="callout">
         <span class="k">Do next</span>
-        <span>Merge the pull request, then run <code>mira-ready parity</code> on the other approved hosts so Codex sessions there pick up v1.0.0. Open a fresh Claude Code or Codex session on this machine and generate one real report to confirm discovery end to end.</span>
+        <span>Run <code>mira-ready parity</code> on the other approved hosts so Codex sessions there pick up v1.0.0, then generate one real report from a fresh Codex session to confirm discovery end to end.</span>
       </div>
     </section>
 
@@ -509,7 +509,7 @@ footer .meta { font-size: 12.5px; }
     <section id="timeline" aria-labelledby="timeline-h">
       <div class="section-head">
         <h2 id="timeline-h">Timeline</h2>
-        <span class="hint">Observed, local time BST</span>
+        <span class="hint">Observed, local time BST (UTC+1)</span>
       </div>
       <ol class="timeline">
         <li class="ok">
@@ -572,6 +572,11 @@ footer .meta { font-size: 12.5px; }
           <span class="title">Grok fixes re-verified</span>
           <p>Third commit. Validation, 1280px dark and light, 375px, and the no-script PDF re-run on the final template.</p>
         </li>
+        <li class="ok">
+          <time datetime="2026-10-01T16:23+01:00">16:23</time>
+          <span class="title">Merged</span>
+          <p>PR #10 merged as e2f1ceb after the check-skills workflow passed. Branch deleted, local main synced, installed copy re-verified identical to main.</p>
+        </li>
       </ol>
     </section>
 
@@ -593,7 +598,7 @@ footer .meta { font-size: 12.5px; }
           </thead>
           <tbody>
             <tr>
-              <td>Other approved hosts keep generating v0.7.2 reports until their installed copy is refreshed.</td>
+              <td>Other approved hosts keep generating v0.7.2 reports until their installed copy is refreshed from main.</td>
               <td><span class="pill warn">Medium</span></td>
               <td>Vincent, via mira-ready</td>
               <td>Run <code>mira-ready parity</code> after the pull request merges. Reports carry the template version comment, so drift is visible with one grep.</td>
