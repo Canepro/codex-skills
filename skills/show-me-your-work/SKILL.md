@@ -73,15 +73,16 @@ Before handing back:
 2. A `start` row is a run boundary, not a decision. Check only that its `ts`
    range matches the earlier rows and its `evidence` names this run.
 3. Never edit or delete a row. When a decision row records no real decision or
-   action, or its claim or evidence is wrong, add a row that supersedes it with
-   what happened and a pointer that resolves. If this run's own work shows a
+   action, or its evidence does not support the stated decision or result, add
+   a row that supersedes it with what happened and a pointer that resolves. If this run's own work shows a
    row from another run is wrong, supersede it the same way.
 4. Add a missing consequential decision only when the current task still
    contains direct evidence for it.
-5. Confirm that every evidence pointer in this run's stretches exists or is a
-   stable external identifier. Pointers in another run's rows may live on that
-   run's scratch; do not supersede them only because they no longer resolve
-   here.
+5. Confirm that every evidence pointer in this run's current rows exists or is
+   a stable external identifier. A row that a later row supersedes is
+   resolved by its superseding row, so its old pointer may stay dead. Pointers
+   in another run's rows may live on that run's scratch; do not supersede them
+   only because they no longer resolve here.
 6. State whether the ledger is untracked, committed, or intentionally omitted.
 
 The final report should summarize the outcome. The ledger is supporting proof,
