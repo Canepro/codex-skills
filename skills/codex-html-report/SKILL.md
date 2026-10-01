@@ -64,8 +64,11 @@ design or the target platform requires a different structure:
   Save PDF on the right
 - the sticky left table of contents that collapses to a top bar on narrow
   screens
-- the standard section anchors: outcome, next-action, facts, gates, changes,
-  verification, timeline, environment, risks, and evidence
+- the standard section ids: outcome, next-action, gates, changes,
+  verification, timeline, environment, risks, and evidence. Keep the id of
+  every section you retain; when a report type drops a section, delete the
+  section and its contents entry together. The `facts` strip sits outside
+  the section list and stays in every report
 - reusable status pills, table wrappers, evidence `<pre>` blocks with copy
   buttons, and print CSS
 
@@ -85,7 +88,8 @@ Choose the closest type and keep its sections in the order given in
 `references/report-types.md`. The six types are `implementation-closeout`,
 `ops-incident`, `support-case`, `code-review`, `research-brief`, and
 `architecture-plan`. Every type keeps `outcome` first and `evidence` last.
-Delete sections the type does not need instead of leaving placeholders.
+Delete sections the type does not need, and their contents entries, instead
+of leaving placeholders. Retained sections keep their ids.
 
 ## Minimum Contract
 
@@ -111,7 +115,9 @@ Use the template's visual system:
 - gate checklist for ops, migration, deployment, and incident reports
 - tables for files, checks, risks, and decisions
 - timestamped timeline when event order matters; use observed times, never generic "Step 1" labels alone
-- `<details>` blocks for raw evidence, open by default when the evidence is the point
+- `<details>` blocks around evidence, open by default; only a raw appendix
+  may start collapsed, because a no-script print cannot open it
+- a copy button on every `<pre>` block, added by the template script
 - sticky left table of contents whose links match the section ids
 
 Avoid:

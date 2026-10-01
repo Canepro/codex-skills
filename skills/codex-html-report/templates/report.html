@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Codex HTML Report Template v1.0.0: flat dark-first proof report. Neutral surfaces, one indigo accent for links and the active contents item, colour only on status pills, system sans type, sticky left table of contents that collapses to a top bar below 1024px. JavaScript adds a persisted theme toggle, Save PDF, copy buttons, and contents scrollspy; every section renders fully with JavaScript disabled. Keep the standard section ids (outcome, next-action, facts, gates, changes, verification, timeline, environment, risks, evidence), delete sections the report type does not need, and keep this comment with the version. -->
+<!-- Codex HTML Report Template v1.0.0: flat dark-first proof report. Neutral surfaces, one indigo accent for links and the active contents item, colour only on status pills, system sans type, sticky left table of contents that collapses to a top bar below 1024px. JavaScript adds a persisted theme toggle, Save PDF, copy buttons, and contents scrollspy; every section renders fully with JavaScript disabled. Keep the standard section ids (outcome, next-action, gates, changes, verification, timeline, environment, risks, evidence) on the sections you retain, keep the facts strip, delete sections the report type does not need together with their contents links, and keep this comment with the version. -->
 <html lang="en" data-theme="dark" class="nojs">
 <head>
 <meta charset="utf-8">
@@ -36,9 +36,9 @@
   --strong: #000000;
   --accent: #5b5fe8;
   --shadow: 0 1px 2px rgba(0,0,0,0.06);
-  --ok: #1f8a4c;
-  --ok-bg: rgba(95,211,138,0.18);
-  --warn: #8a6300;
+  --ok: #15803d;
+  --ok-bg: rgba(95,211,138,0.16);
+  --warn: #7a5600;
   --warn-bg: rgba(242,193,78,0.22);
   --bad: #b3261e;
   --bad-bg: rgba(255,123,114,0.18);
@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; }
 .btn {
   appearance: none; background: var(--surface); color: var(--text);
   border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px;
-  font: 500 13px/1.3 inherit; font-family: inherit; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.3; cursor: pointer;
   box-shadow: var(--shadow); transition: border-color 120ms ease, background 120ms ease;
 }
 .btn:hover { border-color: var(--accent); }
@@ -276,6 +276,7 @@ footer .meta { font-size: 12.5px; }
   :root, [data-theme="dark"], [data-theme="light"] {
     --page: #ffffff; --surface: #ffffff; --border: #d0d0d0; --text: #000000;
     --muted: #444444; --strong: #000000; --accent: #000000; --pre-bg: #f4f4f4; --shadow: none;
+    --ok: #14532d; --warn: #633f00; --bad: #991b1b;
   }
   body { background: #fff; color: #000; font-size: 12px; }
   .topbar { position: static; border-bottom: 1px solid #000; }
@@ -323,6 +324,7 @@ footer .meta { font-size: 12.5px; }
   </nav>
 
   <main class="content" id="main" tabindex="-1">
+    <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
     <div class="hero">
       <p class="eyebrow">Proof report</p>
       <h1>Report title goes here</h1>
@@ -542,7 +544,7 @@ Keep raw dumps in collapsed blocks below.
 <span class="ok">0</span></pre>
         </div>
       </details>
-      <details class="card">
+      <details class="card" open>
         <summary>
           <span class="left"><span class="chev" aria-hidden="true"></span>Files and links</span>
           <span class="meta-right">absolute paths</span>
@@ -554,7 +556,7 @@ Keep raw dumps in collapsed blocks below.
           </ul>
         </div>
       </details>
-      <details class="card">
+      <details class="card" open>
         <summary>
           <span class="left"><span class="chev" aria-hidden="true"></span>Screenshot</span>
           <span class="meta-right">captured HH:MM UTC</span>
@@ -567,6 +569,16 @@ Keep raw dumps in collapsed blocks below.
             </svg>
             <figcaption>Caption: what this image proves and when it was captured. <code>/absolute/path/to/proof-screenshot.png</code></figcaption>
           </figure>
+        </div>
+      </details>
+      <!-- Only raw appendices may start collapsed. Evidence a reader needs to judge the claim stays open. -->
+      <details class="card">
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Raw output appendix</span>
+          <span class="meta-right">collapsed by default</span>
+        </summary>
+        <div class="pre-wrap">
+<pre tabindex="0">Long raw dumps go here. A copy button is added automatically to every pre block.</pre>
         </div>
       </details>
     </section>
@@ -589,10 +601,7 @@ Keep raw dumps in collapsed blocks below.
   var KEY = 'codex-report-theme';
   root.classList.remove('nojs');
 
-  function systemTheme() {
-    try { return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
-    catch (e) { return 'dark'; }
-  }
+  /* Theme: dark unless the reader has chosen light. The system preference is not consulted. */
   function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function applyTheme(theme, persist) {
     root.setAttribute('data-theme', theme);
@@ -605,26 +614,20 @@ Keep raw dumps in collapsed blocks below.
     }
     if (persist) { try { localStorage.setItem(KEY, theme); } catch (e) {} }
   }
-  applyTheme(stored() || systemTheme(), false);
-
+  applyTheme(stored() === 'light' ? 'light' : 'dark', false);
   var toggle = document.getElementById('theme-toggle');
   if (toggle) {
     toggle.addEventListener('click', function () {
       applyTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light', true);
     });
   }
-  try {
-    var mq = window.matchMedia('(prefers-color-scheme: light)');
-    var onChange = function () { if (!stored()) applyTheme(systemTheme(), false); };
-    if (mq.addEventListener) mq.addEventListener('change', onChange);
-    else if (mq.addListener) mq.addListener(onChange);
-  } catch (e) {}
 
+  /* Print: open closed disclosures for the print run, then restore them. */
   var printBtn = document.getElementById('print-btn');
   if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
   var closedForPrint = [];
   window.addEventListener('beforeprint', function () {
-    closedForPrint = Array.prototype.filter.call(document.querySelectorAll('details:not([open])'), Boolean);
+    closedForPrint = Array.prototype.slice.call(document.querySelectorAll('details:not([open])'));
     closedForPrint.forEach(function (d) { d.setAttribute('open', ''); });
   });
   window.addEventListener('afterprint', function () {
@@ -632,6 +635,9 @@ Keep raw dumps in collapsed blocks below.
     closedForPrint = [];
   });
 
+  /* Copy: every pre gets a button; explicit data-copy-target buttons are honoured too. */
+  var status = document.getElementById('copy-status');
+  function announce(msg) { if (status) { status.textContent = ''; setTimeout(function () { status.textContent = msg; }, 50); } }
   function fallbackCopy(text) {
     try {
       var ta = document.createElement('textarea');
@@ -643,42 +649,72 @@ Keep raw dumps in collapsed blocks below.
       return ok;
     } catch (e) { return false; }
   }
-  Array.prototype.forEach.call(document.querySelectorAll('[data-copy-target]'), function (btn) {
+  function wireCopy(btn) {
+    var original = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', original);
+    var timer = null;
     btn.addEventListener('click', function () {
       var target = document.getElementById(btn.getAttribute('data-copy-target'));
       if (!target) return;
       var text = target.textContent;
       var done = function (ok) {
-        var label = btn.textContent;
+        if (timer) clearTimeout(timer);
         btn.textContent = ok ? 'Copied' : 'Copy failed';
-        setTimeout(function () { btn.textContent = label; }, 1600);
+        announce(ok ? 'Copied to clipboard' : 'Copy failed');
+        timer = setTimeout(function () { btn.textContent = original; timer = null; }, 1600);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
       } else { done(fallbackCopy(text)); }
     });
+  }
+  var preCount = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('pre'), function (pre) {
+    if (!pre.id) { preCount += 1; pre.id = 'pre-' + preCount; }
+    var wrap = pre.parentNode;
+    if (!wrap.classList || !wrap.classList.contains('pre-wrap')) {
+      wrap = document.createElement('div'); wrap.className = 'pre-wrap';
+      pre.parentNode.insertBefore(wrap, pre); wrap.appendChild(pre);
+    }
+    if (!wrap.querySelector('[data-copy-target]')) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn small copy'; b.textContent = 'Copy';
+      b.setAttribute('data-copy-target', pre.id); b.setAttribute('aria-label', 'Copy code block');
+      wrap.insertBefore(b, pre);
+    }
   });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy-target]'), wireCopy);
 
+  /* Contents scrollspy: the active section is the last one whose heading has passed the reading line. */
   var links = document.querySelectorAll('.toc a[href^="#"]');
   var byId = {};
   Array.prototype.forEach.call(links, function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var sections = Object.keys(byId).map(function (id) { return document.getElementById(id); }).filter(Boolean);
   function setActive(id) {
     Array.prototype.forEach.call(links, function (a) { a.removeAttribute('aria-current'); });
     if (byId[id]) byId[id].setAttribute('aria-current', 'true');
   }
-  var sections = Object.keys(byId).map(function (id) { return document.getElementById(id); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    var visible = {};
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
-      var best = null, bestRatio = 0;
-      sections.forEach(function (s) { if (visible[s.id] > bestRatio) { best = s.id; bestRatio = visible[s.id]; } });
-      if (best) setActive(best);
-    }, { rootMargin: '-72px 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
-    sections.forEach(function (s) { io.observe(s); });
-  } else if (sections.length) {
-    setActive(sections[0].id);
+  function update() {
+    if (!sections.length) return;
+    var line = 120;
+    var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    if (atBottom) { setActive(sections[sections.length - 1].id); return; }
+    var current = sections[0].id;
+    for (var k = 0; k < sections.length; k++) {
+      if (sections[k].getBoundingClientRect().top <= line) current = sections[k].id;
+    }
+    setActive(current);
   }
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () { update(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('hashchange', function () { setTimeout(update, 50); });
+  update();
 })();
 </script>
 </body>

@@ -40,6 +40,12 @@ verification, timeline, environment, risks, evidence. Report-type variants are
 one shell plus `references/report-types.md`. Compact mode was closed by making
 the default density tighter.
 
+Also removed from v0.7.2: heading permalink controls (section ids stay
+linkable through the contents nav) and the system-preference theme follow
+(the report is dark until the reader chooses light, which persists). Kept
+from v0.7.2 and re-implemented: every `<pre>` block gets a copy button
+automatically; a hand-placed `data-copy-target` button is honoured too.
+
 Reason: Vincent judged the v0.7 look dated for its purpose. Two mockups were
 built in parallel (strict monochrome and single accent) and compared from
 screenshots at 1280px before the full build; the single-accent candidate won.
@@ -59,6 +65,15 @@ Verification:
 - fixed during verification: the contents nav forced the page wider than 375px
   until it got `min-width: 0`; long words split mid-word in narrow cells until
   table cells moved from `overflow-wrap: anywhere` to `break-word`
+- fixed after the Codex external review: theme defaulted to the system
+  preference instead of dark; files, links, and screenshot disclosures started
+  closed and were lost in a no-script PDF; scrollspy picked the largest
+  visible section instead of the one at the reading line; light-theme success
+  pills measured about 3.9:1 and dark success text printed at about 1.7:1;
+  rapid double copy left the button reading "Copied"; copy feedback had no
+  live region; the button `font` shorthand was invalid so buttons fell back to
+  browser defaults; the skill text contradicted itself on preserving versus
+  deleting section ids
 
 ### 2026-06-20 - v0.7.2 - No-JS control cleanup
 

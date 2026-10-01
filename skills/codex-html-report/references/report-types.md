@@ -6,12 +6,14 @@ heading when the label below reads better for the audience; keep the `id`
 so internal links and the table of contents keep working.
 
 Section ids available in `templates/report.html`: `outcome`, `next-action`,
-`facts`, `gates`, `changes`, `verification`, `timeline`, `environment`,
-`risks`, `evidence`.
+`gates`, `changes`, `verification`, `timeline`, `environment`, `risks`,
+`evidence`. The `facts` strip between the hero and the first section is not
+part of this list; every report keeps it and fills it with three to five
+honest figures. When you drop a section, drop its contents link too.
 
 | Type | Sections in order | Notes |
 | --- | --- | --- |
-| `implementation-closeout` | outcome, next-action, changes, verification, risks, evidence | Default type. `facts` strip shows files changed, checks passed, open risks. |
+| `implementation-closeout` | outcome, next-action, changes, verification, risks, evidence | Default type. Facts strip shows files changed, checks passed, open risks. |
 | `ops-incident` | outcome, next-action, gates, timeline, environment, risks, evidence | Timeline uses observed timestamps. Gates list stop conditions before the next risky move. |
 | `support-case` | outcome, next-action, timeline, verification, evidence | Outcome states the customer-safe position. Evidence redacts customer data and credentials. |
 | `code-review` | outcome, changes, verification, risks, evidence | Outcome is the verdict. `changes` lists findings by file. `verification` records test gaps as Not verified. |
