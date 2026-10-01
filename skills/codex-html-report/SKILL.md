@@ -23,7 +23,7 @@ When the main task is chart choice, dashboard design, maps, Gantt timelines, sof
 
 Create a self-contained browser-native report: lightweight, evidence-first, dark-first by default, and readable from `file://` with no build step.
 
-The report should read like a well-set engineering document, not a dashboard. Flat neutral surfaces, system sans type, one accent reserved for links and the active table-of-contents item, and colour only on status pills. Tables, timelines, proof blocks, and honest status carry the content; decoration does not.
+The report should read like a well-set engineering document, not a dashboard. Flat neutral surfaces, system sans type, one accent used for links, the active contents item, and small cues such as the eyebrow and callout border, and status colour only on pills and timeline dots. Body links stay underlined so they never rely on colour alone. Tables, timelines, proof blocks, and honest status carry the content; decoration does not.
 
 Default to dark mode/dark-first styling for read-mostly reports. A light mode override is allowed only when light mode is requested by the user, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
@@ -107,10 +107,11 @@ Every substantial report must answer:
 
 Use the template's visual system:
 - dark-first neutral palette with a light theme behind the toggle; contrast tuned for long reading in both
+- underlined body links; the contents nav is the only place links drop the underline
 - flat surfaces separated by hairline borders, no gradients or decorative shadows
 - system sans for text, monospace only for commands, paths, and hashes
 - a tight hero: eyebrow, title, one-line lede, one metadata row with status pill
-- a single key-facts strip with three to five honest figures
+- a single key-facts strip with three to five honest figures; the grid adapts to the count
 - status pills for Done / Partial / Blocked / Not verified
 - gate checklist for ops, migration, deployment, and incident reports
 - tables for files, checks, risks, and decisions

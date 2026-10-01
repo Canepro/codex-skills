@@ -74,6 +74,24 @@ Verification:
   live region; the button `font` shorthand was invalid so buttons fell back to
   browser defaults; the skill text contradicted itself on preserving versus
   deleting section ids
+- fixed after the Grok external review (source review of the pasted template,
+  no browser): dark-theme body links were colour-only at 2.53:1 against body
+  text, so body links are now underlined at rest; light "Done" pill on the page
+  background measured 4.37:1, so light success darkened to `#166534`; the facts
+  grid was a fixed four columns while the skill allows three to five, so it is
+  now an auto-fit grid with hairline gaps; the copy button covered the first
+  line of every `pre`, so the block gained a 34px header band; the skip link
+  landed under the sticky bars, so `main` has a scroll margin; the theme button
+  mixed an action name with a pressed state, so `aria-pressed` was dropped;
+  scrollspy rewrote `aria-current` every 40ms, now only on change, and scrolls
+  the active item into view in the horizontal bar; a page shorter than the
+  viewport highlighted the last section, now the first; print no longer clips
+  tall evidence (`overflow: visible`, `break-inside: auto` on blocks) and sets
+  `color-scheme: light`; long summary text ellipsizes at 320px; stacked
+  key-value terms wrap; paragraphs break long tokens; the clipboard fallback
+  returns focus to the button. Left as is: light-theme soft shadows (chosen),
+  timeline dot colour (documented as decorative), the SVG placeholder colour
+  (replaced by the author).
 
 ### 2026-06-20 - v0.7.2 - No-JS control cleanup
 
