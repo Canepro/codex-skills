@@ -26,8 +26,11 @@ Use this checklist before finishing a substantial report or any canonical templa
 - The accent palette is restrained and domain-appropriate; avoid glossy AI-dashboard styling.
 - Substantial reports created through this skill preserve the canonical
   `templates/report.html` shell unless an explicit exception is documented:
-  template version comment, `data-theme="dark"`, topbar tools, standard anchors,
-  status pills, table wrappers, evidence blocks, and print CSS.
+  template version comment, `data-theme="dark"`, topbar with author lane and
+  theme/print tools, sticky left table of contents, standard anchors, status
+  pills, table wrappers, evidence blocks with copy buttons, and print CSS.
+- No report content is hidden behind tabs or other click-to-reveal controls;
+  `<details>` is allowed only for raw evidence appendices.
 - The final chat reply links the report and mentions any verification limitation.
 
 ## Template Change Checks

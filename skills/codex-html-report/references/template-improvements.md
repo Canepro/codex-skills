@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.7.2`
+`v1.0.0`
 
 ## Version Rules
 
@@ -16,15 +16,49 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 | Priority | Idea | Reason | Status |
 | --- | --- | --- | --- |
-| P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Proposed |
+| P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Done in v1.0.0 as one shell plus `references/report-types.md`; variant templates were rejected for maintenance cost |
 | P1 | Add print/export polish | Durable reports may be shared or printed later. | Done in v0.5.0 (light panels, dark-on-light code, nav hidden) |
 | P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Done in v0.6.0 (topbar toggle, dark default, light palette) |
 | P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Done in v0.7.0 (figure with caption, local path, click-to-zoom lightbox) |
-| P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Proposed |
+| P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Closed in v1.0.0: the default density was tightened instead of adding a mode |
 | P2 | Add numeric KPI tiles | Infra and review reports benefit from a scannable metrics row with honest figures. | Done in v0.7.0 (stat tiles, meter bars) |
 | P3 | Add callout/admonition pattern | Plans and reports need note/warn/danger emphasis blocks. | Done in v0.7.0 (note/tip/success/warn/danger) |
 
 ## Decision Log
+
+### 2026-10-01 - v1.0.0 - Flat redesign with sticky contents
+
+Replaced the v0.7.x editorial shell (charcoal page, gold accent, serif display
+title, hero card inside a card, horizontal section nav, tabs, lightbox, scroll
+progress bar, back-to-top) with a flat dark-first layout: neutral surfaces, one
+indigo accent for links and the active contents item, colour only on status
+pills, system sans type, and a sticky left table of contents that collapses to a
+horizontal bar below 1024px. Topbar branding is now an author-lane and project
+slot instead of a Codex badge. Hero is tighter, key facts are one strip, and
+section ids are fixed at outcome, next-action, facts, gates, changes,
+verification, timeline, environment, risks, evidence. Report-type variants are
+one shell plus `references/report-types.md`. Compact mode was closed by making
+the default density tighter.
+
+Reason: Vincent judged the v0.7 look dated for its purpose. Two mockups were
+built in parallel (strict monochrome and single accent) and compared from
+screenshots at 1280px before the full build; the single-accent candidate won.
+Tabs were dropped because they hide content the QA checklist says must be
+visible. Dark stays the default by explicit choice.
+
+Verification:
+- `html-validate` on the template: 0 errors
+- every contents link resolves to a section id; no external URLs except the
+  SVG namespace and an `example.invalid` placeholder link
+- headless Chrome renders at 1280px dark, 1280px light, 1280px with the script
+  removed, and 375px and 768px inside fixed-width iframes: no horizontal
+  overflow, tables scroll inside their wrappers, no-JS hides the theme, print,
+  and copy controls while every section stays visible
+- print to PDF: 4 pages, pills become outlined, contents and controls hidden,
+  closed evidence blocks open for print via `beforeprint` and close again after
+- fixed during verification: the contents nav forced the page wider than 375px
+  until it got `min-width: 0`; long words split mid-word in narrow cells until
+  table cells moved from `overflow-wrap: anywhere` to `break-word`
 
 ### 2026-06-20 - v0.7.2 - No-JS control cleanup
 
