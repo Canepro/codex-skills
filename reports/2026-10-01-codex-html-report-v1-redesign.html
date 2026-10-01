@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<!-- Codex HTML Report Template v1.0.0: flat dark-first proof report. Neutral surfaces, one indigo accent for links and the active contents item, colour only on status pills, system sans type, sticky left table of contents that collapses to a top bar below 1024px. JavaScript adds a persisted theme toggle, Save PDF, copy buttons, and contents scrollspy; every section renders fully with JavaScript disabled. Keep the standard section ids (outcome, next-action, gates, changes, verification, timeline, environment, risks, evidence) on the sections you retain, keep the facts strip, delete sections the report type does not need together with their contents links, and keep this comment with the version. -->
+<html lang="en" data-theme="dark" class="nojs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>codex-html-report v1.0.0 redesign: implementation closeout</title>
+<style>
+:root,
+[data-theme="dark"] {
+  --page: #0b0c10;
+  --surface: #12141a;
+  --border: rgba(255,255,255,0.08);
+  --text: #e6e7ea;
+  --muted: #8b8f98;
+  --strong: #ffffff;
+  --accent: #7c86ff;
+  --shadow: none;
+  --ok: #5fd38a;
+  --ok-bg: rgba(95,211,138,0.12);
+  --warn: #f2c14e;
+  --warn-bg: rgba(242,193,78,0.12);
+  --bad: #ff7b72;
+  --bad-bg: rgba(255,123,114,0.12);
+  --neutral-bg: rgba(139,143,152,0.14);
+  --pre-bg: #0e1015;
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --page: #fafafa;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --text: #1a1b1e;
+  --muted: #6b6f76;
+  --strong: #000000;
+  --accent: #5b5fe8;
+  --shadow: 0 1px 2px rgba(0,0,0,0.06);
+  --ok: #166534;
+  --ok-bg: rgba(95,211,138,0.16);
+  --warn: #7a5600;
+  --warn-bg: rgba(242,193,78,0.22);
+  --bad: #b3261e;
+  --bad-bg: rgba(255,123,114,0.18);
+  --neutral-bg: rgba(107,111,118,0.12);
+  --pre-bg: #f4f4f6;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font: 400 14.5px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+code, pre, kbd, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+.toc a, .skip-link { text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 12px; top: -48px; z-index: 100;
+  padding: 8px 12px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+}
+.skip-link:focus { top: 12px; }
+
+/* Topbar */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  height: 48px; padding: 0 20px;
+  background: var(--page); border-bottom: 1px solid var(--border);
+}
+.topbar .lane { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar .lane b { color: var(--text); font-weight: 500; }
+.topbar .actions { display: flex; gap: 8px; flex-shrink: 0; }
+.btn {
+  appearance: none; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px;
+  font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.3; cursor: pointer;
+  box-shadow: var(--shadow); transition: border-color 120ms ease, background 120ms ease;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.small { padding: 3px 8px; font-size: 12px; }
+
+/* Layout */
+.shell { display: grid; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; padding: 0 20px 48px; }
+.toc {
+  position: sticky; top: 48px; z-index: 10; min-width: 0;
+  background: var(--page); border-bottom: 1px solid var(--border);
+  margin: 0 -20px; padding: 0 20px;
+}
+.toc ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.toc ul::-webkit-scrollbar { display: none; }
+.toc a {
+  display: block; padding: 10px 8px; color: var(--muted); font-size: 13px; white-space: nowrap;
+  border-left: 2px solid transparent; border-bottom: 2px solid transparent;
+}
+.toc a:hover { color: var(--text); text-decoration: none; }
+.toc a[aria-current="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.toc .toc-label { display: none; }
+.content { min-width: 0; max-width: 820px; }
+
+@media (min-width: 1024px) {
+  .shell { grid-template-columns: 220px minmax(0, 820px); gap: 48px; align-items: start; }
+  .toc { position: sticky; top: 72px; margin: 0; padding: 24px 0 0; border-bottom: 0; background: transparent; }
+  .toc .toc-label {
+    display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin: 0 0 8px 10px;
+  }
+  .toc ul { flex-direction: column; gap: 2px; overflow: visible; }
+  .toc a { padding: 5px 10px; border-bottom: 0; border-left: 2px solid transparent; white-space: normal; }
+  .toc a[aria-current="true"] { border-bottom-color: transparent; border-left-color: var(--accent); }
+}
+
+/* Hero */
+.hero { padding: 28px 0 20px; }
+.eyebrow { margin: 0 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.hero h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; color: var(--strong); overflow-wrap: anywhere; }
+.hero .lede { margin: 0 0 14px; font-size: 15.5px; color: var(--muted); max-width: 64ch; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 0; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+.meta li { display: inline-flex; align-items: center; gap: 6px; }
+.meta li + li::before { content: "\00B7"; margin: 0 10px; color: var(--muted); }
+.meta .v { color: var(--text); }
+
+/* Pills */
+.pill {
+  display: inline-flex; align-items: center; padding: 1px 8px; border-radius: 999px;
+  font-size: 12px; font-weight: 500; line-height: 1.6; white-space: nowrap;
+  background: var(--neutral-bg); color: var(--muted);
+}
+.pill.ok { color: var(--ok); background: var(--ok-bg); }
+.pill.warn { color: var(--warn); background: var(--warn-bg); }
+.pill.bad { color: var(--bad); background: var(--bad-bg); }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); }
+
+/* Key facts */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; margin: 0 0 32px; padding: 0; list-style: none; overflow: hidden; background: var(--border); }
+.facts li { padding: 12px 16px; min-width: 0; background: var(--surface); }
+.facts .label { display: block; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 2px; }
+.facts .value { display: block; font-size: 17px; font-weight: 600; color: var(--strong); letter-spacing: -0.01em; }
+.facts .value small { font-size: 13px; font-weight: 500; color: var(--muted); }
+@media (max-width: 640px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+
+/* Sections */
+section, main { scroll-margin-top: 110px; }
+section { margin: 0 0 36px; }
+@media (min-width: 1024px) { section, main { scroll-margin-top: 72px; } }
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding-bottom: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--border);
+}
+h2 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--strong); }
+.section-head .hint { font-size: 12.5px; color: var(--muted); text-align: right; }
+section p { margin: 0 0 12px; overflow-wrap: break-word; }
+section p:last-child { margin-bottom: 0; }
+section ul.plain { margin: 0; padding-left: 18px; }
+section ul.plain li { margin: 0 0 6px; }
+
+.callout {
+  display: flex; gap: 10px; align-items: baseline; padding: 10px 14px;
+  border-left: 2px solid var(--accent); border-radius: 0 10px 10px 0; margin-top: 14px;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.bad { border-left-color: var(--bad); }
+.callout .k { flex-shrink: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.callout .k.ok { color: var(--ok); }
+.callout .k.warn { color: var(--warn); }
+.callout .k.bad { color: var(--bad); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; }
+caption { text-align: left; caption-side: bottom; padding: 8px 2px 0; font-size: 12px; color: var(--muted); }
+thead th {
+  background: var(--surface); color: var(--muted); font-weight: 500; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.06em; text-align: left;
+  padding: 9px 14px; border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: break-word; }
+tbody tr:last-child td { border-bottom: 0; }
+table.card { overflow: hidden; }
+table.card thead th:first-child { border-top-left-radius: 10px; }
+table.card thead th:last-child { border-top-right-radius: 10px; }
+td code, p code, li code, dd code { font-size: 12.5px; padding: 1px 5px; border-radius: 4px; background: var(--neutral-bg); overflow-wrap: anywhere; }
+.col-check { width: 32%; }
+.col-result { width: 18%; }
+.col-owner { width: 22%; }
+
+/* Timeline. The dot colour is decorative: put the state in the item text. */
+.timeline { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 1px solid var(--border); }
+.timeline li { position: relative; padding: 0 0 16px 16px; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+  content: ""; position: absolute; left: -23px; top: 7px; width: 9px; height: 9px;
+  border-radius: 50%; background: var(--page); border: 2px solid var(--muted);
+}
+.timeline li.ok::before { border-color: var(--ok); }
+.timeline li.warn::before { border-color: var(--warn); }
+.timeline li.bad::before { border-color: var(--bad); }
+.timeline time { display: block; font-size: 12px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.timeline .title { display: block; font-weight: 500; color: var(--strong); margin: 1px 0 2px; }
+.timeline p { margin: 0; color: var(--text); }
+
+/* Key-value list */
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0; margin: 0; }
+.kv dt, .kv dd { padding: 9px 14px; border-bottom: 1px solid var(--border); margin: 0; }
+.kv dt { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.kv dd { overflow-wrap: anywhere; }
+.kv dt:nth-last-of-type(1), .kv dd:last-of-type { border-bottom: 0; }
+@media (max-width: 640px) {
+  .kv { grid-template-columns: 1fr; }
+  .kv dt { padding-bottom: 0; border-bottom: 0; white-space: normal; }
+}
+
+/* Media */
+figure.media { margin: 14px 0 0; padding: 12px; }
+figure.media img, figure.media svg { display: block; width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); background: var(--pre-bg); }
+figure.media figcaption { margin-top: 8px; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+
+/* Evidence */
+details.card { overflow: hidden; margin: 0 0 12px; }
+details summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; cursor: pointer; list-style: none;
+  font-weight: 500; font-size: 13.5px; color: var(--text);
+}
+details summary::-webkit-details-marker { display: none; }
+details summary .chev {
+  display: inline-block; width: 8px; height: 8px; flex-shrink: 0;
+  border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted);
+  transform: rotate(-45deg); margin-right: 10px; transition: transform 120ms ease;
+}
+details[open] summary .chev { transform: rotate(45deg); }
+details summary .left { display: flex; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details summary .meta-right { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 1; }
+details .body { border-top: 1px solid var(--border); padding: 12px 14px; }
+.pre-wrap { position: relative; border-top: 1px solid var(--border); background: var(--pre-bg); padding-top: 34px; }
+.pre-wrap .copy { position: absolute; top: 6px; right: 8px; }
+pre { margin: 0; padding: 0 16px 14px; font-size: 12.5px; line-height: 1.6; overflow-x: auto; color: var(--text); white-space: pre; }
+pre .prompt { color: var(--accent); }
+pre .dim { color: var(--muted); }
+pre .ok { color: var(--ok); }
+pre .bad { color: var(--bad); }
+ul.files { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+ul.files li { padding: 4px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+ul.files li:last-child { border-bottom: 0; }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); padding: 20px 0 0; font-size: 12.5px; color: var(--muted); }
+footer .meta { font-size: 12.5px; }
+
+/* No JavaScript: hide controls that only work with scripting */
+.nojs #theme-toggle, .nojs #print-btn, .nojs .copy { display: none; }
+
+/* Print */
+@media print {
+  :root, [data-theme="dark"], [data-theme="light"] {
+    --page: #ffffff; --surface: #ffffff; --border: #d0d0d0; --text: #000000;
+    --muted: #444444; --strong: #000000; --accent: #000000; --pre-bg: #f4f4f4; --shadow: none;
+    --ok: #14532d; --warn: #633f00; --bad: #991b1b;
+    color-scheme: light;
+  }
+  body { background: #fff; color: #000; font-size: 12px; }
+  .topbar { position: static; border-bottom: 1px solid #000; }
+  .topbar .actions, .toc, .copy, .skip-link { display: none !important; }
+  .shell { display: block; max-width: none; padding: 0; }
+  .content { max-width: none; }
+  tr, figure, .facts li { break-inside: avoid; page-break-inside: avoid; }
+  table.card, details.card, .table-wrap, .pre-wrap, .facts { overflow: visible; }
+  section, table, pre, .card, details { break-inside: auto; }
+  h2 { break-after: avoid; }
+  a { color: #000; text-decoration: underline; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 10px; color: #444; }
+  .pill { border: 1px solid #000; background: none !important; color: #000 !important; }
+  pre { white-space: pre-wrap; word-break: break-word; }
+  details > *:not(summary) { display: block !important; }
+  details summary .chev { display: none; }
+  .timeline li::before { background: #fff; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="lane"><b>Mira</b> &middot; codex-skills</div>
+  <div class="actions">
+    <button class="btn" type="button" id="theme-toggle" aria-label="Switch to light theme">Light theme</button>
+    <button class="btn" type="button" id="print-btn">Save PDF</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="toc" aria-label="Report sections">
+    <p class="toc-label">Contents</p>
+    <ul>
+      <li><a href="#outcome">Outcome</a></li>
+      <li><a href="#next-action">Next action</a></li>
+      <li><a href="#changes">Changes</a></li>
+      <li><a href="#verification">Verification</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#risks">Risks</a></li>
+      <li><a href="#evidence">Evidence</a></li>
+    </ul>
+  </nav>
+
+  <main class="content" id="main" tabindex="-1">
+    <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
+    <div class="hero">
+      <p class="eyebrow">Implementation closeout</p>
+      <h1>codex-html-report template redesigned as v1.0.0</h1>
+      <p class="lede">The report template moved from the 2023-style charcoal-and-gold editorial shell to a flat dark-first layout with a sticky table of contents, and the skill text was refreshed to match. This report is itself the first filled sample of the new template.</p>
+      <ul class="meta" aria-label="Report metadata">
+        <li><span class="k">Generated</span> <span class="v">2026-10-01 15:02 BST</span></li>
+        <li><span class="k">Author</span> <span class="v">Mira (Claude Code harness)</span></li>
+        <li><span class="k">Source</span> <span class="v mono">6a3a8f3</span>, <span class="v mono">216cceb</span>, and the Grok-fix commit on <span class="v mono">codex/html-report-v1-redesign</span></li>
+        <li><span class="k">Status</span> <span class="pill ok">Done</span></li>
+      </ul>
+    </div>
+
+    <ul class="facts card" id="facts" aria-label="Key facts">
+      <li><span class="label">Template</span><span class="value">v1.0.0<small> from v0.7.2</small></span></li>
+      <li><span class="label">Files changed</span><span class="value">5</span></li>
+      <li><span class="label">Local checks</span><span class="value">10<small>/10 passed</small></span></li>
+      <li><span class="label">External reviews</span><span class="value">2<small>/2 complete</small></span></li>
+    </ul>
+
+    <section id="outcome" aria-labelledby="outcome-h">
+      <div class="section-head">
+        <h2 id="outcome-h">Outcome</h2>
+        <span class="hint">Plain-English verdict</span>
+      </div>
+      <p>The redesigned template is committed on a branch, validates cleanly, renders without overflow at phone, tablet, and desktop widths in both themes and with scripting disabled, and prints to a clean PDF. Vincent chose the direction in two rounds of questions and picked the single-accent candidate from side-by-side screenshots before the full build.</p>
+      <p>The skill text now names the Claude Code fallback for chart-heavy work, points report types at a per-type section-order reference, and closes the two backlog rows that had been open since June. Both external reviews required for a skill-steering change have returned and their blocking findings are fixed. The installed copies on this machine are refreshed and byte-identical to the branch. What remains is the pull request merge and the parity run on the other approved hosts.</p>
+    </section>
+
+    <section id="next-action" aria-labelledby="next-action-h">
+      <div class="section-head">
+        <h2 id="next-action-h">Next action</h2>
+        <span class="hint">One recommendation</span>
+      </div>
+      <div class="callout">
+        <span class="k">Do next</span>
+        <span>Merge the pull request, then run <code>mira-ready parity</code> on the other approved hosts so Codex sessions there pick up v1.0.0. Open a fresh Claude Code or Codex session on this machine and generate one real report to confirm discovery end to end.</span>
+      </div>
+    </section>
+
+    <section id="changes" aria-labelledby="changes-h">
+      <div class="section-head">
+        <h2 id="changes-h">Changes</h2>
+        <span class="hint">What changed and why</span>
+      </div>
+      <div class="table-wrap">
+        <table class="card">
+          <caption>All paths are under skills/codex-html-report in the codex-skills repository.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Change</th>
+              <th scope="col">Files</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Template rebuilt as v1.0.0: flat neutral surfaces, one indigo accent, system sans, sticky left contents, fixed section ids, no tabs, lightbox, progress bar, or back-to-top. Topbar shows author lane and project instead of a Codex badge.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Vincent judged the v0.7 look dated. Tabs hid content the QA checklist requires visible. Branding was Codex-only while the skill now runs on Claude Code too.</td>
+            </tr>
+            <tr>
+              <td>Goal, template shell signature, visual rules, and report-types section rewritten; description trimmed from 405 to 262 characters; visualization route gains the Claude Code <code>dataviz</code> fallback.</td>
+              <td><code>SKILL.md</code></td>
+              <td>The old route named a Codex-only plugin with no fallback. The description was the heaviest line in the skill catalog budget.</td>
+            </tr>
+            <tr>
+              <td>New per-type section-order reference for the six report types.</td>
+              <td><code>references/report-types.md</code></td>
+              <td>Closes the P1 "report-type variants" backlog row as one shell plus a reference, instead of six template variants.</td>
+            </tr>
+            <tr>
+              <td>Shell checklist updated to the new topbar, contents, and copy buttons; new rule that no content hides behind tabs.</td>
+              <td><code>references/report-qa.md</code></td>
+              <td>Keeps the QA list in step with what the template actually ships.</td>
+            </tr>
+            <tr>
+              <td>Codex review fixes (commit 216cceb): dark default regardless of system preference; evidence disclosures open by default with a collapsed raw-appendix example; scrollspy picks the section at the reading line; darker light-theme and print status colours; a copy button on every <code>pre</code> with a live-region announcement and a stable label; valid button font declarations.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Two of the nine Codex findings were blocking: the template could open light on a light-system machine, and a no-script PDF dropped the files, links, and screenshot evidence.</td>
+            </tr>
+            <tr>
+              <td>Grok review fixes (third commit): underlined body links; darker light success colour; auto-fit facts grid with hairline gaps; copy button in a header band above each <code>pre</code>; skip-link scroll margin; theme button without a pressed state; scrollspy writes only on change and keeps the active item visible in the horizontal bar; short pages stay on the first section; print sets a light colour scheme and no longer clips tall blocks; ellipsized summaries; wrapping key-value terms; clipboard fallback restores focus.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Grok measured dark-theme body links at 2.53:1 against body text with no underline, which fails WCAG 1.4.1 Use of Color.</td>
+            </tr>
+            <tr>
+              <td>Version set to v1.0.0, P1 and P3 rows closed, decision log entry with reasons and verification.</td>
+              <td><code>references/template-improvements.md</code></td>
+              <td>The improvements log is the skill's decision record.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="verification" aria-labelledby="verification-h">
+      <div class="section-head">
+        <h2 id="verification-h">Verification</h2>
+        <span class="hint">Checks run on 6a3a8f3, re-run on 216cceb after the Codex fixes</span>
+      </div>
+      <div class="table-wrap">
+        <table class="card">
+          <caption>Local checks were run by Mira on canepro-mac. External reviews are a requirement of the skill-steering review track.</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="col-check">Check</th>
+              <th scope="col" class="col-result">Result</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>html-validate</code> on the template</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>0 errors, exit code 0. The system <code>tidy</code> was tried first and rejected because it predates HTML5 landmarks.</td>
+            </tr>
+            <tr>
+              <td>Contents links resolve to section ids</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>All ten hrefs found a matching id, including the skip link.</td>
+            </tr>
+            <tr>
+              <td>No external dependencies</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>The only URLs are the SVG namespace and an <code>example.invalid</code> placeholder link.</td>
+            </tr>
+            <tr>
+              <td>Headless Chrome at 1280px: dark, light, script removed</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Light theme variables apply. With the script removed the theme, print, and copy controls hide and every section stays visible.</td>
+            </tr>
+            <tr>
+              <td>Headless Chrome at 375px and 768px in fixed-width iframes</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Passed after two fixes: the contents nav needed <code>min-width: 0</code> to stop forcing the page wider than 375px, and table cells moved from <code>overflow-wrap: anywhere</code> to <code>break-word</code> to stop splitting words.</td>
+            </tr>
+            <tr>
+              <td>Print to PDF</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>4 pages. Contents and controls hidden, pills outlined, closed evidence blocks opened by the <code>beforeprint</code> handler and restored after.</td>
+            </tr>
+            <tr>
+              <td>Skill text consistency grep</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>No remaining references to tabs, lightbox, stat tiles, meters, serif, or editorial styling outside the Avoid lists.</td>
+            </tr>
+            <tr>
+              <td>Contents scrollspy</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Hash navigation to Evidence, Next action, and Risks highlighted the matching contents item in the preview tab. In headless Chrome under virtual time only one scroll event fires; that event moved the highlight to Timeline at scroll offset 1341. The bottom-of-page case is covered by code reading only.</td>
+            </tr>
+            <tr>
+              <td>No-script print to PDF</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>With the script block removed, the PDF still shows the files, links, and screenshot evidence because those disclosures now start open. Only the raw appendix stays collapsed, as designed.</td>
+            </tr>
+            <tr>
+              <td>Codex external review</td>
+              <td><span class="pill ok">Passed after fixes</span></td>
+              <td>Nine findings on 6a3a8f3: two blocking (theme followed the system preference instead of defaulting to dark; evidence disclosures started closed and were lost in a no-script PDF), six minor, one nit. All nine fixed in the follow-up commit; see the Changes and Evidence sections.</td>
+            </tr>
+            <tr>
+              <td>Grok external review</td>
+              <td><span class="pill ok">Passed after fixes</span></td>
+              <td>Source review of the fixed template at 216cceb, with the template pasted inline because the first run stalled on a file-read prompt. One blocking finding (dark-theme body links were colour-only at 2.53:1 against body text), fourteen minor, seven nits. The blocking finding and thirteen of the minors are fixed in the third commit; the rest are recorded with reasons in the improvements log.</td>
+            </tr>
+            <tr>
+              <td>Installed copy refreshed and drift check</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td><code>scripts/install.sh</code> wrote the skill to the agents, Cursor, and Claude Code skill directories; the Claude Code copy is byte-identical to the branch and carries the v1.0.0 comment. The drift check reports four pre-existing system-skill hash mismatches (imagegen, openai-docs, skill-creator, skill-installer) that are unrelated to this change.</td>
+            </tr>
+            <tr>
+              <td>Model-visible discovery</td>
+              <td><span class="pill warn">Partial</span></td>
+              <td>The skill catalog in the authoring session already shows the trimmed description after install, so Claude Code discovery on this machine is confirmed. A fresh Codex session and the other approved hosts are not yet verified.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="timeline" aria-labelledby="timeline-h">
+      <div class="section-head">
+        <h2 id="timeline-h">Timeline</h2>
+        <span class="hint">Observed, local time BST</span>
+      </div>
+      <ol class="timeline">
+        <li class="ok">
+          <time datetime="2026-10-01T13:50+01:00">13:50</time>
+          <span class="title">Assessed</span>
+          <p>Read the skill, template, improvements log, and QA checklist. Confirmed every skill-made report since 2026-09-11 carried the v0.7.2 signature. Found the Codex-only visualization route and the P1 row open since June.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T13:55+01:00">13:55</time>
+          <span class="title">Direction decided</span>
+          <p>Two rounds of questions: flat Linear/Vercel direction, dark-first kept, sticky left contents, system sans, author-lane branding, one shell plus a report-types reference, modern interactions only.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T13:57+01:00">13:57</time>
+          <span class="title">Branch and mockups</span>
+          <p>Created the branch. Two subagents built competing mockups in parallel while the skill-text edits landed in the main thread.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:04+01:00">14:04</time>
+          <span class="title">Candidate chosen</span>
+          <p>Both mockups rendered at 1280px and 375px. Vincent picked the single-accent candidate.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:12+01:00">14:12</time>
+          <span class="title">Full template rendered</span>
+          <p>First v1.0.0 renders at 1280px dark, light, and no-script; 375px and 768px; PDF. Found the contents overflow and word-splitting defects.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:14+01:00">14:14</time>
+          <span class="title">Fixed and re-verified</span>
+          <p>Three fixes applied. Re-rendered 375px, tall desktop, and PDF. <code>html-validate</code> clean.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:16+01:00">14:16</time>
+          <span class="title">Committed, reviews started</span>
+          <p>Commit 6a3a8f3. Codex and Grok external reviews started against it.</p>
+        </li>
+        <li class="warn">
+          <time datetime="2026-10-01T14:22+01:00">14:22</time>
+          <span class="title">Codex review returned</span>
+          <p>Nine findings, two blocking. The first Grok run stalled on a file-read permission prompt and was stopped.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:28+01:00">14:28</time>
+          <span class="title">Fixes committed and re-verified</span>
+          <p>Commit 216cceb. Renders, no-script PDF, validation, and scrollspy probes re-run on the fixed template. Grok re-run with the template inline so it needs no file access.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:36+01:00">14:36</time>
+          <span class="title">Installed and pushed</span>
+          <p>Installed copies refreshed on this machine; branch pushed to origin.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:57+01:00">14:57</time>
+          <span class="title">Grok review returned</span>
+          <p>One blocking and fourteen minor findings on the fixed template.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T15:00+01:00">15:00</time>
+          <span class="title">Grok fixes re-verified</span>
+          <p>Third commit. Validation, 1280px dark and light, 375px, and the no-script PDF re-run on the final template.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="risks" aria-labelledby="risks-h">
+      <div class="section-head">
+        <h2 id="risks-h">Risks</h2>
+        <span class="hint">Residual uncertainty</span>
+      </div>
+      <div class="table-wrap">
+        <table class="card">
+          <caption>Open risks after this change.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Risk</th>
+              <th scope="col" class="col-result">Severity</th>
+              <th scope="col" class="col-owner">Owner</th>
+              <th scope="col">Mitigation / next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Other approved hosts keep generating v0.7.2 reports until their installed copy is refreshed.</td>
+              <td><span class="pill warn">Medium</span></td>
+              <td>Vincent, via mira-ready</td>
+              <td>Run <code>mira-ready parity</code> after the pull request merges. Reports carry the template version comment, so drift is visible with one grep.</td>
+            </tr>
+            <tr>
+              <td>With scripting disabled, closed evidence blocks stay collapsed in print because the opening is done by JavaScript.</td>
+              <td><span class="pill">Low</span></td>
+              <td>Mira</td>
+              <td>Authors mark the evidence that matters <code>open</code> in the markup, which the skill already asks for.</td>
+            </tr>
+            <tr>
+              <td>Timeline state is shown by dot colour only; an author who leaves the state out of the item text produces an inaccessible timeline.</td>
+              <td><span class="pill">Low</span></td>
+              <td>Mira</td>
+              <td>The template comment marks the dot as decorative and the sample items carry the state in their titles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="evidence" aria-labelledby="evidence-h">
+      <div class="section-head">
+        <h2 id="evidence-h">Evidence</h2>
+        <span class="hint">Proof for the main claims</span>
+      </div>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Before and after at 1280px</span>
+          <span class="meta-right">dark theme</span>
+        </summary>
+        <div class="body">
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/old-template.jpg" alt="The v0.7.2 template hero: charcoal page, gold eyebrow, serif title inside a rounded card, with a Codex badge in the topbar" loading="lazy">
+              <figcaption>v0.7.2 hero as rendered on 2026-10-01 at 811px, the width the preview pane allowed.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1b-desktop-tall.jpg" alt="The v1.0.0 template at 1280px: sticky left contents, flat hero, key facts strip, and every section from outcome to evidence" loading="lazy">
+              <figcaption>v1.0.0 full page at 1280px after both review rounds, dark theme.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>The two candidates Vincent chose between</span>
+          <span class="meta-right">1280px, identical sample content</span>
+        </summary>
+        <div class="body">
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/candidate-a.jpg" alt="Candidate A: strict monochrome with bordered uppercase status pills" loading="lazy">
+              <figcaption>Candidate A, strict monochrome. Not chosen.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/candidate-b.jpg" alt="Candidate B: one indigo accent on the eyebrow, active contents item, and next-action border" loading="lazy">
+              <figcaption>Candidate B, single indigo accent. Chosen and built out.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Phone width, light theme, and no-script renders</span>
+          <span class="meta-right">headless Chrome</span>
+        </summary>
+        <div class="body">
+          <figure class="media">
+            <img src="assets/2026-10-01-codex-html-report-v1/v1b-mobile-375.jpg" alt="The v1.0.0 template inside a 375px iframe: contents collapsed to a scrolling bar, key facts in two columns, tables scrolling inside their wrappers" loading="lazy">
+            <figcaption>375px inside a fixed-width iframe, final template. No horizontal overflow.</figcaption>
+          </figure>
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1-desktop-light.jpg" alt="The v1.0.0 template in light theme at 1280px" loading="lazy">
+              <figcaption>Light theme at 1280px.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1-desktop-nojs.jpg" alt="The v1.0.0 template with the script removed: no theme or print buttons, all sections visible" loading="lazy">
+              <figcaption>Script removed. Controls hidden, content intact.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Validation and anchor check</span>
+          <span class="meta-right">exit 0</span>
+        </summary>
+        <div class="pre-wrap">
+          <button class="btn small copy" type="button" data-copy-target="evidence-1" aria-label="Copy command output">Copy</button>
+<pre id="evidence-1" tabindex="0"><span class="prompt">$</span> cd skills/codex-html-report/templates
+<span class="prompt">$</span> npx -y html-validate@latest --formatter stylish report.html
+<span class="dim">(no output)</span>
+html-validate exit=<span class="ok">0</span>
+
+<span class="prompt">$</span> for h in $(grep -o 'href="#[a-z-]*"' report.html | sed 's/href="#//;s/"//' | sort -u); do
+    grep -q "id=\"$h\"" report.html &amp;&amp; echo "ok $h" || echo "MISSING $h"; done
+ok changes  ok environment  ok evidence  ok gates  ok main
+ok next-action  ok outcome  ok risks  ok timeline  ok verification
+
+<span class="prompt">$</span> grep -nE 'https?://' report.html
+553: href="https://example.invalid/ticket/ABC-123"   <span class="dim"># placeholder link</span>
+564: xmlns="http://www.w3.org/2000/svg"              <span class="dim"># SVG namespace</span></pre>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Render and print commands</span>
+          <span class="meta-right">headless Chrome 1280px, iframes for 375px and 768px</span>
+        </summary>
+        <div class="pre-wrap">
+          <button class="btn small copy" type="button" data-copy-target="evidence-2" aria-label="Copy command output">Copy</button>
+<pre id="evidence-2" tabindex="0"><span class="dim"># scratch copies: light.html forces applyTheme('light'); nojs.html has the script block removed;
+# frame-375.html and frame-768.html embed report.html in a fixed-width iframe</span>
+<span class="prompt">$</span> C="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,2600 \
+    --screenshot=v1b-desktop-tall.png http://127.0.0.1:8742/v1/report.html
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,1700 \
+    --screenshot=v1b-mobile-375.png http://127.0.0.1:8742/v1/frame-375.html
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --no-pdf-header-footer \
+    --print-to-pdf=v1b.pdf http://127.0.0.1:8742/v1/report.html
+pages <span class="ok">4</span>
+
+<span class="dim"># Chrome headless on macOS stayed resident after writing each file and was stopped with pkill;
+# the files were complete before the kill.</span></pre>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Files</span>
+          <span class="meta-right">repository paths</span>
+        </summary>
+        <div class="body">
+          <ul class="files">
+            <li><code>skills/codex-html-report/templates/report.html</code></li>
+            <li><code>skills/codex-html-report/SKILL.md</code></li>
+            <li><code>skills/codex-html-report/references/report-types.md</code> (new)</li>
+            <li><code>skills/codex-html-report/references/report-qa.md</code></li>
+            <li><code>skills/codex-html-report/references/template-improvements.md</code></li>
+            <li><code>reports/assets/2026-10-01-codex-html-report-v1/</code> (seven compressed screenshots used above)</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <footer>
+      <ul class="meta" aria-label="Report provenance">
+        <li><span class="k">Self-contained HTML report</span></li>
+        <li><span class="k">Generated</span> <span class="v">2026-10-01 15:02 BST</span></li>
+        <li><span class="k">Author</span> <span class="v">Mira</span></li>
+        <li><span class="k">Source</span> <span class="v mono">6a3a8f3</span></li>
+        <li><span class="k">Template</span> <span class="v">v1.0.0</span></li>
+      </ul>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'codex-report-theme';
+  root.classList.remove('nojs');
+
+  /* Theme: dark unless the reader has chosen light. The system preference is not consulted. */
+  function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function applyTheme(theme, persist) {
+    root.setAttribute('data-theme', theme);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      var isLight = theme === 'light';
+      btn.textContent = isLight ? 'Dark theme' : 'Light theme';
+      btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+    }
+    if (persist) { try { localStorage.setItem(KEY, theme); } catch (e) {} }
+  }
+  applyTheme(stored() === 'light' ? 'light' : 'dark', false);
+  var toggle = document.getElementById('theme-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      applyTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light', true);
+    });
+  }
+
+  /* Print: open closed disclosures for the print run, then restore them. */
+  var printBtn = document.getElementById('print-btn');
+  if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+  var closedForPrint = [];
+  window.addEventListener('beforeprint', function () {
+    closedForPrint = Array.prototype.slice.call(document.querySelectorAll('details:not([open])'));
+    closedForPrint.forEach(function (d) { d.setAttribute('open', ''); });
+  });
+  window.addEventListener('afterprint', function () {
+    closedForPrint.forEach(function (d) { d.removeAttribute('open'); });
+    closedForPrint = [];
+  });
+
+  /* Copy: every pre gets a button; explicit data-copy-target buttons are honoured too. */
+  var status = document.getElementById('copy-status');
+  function announce(msg) { if (status) { status.textContent = ''; setTimeout(function () { status.textContent = msg; }, 50); } }
+  var btnForFocus = null;
+  function fallbackCopy(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (document.activeElement !== btnForFocus && btnForFocus) btnForFocus.focus();
+      return ok;
+    } catch (e) { return false; }
+  }
+  function wireCopy(btn) {
+    var original = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', original);
+    var timer = null;
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-copy-target'));
+      if (!target) return;
+      btnForFocus = btn;
+      var text = target.textContent;
+      var done = function (ok) {
+        if (timer) clearTimeout(timer);
+        btn.textContent = ok ? 'Copied' : 'Copy failed';
+        announce(ok ? 'Copied to clipboard' : 'Copy failed');
+        timer = setTimeout(function () { btn.textContent = original; timer = null; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
+      } else { done(fallbackCopy(text)); }
+    });
+  }
+  var preCount = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('pre'), function (pre) {
+    if (!pre.id) { preCount += 1; pre.id = 'pre-' + preCount; }
+    var wrap = pre.parentNode;
+    if (!wrap.classList || !wrap.classList.contains('pre-wrap')) {
+      wrap = document.createElement('div'); wrap.className = 'pre-wrap';
+      pre.parentNode.insertBefore(wrap, pre); wrap.appendChild(pre);
+    }
+    if (!wrap.querySelector('[data-copy-target]')) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn small copy'; b.textContent = 'Copy';
+      b.setAttribute('data-copy-target', pre.id); b.setAttribute('aria-label', 'Copy code block');
+      wrap.insertBefore(b, pre);
+    }
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy-target]'), wireCopy);
+
+  /* Contents scrollspy: the active section is the last one whose heading has passed the reading line. */
+  var links = document.querySelectorAll('.toc a[href^="#"]');
+  var byId = {};
+  Array.prototype.forEach.call(links, function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var sections = Object.keys(byId).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var lastActive = null;
+  function setActive(id) {
+    if (id === lastActive) return;
+    lastActive = id;
+    Array.prototype.forEach.call(links, function (a) { a.removeAttribute('aria-current'); });
+    var a = byId[id];
+    if (!a) return;
+    a.setAttribute('aria-current', 'true');
+    var bar = a.closest('ul');
+    if (bar && bar.scrollWidth > bar.clientWidth) {
+      var left = a.offsetLeft - bar.offsetLeft, right = left + a.offsetWidth;
+      if (left < bar.scrollLeft) bar.scrollLeft = left - 8;
+      else if (right > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = right - bar.clientWidth + 8;
+    }
+  }
+  function update() {
+    if (!sections.length) return;
+    var line = 120;
+    var atBottom = window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    if (atBottom) { setActive(sections[sections.length - 1].id); return; }
+    var current = sections[0].id;
+    for (var k = 0; k < sections.length; k++) {
+      if (sections[k].getBoundingClientRect().top <= line) current = sections[k].id;
+    }
+    setActive(current);
+  }
+  var pending = null;
+  function onScroll() {
+    if (pending) return;
+    pending = setTimeout(function () { pending = null; update(); }, 40);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('hashchange', function () { setTimeout(update, 50); });
+  update();
+})();
+</script>
+</body>
+</html>
