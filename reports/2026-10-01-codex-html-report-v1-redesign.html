@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>Report title goes here</title>
+<title>codex-html-report v1.0.0 redesign: implementation closeout</title>
 <style>
 :root,
 [data-theme="dark"] {
@@ -233,6 +233,9 @@ figure.media { margin: 14px 0 0; padding: 12px; }
 figure.media img, figure.media svg { display: block; width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); background: var(--pre-bg); }
 figure.media figcaption { margin-top: 8px; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
 
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+
 /* Evidence */
 details.card { overflow: hidden; margin: 0 0 12px; }
 details summary {
@@ -299,7 +302,7 @@ footer .meta { font-size: 12.5px; }
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="topbar">
-  <div class="lane"><b>Author lane</b> &middot; project-name</div>
+  <div class="lane"><b>Mira</b> &middot; codex-skills</div>
   <div class="actions">
     <button class="btn" type="button" id="theme-toggle" aria-label="Switch to light theme">Light theme</button>
     <button class="btn" type="button" id="print-btn">Save PDF</button>
@@ -312,11 +315,9 @@ footer .meta { font-size: 12.5px; }
     <ul>
       <li><a href="#outcome">Outcome</a></li>
       <li><a href="#next-action">Next action</a></li>
-      <li><a href="#gates">Gates</a></li>
       <li><a href="#changes">Changes</a></li>
       <li><a href="#verification">Verification</a></li>
       <li><a href="#timeline">Timeline</a></li>
-      <li><a href="#environment">Environment</a></li>
       <li><a href="#risks">Risks</a></li>
       <li><a href="#evidence">Evidence</a></li>
     </ul>
@@ -325,23 +326,22 @@ footer .meta { font-size: 12.5px; }
   <main class="content" id="main" tabindex="-1">
     <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
     <div class="hero">
-      <p class="eyebrow">Proof report</p>
-      <h1>Report title goes here</h1>
-      <p class="lede">One or two sentences with the outcome, the current state, and why this report exists.</p>
+      <p class="eyebrow">Implementation closeout</p>
+      <h1>codex-html-report template redesigned as v1.0.0</h1>
+      <p class="lede">The report template moved from the 2023-style charcoal-and-gold editorial shell to a flat dark-first layout with a sticky table of contents, and the skill text was refreshed to match. This report is itself the first filled sample of the new template.</p>
       <ul class="meta" aria-label="Report metadata">
-        <li><span class="k">Generated</span> <span class="v">YYYY-MM-DD HH:MM TZ</span></li>
-        <li><span class="k">Author</span> <span class="v">name or lane</span></li>
-        <li><span class="k">Source</span> <span class="v mono">abc1234</span></li>
-        <li><span class="k">Type</span> <span class="v">Implementation closeout</span></li>
+        <li><span class="k">Generated</span> <span class="v">2026-10-01 15:02 BST</span></li>
+        <li><span class="k">Author</span> <span class="v">Mira (Claude Code harness)</span></li>
+        <li><span class="k">Source</span> <span class="v mono">6a3a8f3</span>, <span class="v mono">216cceb</span>, and the Grok-fix commit on <span class="v mono">codex/html-report-v1-redesign</span></li>
         <li><span class="k">Status</span> <span class="pill ok">Done</span></li>
       </ul>
     </div>
 
     <ul class="facts card" id="facts" aria-label="Key facts">
-      <li><span class="label">Checks</span><span class="value">28<small>/30 passed</small></span></li>
-      <li><span class="label">Files changed</span><span class="value">12</span></li>
-      <li><span class="label">Open risks</span><span class="value">1</span></li>
-      <li><span class="label">Rollback tested</span><span class="value">Yes</span></li>
+      <li><span class="label">Template</span><span class="value">v1.0.0<small> from v0.7.2</small></span></li>
+      <li><span class="label">Files changed</span><span class="value">5</span></li>
+      <li><span class="label">Local checks</span><span class="value">10<small>/10 passed</small></span></li>
+      <li><span class="label">External reviews</span><span class="value">2<small>/2 complete</small></span></li>
     </ul>
 
     <section id="outcome" aria-labelledby="outcome-h">
@@ -349,7 +349,8 @@ footer .meta { font-size: 12.5px; }
         <h2 id="outcome-h">Outcome</h2>
         <span class="hint">Plain-English verdict</span>
       </div>
-      <p>Replace this with the concrete result. State what is now true, what was verified, and what remains open. Put the single most important fact in the first sentence so a skimming reader gets it without scrolling.</p>
+      <p>The redesigned template is committed on a branch, validates cleanly, renders without overflow at phone, tablet, and desktop widths in both themes and with scripting disabled, and prints to a clean PDF. Vincent chose the direction in two rounds of questions and picked the single-accent candidate from side-by-side screenshots before the full build.</p>
+      <p>The skill text now names the Claude Code fallback for chart-heavy work, points report types at a per-type section-order reference, and closes the two backlog rows that had been open since June. Both external reviews required for a skill-steering change have returned and their blocking findings are fixed. The installed copies on this machine are refreshed and byte-identical to the branch. What remains is the pull request merge and the parity run on the other approved hosts.</p>
     </section>
 
     <section id="next-action" aria-labelledby="next-action-h">
@@ -359,41 +360,7 @@ footer .meta { font-size: 12.5px; }
       </div>
       <div class="callout">
         <span class="k">Do next</span>
-        <span>Replace this with one clear recommendation. Keep it operational and testable, and name who owns it.</span>
-      </div>
-    </section>
-
-    <section id="gates" aria-labelledby="gates-h">
-      <div class="section-head">
-        <h2 id="gates-h">Gates</h2>
-        <span class="hint">What must be true before the next move</span>
-      </div>
-      <div class="table-wrap">
-        <table class="card">
-          <caption>Gates for ops, migration, deployment, and incident reports. Delete this section for other report types.</caption>
-          <thead>
-            <tr>
-              <th scope="col">Gate</th>
-              <th scope="col" class="col-result">State</th>
-              <th scope="col">Required proof</th>
-              <th scope="col">Stop condition</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Rollback</td>
-              <td><span class="pill warn">Needs proof</span></td>
-              <td>Fresh backup, restore path, rollback command.</td>
-              <td>No tested way back.</td>
-            </tr>
-            <tr>
-              <td>Verification</td>
-              <td><span class="pill ok">Ready</span></td>
-              <td>Automated checks plus one manual inspection if user-facing.</td>
-              <td>Any failed check without an accepted mitigation.</td>
-            </tr>
-          </tbody>
-        </table>
+        <span>Merge the pull request, then run <code>mira-ready parity</code> on the other approved hosts so Codex sessions there pick up v1.0.0. Open a fresh Claude Code or Codex session on this machine and generate one real report to confirm discovery end to end.</span>
       </div>
     </section>
 
@@ -404,7 +371,7 @@ footer .meta { font-size: 12.5px; }
       </div>
       <div class="table-wrap">
         <table class="card">
-          <caption>Important paths only, not every incidental edit.</caption>
+          <caption>All paths are under skills/codex-html-report in the codex-skills repository.</caption>
           <thead>
             <tr>
               <th scope="col">Change</th>
@@ -414,9 +381,39 @@ footer .meta { font-size: 12.5px; }
           </thead>
           <tbody>
             <tr>
-              <td>Describe the user-visible or operator-visible change.</td>
-              <td><code>path/to/file.ext</code></td>
-              <td>The decision or constraint that shaped the work.</td>
+              <td>Template rebuilt as v1.0.0: flat neutral surfaces, one indigo accent, system sans, sticky left contents, fixed section ids, no tabs, lightbox, progress bar, or back-to-top. Topbar shows author lane and project instead of a Codex badge.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Vincent judged the v0.7 look dated. Tabs hid content the QA checklist requires visible. Branding was Codex-only while the skill now runs on Claude Code too.</td>
+            </tr>
+            <tr>
+              <td>Goal, template shell signature, visual rules, and report-types section rewritten; description trimmed from 405 to 262 characters; visualization route gains the Claude Code <code>dataviz</code> fallback.</td>
+              <td><code>SKILL.md</code></td>
+              <td>The old route named a Codex-only plugin with no fallback. The description was the heaviest line in the skill catalog budget.</td>
+            </tr>
+            <tr>
+              <td>New per-type section-order reference for the six report types.</td>
+              <td><code>references/report-types.md</code></td>
+              <td>Closes the P1 "report-type variants" backlog row as one shell plus a reference, instead of six template variants.</td>
+            </tr>
+            <tr>
+              <td>Shell checklist updated to the new topbar, contents, and copy buttons; new rule that no content hides behind tabs.</td>
+              <td><code>references/report-qa.md</code></td>
+              <td>Keeps the QA list in step with what the template actually ships.</td>
+            </tr>
+            <tr>
+              <td>Codex review fixes (commit 216cceb): dark default regardless of system preference; evidence disclosures open by default with a collapsed raw-appendix example; scrollspy picks the section at the reading line; darker light-theme and print status colours; a copy button on every <code>pre</code> with a live-region announcement and a stable label; valid button font declarations.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Two of the nine Codex findings were blocking: the template could open light on a light-system machine, and a no-script PDF dropped the files, links, and screenshot evidence.</td>
+            </tr>
+            <tr>
+              <td>Grok review fixes (third commit): underlined body links; darker light success colour; auto-fit facts grid with hairline gaps; copy button in a header band above each <code>pre</code>; skip-link scroll margin; theme button without a pressed state; scrollspy writes only on change and keeps the active item visible in the horizontal bar; short pages stay on the first section; print sets a light colour scheme and no longer clips tall blocks; ellipsized summaries; wrapping key-value terms; clipboard fallback restores focus.</td>
+              <td><code>templates/report.html</code></td>
+              <td>Grok measured dark-theme body links at 2.53:1 against body text with no underline, which fails WCAG 1.4.1 Use of Color.</td>
+            </tr>
+            <tr>
+              <td>Version set to v1.0.0, P1 and P3 rows closed, decision log entry with reasons and verification.</td>
+              <td><code>references/template-improvements.md</code></td>
+              <td>The improvements log is the skill's decision record.</td>
             </tr>
           </tbody>
         </table>
@@ -426,11 +423,11 @@ footer .meta { font-size: 12.5px; }
     <section id="verification" aria-labelledby="verification-h">
       <div class="section-head">
         <h2 id="verification-h">Verification</h2>
-        <span class="hint">Checks run</span>
+        <span class="hint">Checks run on 6a3a8f3, re-run on 216cceb after the Codex fixes</span>
       </div>
       <div class="table-wrap">
         <table class="card">
-          <caption>Every check states passed, failed, partial, or not verified. Include the exit code when available.</caption>
+          <caption>Local checks were run by Mira on canepro-mac. External reviews are a requirement of the skill-steering review track.</caption>
           <thead>
             <tr>
               <th scope="col" class="col-check">Check</th>
@@ -440,19 +437,69 @@ footer .meta { font-size: 12.5px; }
           </thead>
           <tbody>
             <tr>
-              <td><code>command here</code></td>
+              <td><code>html-validate</code> on the template</td>
               <td><span class="pill ok">Passed</span></td>
-              <td>Short output summary. Exit code 0.</td>
+              <td>0 errors, exit code 0. The system <code>tidy</code> was tried first and rejected because it predates HTML5 landmarks.</td>
             </tr>
             <tr>
-              <td>Manual review</td>
+              <td>Contents links resolve to section ids</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>All ten hrefs found a matching id, including the skip link.</td>
+            </tr>
+            <tr>
+              <td>No external dependencies</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>The only URLs are the SVG namespace and an <code>example.invalid</code> placeholder link.</td>
+            </tr>
+            <tr>
+              <td>Headless Chrome at 1280px: dark, light, script removed</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Light theme variables apply. With the script removed the theme, print, and copy controls hide and every section stays visible.</td>
+            </tr>
+            <tr>
+              <td>Headless Chrome at 375px and 768px in fixed-width iframes</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Passed after two fixes: the contents nav needed <code>min-width: 0</code> to stop forcing the page wider than 375px, and table cells moved from <code>overflow-wrap: anywhere</code> to <code>break-word</code> to stop splitting words.</td>
+            </tr>
+            <tr>
+              <td>Print to PDF</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>4 pages. Contents and controls hidden, pills outlined, closed evidence blocks opened by the <code>beforeprint</code> handler and restored after.</td>
+            </tr>
+            <tr>
+              <td>Skill text consistency grep</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>No remaining references to tabs, lightbox, stat tiles, meters, serif, or editorial styling outside the Avoid lists.</td>
+            </tr>
+            <tr>
+              <td>Contents scrollspy</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>Hash navigation to Evidence, Next action, and Risks highlighted the matching contents item in the preview tab. In headless Chrome under virtual time only one scroll event fires; that event moved the highlight to Timeline at scroll offset 1341. The bottom-of-page case is covered by code reading only.</td>
+            </tr>
+            <tr>
+              <td>No-script print to PDF</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td>With the script block removed, the PDF still shows the files, links, and screenshot evidence because those disclosures now start open. Only the raw appendix stays collapsed, as designed.</td>
+            </tr>
+            <tr>
+              <td>Codex external review</td>
+              <td><span class="pill ok">Passed after fixes</span></td>
+              <td>Nine findings on 6a3a8f3: two blocking (theme followed the system preference instead of defaulting to dark; evidence disclosures started closed and were lost in a no-script PDF), six minor, one nit. All nine fixed in the follow-up commit; see the Changes and Evidence sections.</td>
+            </tr>
+            <tr>
+              <td>Grok external review</td>
+              <td><span class="pill ok">Passed after fixes</span></td>
+              <td>Source review of the fixed template at 216cceb, with the template pasted inline because the first run stalled on a file-read prompt. One blocking finding (dark-theme body links were colour-only at 2.53:1 against body text), fourteen minor, seven nits. The blocking finding and thirteen of the minors are fixed in the third commit; the rest are recorded with reasons in the improvements log.</td>
+            </tr>
+            <tr>
+              <td>Installed copy refreshed and drift check</td>
+              <td><span class="pill ok">Passed</span></td>
+              <td><code>scripts/install.sh</code> wrote the skill to the agents, Cursor, and Claude Code skill directories; the Claude Code copy is byte-identical to the branch and carries the v1.0.0 comment. The drift check reports four pre-existing system-skill hash mismatches (imagegen, openai-docs, skill-creator, skill-installer) that are unrelated to this change.</td>
+            </tr>
+            <tr>
+              <td>Model-visible discovery</td>
               <td><span class="pill warn">Partial</span></td>
-              <td>State any limitation honestly.</td>
-            </tr>
-            <tr>
-              <td>External integration</td>
-              <td><span class="pill bad">Not verified</span></td>
-              <td>Say why a check was skipped instead of implying it passed.</td>
+              <td>The skill catalog in the authoring session already shows the trimmed description after install, so Claude Code discovery on this machine is confirmed. A fresh Codex session and the other approved hosts are not yet verified.</td>
             </tr>
           </tbody>
         </table>
@@ -462,38 +509,70 @@ footer .meta { font-size: 12.5px; }
     <section id="timeline" aria-labelledby="timeline-h">
       <div class="section-head">
         <h2 id="timeline-h">Timeline</h2>
-        <span class="hint">Observed times, not invented ones</span>
+        <span class="hint">Observed, local time BST</span>
       </div>
       <ol class="timeline">
         <li class="ok">
-          <time datetime="YYYY-MM-DDTHH:MMZ">HH:MM UTC</time>
-          <span class="title">Investigated</span>
-          <p>Evidence gathered and source of truth identified.</p>
+          <time datetime="2026-10-01T13:50+01:00">13:50</time>
+          <span class="title">Assessed</span>
+          <p>Read the skill, template, improvements log, and QA checklist. Confirmed every skill-made report since 2026-09-11 carried the v0.7.2 signature. Found the Codex-only visualization route and the P1 row open since June.</p>
         </li>
         <li class="ok">
-          <time datetime="YYYY-MM-DDTHH:MMZ">HH:MM UTC</time>
-          <span class="title">Changed</span>
-          <p>Implementation or decision made.</p>
+          <time datetime="2026-10-01T13:55+01:00">13:55</time>
+          <span class="title">Direction decided</span>
+          <p>Two rounds of questions: flat Linear/Vercel direction, dark-first kept, sticky left contents, system sans, author-lane branding, one shell plus a report-types reference, modern interactions only.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T13:57+01:00">13:57</time>
+          <span class="title">Branch and mockups</span>
+          <p>Created the branch. Two subagents built competing mockups in parallel while the skill-text edits landed in the main thread.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:04+01:00">14:04</time>
+          <span class="title">Candidate chosen</span>
+          <p>Both mockups rendered at 1280px and 375px. Vincent picked the single-accent candidate.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:12+01:00">14:12</time>
+          <span class="title">Full template rendered</span>
+          <p>First v1.0.0 renders at 1280px dark, light, and no-script; 375px and 768px; PDF. Found the contents overflow and word-splitting defects.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:14+01:00">14:14</time>
+          <span class="title">Fixed and re-verified</span>
+          <p>Three fixes applied. Re-rendered 375px, tall desktop, and PDF. <code>html-validate</code> clean.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:16+01:00">14:16</time>
+          <span class="title">Committed, reviews started</span>
+          <p>Commit 6a3a8f3. Codex and Grok external reviews started against it.</p>
         </li>
         <li class="warn">
-          <time datetime="YYYY-MM-DDTHH:MMZ">HH:MM UTC</time>
-          <span class="title">Verified</span>
-          <p>Checks completed and residual gaps recorded.</p>
+          <time datetime="2026-10-01T14:22+01:00">14:22</time>
+          <span class="title">Codex review returned</span>
+          <p>Nine findings, two blocking. The first Grok run stalled on a file-read permission prompt and was stopped.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:28+01:00">14:28</time>
+          <span class="title">Fixes committed and re-verified</span>
+          <p>Commit 216cceb. Renders, no-script PDF, validation, and scrollspy probes re-run on the fixed template. Grok re-run with the template inline so it needs no file access.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:36+01:00">14:36</time>
+          <span class="title">Installed and pushed</span>
+          <p>Installed copies refreshed on this machine; branch pushed to origin.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T14:57+01:00">14:57</time>
+          <span class="title">Grok review returned</span>
+          <p>One blocking and fourteen minor findings on the fixed template.</p>
+        </li>
+        <li class="ok">
+          <time datetime="2026-10-01T15:00+01:00">15:00</time>
+          <span class="title">Grok fixes re-verified</span>
+          <p>Third commit. Validation, 1280px dark and light, 375px, and the no-script PDF re-run on the final template.</p>
         </li>
       </ol>
-    </section>
-
-    <section id="environment" aria-labelledby="environment-h">
-      <div class="section-head">
-        <h2 id="environment-h">Environment</h2>
-        <span class="hint">System under report</span>
-      </div>
-      <dl class="kv card">
-        <dt>Cluster / host</dt><dd><code>name-or-endpoint</code></dd>
-        <dt>Region</dt><dd>region-id</dd>
-        <dt>Version / image</dt><dd><code>tag:sha</code></dd>
-        <dt>Owner</dt><dd>team or person</dd>
-      </dl>
     </section>
 
     <section id="risks" aria-labelledby="risks-h">
@@ -503,7 +582,7 @@ footer .meta { font-size: 12.5px; }
       </div>
       <div class="table-wrap">
         <table class="card">
-          <caption>Every open risk has an owner. If there is no meaningful residual risk, say so in one row.</caption>
+          <caption>Open risks after this change.</caption>
           <thead>
             <tr>
               <th scope="col">Risk</th>
@@ -514,10 +593,22 @@ footer .meta { font-size: 12.5px; }
           </thead>
           <tbody>
             <tr>
-              <td>Describe the risk and what would make it real.</td>
+              <td>Other approved hosts keep generating v0.7.2 reports until their installed copy is refreshed.</td>
               <td><span class="pill warn">Medium</span></td>
-              <td>name</td>
-              <td>What reduces it, and the due date when one is known.</td>
+              <td>Vincent, via mira-ready</td>
+              <td>Run <code>mira-ready parity</code> after the pull request merges. Reports carry the template version comment, so drift is visible with one grep.</td>
+            </tr>
+            <tr>
+              <td>With scripting disabled, closed evidence blocks stay collapsed in print because the opening is done by JavaScript.</td>
+              <td><span class="pill">Low</span></td>
+              <td>Mira</td>
+              <td>Authors mark the evidence that matters <code>open</code> in the markup, which the skill already asks for.</td>
+            </tr>
+            <tr>
+              <td>Timeline state is shown by dot colour only; an author who leaves the state out of the item text produces an inaccessible timeline.</td>
+              <td><span class="pill">Low</span></td>
+              <td>Mira</td>
+              <td>The template comment marks the dot as decorative and the sample items carry the state in their titles.</td>
             </tr>
           </tbody>
         </table>
@@ -529,55 +620,128 @@ footer .meta { font-size: 12.5px; }
         <h2 id="evidence-h">Evidence</h2>
         <span class="hint">Proof for the main claims</span>
       </div>
+
       <details class="card" open>
         <summary>
-          <span class="left"><span class="chev" aria-hidden="true"></span>Command output</span>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Before and after at 1280px</span>
+          <span class="meta-right">dark theme</span>
+        </summary>
+        <div class="body">
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/old-template.jpg" alt="The v0.7.2 template hero: charcoal page, gold eyebrow, serif title inside a rounded card, with a Codex badge in the topbar" loading="lazy">
+              <figcaption>v0.7.2 hero as rendered on 2026-10-01 at 811px, the width the preview pane allowed.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1b-desktop-tall.jpg" alt="The v1.0.0 template at 1280px: sticky left contents, flat hero, key facts strip, and every section from outcome to evidence" loading="lazy">
+              <figcaption>v1.0.0 full page at 1280px after both review rounds, dark theme.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>The two candidates Vincent chose between</span>
+          <span class="meta-right">1280px, identical sample content</span>
+        </summary>
+        <div class="body">
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/candidate-a.jpg" alt="Candidate A: strict monochrome with bordered uppercase status pills" loading="lazy">
+              <figcaption>Candidate A, strict monochrome. Not chosen.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/candidate-b.jpg" alt="Candidate B: one indigo accent on the eyebrow, active contents item, and next-action border" loading="lazy">
+              <figcaption>Candidate B, single indigo accent. Chosen and built out.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Phone width, light theme, and no-script renders</span>
+          <span class="meta-right">headless Chrome</span>
+        </summary>
+        <div class="body">
+          <figure class="media">
+            <img src="assets/2026-10-01-codex-html-report-v1/v1b-mobile-375.jpg" alt="The v1.0.0 template inside a 375px iframe: contents collapsed to a scrolling bar, key facts in two columns, tables scrolling inside their wrappers" loading="lazy">
+            <figcaption>375px inside a fixed-width iframe, final template. No horizontal overflow.</figcaption>
+          </figure>
+          <div class="pair">
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1-desktop-light.jpg" alt="The v1.0.0 template in light theme at 1280px" loading="lazy">
+              <figcaption>Light theme at 1280px.</figcaption>
+            </figure>
+            <figure class="media">
+              <img src="assets/2026-10-01-codex-html-report-v1/v1-desktop-nojs.jpg" alt="The v1.0.0 template with the script removed: no theme or print buttons, all sections visible" loading="lazy">
+              <figcaption>Script removed. Controls hidden, content intact.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Validation and anchor check</span>
           <span class="meta-right">exit 0</span>
         </summary>
         <div class="pre-wrap">
           <button class="btn small copy" type="button" data-copy-target="evidence-1" aria-label="Copy command output">Copy</button>
-<pre id="evidence-1" tabindex="0"><span class="prompt">$</span> command --flag
-Paste a short, relevant excerpt here.
-Keep raw dumps in collapsed blocks below.
-<span class="dim">$ echo $?</span>
-<span class="ok">0</span></pre>
+<pre id="evidence-1" tabindex="0"><span class="prompt">$</span> cd skills/codex-html-report/templates
+<span class="prompt">$</span> npx -y html-validate@latest --formatter stylish report.html
+<span class="dim">(no output)</span>
+html-validate exit=<span class="ok">0</span>
+
+<span class="prompt">$</span> for h in $(grep -o 'href="#[a-z-]*"' report.html | sed 's/href="#//;s/"//' | sort -u); do
+    grep -q "id=\"$h\"" report.html &amp;&amp; echo "ok $h" || echo "MISSING $h"; done
+ok changes  ok environment  ok evidence  ok gates  ok main
+ok next-action  ok outcome  ok risks  ok timeline  ok verification
+
+<span class="prompt">$</span> grep -nE 'https?://' report.html
+553: href="https://example.invalid/ticket/ABC-123"   <span class="dim"># placeholder link</span>
+564: xmlns="http://www.w3.org/2000/svg"              <span class="dim"># SVG namespace</span></pre>
         </div>
       </details>
+
       <details class="card" open>
         <summary>
-          <span class="left"><span class="chev" aria-hidden="true"></span>Files and links</span>
-          <span class="meta-right">absolute paths</span>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Render and print commands</span>
+          <span class="meta-right">headless Chrome 1280px, iframes for 375px and 768px</span>
+        </summary>
+        <div class="pre-wrap">
+          <button class="btn small copy" type="button" data-copy-target="evidence-2" aria-label="Copy command output">Copy</button>
+<pre id="evidence-2" tabindex="0"><span class="dim"># scratch copies: light.html forces applyTheme('light'); nojs.html has the script block removed;
+# frame-375.html and frame-768.html embed report.html in a fixed-width iframe</span>
+<span class="prompt">$</span> C="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,2600 \
+    --screenshot=v1b-desktop-tall.png http://127.0.0.1:8742/v1/report.html
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --hide-scrollbars --window-size=1280,1700 \
+    --screenshot=v1b-mobile-375.png http://127.0.0.1:8742/v1/frame-375.html
+<span class="prompt">$</span> "$C" --headless=new --disable-gpu --no-pdf-header-footer \
+    --print-to-pdf=v1b.pdf http://127.0.0.1:8742/v1/report.html
+pages <span class="ok">4</span>
+
+<span class="dim"># Chrome headless on macOS stayed resident after writing each file and was stopped with pkill;
+# the files were complete before the kill.</span></pre>
+        </div>
+      </details>
+
+      <details class="card" open>
+        <summary>
+          <span class="left"><span class="chev" aria-hidden="true"></span>Files</span>
+          <span class="meta-right">repository paths</span>
         </summary>
         <div class="body">
           <ul class="files">
-            <li><code>/absolute/path/to/changed-file.ext</code></li>
-            <li><a href="https://example.invalid/ticket/ABC-123">ABC-123</a> ticket or source URL</li>
+            <li><code>skills/codex-html-report/templates/report.html</code></li>
+            <li><code>skills/codex-html-report/SKILL.md</code></li>
+            <li><code>skills/codex-html-report/references/report-types.md</code> (new)</li>
+            <li><code>skills/codex-html-report/references/report-qa.md</code></li>
+            <li><code>skills/codex-html-report/references/template-improvements.md</code></li>
+            <li><code>reports/assets/2026-10-01-codex-html-report-v1/</code> (seven compressed screenshots used above)</li>
           </ul>
-        </div>
-      </details>
-      <details class="card" open>
-        <summary>
-          <span class="left"><span class="chev" aria-hidden="true"></span>Screenshot</span>
-          <span class="meta-right">captured HH:MM UTC</span>
-        </summary>
-        <div class="body">
-          <figure class="media">
-            <svg viewBox="0 0 640 220" role="img" aria-label="Placeholder for a proof screenshot" xmlns="http://www.w3.org/2000/svg">
-              <rect width="640" height="220" fill="none"/>
-              <text x="320" y="116" text-anchor="middle" fill="#8b8f98" font-family="ui-monospace, Menlo, monospace" font-size="14">replace with &lt;img src="relative-or-absolute-path.png" alt="what it proves"&gt;</text>
-            </svg>
-            <figcaption>Caption: what this image proves and when it was captured. <code>/absolute/path/to/proof-screenshot.png</code></figcaption>
-          </figure>
-        </div>
-      </details>
-      <!-- Only raw appendices may start collapsed. Evidence a reader needs to judge the claim stays open. -->
-      <details class="card">
-        <summary>
-          <span class="left"><span class="chev" aria-hidden="true"></span>Raw output appendix</span>
-          <span class="meta-right">collapsed by default</span>
-        </summary>
-        <div class="pre-wrap">
-<pre tabindex="0">Long raw dumps go here. A copy button is added automatically to every pre block.</pre>
         </div>
       </details>
     </section>
@@ -585,9 +749,9 @@ Keep raw dumps in collapsed blocks below.
     <footer>
       <ul class="meta" aria-label="Report provenance">
         <li><span class="k">Self-contained HTML report</span></li>
-        <li><span class="k">Generated</span> <span class="v">YYYY-MM-DD HH:MM TZ</span></li>
-        <li><span class="k">Author</span> <span class="v">name or lane</span></li>
-        <li><span class="k">Source</span> <span class="v mono">abc1234</span></li>
+        <li><span class="k">Generated</span> <span class="v">2026-10-01 15:02 BST</span></li>
+        <li><span class="k">Author</span> <span class="v">Mira</span></li>
+        <li><span class="k">Source</span> <span class="v mono">6a3a8f3</span></li>
         <li><span class="k">Template</span> <span class="v">v1.0.0</span></li>
       </ul>
     </footer>

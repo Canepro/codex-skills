@@ -4,7 +4,7 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 ## Current Version
 
-`v0.7.2`
+`v1.0.0`
 
 ## Version Rules
 
@@ -16,15 +16,82 @@ Use this file when changing the canonical `templates/report.html` or the report 
 
 | Priority | Idea | Reason | Status |
 | --- | --- | --- | --- |
-| P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Proposed |
+| P1 | Add report-type variants | Support cases, code reviews, and ops incidents need different default section order. | Done in v1.0.0 as one shell plus `references/report-types.md`; variant templates were rejected for maintenance cost |
 | P1 | Add print/export polish | Durable reports may be shared or printed later. | Done in v0.5.0 (light panels, dark-on-light code, nav hidden) |
 | P2 | Add optional theme toggle | Dark-first should stay default, but light mode can be useful for print or sharing. | Done in v0.6.0 (topbar toggle, dark default, light palette) |
 | P2 | Add screenshot/media pattern | Some reports need proof images with captions and local paths. | Done in v0.7.0 (figure with caption, local path, click-to-zoom lightbox) |
-| P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Proposed |
+| P3 | Add compact mode | Dense support/ops reports may need less vertical space. | Closed in v1.0.0: the default density was tightened instead of adding a mode |
 | P2 | Add numeric KPI tiles | Infra and review reports benefit from a scannable metrics row with honest figures. | Done in v0.7.0 (stat tiles, meter bars) |
 | P3 | Add callout/admonition pattern | Plans and reports need note/warn/danger emphasis blocks. | Done in v0.7.0 (note/tip/success/warn/danger) |
 
 ## Decision Log
+
+### 2026-10-01 - v1.0.0 - Flat redesign with sticky contents
+
+Replaced the v0.7.x editorial shell (charcoal page, gold accent, serif display
+title, hero card inside a card, horizontal section nav, tabs, lightbox, scroll
+progress bar, back-to-top) with a flat dark-first layout: neutral surfaces, one
+indigo accent for links and the active contents item, colour only on status
+pills, system sans type, and a sticky left table of contents that collapses to a
+horizontal bar below 1024px. Topbar branding is now an author-lane and project
+slot instead of a Codex badge. Hero is tighter, key facts are one strip, and
+section ids are fixed at outcome, next-action, facts, gates, changes,
+verification, timeline, environment, risks, evidence. Report-type variants are
+one shell plus `references/report-types.md`. Compact mode was closed by making
+the default density tighter.
+
+Also removed from v0.7.2: heading permalink controls (section ids stay
+linkable through the contents nav) and the system-preference theme follow
+(the report is dark until the reader chooses light, which persists). Kept
+from v0.7.2 and re-implemented: every `<pre>` block gets a copy button
+automatically; a hand-placed `data-copy-target` button is honoured too.
+
+Reason: Vincent judged the v0.7 look dated for its purpose. Two mockups were
+built in parallel (strict monochrome and single accent) and compared from
+screenshots at 1280px before the full build; the single-accent candidate won.
+Tabs were dropped because they hide content the QA checklist says must be
+visible. Dark stays the default by explicit choice.
+
+Verification:
+- `html-validate` on the template: 0 errors
+- every contents link resolves to a section id; no external URLs except the
+  SVG namespace and an `example.invalid` placeholder link
+- headless Chrome renders at 1280px dark, 1280px light, 1280px with the script
+  removed, and 375px and 768px inside fixed-width iframes: no horizontal
+  overflow, tables scroll inside their wrappers, no-JS hides the theme, print,
+  and copy controls while every section stays visible
+- print to PDF: 4 pages, pills become outlined, contents and controls hidden,
+  closed evidence blocks open for print via `beforeprint` and close again after
+- fixed during verification: the contents nav forced the page wider than 375px
+  until it got `min-width: 0`; long words split mid-word in narrow cells until
+  table cells moved from `overflow-wrap: anywhere` to `break-word`
+- fixed after the Codex external review: theme defaulted to the system
+  preference instead of dark; files, links, and screenshot disclosures started
+  closed and were lost in a no-script PDF; scrollspy picked the largest
+  visible section instead of the one at the reading line; light-theme success
+  pills measured about 3.9:1 and dark success text printed at about 1.7:1;
+  rapid double copy left the button reading "Copied"; copy feedback had no
+  live region; the button `font` shorthand was invalid so buttons fell back to
+  browser defaults; the skill text contradicted itself on preserving versus
+  deleting section ids
+- fixed after the Grok external review (source review of the pasted template,
+  no browser): dark-theme body links were colour-only at 2.53:1 against body
+  text, so body links are now underlined at rest; light "Done" pill on the page
+  background measured 4.37:1, so light success darkened to `#166534`; the facts
+  grid was a fixed four columns while the skill allows three to five, so it is
+  now an auto-fit grid with hairline gaps; the copy button covered the first
+  line of every `pre`, so the block gained a 34px header band; the skip link
+  landed under the sticky bars, so `main` has a scroll margin; the theme button
+  mixed an action name with a pressed state, so `aria-pressed` was dropped;
+  scrollspy rewrote `aria-current` every 40ms, now only on change, and scrolls
+  the active item into view in the horizontal bar; a page shorter than the
+  viewport highlighted the last section, now the first; print no longer clips
+  tall evidence (`overflow: visible`, `break-inside: auto` on blocks) and sets
+  `color-scheme: light`; long summary text ellipsizes at 320px; stacked
+  key-value terms wrap; paragraphs break long tokens; the clipboard fallback
+  returns focus to the button. Left as is: light-theme soft shadows (chosen),
+  timeline dot colour (documented as decorative), the SVG placeholder colour
+  (replaced by the author).
 
 ### 2026-06-20 - v0.7.2 - No-JS control cleanup
 

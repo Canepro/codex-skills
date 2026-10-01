@@ -1,6 +1,6 @@
 ---
 name: codex-html-report
-description: "Create durable, self-contained HTML reports from any agent session: proof and completed-work reports, implementation closeouts, deployment verification, code reviews, ops or support case summaries, research briefs, and architecture plans meant to be read in a browser. Includes evidence, verification, risks, next steps. Not for quick answers or when the user wants Markdown or plain text."
+description: "Create self-contained HTML proof reports meant to be read in a browser: implementation closeouts, deployment or incident summaries, support cases, code reviews, research briefs, architecture plans. Not for quick answers or when Markdown is wanted."
 metadata:
   short-description: Create polished self-contained HTML reports
 ---
@@ -17,13 +17,13 @@ Use this skill when the output should live beyond the chat as a readable artifac
 
 Do not use this skill for tiny answers, paste-ready support replies, one-command outputs, or when the user explicitly asks for Markdown/plain text.
 
-Prefer the installed `build-web-data-visualization:data-visualization` vendor plugin when the main task is chart choice, analytical dashboard design, maps, Gantt timelines, UML/software diagrams, D3/Canvas/WebGL visualization, visualization accessibility/testing, or report/slide/PDF exports centered on data graphics. Use this skill for Codex work artifacts and proof reports; embed charts only when they support the report rather than being the product.
+When the main task is chart choice, dashboard design, maps, Gantt timelines, software diagrams, or data-graphics export, route to the installed visualization specialist first: the `build-web-data-visualization:data-visualization` plugin on Codex, or the bundled `dataviz` skill on Claude Code. When neither is installed, build the chart inline with plain SVG or a table and say so. Use this skill for work artifacts and proof reports; embed charts only when they support the report rather than being the product.
 
 ## Goal
 
-Create a self-contained browser-native report: lightweight, visually pleasing, evidence-first, dark-first by default, and readable from `file://` with no build step.
+Create a self-contained browser-native report: lightweight, evidence-first, dark-first by default, and readable from `file://` with no build step.
 
-The report should feel like a polished internal product, not a decorative dashboard. Preserve a rich but restrained editorial feel: a strong title, clear surface layering (page, panel, inset), restrained color, useful tables, timelines, proof blocks, and honest status over ornamental visuals. Keep the editorial polish without flattening into a plain admin page.
+The report should read like a well-set engineering document, not a dashboard. Flat neutral surfaces, system sans type, one accent used for links, the active contents item, and small cues such as the eyebrow and callout border, and status colour only on pills and timeline dots. Body links stay underlined so they never rely on colour alone. Tables, timelines, proof blocks, and honest status carry the content; decoration does not.
 
 Default to dark mode/dark-first styling for read-mostly reports. A light mode override is allowed only when light mode is requested by the user, the destination platform requires it, or there is a clear accessibility/user-context reason. Avoid jarring mode switches after dark-mode work surfaces.
 
@@ -60,10 +60,17 @@ canonical template signature unless the user explicitly asks for a different
 design or the target platform requires a different structure:
 - the `Codex HTML Report Template v...` version comment
 - `html lang="en" data-theme="dark"`
-- topbar tools for theme and print when keeping browser-native behavior
-- the standard section anchors: outcome, next action, gates, changes,
-  verification, timeline, risks, and evidence
-- reusable status pills, table wrappers, evidence `<pre>` blocks, and print CSS
+- topbar with the author lane and project on the left, theme toggle and
+  Save PDF on the right
+- the sticky left table of contents that collapses to a top bar on narrow
+  screens
+- the standard section ids: outcome, next-action, gates, changes,
+  verification, timeline, environment, risks, and evidence. Keep the id of
+  every section you retain; when a report type drops a section, delete the
+  section and its contents entry together. The `facts` strip sits outside
+  the section list and stays in every report
+- reusable status pills, table wrappers, evidence `<pre>` blocks with copy
+  buttons, and print CSS
 
 If you intentionally do not use `templates/report.html`, state the exception in
 the report or closeout and explain why the canonical template was not suitable.
@@ -77,13 +84,12 @@ When improving the template itself, read `references/template-improvements.md` f
 
 ## Report Types
 
-Choose the closest type and adapt the section labels:
-- `implementation-closeout`: summary, changes, verification, files, risks
-- `ops-incident`: status, impact, timeline, evidence, next action
-- `support-case`: ticket issue, current state, what was done, proof, customer-safe next step
-- `code-review`: verdict, findings, affected files, evidence, test gaps
-- `research-brief`: answer, sources/evidence, decision matrix, recommendation
-- `architecture-plan`: decision, constraints, proposed design, migration path, risks
+Choose the closest type and keep its sections in the order given in
+`references/report-types.md`. The six types are `implementation-closeout`,
+`ops-incident`, `support-case`, `code-review`, `research-brief`, and
+`architecture-plan`. Every type keeps `outcome` first and `evidence` last.
+Delete sections the type does not need, and their contents entries, instead
+of leaving placeholders. Retained sections keep their ids.
 
 ## Minimum Contract
 
@@ -99,24 +105,26 @@ Every substantial report must answer:
 
 ## Visual Rules
 
-Use a reusable visual system:
-- dark-first base styling with comfortable contrast for long reading
-- layered surfaces (page, panel, inset) with hairline borders and soft shadows so panels separate from the background
-- an editorial hero: short eyebrow, strong title, one-line lede, then a key-facts strip
-- status strip for Done / Partial / Blocked / Risk
-- outcome panel with the plain-English verdict
+Use the template's visual system:
+- dark-first neutral palette with a light theme behind the toggle; contrast tuned for long reading in both
+- underlined body links; the contents nav is the only place links drop the underline
+- flat surfaces separated by hairline borders, no gradients or decorative shadows
+- system sans for text, monospace only for commands, paths, and hashes
+- a tight hero: eyebrow, title, one-line lede, one metadata row with status pill
+- a single key-facts strip with three to five honest figures; the grid adapts to the count
+- status pills for Done / Partial / Blocked / Not verified
 - gate checklist for ops, migration, deployment, and incident reports
-- proof rail for commands, logs, screenshots, tickets, and changed files
-- tables for files, tests, risks, and decisions
-- timestamped timeline for event order when it matters; use actual observed times, not generic "Step 1" labels alone
-- collapsible appendix for raw evidence
-- sticky or top navigation for longer reports, with explicit internal anchors on major sections (for example `#summary`, `#verification`, `#risks`) and a matching table of contents that links to them
+- tables for files, checks, risks, and decisions
+- timestamped timeline when event order matters; use observed times, never generic "Step 1" labels alone
+- `<details>` blocks around evidence, open by default; only a raw appendix
+  may start collapsed, because a no-script print cannot open it
+- a copy button on every `<pre>` block, added by the template script
+- sticky left table of contents whose links match the section ids
 
 Avoid:
-- huge decorative gradients
-- overly slick teal/purple/blue "AI dashboard" accents
-- fake metrics
-- fake precision or invented event times
+- gradients, glows, or "AI dashboard" accent colours
+- tabs or any control that hides report content behind a click
+- fake metrics, fake precision, or invented event times
 - low-information cards
 - dense Markdown dumped into HTML
 - external dependencies
