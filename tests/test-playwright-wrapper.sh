@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Checks the playwright skill wrapper's launch contract without a browser: it
-# runs an exact pinned @playwright/cli version and defaults to Playwright's
-# Chromium build unless the caller already chose a browser or a config file.
+# runs an exact pinned @playwright/cli version, defaults to Playwright's
+# Chromium build unless the caller already chose a browser or a config file,
+# and adds PLAYWRIGHT_CLI_SESSION only to commands that accept --session.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -24,10 +25,10 @@ chmod +x "$TEST_ROOT/bin/npx"
 
 failures=0
 
-# run_case <name> <expected browser> <expected package regex> <setup> [wrapper args...]
+# run_case <name> <expected browser> <expected package regex> <expected injected session> <setup> [wrapper args...]
 run_case() {
-  local name="$1" want_browser="$2" want_package="$3" setup="$4"
-  shift 4
+  local name="$1" want_browser="$2" want_package="$3" want_session="$4" setup="$5"
+  shift 5
   local case_dir="$TEST_ROOT/$name"
   mkdir -p "$case_dir/home" "$case_dir/work" "$case_dir/record"
   (
@@ -38,9 +39,15 @@ run_case() {
     eval "$setup"
     bash "$WRAPPER" "$@"
   )
-  local got_browser got_package
+  local got_browser got_package got_session
   got_browser="$(cat "$case_dir/record/browser")"
   got_package="$(sed -n '/^--package$/{n;p;q;}' "$case_dir/record/args")"
+  got_session="$(sed -n '/^--session$/{n;p;q;}' "$case_dir/record/args")"
+  got_session="${got_session:-<none>}"
+  if [[ "$got_session" != "$want_session" ]]; then
+    printf 'FAIL %s: injected session %s, want %s\n' "$name" "$got_session" "$want_session" >&2
+    failures=$((failures + 1))
+  fi
   if [[ "$got_browser" != "$want_browser" ]]; then
     printf 'FAIL %s: PLAYWRIGHT_MCP_BROWSER=%s, want %s\n' "$name" "$got_browser" "$want_browser" >&2
     failures=$((failures + 1))
@@ -53,15 +60,19 @@ run_case() {
 
 pinned='^@playwright/cli@[0-9]+\.[0-9]+\.[0-9]+$'
 
-run_case default chromium "$pinned" ':' open about:blank
-run_case env-browser firefox "$pinned" 'export PLAYWRIGHT_MCP_BROWSER=firefox' open
-run_case env-config '<unset>' "$pinned" 'export PLAYWRIGHT_MCP_CONFIG=x.json' open
-run_case config-flag '<unset>' "$pinned" ':' open --config=x.json
-run_case config-flag-split '<unset>' "$pinned" ':' open --config x.json
-run_case workspace-config '<unset>' "$pinned" 'mkdir -p .playwright && echo {} > .playwright/cli.config.json' open
+run_case default chromium "$pinned" '<none>' ':' open about:blank
+run_case browser-flag '<unset>' "$pinned" '<none>' ':' open --browser firefox
+run_case env-browser firefox "$pinned" '<none>' 'export PLAYWRIGHT_MCP_BROWSER=firefox' open
+run_case env-config '<unset>' "$pinned" '<none>' 'export PLAYWRIGHT_MCP_CONFIG=x.json' open
+run_case config-flag '<unset>' "$pinned" '<none>' ':' open --config=x.json
+run_case config-flag-split '<unset>' "$pinned" '<none>' ':' open --config x.json
+run_case workspace-config '<unset>' "$pinned" '<none>' 'mkdir -p .playwright && echo {} > .playwright/cli.config.json' open
 # shellcheck disable=SC2016 # $HOME expands inside the case subshell.
-run_case global-config '<unset>' "$pinned" 'mkdir -p "$HOME/.playwright" && echo {} > "$HOME/.playwright/cli.config.json"' open
-run_case version-override chromium '^@playwright/cli@9\.9\.9$' 'export PLAYWRIGHT_CLI_VERSION=9.9.9' open
+run_case global-config '<unset>' "$pinned" '<none>' 'mkdir -p "$HOME/.playwright" && echo {} > "$HOME/.playwright/cli.config.json"' open
+run_case version-override chromium '^@playwright/cli@9\.9\.9$' '<none>' 'export PLAYWRIGHT_CLI_VERSION=9.9.9' open
+run_case env-session chromium "$pinned" checkout 'export PLAYWRIGHT_CLI_SESSION=checkout' open
+run_case explicit-session chromium "$pinned" '<none>' 'export PLAYWRIGHT_CLI_SESSION=checkout' -s=mine open
+run_case install-no-session chromium "$pinned" '<none>' 'export PLAYWRIGHT_CLI_SESSION=checkout' install-browser chromium
 
 if (( failures > 0 )); then
   exit 1

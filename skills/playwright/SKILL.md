@@ -133,7 +133,7 @@ Refs can go stale. When a command fails due to a missing ref, wait for dynamic c
 
 ## Wrapper script
 
-The wrapper runs `npx --yes --prefer-offline --package @playwright/cli@<pinned> playwright-cli`, so the CLI runs without a global install. It sets `PLAYWRIGHT_MCP_BROWSER=chromium` unless you pass `--config`, set `PLAYWRIGHT_MCP_BROWSER` or `PLAYWRIGHT_MCP_CONFIG`, or a `.playwright/cli.config.json` exists in the working directory or home directory. A `--browser` flag overrides the default. `PLAYWRIGHT_CLI_VERSION` overrides the pin; rerun the route check after changing it.
+The wrapper runs `npx --yes --prefer-offline --package @playwright/cli@<pinned> playwright-cli`, so the CLI runs without a global install. It sets `PLAYWRIGHT_MCP_BROWSER=chromium` unless you pass `--browser` or `--config`, set `PLAYWRIGHT_MCP_BROWSER` or `PLAYWRIGHT_MCP_CONFIG`, or a `.playwright/cli.config.json` exists in the working directory or home directory. It adds `--session "$PLAYWRIGHT_CLI_SESSION"` when that variable is set, except for `install` and `install-browser`. `PLAYWRIGHT_CLI_VERSION` overrides the pin; rerun the route check after changing it.
 
 ```bash
 "$PWCLI" --help

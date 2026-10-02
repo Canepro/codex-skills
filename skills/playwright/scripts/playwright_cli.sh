@@ -14,25 +14,39 @@ fi
 
 has_session_flag="false"
 has_config_flag="false"
+has_browser_flag="false"
+command_name=""
+prev_arg=""
 for arg in "$@"; do
   case "$arg" in
-    --session|--session=*)
+    --session|--session=*|-s|-s=*)
       has_session_flag="true"
       ;;
     --config|--config=*)
       has_config_flag="true"
       ;;
+    --browser|--browser=*)
+      has_browser_flag="true"
+      ;;
   esac
+  # The command is the first positional argument that is not a flag value.
+  if [[ -z "${command_name}" && "${arg}" != -* ]]; then
+    case "${prev_arg}" in
+      --session|-s|--config|--browser) ;;
+      *) command_name="${arg}" ;;
+    esac
+  fi
+  prev_arg="${arg}"
 done
 
 # The CLI defaults to the Google Chrome channel, which needs a system Chrome
 # install and does not exist on every host (Linux arm64 has none). Default to
 # Playwright's own Chromium build, installed by `install-browser chromium` for
-# the pinned CLI. A --browser flag still wins. PLAYWRIGHT_MCP_BROWSER, a
-# --config flag, PLAYWRIGHT_MCP_CONFIG, or a CLI config file keeps its own
-# choice, because this env default would otherwise override the file.
+# the pinned CLI. A --browser flag, PLAYWRIGHT_MCP_BROWSER, a --config flag,
+# PLAYWRIGHT_MCP_CONFIG, or a CLI config file keeps its own choice, because
+# this env default would otherwise override the file.
 if [[ -z "${PLAYWRIGHT_MCP_BROWSER:-}" && -z "${PLAYWRIGHT_MCP_CONFIG:-}" &&
-  "${has_config_flag}" != "true" &&
+  "${has_config_flag}" != "true" && "${has_browser_flag}" != "true" &&
   ! -f ".playwright/cli.config.json" &&
   ! -f "${HOME}/.playwright/cli.config.json" ]]; then
   export PLAYWRIGHT_MCP_BROWSER="chromium"
@@ -43,7 +57,9 @@ fi
 # --prefer-offline reuses the cached copy of an exact pin without a registry
 # round trip, so an offline host does not stall on npm retries.
 cmd=(npx --yes --prefer-offline --package "@playwright/cli@${PLAYWRIGHT_CLI_VERSION}" playwright-cli)
-if [[ "${has_session_flag}" != "true" && -n "${PLAYWRIGHT_CLI_SESSION:-}" ]]; then
+# Install commands reject --session, so only browser commands get the default.
+if [[ "${has_session_flag}" != "true" && -n "${PLAYWRIGHT_CLI_SESSION:-}" &&
+  "${command_name}" != "install" && "${command_name}" != "install-browser" ]]; then
   cmd+=(--session "${PLAYWRIGHT_CLI_SESSION}")
 fi
 cmd+=("$@")
