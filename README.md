@@ -47,8 +47,8 @@ Restart your agent after installing so it can pick up the skills. Cursor reads f
   `create-verification-skill`, `maintain-verification-skill`,
   `show-me-your-work`, and `recall`. The four pstack-derived skills use
   harness-neutral, transcript-free adapters. Prefer native Codex plus first-party API
-  documentation for ordinary CLI work, and installed Superpowers skills for
-  TDD and systematic debugging.
+  documentation for ordinary CLI work, and the installed Matt Pocock tdd
+  and diagnosing-bugs skills for TDD and bug diagnosis.
 
 ## Maintainers
 

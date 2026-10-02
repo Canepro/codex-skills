@@ -24,22 +24,36 @@ If it is not available, pause and ask the user to install Node.js/npm (which pro
 # Verify Node/npm are installed
 node --version
 npm --version
-
-# If missing, install Node.js/npm, then:
-npm install -g @playwright/mcp@latest
-playwright-cli --help
 ```
 
-Once `npx` is present, proceed with the wrapper script. A global install of `playwright-cli` is optional.
+Once `npx` is present, proceed with the wrapper script. Skip a global `playwright-cli` install: it bypasses the wrapper's pinned CLI version and Chromium default.
 
 ## Skill path (set once)
 
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-export PWCLI="$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh"
+for d in "$HOME/.agents/skills" "$HOME/.claude/skills" "${CODEX_HOME:-$HOME/.codex}/skills"; do
+  [ -x "$d/playwright/scripts/playwright_cli.sh" ] && export PWCLI="$d/playwright/scripts/playwright_cli.sh" && break
+done
 ```
 
-User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.codex/skills`).
+User-scoped skills install under `~/.agents/skills` (Codex), `~/.claude/skills` (Claude Code), or `$CODEX_HOME/skills`.
+
+## Verify the route (once per host or pin bump)
+
+The wrapper pins `@playwright/cli` and defaults to Playwright's own Chromium build, so the CLI version and the browser revision match. Check that the matching browser is installed:
+
+```bash
+"$PWCLI" --version
+"$PWCLI" -s=pwcheck open about:blank && "$PWCLI" -s=pwcheck close
+```
+
+If `open` reports that a browser is not installed or names a missing `chromium-<revision>` path, install the build for the pinned CLI with Playwright's installer, then rerun the check:
+
+```bash
+"$PWCLI" install-browser chromium
+```
+
+The CLI may suggest `install-browser chrome-for-testing`, which is the same build. Pass a browser name explicitly; a bare `install-browser` downloads every browser. When the host is offline, report the missing revision instead of retrying. Do not point `--executable-path` at another revision as the default route.
 
 ## Quick start
 
@@ -54,7 +68,7 @@ Use the wrapper script:
 "$PWCLI" screenshot
 ```
 
-If the user prefers a global install, use the install commands from the prerequisite check above; a global install stays optional.
+Run the route check in "Verify the route" before the first session on a host.
 
 ## Core workflow
 
@@ -119,7 +133,7 @@ Refs can go stale. When a command fails due to a missing ref, wait for dynamic c
 
 ## Wrapper script
 
-The wrapper script uses `npx --package @playwright/mcp playwright-cli` so the CLI can run without a global install:
+The wrapper runs `npx --yes --prefer-offline --package @playwright/cli@<pinned> playwright-cli`, so the CLI runs without a global install. It sets `PLAYWRIGHT_MCP_BROWSER=chromium` unless you pass `--config`, set `PLAYWRIGHT_MCP_BROWSER` or `PLAYWRIGHT_MCP_CONFIG`, or a `.playwright/cli.config.json` exists in the working directory or home directory. A `--browser` flag overrides the default. `PLAYWRIGHT_CLI_VERSION` overrides the pin; rerun the route check after changing it.
 
 ```bash
 "$PWCLI" --help
