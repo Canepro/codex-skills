@@ -177,6 +177,7 @@ Interpretation:
 - `external or preserved installed skills`: entries not managed by this repo, including private skills
 - `pinned system skills aligned`: the canonical `.agents/skills/.system` tree matches `system-skills.lock`
 - `agents`: `~/.agents/skills` is the canonical user-skill root for Codex and shared agent tooling
+- `codex-legacy`: `~/.codex/skills` is no longer an install target. `install.sh` removes the `.codex-skills-managed` manifest an older install left there and keeps every directory it listed, because those may now be vendor projections or private skills
 
 If non-repo entries differ between the installed trees, run:
 

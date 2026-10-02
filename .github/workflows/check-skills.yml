@@ -22,6 +22,9 @@ jobs:
       - name: Test playwright wrapper launch contract
         run: bash tests/test-playwright-wrapper.sh
 
+      - name: Test legacy Codex manifest retirement
+        run: bash tests/test-install-retires-legacy-codex-manifest.sh
+
       - name: Run drift-safe repository checks
         env:
           SYSTEM_SKILL_STRICT: "0"

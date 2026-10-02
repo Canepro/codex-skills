@@ -6,6 +6,7 @@ SRC_DIR="$REPO_DIR/skills"
 DEFAULT_AGENTS_DIR="${AGENTS_SKILLS_DIR:-$HOME/.agents/skills}"
 DEFAULT_CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 DEFAULT_CURSOR_DIR="${CURSOR_SKILLS_DIR:-$HOME/.cursor/skills}"
+LEGACY_CODEX_DIR="${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}"
 MANIFEST_NAME=".codex-skills-managed"
 SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
 HAS_ISSUES=0
@@ -238,6 +239,19 @@ check_system_skills() {
   print_list 'system skills with hash drift:' "$hash_drift"
 }
 
+check_legacy_codex_manifest() {
+  local manifest_path="$LEGACY_CODEX_DIR/$MANIFEST_NAME"
+
+  printf '\n[codex-legacy]\n'
+  printf '  path: %s\n' "$LEGACY_CODEX_DIR"
+  if [[ -e "$manifest_path" || -L "$manifest_path" ]]; then
+    printf '  status: retired manifest present; run scripts/install.sh to remove it\n'
+    HAS_ISSUES=1
+  else
+    printf '  status: no legacy manifest\n'
+  fi
+}
+
 check_docs_sync() {
   local readme="$REPO_DIR/README.md"
   local doc="$REPO_DIR/docs/how-to-manage-skills.md"
@@ -300,6 +314,7 @@ fi
 check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
+check_legacy_codex_manifest
 check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" "${SYSTEM_SKILL_STRICT:-1}"
 check_docs_sync
 if [[ "$HAS_ISSUES" -eq 0 ]]; then

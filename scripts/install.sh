@@ -6,6 +6,8 @@ SRC_DIR="$REPO_DIR/skills"
 DEFAULT_AGENTS_DIR="${AGENTS_SKILLS_DIR:-$HOME/.agents/skills}"
 DEFAULT_CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 DEFAULT_CURSOR_DIR="${CURSOR_SKILLS_DIR:-$HOME/.cursor/skills}"
+# Codex reads ~/.agents/skills. The old ~/.codex/skills install target is retired.
+LEGACY_CODEX_DIR="${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}"
 
 declare -a DEST_DIRS=("$DEFAULT_AGENTS_DIR" "$DEFAULT_CURSOR_DIR")
 
@@ -88,5 +90,19 @@ install_to_claude() {
 }
 
 install_to_claude "$DEFAULT_CLAUDE_DIR"
+
+# Before July 2026 install.sh also wrote $LEGACY_CODEX_DIR. That manifest now
+# lists names this repo no longer installs there, so a reader would mistake it
+# for current bookkeeping. Retire the manifest only; the directories it names
+# may be vendor projections or private skills and stay in place.
+retire_legacy_codex_manifest() {
+  local manifest_path="$LEGACY_CODEX_DIR/.codex-skills-managed"
+  if [ -f "$manifest_path" ] && [ ! -L "$manifest_path" ]; then
+    rm -f "$manifest_path"
+    printf 'Retired legacy manifest %s\n' "$manifest_path"
+  fi
+}
+
+retire_legacy_codex_manifest
 
 printf 'Restart Codex, Claude Code, or Cursor to pick up skill changes.\n'
