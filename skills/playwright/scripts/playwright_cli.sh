@@ -12,16 +12,10 @@ if ! command -v npx >/dev/null 2>&1; then
   exit 1
 fi
 
-has_session_flag="false"
 has_config_flag="false"
 has_browser_flag="false"
-command_name=""
-prev_arg=""
 for arg in "$@"; do
   case "$arg" in
-    --session|--session=*|-s|-s=*)
-      has_session_flag="true"
-      ;;
     --config|--config=*)
       has_config_flag="true"
       ;;
@@ -29,14 +23,6 @@ for arg in "$@"; do
       has_browser_flag="true"
       ;;
   esac
-  # The command is the first positional argument that is not a flag value.
-  if [[ -z "${command_name}" && "${arg}" != -* ]]; then
-    case "${prev_arg}" in
-      --session|-s|--config|--browser) ;;
-      *) command_name="${arg}" ;;
-    esac
-  fi
-  prev_arg="${arg}"
 done
 
 # The CLI defaults to the Google Chrome channel, which needs a system Chrome
@@ -57,11 +43,8 @@ fi
 # --prefer-offline reuses the cached copy of an exact pin without a registry
 # round trip, so an offline host does not stall on npm retries.
 cmd=(npx --yes --prefer-offline --package "@playwright/cli@${PLAYWRIGHT_CLI_VERSION}" playwright-cli)
-# Install commands reject --session, so only browser commands get the default.
-if [[ "${has_session_flag}" != "true" && -n "${PLAYWRIGHT_CLI_SESSION:-}" &&
-  "${command_name}" != "install" && "${command_name}" != "install-browser" ]]; then
-  cmd+=(--session "${PLAYWRIGHT_CLI_SESSION}")
-fi
+# The pinned CLI reads PLAYWRIGHT_CLI_SESSION itself, and an explicit -s or
+# --session wins. Do not add --session here: install commands reject it.
 cmd+=("$@")
 
 exec "${cmd[@]}"
