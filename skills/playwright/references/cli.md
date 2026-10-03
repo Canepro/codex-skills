@@ -1,14 +1,10 @@
 # Playwright CLI Reference
 
-Use the wrapper script unless the CLI is already installed globally:
+Use the wrapper script. It pins the CLI version and defaults to the matching Playwright Chromium build. Set `PWCLI` as shown in `SKILL.md` ("Skill path"), then:
 
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-export PWCLI="$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh"
 "$PWCLI" --help
 ```
-
-User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.codex/skills`).
 
 Optional convenience alias:
 

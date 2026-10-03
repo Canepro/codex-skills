@@ -19,6 +19,9 @@ jobs:
       - name: Test portable-to-vendor ownership handoff
         run: bash tests/test-install-vendor-handoff.sh
 
+      - name: Test playwright wrapper launch contract
+        run: bash tests/test-playwright-wrapper.sh
+
       - name: Run drift-safe repository checks
         env:
           SYSTEM_SKILL_STRICT: "0"
