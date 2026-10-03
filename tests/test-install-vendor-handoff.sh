@@ -23,6 +23,7 @@ done
 AGENTS_SKILLS_DIR="$TEST_ROOT/agents" \
 CURSOR_SKILLS_DIR="$TEST_ROOT/cursor" \
 CLAUDE_SKILLS_DIR="$TEST_ROOT/claude" \
+CODEX_SKILLS_DIR="$TEST_ROOT/codex" \
   bash "$REPO_DIR/scripts/install.sh" >/dev/null
 
 for runtime in agents cursor claude; do
@@ -40,6 +41,7 @@ done
 AGENTS_SKILLS_DIR="$TEST_ROOT/agents" \
 CURSOR_SKILLS_DIR="$TEST_ROOT/cursor" \
 CLAUDE_SKILLS_DIR="$TEST_ROOT/claude" \
+CODEX_SKILLS_DIR="$TEST_ROOT/codex" \
 SYSTEM_SKILL_STRICT=0 \
   bash "$REPO_DIR/scripts/check-drift.sh" >/dev/null
 
