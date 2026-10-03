@@ -106,7 +106,7 @@ retire_legacy_codex_manifest() {
   [ -n "$legacy_real" ] || return 0
   # When the legacy path aliases a live install target, its manifest is current.
   for active_dir in "${DEST_DIRS[@]}" "$DEFAULT_CLAUDE_DIR"; do
-    if [ "$(resolved_dir "$active_dir")" = "$legacy_real" ]; then
+    if [ "$(resolved_dir "$active_dir" || true)" = "$legacy_real" ]; then
       return 0
     fi
   done
