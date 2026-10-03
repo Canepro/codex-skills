@@ -25,6 +25,9 @@ jobs:
       - name: Test legacy Codex manifest retirement
         run: bash tests/test-install-retires-legacy-codex-manifest.sh
 
+      - name: Test Codex system skill drift path
+        run: bash tests/test-system-skill-drift-path.sh
+
       - name: Run drift-safe repository checks
         env:
           SYSTEM_SKILL_STRICT: "0"

@@ -54,7 +54,6 @@ Pinned system skills expected from Codex as of this commit:
 
 - `imagegen`
 - `openai-docs`
-- `plugin-creator`
 - `review-agent`
 - `skill-creator`
 - `skill-installer`
@@ -82,9 +81,9 @@ gh repo clone Canepro/codex-skills ~/src/codex-skills
 bash ~/src/codex-skills/scripts/bootstrap.sh
 ```
 
-The drift check enforces the pinned system-skill contract under `~/.agents/skills/.system`. This repo currently pins the six system skills in `system-skills.lock`: `imagegen`, `openai-docs`, `plugin-creator`, `review-agent`, `skill-creator`, and `skill-installer`.
+The drift check enforces the pinned system-skill contract under `${CODEX_HOME:-$HOME/.codex}/skills/.system`, the same runtime directory used by `system-skill-lock.sh`. User-installed skills remain under `~/.agents/skills`. This repo pins the five system skills shipped by Codex CLI 0.160.0 in `system-skills.lock`: `imagegen`, `openai-docs`, `review-agent`, `skill-creator`, and `skill-installer`.
 
-If `check-drift.sh` fails on the enforced `agents-system` section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
+If `check-drift.sh` fails on the enforced `codex-system` section after an intentional Codex upgrade, inspect the change first. Only then refresh the lock intentionally:
 
 ```bash
 cd ~/src/codex-skills
@@ -175,7 +174,7 @@ Interpretation:
 - `library-managed skills aligned`: repo content, manifests, and installs match
 - `manifest entries from local extras`: should normally be empty; private skills do not belong in manifests
 - `external or preserved installed skills`: entries not managed by this repo, including private skills
-- `pinned system skills aligned`: the canonical `.agents/skills/.system` tree matches `system-skills.lock`
+- `pinned system skills aligned`: the Codex runtime's `.codex/skills/.system` tree, or the corresponding `CODEX_HOME` tree, matches `system-skills.lock`
 - `agents`: `~/.agents/skills` is the canonical user-skill root for Codex and shared agent tooling
 - `codex-legacy`: `~/.codex/skills` is no longer an install target. `install.sh` removes the `.codex-skills-managed` manifest an older install left there and keeps every directory it listed, because those may now be vendor projections or private skills
 
