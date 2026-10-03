@@ -95,9 +95,22 @@ install_to_claude "$DEFAULT_CLAUDE_DIR"
 # lists names this repo no longer installs there, so a reader would mistake it
 # for current bookkeeping. Retire the manifest only; the directories it names
 # may be vendor projections or private skills and stay in place.
+resolved_dir() {
+  (cd -P "$1" 2>/dev/null && pwd)
+}
+
 retire_legacy_codex_manifest() {
   local manifest_path="$LEGACY_CODEX_DIR/.codex-skills-managed"
-  if [ -f "$manifest_path" ] && [ ! -L "$manifest_path" ]; then
+  local legacy_real active_dir
+  legacy_real="$(resolved_dir "$LEGACY_CODEX_DIR")" || return 0
+  [ -n "$legacy_real" ] || return 0
+  # When the legacy path aliases a live install target, its manifest is current.
+  for active_dir in "${DEST_DIRS[@]}" "$DEFAULT_CLAUDE_DIR"; do
+    if [ "$(resolved_dir "$active_dir")" = "$legacy_real" ]; then
+      return 0
+    fi
+  done
+  if [ -f "$manifest_path" ] || [ -L "$manifest_path" ]; then
     rm -f "$manifest_path"
     printf 'Retired legacy manifest %s\n' "$manifest_path"
   fi

@@ -239,11 +239,25 @@ check_system_skills() {
   print_list 'system skills with hash drift:' "$hash_drift"
 }
 
+resolved_dir() {
+  (cd -P "$1" 2>/dev/null && pwd)
+}
+
 check_legacy_codex_manifest() {
   local manifest_path="$LEGACY_CODEX_DIR/$MANIFEST_NAME"
+  local legacy_real active_dir
 
   printf '\n[codex-legacy]\n'
   printf '  path: %s\n' "$LEGACY_CODEX_DIR"
+  legacy_real="$(resolved_dir "$LEGACY_CODEX_DIR" || true)"
+  if [[ -n "$legacy_real" ]]; then
+    for active_dir in "$DEFAULT_AGENTS_DIR" "$DEFAULT_CURSOR_DIR" "$DEFAULT_CLAUDE_DIR"; do
+      if [[ "$(resolved_dir "$active_dir" || true)" == "$legacy_real" ]]; then
+        printf '  status: aliases an active install target; manifest checked there\n'
+        return 0
+      fi
+    done
+  fi
   if [[ -e "$manifest_path" || -L "$manifest_path" ]]; then
     printf '  status: retired manifest present; run scripts/install.sh to remove it\n'
     HAS_ISSUES=1
