@@ -7,6 +7,7 @@ DEFAULT_AGENTS_DIR="${AGENTS_SKILLS_DIR:-$HOME/.agents/skills}"
 DEFAULT_CLAUDE_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 DEFAULT_CURSOR_DIR="${CURSOR_SKILLS_DIR:-$HOME/.cursor/skills}"
 LEGACY_CODEX_DIR="${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}"
+SYSTEM_SKILLS_DIR="${CODEX_HOME:-$HOME/.codex}/skills/.system"
 MANIFEST_NAME=".codex-skills-managed"
 SYSTEM_LOCK_FILE="$REPO_DIR/system-skills.lock"
 HAS_ISSUES=0
@@ -329,7 +330,7 @@ check_destination 'agents' "$DEFAULT_AGENTS_DIR"
 check_destination 'cursor' "$DEFAULT_CURSOR_DIR"
 check_destination 'claude' "$DEFAULT_CLAUDE_DIR"
 check_legacy_codex_manifest
-check_system_skills 'agents' "$DEFAULT_AGENTS_DIR/.system" "${SYSTEM_SKILL_STRICT:-1}"
+check_system_skills 'codex' "$SYSTEM_SKILLS_DIR" "${SYSTEM_SKILL_STRICT:-1}"
 check_docs_sync
 if [[ "$HAS_ISSUES" -eq 0 ]]; then
   printf '\nResult: OK\n'
