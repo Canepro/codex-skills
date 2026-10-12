@@ -25,6 +25,21 @@ Use a TSV file with this header:
 ts\tphase\tdecision\twhy\tevidence\tresult
 ```
 
+Generate each timestamp from the current UTC clock with
+`date -u +%Y-%m-%dT%H:%M:%SZ`. Keep estimated event times in evidence, separate from the append timestamp. Never hand-type the append time.
+
+When `ledger-append` is installed, use its locked TSV writer:
+
+```sh
+ledger-append --ledger /path/to/ledger.tsv KEY DECISION WHY EVIDENCE NEXT
+```
+
+Quote each field as one argument. KEY maps to `phase`, NEXT to `result`;
+`--ledger` defaults to `./ledger.tsv`. The helper generates the timestamp,
+escapes cells and serializes appends. If it is unavailable, use the current
+UTC clock in the existing append route. Keep the run-boundary and superseding
+row rules below; the helper does not infer them.
+
 Each cell stays on one line. Prefix spreadsheet-formula starters (`=`, `+`,
 `-`, or `@`) with a single quote when content is not fully controlled.
 
